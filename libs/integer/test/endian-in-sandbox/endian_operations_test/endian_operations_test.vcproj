@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="endian_test"
-	ProjectGUID="{74C201F3-8308-40BE-BC0F-24974DEAF405}"
-	RootNamespace="endian_test"
+	Name="endian_operations_test"
+	ProjectGUID="{A0060A5B-673C-4AD8-BD08-A5C643B1A1CB}"
+	RootNamespace="endian_operations_test"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -42,6 +42,7 @@
 				Optimization="0"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				GeneratePreprocessedFile="0"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -89,8 +90,6 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="..\common.vsprops"
 			CharacterSet="1"
@@ -173,7 +172,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\endian_test.cpp"
+				RelativePath="..\..\endian_operations_test.cpp"
 				>
 			</File>
 		</Filter>

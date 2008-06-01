@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="endian_test"
-	ProjectGUID="{74C201F3-8308-40BE-BC0F-24974DEAF405}"
-	RootNamespace="endian_test"
+	Name="endian_in_union_test"
+	ProjectGUID="{3926C6DC-9D1E-4227-BEF5-81F5EC621A75}"
+	RootNamespace="endian_in_union_test"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -115,7 +115,6 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -173,7 +172,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\endian_test.cpp"
+				RelativePath="..\..\endian_in_union_test.cpp"
 				>
 			</File>
 		</Filter>

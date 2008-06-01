@@ -77,14 +77,7 @@ U foo;
 
 int main()
 {
-  big48_t b48;
-  b48 = 5;
-  assert(b48 == 5LL);
-  assert(b48 + 1 == 6LL);
-  big56_t b56;
-  b56 = 40;
-  assert(8 * b48 == b56);
-  
+
   return 0;
 }
 
