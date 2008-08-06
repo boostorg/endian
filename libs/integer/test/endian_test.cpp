@@ -1,11 +1,18 @@
 //  endian_test.cpp  ---------------------------------------------------------//
 
-//  Copyright Beman Dawes, 1999-2006
+//  Copyright Beman Dawes, 1999-2008
 
 //  Distributed under the Boost Software License, Version 1.0. (See accompanying
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 //  See library home page at http://www.boost.org/libs/endian
+
+//----------------------------------------------------------------------------//
+
+//  This test probes for correct endianess, size, and value.
+
+//  See endian_operations_test for tests of operator correctness and interaction
+//  between operand types.
 
 //----------------------------------------------------------------------------//
 
@@ -19,9 +26,10 @@
 #include <cstdlib>    // for atoi(), exit()
 #include <cstring>    // for memcmp()
 
-using namespace std;             // not the best programming practice, but I
+using namespace std;             // Not the best programming practice, but I
 using namespace boost;           //   want to verify this combination of using
-using namespace boost::integer;  //   namespaces works.
+using namespace boost::integer;  //   namespaces works. See endian_operations_test
+//                               //   for tests that don't do "using namespace".
 
 #define VERIFY(predicate) verify( predicate, __LINE__ )
 #define VERIFY_SIZE(actual, expected) verify_size( actual, expected, __LINE__ )
@@ -72,8 +80,8 @@ namespace
   void verify_representation( bool is_big, int line )
   {
     int silence = 0;
-    Endian x = static_cast<typename Endian::value_type>
-      (0x123456789abcdef0LL + silence); // will truncate
+    Endian x ( static_cast<typename Endian::value_type>
+      (0x123456789abcdef0LL + silence) ); // will truncate
 
     if ( is_big )
       verify( memcmp( &x,
@@ -92,8 +100,6 @@ namespace
       verify_representation<Endian>( false, line );
 #   endif
   }
-
-
 
   //  detect_endianness  -----------------------------------------------------//
 

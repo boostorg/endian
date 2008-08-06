@@ -26,8 +26,15 @@
 #ifndef BOOST_ENDIAN_HPP
 #define BOOST_ENDIAN_HPP
 
+//  Pending updates to boost/config.hpp for C++0x, assume that the C++0x feature
+//  we care about is not present:
+#define BOOST_NO_DEFAULTED_FUNCTIONS
+
+#include <boost/config.hpp>
 #include <boost/detail/endian.hpp>
-//#include <boost/integer/cover_operators.hpp>
+#define BOOST_MINIMAL_INTEGER_COVER_OPERATORS
+#include <boost/integer/cover_operators.hpp>
+#undef  BOOST_MINIMAL_INTEGER_COVER_OPERATORS
 #include <boost/type_traits/is_signed.hpp>
 #include <boost/cstdint.hpp>
 #include <boost/static_assert.hpp>
@@ -39,9 +46,9 @@
 # endif
 
 # ifndef BOOST_NO_DEFAULTED_FUNCTIONS
-#   define BOOST_ENDIAN_DEFAULTED = default;  // C++0x
+#   define BOOST_ENDIAN_DEFAULT_CONSTRUCT = default;  // C++0x
 # else
-#   define BOOST_ENDIAN_DEFAULTED {}          // C++03
+#   define BOOST_ENDIAN_DEFAULT_CONSTRUCT {}          // C++03
 # endif
 
 # if defined(BOOST_NO_DEFAULTED_FUNCTIONS) && defined(BOOST_ENDIANS_IN_UNIONS)
@@ -142,6 +149,11 @@ namespace boost
   namespace integer
   {
 
+# ifdef BOOST_ENDIAN_LOG
+    bool endian_log(true);
+# endif
+
+
   //  endian class template and specializations  -----------------------------//
 
   // simulate C++0x scoped enums
@@ -160,17 +172,31 @@ namespace boost
     //  unaligned big endian specialization
     template <typename T, std::size_t n_bits>
     class endian< endianness::big, T, n_bits, alignment::unaligned >
-  //    : cover_operators< endian< endianness::big, T, n_bits >, T >
+      : cover_operators< endian< endianness::big, T, n_bits >, T >
     {
         BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
       public:
         typedef T value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
-        endian() BOOST_ENDIAN_DEFAULTED
-        endian(T val)             { detail::store_big_endian<T, n_bits/8>(m_value, val); }
+        endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
+        explicit endian(T val)
+        { 
+#       ifdef BOOST_ENDIAN_LOG
+          if ( endian_log )
+            std::clog << "big, unaligned, " << n_bits << "-bits, construct(" << val << ")\n";
+#       endif
+          detail::store_big_endian<T, n_bits/8>(m_value, val);
+        }
 #     endif
         endian & operator=(T val) { detail::store_big_endian<T, n_bits/8>(m_value, val); return *this; }
-        operator T() const        { return detail::load_big_endian<T, n_bits/8>(m_value); }
+        operator T() const
+        { 
+#       ifdef BOOST_ENDIAN_LOG
+          if ( endian_log )
+            std::clog << "big, unaligned, " << n_bits << "-bits, convert(" << detail::load_big_endian<T, n_bits/8>(m_value) << ")\n";
+#       endif
+          return detail::load_big_endian<T, n_bits/8>(m_value);
+        }
       private:
   	    char m_value[n_bits/8];
     };
@@ -178,17 +204,31 @@ namespace boost
     //  unaligned little endian specialization
     template <typename T, std::size_t n_bits>
     class endian< endianness::little, T, n_bits, alignment::unaligned >
-//      : cover_operators< endian< endianness::little, T, n_bits >, T >
+      : cover_operators< endian< endianness::little, T, n_bits >, T >
     {
         BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
       public:
         typedef T value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
-        endian() BOOST_ENDIAN_DEFAULTED
-        endian(T val)             { detail::store_little_endian<T, n_bits/8>(m_value, val); }
+        endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
+        explicit endian(T val)
+        { 
+#       ifdef BOOST_ENDIAN_LOG
+          if ( endian_log )
+            std::clog << "little, unaligned, " << n_bits << "-bits, construct(" << val << ")\n";
+#       endif
+          detail::store_little_endian<T, n_bits/8>(m_value, val);
+        }
 #     endif
         endian & operator=(T val) { detail::store_little_endian<T, n_bits/8>(m_value, val); return *this; }
-        operator T() const        { return detail::load_little_endian<T, n_bits/8>(m_value); }
+        operator T() const
+        { 
+#       ifdef BOOST_ENDIAN_LOG
+          if ( endian_log )
+            std::clog << "little, unaligned, " << n_bits << "-bits, convert(" << detail::load_little_endian<T, n_bits/8>(m_value) << ")\n";
+#       endif
+          return detail::load_little_endian<T, n_bits/8>(m_value);
+        }
       private:
   	    char m_value[n_bits/8];
     };
@@ -196,17 +236,17 @@ namespace boost
     //  unaligned native endian specialization
     template <typename T, std::size_t n_bits>
     class endian< endianness::native, T, n_bits, alignment::unaligned >
-//      : cover_operators< endian< endianness::native, T, n_bits >, T >
+      : cover_operators< endian< endianness::native, T, n_bits >, T >
     {
         BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
       public:
         typedef T value_type;
 #   ifndef BOOST_ENDIAN_NO_CTORS
-        endian() BOOST_ENDIAN_DEFAULTED
+        endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
 #     ifdef BOOST_BIG_ENDIAN
-        endian(T val)             { detail::store_big_endian<T, n_bits/8>(m_value, val); }
+        explicit endian(T val)    { detail::store_big_endian<T, n_bits/8>(m_value, val); }
 #     else
-        endian(T val)             { detail::store_little_endian<T, n_bits/8>(m_value, val); }
+        explicit endian(T val)    { detail::store_little_endian<T, n_bits/8>(m_value, val); }
 #     endif
 #   endif
 #   ifdef BOOST_BIG_ENDIAN  
@@ -226,18 +266,18 @@ namespace boost
     //  aligned big endian specialization
     template <typename T, std::size_t n_bits>
     class endian< endianness::big, T, n_bits, alignment::aligned  >
-//      : cover_operators< endian< endianness::big, T, n_bits, alignment::aligned >, T >
+      : cover_operators< endian< endianness::big, T, n_bits, alignment::aligned >, T >
     {
         BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
         BOOST_STATIC_ASSERT( sizeof(T) == n_bits/8 );
       public:
         typedef T value_type;
 #   ifndef BOOST_ENDIAN_NO_CTORS
-        endian() BOOST_ENDIAN_DEFAULTED
+        endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
 #     ifdef BOOST_BIG_ENDIAN
         endian(T val) : m_value(val) { }
 #     else
-        endian(T val)             { detail::store_big_endian<T, sizeof(T)>(&m_value, val); }
+        explicit endian(T val)    { detail::store_big_endian<T, sizeof(T)>(&m_value, val); }
 #     endif
 #   endif
 #   ifdef BOOST_BIG_ENDIAN  
@@ -254,18 +294,18 @@ namespace boost
     //  aligned little endian specialization
     template <typename T, std::size_t n_bits>
     class endian< endianness::little, T, n_bits, alignment::aligned  >
-//      : cover_operators< endian< endianness::little, T, n_bits, alignment::aligned >, T >
+      : cover_operators< endian< endianness::little, T, n_bits, alignment::aligned >, T >
     {
         BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
         BOOST_STATIC_ASSERT( sizeof(T) == n_bits/8 );
       public:
         typedef T value_type;
 #   ifndef BOOST_ENDIAN_NO_CTORS
-        endian() BOOST_ENDIAN_DEFAULTED
+        endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
 #     ifdef BOOST_BIG_ENDIAN
         endian(T val) : m_value(val) { }
 #     else
-        endian(T val)             { detail::store_little_endian<T, sizeof(T)>(&m_value, val); }
+        explicit endian(T val)    { detail::store_little_endian<T, sizeof(T)>(&m_value, val); }
 #     endif
 #   endif
 #   ifdef BOOST_LITTLE_ENDIAN
