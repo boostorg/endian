@@ -213,7 +213,7 @@ usual operations on integers are supplied.</p>
     public:
       typedef T value_type;
       endian(){}
-      endian(T v);
+      explicit endian(T v);
       endian &amp; operator=(T v);
       operator T() const;
     };
@@ -311,7 +311,7 @@ usual operations on integers are supplied.</p>
 <blockquote>
 <p><i>Effects:</i> Constructs an object of type <code>endian&lt;E, T, n_bits, A&gt;</code>.</p>
 </blockquote>
-<p><code>endian(T v);</code></p>
+<p><code>explicit endian(T v);</code></p>
 <blockquote>
 <p><i>Effects:</i> Constructs an object of type <code>endian&lt;E, T, n_bits, A&gt;</code>.</p>
 <p><i>Postcondition:</i> <code>x == v,</code> where <code>x</code> is the 
@@ -514,7 +514,7 @@ Tomas Puverle, and
 Yuval Ronen.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->26 May, 2008<!--webbot bot="Timestamp" endspan i-checksum="14024" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->06 August, 2008<!--webbot bot="Timestamp" endspan i-checksum="34800" --></p>
 <p>© Copyright Beman Dawes, 2006</p>
 <p>Distributed under the Boost Software License, Version 1.0. (See accompanying 
 file <a href="../../../LICENSE_1_0.txt">LICENSE_1_0.txt</a> or copy at
