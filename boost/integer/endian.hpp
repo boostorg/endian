@@ -302,7 +302,7 @@ namespace boost
         typedef T value_type;
 #   ifndef BOOST_ENDIAN_NO_CTORS
         endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-#     ifdef BOOST_BIG_ENDIAN
+#     ifdef BOOST_LITTLE_ENDIAN
         endian(T val) : m_value(val) { }
 #     else
         explicit endian(T val)    { detail::store_little_endian<T, sizeof(T)>(&m_value, val); }
