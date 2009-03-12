@@ -10,4 +10,9 @@
 		Name="VCCLCompilerTool"
 		AdditionalIncludeDirectories="&quot;$(BOOST_SANDBOX)\endian&quot;;&quot;$(BOOST_TRUNK)&quot;"
 	/>
+	<Tool
+		Name="VCPostBuildEventTool"
+		Description="Executing test $(TargetName).exe..."
+		CommandLine="&quot;$(TargetDir)\$(TargetName).exe&quot;"
+	/>
 </VisualStudioPropertySheet>

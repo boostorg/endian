@@ -7,7 +7,10 @@
 
 # See library home page at http://www.boost.org/libs/endian
 
-    
+   import testing ;
+   
    test-suite "endian"
-       : [ run libs/integer/test/endian_test.cpp ]
+       : [ run endian_test.cpp ]
+#         [ run endian_operations_test.cpp ]
+#         [ run endian_in_union_test.cpp ]
        ;

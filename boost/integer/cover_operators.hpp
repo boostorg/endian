@@ -12,6 +12,8 @@
 //  then a smaller number of cover operations are needed. Define the macro
 //  BOOST_MINIMAL_INTEGER_COVER_OPERATORS to indicate this.
 
+//  Define BOOST_NO_IO_COVER_OPERATORS if I/O cover operations are not desired.
+
 //----------------------------------------------------------------------------//
 
 #ifndef BOOST_INTEGER_COVER_OPERATORS_HPP
@@ -87,6 +89,7 @@ namespace boost
       }
 #   endif
 
+#   ifndef BOOST_NO_IO_COVER_OPERATORS
   // TODO: stream I/O needs to be templatized on the stream type, so will
   // work with wide streams, etc.
 
@@ -100,6 +103,7 @@ namespace boost
             x = i;
           return s;
         }
+#   endif
     };
   } // namespace integer
 } // namespace boost
