@@ -58,11 +58,13 @@
   </tr>
   <tr>
     <td width="100%" bgcolor="#E8F5FF">
-      <a href="../../../boost/integer/endian.hpp">&lt;boost/integer/endian.hpp&gt;</a></td>
+      <a href="../../../boost/integer/endian.hpp">&lt;boost/integer/endian.hpp&gt;</a><br>
+      <a href="../../../boost/integer/endian_io.hpp">&lt;boost/integer/endian_io.hpp&gt;</a></td>
   </tr>
 </table>
 <h2><a name="Introduction">Introduction</a></h2>
-<p>The <a href="../../../boost/integer/endian.hpp">boost/integer/endian.hpp</a> header provides 
+<p>Header
+      <a href="../../../boost/integer/endian.hpp">&lt;boost/integer/endian.hpp&gt;</a> provides 
 integer-like byte-holder binary types with explicit control over 
 byte order, value type, size, and alignment. Typedefs provide easy-to-use names 
 for common configurations.</p>
@@ -79,8 +81,7 @@ exploration of <b><i>endianness</i></b>, including definitions of <i><b>big
 endian</b></i> and <i><b>little endian</b></i>.</p>
 <p>Boost endian integers provide the same full set of C++ assignment, 
 arithmetic, and relational operators&nbsp;as C++ standard integral types, with 
-the standard semantics, plus operators <code>&lt;&lt;</code> and <code>&gt;&gt;</code> for 
-stream insertion and extraction.</p>
+the standard semantics.</p>
 <p>Unary arithmetic operators are <code>+</code>, <code>-</code>, <code>~</code>,
 <code>!</code>, prefix and postfix <code>--</code> and <code>++</code>. Binary 
 arithmetic operators are <code>+</code>, <code>+=</code>, <code>-</code>, <code>
@@ -89,7 +90,10 @@ arithmetic operators are <code>+</code>, <code>+=</code>, <code>-</code>, <code>
 <code>^</code>, <code>^=</code>, <code>&lt;&lt;</code>, <code>&lt;&lt;=</code>, <code>&gt;&gt;</code>,
 <code>&gt;&gt;=</code>. Binary relational operators are <code>==</code>, <code>!=</code>,
 <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>.</p>
-<p>Automatic conversion are provided to and from the underlying integer value type.</p>
+<p>Automatic conversion is provided to the underlying integer value type.</p>
+<p>Header <a href="../../../boost/integer/endian_io.hpp">&lt;boost/integer/endian_io.hpp&gt;</a> 
+provides operators <code>&lt;&lt;</code> and <code>&gt;&gt;</code> for 
+stream insertion and extraction.</p>
 <h2><a name="Limitations">Limitations</a></h2>
 <p>Requires <code>&lt;climits&gt;</code> <code>CHAR_BIT == 8</code>. If <code>CHAR_BIT</code> 
 is some other value, compilation will result in an <code>#error</code>. This 
@@ -549,7 +553,7 @@ Tomas Puverle, and
 Yuval Ronen.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->11 March, 2009<!--webbot bot="Timestamp" endspan i-checksum="29023" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->12 March, 2009<!--webbot bot="Timestamp" endspan i-checksum="29025" --></p>
 <p>© Copyright Beman Dawes, 2006</p>
 <p>Distributed under the Boost Software License, Version 1.0. (See accompanying 
 file <a href="../../../LICENSE_1_0.txt">LICENSE_1_0.txt</a> or copy at

@@ -7,6 +7,7 @@
 
 //  See library home page at http://www.boost.org/libs/endian
 
+#include <boost/integer/endian.hpp>
 #include <boost/integer/endian_io.hpp>
 #include <iostream>
 
@@ -15,10 +16,14 @@ using namespace boost::integer;
 
 int main()
 {
-  long        value = 3224115L; // integer value of ASCII { '1', '2', '3' }
-  big24_t     big( value );
-  little24_t  little( value );
+  int_least32_t value = 0x313233L;  // = 3224115 = ASCII { '1', '2', '3' }
+  big24_t       big( value );       
+  little24_t    little( value );
 
-  std::cout << "Hello, endian world "<< value << ' ' << big << ' ' << little << '\n';
+  std::cout << "Hello, endian world!\n";
+  std::cout << " cout << value--: " << value  << " sizeof(value): " << sizeof(value)
+          << "\n cout << big----: " << big    << " sizeof(big): " << sizeof(big)
+          << "\n cout << little-: " << little << " sizeof(little): " << sizeof(little)
+          << '\n';
 }
 
