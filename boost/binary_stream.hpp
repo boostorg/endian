@@ -1,6 +1,6 @@
 //  boost/binary_stream.hpp  ----------------------------------------------------------//
 
-//  Copyright Beman Dawes, 2009
+//  Copyright Beman Dawes 2009
 
 //  Distributed under the Boost Software License, Version 1.0.
 //  See http://www.boost.org/LICENSE_1_0.txt
@@ -16,10 +16,28 @@
 #include <cstring>  // for strlen
 #include <cwchar>   // for wcslen
 
+//  unformatted binary (as opposed to formatted character-set) input and output
+
+//  Caution: Use only on streams opened with filemode std::ios_base::binary. Thus
+//  unformatted binary I/O should not be with the standard streams (cout, cin, etc.)
+//  since they are opened in text mode. Use on text streams may produce incorrect
+//  results, such as insertion of unwanted characters or premature end-of-file.
+//  For example, on Windows 0x0D would become 0x0D, 0x0A.
+
+//  Caution: When mixing formatted (i.e. operator << or >>) and unformatted (i.e.
+//  operator <= or >=) be aware that << and >> take precedence over <= and >=. Use
+//  parentheses to force correct order of evaluation. For example:
+//
+//          my_stream << foo <= bar;    // no parentheses needed
+//          (my_stream <= foo) << bar;  // parentheses required 
+
+//  This implementation uses reinterpret_cast<>() when needed to convert one pointer
+//  type to another. See 5.2.10 [expr.reinterpret.cast], Reinterpret cast, para 7.
+
 namespace boost
 {
 
-  //  binary input and output for built-in types
+  //  built-in types  ------------------------------------------------------------------//
 
   //  omission of bool and void* is deliberate; any semantics would be questionable
 
@@ -98,7 +116,7 @@ namespace boost
   inline std::istream& operator>=(std::istream& is, wchar_t& v)
     { return is.read( reinterpret_cast<char*>(&v), sizeof(v) ); }
 
-  //  binary input and output for strings
+  //  strings  -------------------------------------------------------------------------//
 
   inline std::ostream& operator<=(std::ostream& os, const char* p)
     { return os.write( p, std::strlen(p)+1 ); }
@@ -123,7 +141,6 @@ namespace boost
   inline std::ostream& operator<=(std::ostream& os, const std::wstring& s)
     { return os.write( reinterpret_cast<const char*>(s.c_str()), (s.size()+1)*sizeof(wchar_t) ); }
   // TODO: provide input function
-
 
 }  // namespace boost
 

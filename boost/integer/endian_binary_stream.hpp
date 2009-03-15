@@ -1,19 +1,37 @@
-//  boost/integer/endian_io.hpp  -------------------------------------------------------//
+//  boost/integer/endian_binary_stream.hpp  --------------------------------------------//
 
-//  Copyright Beman Dawes, 2009
+//  Copyright Beman Dawes 2009
 
 //  Distributed under the Boost Software License, Version 1.0.
 //  See http://www.boost.org/LICENSE_1_0.txt
 
 //  See library home page at http://www.boost.org/libs/endian
 
-#ifndef BOOST_ENDIAN_IO_HPP
-#define BOOST_ENDIAN_IO_HPP
+#ifndef BOOST_ENDIAN_BINARY_STREAM_HPP
+#define BOOST_ENDIAN_BINARY_STREAM_HPP
 
 #include <boost/integer/endian.hpp>
 #include <boost/utility/enable_if.hpp>
 #include <ostream>
 #include <istream>
+
+//  unformatted binary (as opposed to formatted character-set) input and output
+
+//  Caution: Use only on streams opened with filemode std::ios_base::binary. Thus
+//  unformatted binary I/O should not be with the standard streams (cout, cin, etc.)
+//  since they are opened in text mode. Use on text streams may produce incorrect
+//  results, such as insertion of unwanted characters or premature end-of-file.
+//  For example, on Windows 0x0D would become 0x0D, 0x0A.
+
+//  Caution: When mixing formatted (i.e. operator << or >>) and unformatted (i.e.
+//  operator <= or >=) be aware that << and >> take precedence over <= and >=. Use
+//  parentheses to force correct order of evaluation. For example:
+//
+//          my_stream << foo <= bar;    // no parentheses needed
+//          (my_stream <= foo) << bar;  // parentheses required 
+
+//  This implementation uses reinterpret_cast<>() when needed to convert one pointer
+//  type to another. See 5.2.10 [expr.reinterpret.cast], Reinterpret cast, para 7.
 
 namespace boost
 {
@@ -98,19 +116,19 @@ namespace boost
 
      template < class Endian >
        inline typename boost::enable_if< is_endian<Endian>, std::ostream & >::type
-         operator<<( std::ostream & os, const Endian & e )
+         operator<=( std::ostream & os, const Endian & e )
      {
        return os.write( reinterpret_cast<const char*>(&e), sizeof(e) );
      }
 
      template < class Endian >
-       inline typename boost::enable_if< is_endian<Endian>, std::ostream & >::type
-         operator>>( std::ostream & os, const Endian & e )
+       inline typename boost::enable_if< is_endian<Endian>, std::istream & >::type
+         operator>=( std::istream & is, Endian & e )
      {
-       return os.read( reinterpret_cast<const char*>(&e), sizeof(e) );
+       return is.read( reinterpret_cast<char*>(&e), sizeof(e) );
      }
 
   }  // namespace integer
 }  // namespace boost
 
-#endif  // BOOST_ENDIAN_IO_HPP
+#endif  // BOOST_ENDIAN_BINARY_STREAM_HPP

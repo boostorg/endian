@@ -1,13 +1,12 @@
-//  binary_test.cpp  -------------------------------------------------------------------//
+//  binary_stream_test.cpp  ------------------------------------------------------------//
 
-//  Copyright Beman Dawes, 2009
+//  Copyright Beman Dawes 2009
 
 //  Distributed under the Boost Software License, Version 1.0.
 //  See http://www.boost.org/LICENSE_1_0.txt
 
 #include <boost/binary_stream.hpp>
-#include <boost/cstdint.hpp>
-#include <cstring>
+#include <string>
 #include <iostream>
 #include <sstream>
 

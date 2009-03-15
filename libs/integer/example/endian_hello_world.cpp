@@ -8,7 +8,7 @@
 //  See library home page at http://www.boost.org/libs/endian
 
 #include <boost/integer/endian.hpp>
-#include <boost/integer/endian_io.hpp>
+#include <boost/integer/endian_binary_stream.hpp>
 #include <iostream>
 
 using namespace boost;
