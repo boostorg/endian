@@ -1,8 +1,8 @@
-set ENDIAN_LOCATE_ROOT=%temp%\endian-regr
+set ENDIAN_LOCATE_ROOT=%TEMP%\endian-regr
 md %ENDIAN_LOCATE_ROOT% 2>nul
 
 echo Begin test processing...
-bjam --dump-tests "-sALL_LOCATE_TARGET=%ENDIAN_LOCATE_ROOT%" %* >bjam.log 2>&1
+bjam --dump-tests includes=/boost/trunk "-sALL_LOCATE_TARGET=%ENDIAN_LOCATE_ROOT%" %* >bjam.log 2>&1
 echo Begin log processing...
 process_jam_log %ENDIAN_LOCATE_ROOT% <bjam.log
 start bjam.log

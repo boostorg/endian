@@ -281,19 +281,19 @@ usual operations on integers are supplied.</p>
   namespace integer
   {
      
-    namespace <a name="endianness">endianness</a> { enum enum_t { big, little, native }; } // simulate C++0x scoped enum
-    namespace <a name="alignment">alignment</a>  { enum enum_t { unaligned, aligned }; }  // simulate C++0x scoped enum
+    enum class <a name="endianness">endianness</a> { big, little, native };  // scoped enum emulated on C++03
+    enum class <a name="alignment">alignment</a>  { unaligned, aligned };   // scoped enum emulated on C++03
 
-    template &lt;endianness::enum_t E, typename T, std::size_t n_bits,
-      alignment::enum_t A = alignment::unaligned&gt;
+    template &lt;endianness E, typename T, std::size_t n_bits,
+      alignment A = alignment::unaligned&gt;
     class endian : <a href="../../../boost/integer/cover_operators.hpp">integer_cover_operators</a>&lt; endian&lt;E, T, n_bits, A&gt;, T &gt;
     {
     public:
       typedef T value_type;
-      endian(){}
-      explicit endian(T v);
-      endian &amp; operator=(T v);
-      operator T() const;
+      <a href="#endian">endian</a>() = default;       // = default replaced by {} on C++03
+      explicit <a href="#explicit-endian">endian</a>(T v);
+      endian &amp; <a href="#operator-eq">operator=</a>(T v);
+      <a href="#operator-T">operator T</a>() const;
     };
 
     // unaligned big endian signed integer types
@@ -385,29 +385,29 @@ usual operations on integers are supplied.</p>
   } // namespace integer
 } // namespace boost</pre>
 <h3><a name="Members">Members</a></h3>
-<p><code>endian(){}</code></p>
+<p><code><a name="endian">endian</a>() = default;&nbsp; // C++03: endian(){}</code></p>
 <blockquote>
 <p><i>Effects:</i> Constructs an object of type <code>endian&lt;E, T, n_bits, A&gt;</code>.</p>
 </blockquote>
-<p><code>explicit endian(T v);</code></p>
+<p><code><a name="explicit-endian">explicit endian</a>(T v);</code></p>
 <blockquote>
 <p><i>Effects:</i> Constructs an object of type <code>endian&lt;E, T, n_bits, A&gt;</code>.</p>
 <p><i>Postcondition:</i> <code>x == v,</code> where <code>x</code> is the 
 constructed object.</p>
 </blockquote>
-<p><code>endian &amp; operator=(T v);</code></p>
+<p><code>endian &amp; <a name="operator-eq">operator=</a>(T v);</code></p>
 <blockquote>
   <p><i>Postcondition:</i> <code>x == v,</code> where <code>x</code> is the 
   constructed object.</p>
   <p><i>Returns:</i> <code>*this</code>.</p>
 </blockquote>
-<p><code>operator T() const;</code></p>
+<p><code><a name="operator-T">operator T</a>() const;</code></p>
 <blockquote>
 <p><i>Returns:</i> The current value stored in <code>*this</code>, converted to
 <code>value_type</code>.</p>
 </blockquote>
 <h3>Other operators</h3>
-<p>All other operators on endian objects are forwarded to the equivalent 
+<p>Other operators on endian objects are forwarded to the equivalent 
 operator on <code>value_type</code>.</p>
 <h2><a name="FAQ">FAQ</a></h2>
 <p><b>Why bother with endian types?</b> External data portability and both speed 
