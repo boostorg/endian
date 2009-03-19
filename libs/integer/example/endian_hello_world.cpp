@@ -19,8 +19,12 @@ int main()
 {
   int_least32_t v = 0x31323334L;  // = ASCII { '1', '2', '3', '4' }
                                   // value chosen to work on text stream
-  std::cout << "Hello, endian world!\n";
-  std::cout << v << " " << big32_t(v) << " " << little32_t(v) << '\n';
-  std::cout <= v <= ' ' <= big32_t(v) <= ' ' <= little32_t(v) <= '\n';
+  big32_t    b(v);
+  little32_t l(v);
+
+  std::cout << "Hello, endian world!\n\n";
+
+  std::cout << v << ' ' << b << ' ' << l << '\n';
+  std::cout <= v <= ' ' <= b <= ' ' <= l <= '\n';
 }
 

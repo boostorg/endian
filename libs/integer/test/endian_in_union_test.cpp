@@ -9,7 +9,7 @@
 
 //----------------------------------------------------------------------------//
 
-#define BOOST_ENDIANS_IN_UNIONS
+#define BOOST_ENDIAN_FORCE_PODNESS
 
 #include <boost/integer/endian.hpp>
 #include <cassert>

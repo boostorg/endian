@@ -15,9 +15,10 @@
 #include <ostream>
 #include <istream>
 
-//  unformatted binary (as opposed to formatted character-set) input and output
+//  unformatted binary (as opposed to formatted character) stream insertion
+//  and extraction.
 
-//  Caution: Use only on streams opened with filemode std::ios_base::binary. Thus
+//  Warning: Use only on streams opened with filemode std::ios_base::binary. Thus
 //  unformatted binary I/O should not be with the standard streams (cout, cin, etc.)
 //  since they are opened in text mode. Use on text streams may produce incorrect
 //  results, such as insertion of unwanted characters or premature end-of-file.
