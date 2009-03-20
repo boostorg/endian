@@ -10,11 +10,15 @@
 #ifndef BOOST_BINARY_STREAM_HPP
 #define BOOST_BINARY_STREAM_HPP
 
+#include <boost/config.hpp>
 #include <ostream>
 #include <istream>
 #include <string>
 #include <cstring>  // for strlen
-#include <cwchar>   // for wcslen
+
+#ifndef BOOST_NO_CWCHAR
+# include <cwchar>   // for wcslen
+#endif
 
 //  unformatted binary (as opposed to formatted character-set) input and output
 
@@ -127,8 +131,10 @@ namespace boost
   inline std::ostream& operator<=(std::ostream& os, const unsigned char* p)
     { return os.write( reinterpret_cast<const char*>(p), std::strlen(reinterpret_cast<const char*>(p))+1 ); }
 
+#ifndef BOOST_NO_CWCHAR
   inline std::ostream& operator<=(std::ostream& os, const wchar_t* p)
     { return os.write( reinterpret_cast<const char*>(p), (std::wcslen(p)+1)*sizeof(wchar_t) ); }
+#endif
 
   //  Caution: note the asymmetry between output and input; a string with embedded
   //  nulls will be output with the embedded nulls, but input will stop at the first null.
@@ -138,9 +144,11 @@ namespace boost
   inline std::istream& operator>=(std::istream& is, std::string& s)
     { return getline(is, s, '\0'); }
 
+#ifndef BOOST_NO_STD_WSTRING
   inline std::ostream& operator<=(std::ostream& os, const std::wstring& s)
     { return os.write( reinterpret_cast<const char*>(s.c_str()), (s.size()+1)*sizeof(wchar_t) ); }
   // TODO: provide input function
+#endif
 
 }  // namespace boost
 

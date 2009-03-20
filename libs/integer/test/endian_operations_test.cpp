@@ -46,6 +46,7 @@ struct construct
   {
     T2 o2(1);
     T1 o1(o2);
+    ++o1;  // quiet gcc unused variable warning
   }
 };
 
@@ -56,6 +57,7 @@ struct initialize
   {
     T1 o2(2);
     T1 o1 = o2;
+    ++o1;  // quiet gcc unused variable warning
   }
 };
 
@@ -122,6 +124,12 @@ struct op_star
 template <template<class,  class> class Test,  class T1>
 void op_test_aux()
 {
+#ifdef BOOST_SHORT_ENDIAN_TEST
+  Test<T1, int>::test();
+  Test<T1, unsigned int>::test();
+  Test<T1, bi::big16_t>::test();
+  Test<T1, bi::ubig64_t>::test();
+#else
   Test<T1, char>::test();
   Test<T1, unsigned char>::test();
   Test<T1, signed char>::test();
@@ -181,12 +189,19 @@ void op_test_aux()
   Test<T1, bi::unative48_t>::test();
   Test<T1, bi::unative56_t>::test();
   Test<T1, bi::unative64_t>::test();
-
+#endif
 }
 
 template <template<class,  class> class Test>
 void op_test()
 {
+#ifdef BOOST_SHORT_ENDIAN_TEST
+  op_test_aux<Test, unsigned short>();
+  op_test_aux<Test, int>();
+  op_test_aux<Test, bi::big32_t>();
+  op_test_aux<Test, bi::ubig32_t>();
+  op_test_aux<Test, bi::little48_t>();
+#else
   op_test_aux<Test, char>();
   op_test_aux<Test, unsigned char>();
   op_test_aux<Test, signed char>();
@@ -246,6 +261,7 @@ void op_test()
   op_test_aux<Test, bi::unative48_t>();
   op_test_aux<Test, bi::unative56_t>();
   op_test_aux<Test, bi::unative64_t>();
+#endif
 }
 
 int main()
@@ -280,7 +296,7 @@ int main()
   ++big;
 
   std::clog << "\nresult = big++\n";
-  big++;
+  result = big++;
 
   std::clog << "\n--big\n";
   --big;

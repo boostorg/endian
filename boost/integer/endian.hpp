@@ -21,6 +21,14 @@
 #ifndef BOOST_ENDIAN_HPP
 #define BOOST_ENDIAN_HPP
 
+#ifdef BOOST_ENDIAN_LOG
+# include <iostream>
+#endif
+
+#if defined(__BORLANDC__) || defined( __CODEGEARC__)
+# pragma pack(push, 1)
+#endif
+
 #include <boost/config.hpp>
 #include <boost/detail/endian.hpp>
 #define BOOST_MINIMAL_INTEGER_COVER_OPERATORS
@@ -410,5 +418,9 @@ namespace boost
 
   } // namespace integer
 } // namespace boost
+
+#if defined(__BORLANDC__) || defined( __CODEGEARC__)
+# pragma pack(pop)
+#endif
 
 #endif // BOOST_ENDIAN_HPP

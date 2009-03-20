@@ -53,7 +53,7 @@ namespace
   {
     if ( actual == expected ) return;
     ++err_count;
-    cout << "Error: verify failed on line " << line << endl;
+    cout << "Error: verify size failed on line " << line << endl;
     cout << " A structure with an expected sizeof() " << expected
          << " had an actual sizeof() " << actual
          << "\n This will cause common uses of <boost/endian.hpp> to fail\n";
@@ -149,75 +149,75 @@ namespace
     VERIFY( numeric_limits<signed char>::digits == 7 );
     VERIFY( numeric_limits<unsigned char>::digits == 8 );
 
-    VERIFY( sizeof( big8_t ) == 1 );
-    VERIFY( sizeof( big16_t ) == 2 );
-    VERIFY( sizeof( big24_t ) == 3 );
-    VERIFY( sizeof( big32_t ) == 4 );
-    VERIFY( sizeof( big40_t ) == 5 );
-    VERIFY( sizeof( big48_t ) == 6 );
-    VERIFY( sizeof( big56_t ) == 7 );
-    VERIFY( sizeof( big64_t ) == 8 );
+    VERIFY_SIZE( sizeof( big8_t ), 1 );
+    VERIFY_SIZE( sizeof( big16_t ), 2 );
+    VERIFY_SIZE( sizeof( big24_t ), 3 );
+    VERIFY_SIZE( sizeof( big32_t ), 4 );
+    VERIFY_SIZE( sizeof( big40_t ), 5 );
+    VERIFY_SIZE( sizeof( big48_t ), 6 );
+    VERIFY_SIZE( sizeof( big56_t ), 7 );
+    VERIFY_SIZE( sizeof( big64_t ), 8 );
 
-    VERIFY( sizeof( ubig8_t ) == 1 );
-    VERIFY( sizeof( ubig16_t ) == 2 );
-    VERIFY( sizeof( ubig24_t ) == 3 );
-    VERIFY( sizeof( ubig32_t ) == 4 );
-    VERIFY( sizeof( ubig40_t ) == 5 );
-    VERIFY( sizeof( ubig48_t ) == 6 );
-    VERIFY( sizeof( ubig56_t ) == 7 );
-    VERIFY( sizeof( ubig64_t ) == 8 );
+    VERIFY_SIZE( sizeof( ubig8_t ), 1 );
+    VERIFY_SIZE( sizeof( ubig16_t ), 2 );
+    VERIFY_SIZE( sizeof( ubig24_t ), 3 );
+    VERIFY_SIZE( sizeof( ubig32_t ), 4 );
+    VERIFY_SIZE( sizeof( ubig40_t ), 5 );
+    VERIFY_SIZE( sizeof( ubig48_t ), 6 );
+    VERIFY_SIZE( sizeof( ubig56_t ), 7 );
+    VERIFY_SIZE( sizeof( ubig64_t ), 8 );
 
-    VERIFY( sizeof( little8_t ) == 1 );
-    VERIFY( sizeof( little16_t ) == 2 );
-    VERIFY( sizeof( little24_t ) == 3 );
-    VERIFY( sizeof( little32_t ) == 4 );
-    VERIFY( sizeof( little40_t ) == 5 );
-    VERIFY( sizeof( little48_t ) == 6 );
-    VERIFY( sizeof( little56_t ) == 7 );
-    VERIFY( sizeof( little64_t ) == 8 );
+    VERIFY_SIZE( sizeof( little8_t ), 1 );
+    VERIFY_SIZE( sizeof( little16_t ), 2 );
+    VERIFY_SIZE( sizeof( little24_t ), 3 );
+    VERIFY_SIZE( sizeof( little32_t ), 4 );
+    VERIFY_SIZE( sizeof( little40_t ), 5 );
+    VERIFY_SIZE( sizeof( little48_t ), 6 );
+    VERIFY_SIZE( sizeof( little56_t ), 7 );
+    VERIFY_SIZE( sizeof( little64_t ), 8 );
 
-    VERIFY( sizeof( ulittle8_t ) == 1 );
-    VERIFY( sizeof( ulittle16_t ) == 2 );
-    VERIFY( sizeof( ulittle24_t ) == 3 );
-    VERIFY( sizeof( ulittle32_t ) == 4 );
-    VERIFY( sizeof( ulittle40_t ) == 5 );
-    VERIFY( sizeof( ulittle48_t ) == 6 );
-    VERIFY( sizeof( ulittle56_t ) == 7 );
-    VERIFY( sizeof( ulittle64_t ) == 8 );
+    VERIFY_SIZE( sizeof( ulittle8_t ), 1 );
+    VERIFY_SIZE( sizeof( ulittle16_t ), 2 );
+    VERIFY_SIZE( sizeof( ulittle24_t ), 3 );
+    VERIFY_SIZE( sizeof( ulittle32_t ), 4 );
+    VERIFY_SIZE( sizeof( ulittle40_t ), 5 );
+    VERIFY_SIZE( sizeof( ulittle48_t ), 6 );
+    VERIFY_SIZE( sizeof( ulittle56_t ), 7 );
+    VERIFY_SIZE( sizeof( ulittle64_t ), 8 );
 
-    VERIFY( sizeof( native8_t ) == 1 );
-    VERIFY( sizeof( native16_t ) == 2 );
-    VERIFY( sizeof( native24_t ) == 3 );
-    VERIFY( sizeof( native32_t ) == 4 );
-    VERIFY( sizeof( native40_t ) == 5 );
-    VERIFY( sizeof( native48_t ) == 6 );
-    VERIFY( sizeof( native56_t ) == 7 );
-    VERIFY( sizeof( native64_t ) == 8 );
+    VERIFY_SIZE( sizeof( native8_t ), 1 );
+    VERIFY_SIZE( sizeof( native16_t ), 2 );
+    VERIFY_SIZE( sizeof( native24_t ), 3 );
+    VERIFY_SIZE( sizeof( native32_t ), 4 );
+    VERIFY_SIZE( sizeof( native40_t ), 5 );
+    VERIFY_SIZE( sizeof( native48_t ), 6 );
+    VERIFY_SIZE( sizeof( native56_t ), 7 );
+    VERIFY_SIZE( sizeof( native64_t ), 8 );
 
-    VERIFY( sizeof( unative8_t ) == 1 );
-    VERIFY( sizeof( unative16_t ) == 2 );
-    VERIFY( sizeof( unative24_t ) == 3 );
-    VERIFY( sizeof( unative32_t ) == 4 );
-    VERIFY( sizeof( unative40_t ) == 5 );
-    VERIFY( sizeof( unative48_t ) == 6 );
-    VERIFY( sizeof( unative56_t ) == 7 );
-    VERIFY( sizeof( unative64_t ) == 8 );
+    VERIFY_SIZE( sizeof( unative8_t ), 1 );
+    VERIFY_SIZE( sizeof( unative16_t ), 2 );
+    VERIFY_SIZE( sizeof( unative24_t ), 3 );
+    VERIFY_SIZE( sizeof( unative32_t ), 4 );
+    VERIFY_SIZE( sizeof( unative40_t ), 5 );
+    VERIFY_SIZE( sizeof( unative48_t ), 6 );
+    VERIFY_SIZE( sizeof( unative56_t ), 7 );
+    VERIFY_SIZE( sizeof( unative64_t ), 8 );
 
-    VERIFY( sizeof( aligned_big16_t ) == 2 );
-    VERIFY( sizeof( aligned_big32_t ) == 4 );
-    VERIFY( sizeof( aligned_big64_t ) == 8 );
+    VERIFY_SIZE( sizeof( aligned_big16_t ), 2 );
+    VERIFY_SIZE( sizeof( aligned_big32_t ), 4 );
+    VERIFY_SIZE( sizeof( aligned_big64_t ), 8 );
 
-    VERIFY( sizeof( aligned_ubig16_t ) == 2 );
-    VERIFY( sizeof( aligned_ubig32_t ) == 4 );
-    VERIFY( sizeof( aligned_ubig64_t ) == 8 );
+    VERIFY_SIZE( sizeof( aligned_ubig16_t ), 2 );
+    VERIFY_SIZE( sizeof( aligned_ubig32_t ), 4 );
+    VERIFY_SIZE( sizeof( aligned_ubig64_t ), 8 );
 
-    VERIFY( sizeof( aligned_little16_t ) == 2 );
-    VERIFY( sizeof( aligned_little32_t ) == 4 );
-    VERIFY( sizeof( aligned_little64_t ) == 8 );
+    VERIFY_SIZE( sizeof( aligned_little16_t ), 2 );
+    VERIFY_SIZE( sizeof( aligned_little32_t ), 4 );
+    VERIFY_SIZE( sizeof( aligned_little64_t ), 8 );
 
-    VERIFY( sizeof( aligned_ulittle16_t ) == 2 );
-    VERIFY( sizeof( aligned_ulittle32_t ) == 4 );
-    VERIFY( sizeof( aligned_ulittle64_t ) == 8 );
+    VERIFY_SIZE( sizeof( aligned_ulittle16_t ), 2 );
+    VERIFY_SIZE( sizeof( aligned_ulittle32_t ), 4 );
+    VERIFY_SIZE( sizeof( aligned_ulittle64_t ), 8 );
   } // check_size
 
   //  check_alignment  -------------------------------------------------------//
