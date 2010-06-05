@@ -264,6 +264,8 @@ void op_test()
 #endif
 }
 
+//  main  ------------------------------------------------------------------------------//
+
 int main()
 {
   bi::endian_log = false;
@@ -339,7 +341,21 @@ int main()
   std::clog << "\n";
 
   bi::endian_log = false;
-  
+
+  //  test from Roland Schwarz that detected ambiguities
+  unsigned u;
+  bi::ulittle32_t u1;
+  bi::ulittle32_t u2;
+
+  u = 1;
+  u1 = 1;
+  u2 = u1 + u;
+
+  //  one more wrinkle
+  bi::ulittle16_t u3(3);
+  u3 = 3;
+  u2 = u1 + u3;
+    
   //  perform the indicated test on ~60*60 operand types
 
   op_test<default_construct>();

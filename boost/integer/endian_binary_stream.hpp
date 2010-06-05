@@ -119,7 +119,7 @@ namespace boost
        inline typename boost::enable_if< is_endian<Endian>, std::ostream & >::type
          operator<=( std::ostream & os, const Endian & e )
      {
-       return os.write( reinterpret_cast<const char*>(&e), sizeof(e) );
+       return os.write( e.data(), sizeof(e) );
      }
 
      template < class Endian >

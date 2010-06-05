@@ -198,6 +198,7 @@ namespace boost
 #       endif
           return detail::load_big_endian<T, n_bits/8>(m_value);
         }
+        const char* data() const  { return m_value; }
       private:
   	    char m_value[n_bits/8];
     };
@@ -230,6 +231,7 @@ namespace boost
 #       endif
           return detail::load_little_endian<T, n_bits/8>(m_value);
         }
+        const char* data() const  { return m_value; }
       private:
   	    char m_value[n_bits/8];
     };
@@ -257,6 +259,7 @@ namespace boost
         endian & operator=(T val) { detail::store_little_endian<T, n_bits/8>(m_value, val); return *this; }
         operator T() const        { return detail::load_little_endian<T, n_bits/8>(m_value); }
 #   endif
+        const char* data() const  { return m_value; }
       private:
   	    char m_value[n_bits/8];
     };
@@ -288,6 +291,7 @@ namespace boost
         endian & operator=(T val) { detail::store_big_endian<T, sizeof(T)>(&m_value, val); return *this; }
         operator T() const        { return detail::load_big_endian<T, sizeof(T)>(&m_value); }
 #   endif  
+        const char* data() const  { return reinterpret_cast<const char *>(&m_value); }
       private:
   	    T m_value;
     };
@@ -316,6 +320,7 @@ namespace boost
         endian & operator=(T val) { detail::store_little_endian<T, sizeof(T)>(&m_value, val); return *this; }
         operator T() const        { return detail::load_little_endian<T, sizeof(T)>(&m_value); }
     #endif
+        const char* data() const  { return reinterpret_cast<const char *>(&m_value); }
       private:
   	    T m_value;
     };

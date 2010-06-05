@@ -13,7 +13,7 @@ md libs\integer\example
 md libs\integer\test
 popd
 copy ..\..\boost.png \temp\%1
-copy ..\..\boost\doc\html\minimal.css \temp\%1\doc\html
+copy ..\..\doc\html\minimal.css \temp\%1\doc\html
 copy ..\..\boost\binary_stream.hpp \temp\%1\boost
 copy ..\..\boost\integer\endian.hpp \temp\%1\boost\integer
 copy ..\..\boost\integer\endian_binary_stream.hpp \temp\%1\boost\integer
