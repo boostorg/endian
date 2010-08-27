@@ -18,4 +18,5 @@
             :  :  : <toolset>gcc:<cxxflags>-Wno-sign-compare ]
          [ run endian_in_union_test.cpp ]
          [ run scoped_enum_emulation_test.cpp ]
+         [ run endian_flip_test.cpp ]
       ;
