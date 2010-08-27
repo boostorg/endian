@@ -13,7 +13,7 @@ namespace boost
 {
 namespace integer
 {
-  void endian_flip(int16_t& x)
+  inline void endian_flip(int16_t& x)
   {
     char* rep = reinterpret_cast<char*>(&x);
     char tmp;
@@ -22,7 +22,7 @@ namespace integer
     *(rep+1) = tmp;
   }
 
-  void endian_flip(int32_t& x)
+  inline void endian_flip(int32_t& x)
   {
     char* rep = reinterpret_cast<char*>(&x);
     char tmp;
@@ -34,7 +34,7 @@ namespace integer
     *(rep+2) = tmp;
   }
 
-  void endian_flip(int64_t& x)
+  inline void endian_flip(int64_t& x)
   {
     char* rep = reinterpret_cast<char*>(&x);
     char tmp;
@@ -52,7 +52,7 @@ namespace integer
     *(rep+4) = tmp;
   }
 
-  void endian_flip(uint16_t& x)
+  inline void endian_flip(uint16_t& x)
   {
     char* rep = reinterpret_cast<char*>(&x);
     char tmp;
@@ -61,7 +61,7 @@ namespace integer
     *(rep+1) = tmp;
   }
 
-  void endian_flip(uint32_t& x)
+  inline void endian_flip(uint32_t& x)
   {
     char* rep = reinterpret_cast<char*>(&x);
     char tmp;
@@ -73,7 +73,7 @@ namespace integer
     *(rep+2) = tmp;
   }
 
-  void endian_flip(uint64_t& x)
+  inline void endian_flip(uint64_t& x)
   {
     char* rep = reinterpret_cast<char*>(&x);
     char tmp;
