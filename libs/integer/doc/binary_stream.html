@@ -1,0 +1,89 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Binary Stream I/O</title>
+<link rel="stylesheet" type="text/css" href="../../../doc/html/minimal.css">
+</head>
+
+<body>
+
+<h1>Proposal for Enhanced Binary Stream I/O</h1>
+<h2>Introduction</h2>
+<p>The C++ standard library's stream I/O facilities are type-safe and very 
+convenient for performing formatted (i.e. human readable) I/O, but offer only 
+rudimentary and not very type-safe operations for performing binary I/O.&nbsp; 
+Although formatted I/O is often preferable, some applications need the speed and 
+storage efficiency of binary I/O or need to interoperate with third-party 
+applications that require binary file or network data formats.</p>
+<p>Standard library streams can be opened with filemode <code>
+std::ios_base::binary</code>, so binary I/O is possible. But the only 
+unformatted I/O functions available are <code>get()</code>, <code>put()</code>,
+<code>read()</code>, and <code>write()</code>. These operate only on <code>char</code> 
+or array of <code>char</code> (with length explicitly specified), so require the 
+user to write casts, are hard to use, and are error prone.</p>
+<p>There have been many requests on Boost and various C++ newsgroups for 
+unformatted binary I/O. For example, in 2003 Neal Becker wrote:</p>
+<blockquote>
+<p>I wonder if anyone has code for implementing unformatted I/O?&nbsp; What I 
+have in mind is for the simple case where the application that reads data knows 
+the data types, so this is not as complicated as the general marshalling 
+situation.</p>
+</blockquote>
+<p>This proposal provides a simple solution that works will standard library 
+input and output streams. The one caveat is that they should be open with 
+filemode <code>std::ios_base::binary</code>.</p>
+<h2>Synopsis</h2>
+<div dir="ltr">
+  <pre>namespace boost
+{
+  template &lt;class T&gt;
+  <i>unspecified-type-1&lt;T&gt;</i> bin(const T&amp; x);
+
+  template &lt;class T&gt;
+  <i>unspecified-type-2&lt;T&gt;</i> bin(T&amp; x);
+
+  template &lt;class T&gt;
+  std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <i>unspecified-type-1&lt;T&gt;</i> x);
+
+  template &lt;class T&gt;
+  std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <i>unspecified-type-2&lt;T&gt;</i> x);
+
+  template &lt;class T&gt;
+  std::istream&amp; operator&gt;&gt;(std::istream&amp; is, <i>unspecified-type-2&lt;T&gt;</i> x);
+}</pre>
+</div>
+<p><i><code>unspecified-type-1</code></i> and <i><code>unspecified-type-2</code></i> 
+are implementation supplied types.</p>
+<h2>Example</h2>
+<blockquote>
+  <pre>int main()
+{
+  int i = 0x41424344;
+  std::cout &lt;&lt; std::hex &lt;&lt; i &lt;&lt; &quot; &quot; &lt;&lt; bin(i) &lt;&lt; '\n';
+  return 0;
+}</pre>
+</blockquote>
+<p>On a little-endian machine, the output is:</p>
+<blockquote>
+  <pre>41424344 DCBA</pre>
+</blockquote>
+<p>&nbsp;</p>
+<hr>
+<p>Last revised:
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->22 April, 2011<!--webbot bot="Timestamp" endspan i-checksum="29826" --></p>
+<p>© Copyright Beman Dawes,  2009, 2011</p>
+<p>Distributed under the Boost Software License, Version 1.0. See
+<a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
