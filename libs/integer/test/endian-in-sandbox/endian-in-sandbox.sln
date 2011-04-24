@@ -19,6 +19,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "endian_binary_stream_test",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "endian_flip_test", "endian_flip_test\endian_flip_test.vcxproj", "{9FA33B0B-2B00-49E8-A892-E049D86076A9}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "binary_stream_example", "binary_stream_example\binary_stream_example.vcxproj", "{06736C67-6305-4A9F-8D10-850FD0CE907D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -61,6 +63,10 @@ Global
 		{9FA33B0B-2B00-49E8-A892-E049D86076A9}.Debug|Win32.Build.0 = Debug|Win32
 		{9FA33B0B-2B00-49E8-A892-E049D86076A9}.Release|Win32.ActiveCfg = Release|Win32
 		{9FA33B0B-2B00-49E8-A892-E049D86076A9}.Release|Win32.Build.0 = Release|Win32
+		{06736C67-6305-4A9F-8D10-850FD0CE907D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{06736C67-6305-4A9F-8D10-850FD0CE907D}.Debug|Win32.Build.0 = Debug|Win32
+		{06736C67-6305-4A9F-8D10-850FD0CE907D}.Release|Win32.ActiveCfg = Release|Win32
+		{06736C67-6305-4A9F-8D10-850FD0CE907D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

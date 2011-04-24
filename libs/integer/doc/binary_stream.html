@@ -11,14 +11,14 @@
 
 <body>
 
-<h1>Proposal for Enhanced Binary Stream I/O</h1>
+<h1>Proposal for Binary Stream I/O</h1>
 <h2>Introduction</h2>
 <p>The C++ standard library's stream I/O facilities are type-safe and very 
-convenient for performing formatted (i.e. human readable) I/O, but offer only 
-rudimentary and not very type-safe operations for performing binary I/O.&nbsp; 
+convenient for performing formatted (i.e. human readable) I/O. But they offer only 
+rudimentary and not very type-safe operations for performing unformatted binary I/O.&nbsp; 
 Although formatted I/O is often preferable, some applications need the speed and 
-storage efficiency of binary I/O or need to interoperate with third-party 
-applications that require binary file or network data formats.</p>
+storage efficiency of unformatted binary I/O or need to interoperate with third-party 
+applications that require unformatted binary file or network data formats.</p>
 <p>Standard library streams can be opened with filemode <code>
 std::ios_base::binary</code>, so binary I/O is possible. But the only 
 unformatted I/O functions available are <code>get()</code>, <code>put()</code>,
@@ -33,9 +33,9 @@ have in mind is for the simple case where the application that reads data knows
 the data types, so this is not as complicated as the general marshalling 
 situation.</p>
 </blockquote>
-<p>This proposal provides a simple solution that works will standard library 
-input and output streams. The one caveat is that they should be open with 
-filemode <code>std::ios_base::binary</code>.</p>
+<p>This proposal provides a simple solution that works with standard library 
+input and output streams. The one caveat is that the stream must be opened with filemode <code>std::ios_base::binary</code> 
+to avoid certain data values being treated as line endings.</p>
 <h2>Synopsis</h2>
 <div dir="ltr">
   <pre>namespace boost
@@ -62,19 +62,33 @@ are implementation supplied types.</p>
 <blockquote>
   <pre>int main()
 {
-  int i = 0x41424344;
-  std::cout &lt;&lt; std::hex &lt;&lt; i &lt;&lt; &quot; &quot; &lt;&lt; bin(i) &lt;&lt; '\n';
+  fstream f(&quot;binary_stream_example.dat&quot;,
+    std::ios_base::trunc | std::ios_base::in | std::ios_base::out | std::ios_base::binary);
+
+  int32_t x = 0x01020304;
+  int32_t y = 0;
+
+  f &lt;&lt; bin(x);
+  f.seekg(0);
+  f &gt;&gt; bin(y);
+
+  BOOST_ASSERT(x == y);
+
   return 0;
 }</pre>
 </blockquote>
-<p>On a little-endian machine, the output is:</p>
+<p>The file produced with be four bytes in length. On a big-endian machine, the 
+contents in hexadecimal are:</p>
 <blockquote>
-  <pre>41424344 DCBA</pre>
+  <pre>01020304</pre>
 </blockquote>
-<p>&nbsp;</p>
+<p>On a little-endian machine, the contents in hexadecimal are:</p>
+<blockquote>
+  <pre>04030201</pre>
+</blockquote>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->22 April, 2011<!--webbot bot="Timestamp" endspan i-checksum="29826" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->24 April, 2011<!--webbot bot="Timestamp" endspan i-checksum="29830" --></p>
 <p>© Copyright Beman Dawes,  2009, 2011</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
