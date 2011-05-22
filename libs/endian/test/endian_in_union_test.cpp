@@ -11,10 +11,11 @@
 
 #define BOOST_ENDIAN_FORCE_PODNESS
 
-#include <boost/integer/endian.hpp>
+#include <boost/endian/integers.hpp>
+#include <boost/detail/lightweight_main.hpp>
 #include <cassert>
 
-using namespace boost::integer;
+using namespace boost::endian;
 
 union U
 {
@@ -75,7 +76,7 @@ union U
 
 U foo;
 
-int main()
+int cpp_main(int, char * [])
 {
 
   return 0;

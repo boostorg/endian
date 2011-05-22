@@ -27,7 +27,7 @@
 
 namespace boost
 {
-  namespace integer
+  namespace endian
   {
 
   // A class that adds integer operators to an integer cover class
@@ -105,7 +105,7 @@ namespace boost
         }
 #   endif
     };
-  } // namespace integer
+  } // namespace endian
 } // namespace boost
 
 #endif // BOOST_INTEGER_COVER_OPERATORS_HPP

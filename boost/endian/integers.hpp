@@ -33,7 +33,7 @@
 #include <boost/detail/endian.hpp>
 #define BOOST_MINIMAL_INTEGER_COVER_OPERATORS
 #define BOOST_NO_IO_COVER_OPERATORS
-#include <boost/integer/cover_operators.hpp>
+#include <boost/endian/cover_operators.hpp>
 #undef  BOOST_NO_IO_COVER_OPERATORS
 #undef  BOOST_MINIMAL_INTEGER_COVER_OPERATORS
 #include <boost/type_traits/is_signed.hpp>
@@ -148,7 +148,7 @@ namespace boost
 
   } // namespace detail
 
-  namespace integer
+  namespace endian
   {
 
 # ifdef BOOST_ENDIAN_LOG
@@ -421,7 +421,7 @@ namespace boost
     typedef endian< endianness::little, uint64_t, 64, alignment::aligned >  aligned_ulittle64_t;
 # endif
 
-  } // namespace integer
+  } // namespace endian
 } // namespace boost
 
 #if defined(__BORLANDC__) || defined( __CODEGEARC__)

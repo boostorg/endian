@@ -14,9 +14,10 @@
 #include <iostream>
 #include <cassert>
 #include <cstdio>
-#include <boost/integer/endian.hpp>
+#include <boost/endian/integers.hpp>
+#include <boost/detail/lightweight_main.hpp>
 
-using namespace boost::integer;
+using namespace boost::endian;
 
 namespace 
 {
@@ -36,7 +37,7 @@ namespace
   const char * filename = "test.dat";
 }
 
-int main()
+int cpp_main(int, char * [])
 {
   assert( sizeof( header ) == 16 );  // requirement for interoperability
   

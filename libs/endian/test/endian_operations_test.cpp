@@ -18,11 +18,12 @@
 
 #define BOOST_ENDIAN_LOG
 
-#include <boost/integer/endian.hpp>
+#include <boost/endian/integers.hpp>
+#include <boost/detail/lightweight_main.hpp>
 #include <cassert>
 #include <iostream>
 
-namespace bi = boost::integer;
+namespace be = boost::endian;
 
 #ifdef _MSC_VER
 # pragma warning( disable : 4244 )  // conversion ..., possible loss of data
@@ -127,8 +128,8 @@ void op_test_aux()
 #ifdef BOOST_SHORT_ENDIAN_TEST
   Test<T1, int>::test();
   Test<T1, unsigned int>::test();
-  Test<T1, bi::big16_t>::test();
-  Test<T1, bi::ubig64_t>::test();
+  Test<T1, be::big16_t>::test();
+  Test<T1, be::ubig64_t>::test();
 #else
   Test<T1, char>::test();
   Test<T1, unsigned char>::test();
@@ -141,54 +142,54 @@ void op_test_aux()
   Test<T1, unsigned long>::test();
   Test<T1, long long>::test();
   Test<T1, unsigned long long>::test();
-  Test<T1, bi::big8_t>::test();
-  Test<T1, bi::big16_t>::test();
-  Test<T1, bi::big24_t>::test();
-  Test<T1, bi::big32_t>::test();
-  Test<T1, bi::big40_t>::test();
-  Test<T1, bi::big48_t>::test();
-  Test<T1, bi::big56_t>::test();
-  Test<T1, bi::big64_t>::test();
-  Test<T1, bi::ubig8_t>::test();
-  Test<T1, bi::ubig16_t>::test();
-  Test<T1, bi::ubig24_t>::test();
-  Test<T1, bi::ubig32_t>::test();
-  Test<T1, bi::ubig40_t>::test();
-  Test<T1, bi::ubig48_t>::test();
-  Test<T1, bi::ubig56_t>::test();
-  Test<T1, bi::ubig64_t>::test();
-  Test<T1, bi::little8_t>::test();
-  Test<T1, bi::little16_t>::test();
-  Test<T1, bi::little24_t>::test();
-  Test<T1, bi::little32_t>::test();
-  Test<T1, bi::little40_t>::test();
-  Test<T1, bi::little48_t>::test();
-  Test<T1, bi::little56_t>::test();
-  Test<T1, bi::little64_t>::test();
-  Test<T1, bi::ulittle8_t>::test();
-  Test<T1, bi::ulittle16_t>::test();
-  Test<T1, bi::ulittle24_t>::test();
-  Test<T1, bi::ulittle32_t>::test();
-  Test<T1, bi::ulittle40_t>::test();
-  Test<T1, bi::ulittle48_t>::test();
-  Test<T1, bi::ulittle56_t>::test();
-  Test<T1, bi::ulittle64_t>::test();
-  Test<T1, bi::native8_t>::test();
-  Test<T1, bi::native16_t>::test();
-  Test<T1, bi::native24_t>::test();
-  Test<T1, bi::native32_t>::test();
-  Test<T1, bi::native40_t>::test();
-  Test<T1, bi::native48_t>::test();
-  Test<T1, bi::native56_t>::test();
-  Test<T1, bi::native64_t>::test();
-  Test<T1, bi::unative8_t>::test();
-  Test<T1, bi::unative16_t>::test();
-  Test<T1, bi::unative24_t>::test();
-  Test<T1, bi::unative32_t>::test();
-  Test<T1, bi::unative40_t>::test();
-  Test<T1, bi::unative48_t>::test();
-  Test<T1, bi::unative56_t>::test();
-  Test<T1, bi::unative64_t>::test();
+  Test<T1, be::big8_t>::test();
+  Test<T1, be::big16_t>::test();
+  Test<T1, be::big24_t>::test();
+  Test<T1, be::big32_t>::test();
+  Test<T1, be::big40_t>::test();
+  Test<T1, be::big48_t>::test();
+  Test<T1, be::big56_t>::test();
+  Test<T1, be::big64_t>::test();
+  Test<T1, be::ubig8_t>::test();
+  Test<T1, be::ubig16_t>::test();
+  Test<T1, be::ubig24_t>::test();
+  Test<T1, be::ubig32_t>::test();
+  Test<T1, be::ubig40_t>::test();
+  Test<T1, be::ubig48_t>::test();
+  Test<T1, be::ubig56_t>::test();
+  Test<T1, be::ubig64_t>::test();
+  Test<T1, be::little8_t>::test();
+  Test<T1, be::little16_t>::test();
+  Test<T1, be::little24_t>::test();
+  Test<T1, be::little32_t>::test();
+  Test<T1, be::little40_t>::test();
+  Test<T1, be::little48_t>::test();
+  Test<T1, be::little56_t>::test();
+  Test<T1, be::little64_t>::test();
+  Test<T1, be::ulittle8_t>::test();
+  Test<T1, be::ulittle16_t>::test();
+  Test<T1, be::ulittle24_t>::test();
+  Test<T1, be::ulittle32_t>::test();
+  Test<T1, be::ulittle40_t>::test();
+  Test<T1, be::ulittle48_t>::test();
+  Test<T1, be::ulittle56_t>::test();
+  Test<T1, be::ulittle64_t>::test();
+  Test<T1, be::native8_t>::test();
+  Test<T1, be::native16_t>::test();
+  Test<T1, be::native24_t>::test();
+  Test<T1, be::native32_t>::test();
+  Test<T1, be::native40_t>::test();
+  Test<T1, be::native48_t>::test();
+  Test<T1, be::native56_t>::test();
+  Test<T1, be::native64_t>::test();
+  Test<T1, be::unative8_t>::test();
+  Test<T1, be::unative16_t>::test();
+  Test<T1, be::unative24_t>::test();
+  Test<T1, be::unative32_t>::test();
+  Test<T1, be::unative40_t>::test();
+  Test<T1, be::unative48_t>::test();
+  Test<T1, be::unative56_t>::test();
+  Test<T1, be::unative64_t>::test();
 #endif
 }
 
@@ -198,9 +199,9 @@ void op_test()
 #ifdef BOOST_SHORT_ENDIAN_TEST
   op_test_aux<Test, unsigned short>();
   op_test_aux<Test, int>();
-  op_test_aux<Test, bi::big32_t>();
-  op_test_aux<Test, bi::ubig32_t>();
-  op_test_aux<Test, bi::little48_t>();
+  op_test_aux<Test, be::big32_t>();
+  op_test_aux<Test, be::ubig32_t>();
+  op_test_aux<Test, be::little48_t>();
 #else
   op_test_aux<Test, char>();
   op_test_aux<Test, unsigned char>();
@@ -213,79 +214,79 @@ void op_test()
   op_test_aux<Test, unsigned long>();
   op_test_aux<Test, long long>();
   op_test_aux<Test, unsigned long long>();
-  op_test_aux<Test, bi::big8_t>();
-  op_test_aux<Test, bi::big16_t>();
-  op_test_aux<Test, bi::big24_t>();
-  op_test_aux<Test, bi::big32_t>();
-  op_test_aux<Test, bi::big40_t>();
-  op_test_aux<Test, bi::big48_t>();
-  op_test_aux<Test, bi::big56_t>();
-  op_test_aux<Test, bi::big64_t>();
-  op_test_aux<Test, bi::ubig8_t>();
-  op_test_aux<Test, bi::ubig16_t>();
-  op_test_aux<Test, bi::ubig24_t>();
-  op_test_aux<Test, bi::ubig32_t>();
-  op_test_aux<Test, bi::ubig40_t>();
-  op_test_aux<Test, bi::ubig48_t>();
-  op_test_aux<Test, bi::ubig56_t>();
-  op_test_aux<Test, bi::ubig64_t>();
-  op_test_aux<Test, bi::little8_t>();
-  op_test_aux<Test, bi::little16_t>();
-  op_test_aux<Test, bi::little24_t>();
-  op_test_aux<Test, bi::little32_t>();
-  op_test_aux<Test, bi::little40_t>();
-  op_test_aux<Test, bi::little48_t>();
-  op_test_aux<Test, bi::little56_t>();
-  op_test_aux<Test, bi::little64_t>();
-  op_test_aux<Test, bi::ulittle8_t>();
-  op_test_aux<Test, bi::ulittle16_t>();
-  op_test_aux<Test, bi::ulittle24_t>();
-  op_test_aux<Test, bi::ulittle32_t>();
-  op_test_aux<Test, bi::ulittle40_t>();
-  op_test_aux<Test, bi::ulittle48_t>();
-  op_test_aux<Test, bi::ulittle56_t>();
-  op_test_aux<Test, bi::ulittle64_t>();
-  op_test_aux<Test, bi::native8_t>();
-  op_test_aux<Test, bi::native16_t>();
-  op_test_aux<Test, bi::native24_t>();
-  op_test_aux<Test, bi::native32_t>();
-  op_test_aux<Test, bi::native40_t>();
-  op_test_aux<Test, bi::native48_t>();
-  op_test_aux<Test, bi::native56_t>();
-  op_test_aux<Test, bi::native64_t>();
-  op_test_aux<Test, bi::unative8_t>();
-  op_test_aux<Test, bi::unative16_t>();
-  op_test_aux<Test, bi::unative24_t>();
-  op_test_aux<Test, bi::unative32_t>();
-  op_test_aux<Test, bi::unative40_t>();
-  op_test_aux<Test, bi::unative48_t>();
-  op_test_aux<Test, bi::unative56_t>();
-  op_test_aux<Test, bi::unative64_t>();
+  op_test_aux<Test, be::big8_t>();
+  op_test_aux<Test, be::big16_t>();
+  op_test_aux<Test, be::big24_t>();
+  op_test_aux<Test, be::big32_t>();
+  op_test_aux<Test, be::big40_t>();
+  op_test_aux<Test, be::big48_t>();
+  op_test_aux<Test, be::big56_t>();
+  op_test_aux<Test, be::big64_t>();
+  op_test_aux<Test, be::ubig8_t>();
+  op_test_aux<Test, be::ubig16_t>();
+  op_test_aux<Test, be::ubig24_t>();
+  op_test_aux<Test, be::ubig32_t>();
+  op_test_aux<Test, be::ubig40_t>();
+  op_test_aux<Test, be::ubig48_t>();
+  op_test_aux<Test, be::ubig56_t>();
+  op_test_aux<Test, be::ubig64_t>();
+  op_test_aux<Test, be::little8_t>();
+  op_test_aux<Test, be::little16_t>();
+  op_test_aux<Test, be::little24_t>();
+  op_test_aux<Test, be::little32_t>();
+  op_test_aux<Test, be::little40_t>();
+  op_test_aux<Test, be::little48_t>();
+  op_test_aux<Test, be::little56_t>();
+  op_test_aux<Test, be::little64_t>();
+  op_test_aux<Test, be::ulittle8_t>();
+  op_test_aux<Test, be::ulittle16_t>();
+  op_test_aux<Test, be::ulittle24_t>();
+  op_test_aux<Test, be::ulittle32_t>();
+  op_test_aux<Test, be::ulittle40_t>();
+  op_test_aux<Test, be::ulittle48_t>();
+  op_test_aux<Test, be::ulittle56_t>();
+  op_test_aux<Test, be::ulittle64_t>();
+  op_test_aux<Test, be::native8_t>();
+  op_test_aux<Test, be::native16_t>();
+  op_test_aux<Test, be::native24_t>();
+  op_test_aux<Test, be::native32_t>();
+  op_test_aux<Test, be::native40_t>();
+  op_test_aux<Test, be::native48_t>();
+  op_test_aux<Test, be::native56_t>();
+  op_test_aux<Test, be::native64_t>();
+  op_test_aux<Test, be::unative8_t>();
+  op_test_aux<Test, be::unative16_t>();
+  op_test_aux<Test, be::unative24_t>();
+  op_test_aux<Test, be::unative32_t>();
+  op_test_aux<Test, be::unative40_t>();
+  op_test_aux<Test, be::unative48_t>();
+  op_test_aux<Test, be::unative56_t>();
+  op_test_aux<Test, be::unative64_t>();
 #endif
 }
 
 //  main  ------------------------------------------------------------------------------//
 
-int main()
+int cpp_main(int, char * [])
 {
-  bi::endian_log = false;
+  be::endian_log = false;
 
   //  make sure some simple things work
 
-  bi::big32_t o1(1);
-  bi::big32_t o2(2L);
-  bi::big32_t o3(3LL);
-  bi::big64_t o4(1);
+  be::big32_t o1(1);
+  be::big32_t o2(2L);
+  be::big32_t o3(3LL);
+  be::big64_t o4(1);
 
   //  use cases; if BOOST_ENDIAN_LOG is defined, will output to clog info on
   //  what overloads and conversions are actually being performed.
 
-  bi::endian_log = true;
+  be::endian_log = true;
 
   std::clog << "set up test values\n";
-  bi::big32_t      big(12345);
-  bi::ulittle16_t  ulittle(10);
-  bi::big64_t      result;
+  be::big32_t      big(12345);
+  be::ulittle16_t  ulittle(10);
+  be::big64_t      result;
 
 
   std::clog << "\nresult = +big\n";
@@ -340,19 +341,19 @@ int main()
   result = 5 * 10;
   std::clog << "\n";
 
-  bi::endian_log = false;
+  be::endian_log = false;
 
   //  test from Roland Schwarz that detected ambiguities
   unsigned u;
-  bi::ulittle32_t u1;
-  bi::ulittle32_t u2;
+  be::ulittle32_t u1;
+  be::ulittle32_t u2;
 
   u = 1;
   u1 = 1;
   u2 = u1 + u;
 
   //  one more wrinkle
-  bi::ulittle16_t u3(3);
+  be::ulittle16_t u3(3);
   u3 = 3;
   u2 = u1 + u3;
     

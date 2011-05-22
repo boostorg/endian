@@ -16,9 +16,10 @@
 
 //----------------------------------------------------------------------------//
 
-#include <boost/integer/endian.hpp>
+#include <boost/endian/integers.hpp>
 #include <boost/cstdint.hpp>
 #include <boost/progress.hpp>
+#include <boost/detail/lightweight_main.hpp>
 
 #include <iostream>
 #include <limits>
@@ -28,7 +29,7 @@
 
 using namespace std;             // Not the best programming practice, but I
 using namespace boost;           //   want to verify this combination of using
-using namespace boost::integer;  //   namespaces works. See endian_operations_test
+using namespace boost::endian;   //   namespaces works. See endian_operations_test
 //                               //   for tests that don't do "using namespace".
 
 #define VERIFY(predicate) verify( predicate, __LINE__ )
@@ -720,7 +721,7 @@ namespace
 
 //  main  ------------------------------------------------------------------------------//
 
-int main( int argc, char * argv[] )
+int cpp_main( int argc, char * argv[] )
 {
   cout << "Usage: "
        << argv[0] << " [#],\n where # specifies iteration count\n"
