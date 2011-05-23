@@ -7,13 +7,15 @@
 
 //  See library home page at http://www.boost.org/libs/endian
 
-#include <boost/integer/endian.hpp>
-#include <boost/integer/endian_binary_stream.hpp>
+#include <boost/endian/detail/disable_warnings.hpp>
+
+#include <boost/endian/integers.hpp>
+#include <boost/endian/endian_binary_stream.hpp>
 #include <boost/binary_stream.hpp>
 #include <iostream>
 
 using namespace boost;
-using namespace boost::integer;
+using namespace boost::endian;
 
 int main()
 {

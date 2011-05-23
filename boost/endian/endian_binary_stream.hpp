@@ -10,7 +10,7 @@
 #ifndef BOOST_ENDIAN_BINARY_STREAM_HPP
 #define BOOST_ENDIAN_BINARY_STREAM_HPP
 
-#include <boost/integer/endian.hpp>
+#include <boost/endian/integers.hpp>
 #include <boost/utility/enable_if.hpp>
 #include <ostream>
 #include <istream>
@@ -36,7 +36,7 @@
 
 namespace boost
 {
-  namespace integer
+  namespace endian
   {
      template< class T > struct is_endian { static const bool value = false; };
 

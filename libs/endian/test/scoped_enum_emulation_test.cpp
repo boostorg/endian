@@ -7,6 +7,8 @@
 
 //  See documentation at http://www.boost.org/libs/utility/scoped_enum_emulation.html
 
+#include <boost/endian/detail/disable_warnings.hpp>
+
 #include <boost/detail/scoped_enum_emulation.hpp>
 #include <boost/assert.hpp>
 
@@ -37,6 +39,8 @@ int main()
 
   color tracker;
   tracker.value = color::value_t::blue;
+
+  if (tracker.value  == color::value_t::blue) return 0; // quiet warnings
 
   return 0;
 }

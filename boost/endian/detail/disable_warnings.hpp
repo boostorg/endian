@@ -20,4 +20,5 @@
 # pragma warning( disable : 4514 )  // ... unreferenced inline function has been removed
 # pragma warning( disable : 4710 )  // ... function not inlined
 # pragma warning( disable : 4986 )  // ... exception specification does not match previous declaration
+# pragma warning( disable : 4711 )  // ... selected for automatic inline expansion
 #endif

@@ -7,6 +7,8 @@
 
 //--------------------------------------------------------------------------------------//
 
+#include <boost/endian/detail/disable_warnings.hpp>
+
 #include <boost/endian/conversion.hpp>
 #include <boost/detail/lightweight_main.hpp>
 #include <boost/detail/lightweight_test.hpp>
@@ -21,17 +23,17 @@ namespace
   {
     std::cout << "test_in_place_flip...\n";
 
-    boost::int64_t i64 = 0x0102030405060708;
+    boost::int64_t i64 = 0x0102030405060708LL;
     be::flip(i64);
-    BOOST_TEST_EQ(i64, 0x0807060504030201);
+    BOOST_TEST_EQ(i64, 0x0807060504030201LL);
     be::flip(i64);
-    BOOST_TEST_EQ(i64, 0x0102030405060708);
+    BOOST_TEST_EQ(i64, 0x0102030405060708LL);
 
-    i64 = 0xfefdfcfbfaf9f8f7;
+    i64 = 0xfefdfcfbfaf9f8f7LL;
     be::flip(i64);
-    BOOST_TEST_EQ(i64, static_cast<boost::int64_t>(0xf7f8f9fafbfcfdfe));
+    BOOST_TEST_EQ(i64, static_cast<boost::int64_t>(0xf7f8f9fafbfcfdfeULL));
     be::flip(i64);
-    BOOST_TEST_EQ(i64, static_cast<boost::int64_t>(0xfefdfcfbfaf9f8f7));
+    BOOST_TEST_EQ(i64, static_cast<boost::int64_t>(0xfefdfcfbfaf9f8f7ULL));
 
     boost::int32_t i32 = 0x01020304;
     be::flip(i32);
@@ -57,11 +59,11 @@ namespace
     be::flip(i16);
     BOOST_TEST_EQ(i16, static_cast<boost::int16_t>(static_cast<boost::uint16_t>(0xfefd)));
 
-    boost::uint64_t ui64 = 0x0102030405060708;
+    boost::uint64_t ui64 = 0x0102030405060708ULL;
     be::flip(ui64);
-    BOOST_TEST_EQ(ui64, static_cast<boost::uint64_t>(0x0807060504030201));
+    BOOST_TEST_EQ(ui64, 0x0807060504030201ULL);
     be::flip(ui64);
-    BOOST_TEST_EQ(ui64, static_cast<boost::uint64_t>(0x0102030405060708));
+    BOOST_TEST_EQ(ui64, 0x0102030405060708ULL);
 
     boost::uint32_t ui32 = 0x01020304;
     be::flip(ui32);
@@ -73,7 +75,7 @@ namespace
     be::flip(ui16);
     BOOST_TEST_EQ(ui16, 0x0201);
     be::flip(ui16);
-    BOOST_TEST_EQ(ui16, 0x0102);
+    BOOST_TEST_EQ(ui16, static_cast<boost::uint16_t>(0x0102));
     
     std::cout << "  test_in_place_flip complete\n";
   }
@@ -82,18 +84,18 @@ namespace
   {
     std::cout << "test_copying_flip...\n";
 
-    boost::int64_t i64 = 0x0102030405060708, j64, k64;
+    boost::int64_t i64 = 0x0102030405060708LL, j64, k64;
     be::flip(i64, j64);
-    BOOST_TEST_EQ(j64, 0x0807060504030201);
-    BOOST_TEST_EQ(i64, 0x0102030405060708);
+    BOOST_TEST_EQ(j64, 0x0807060504030201LL);
+    BOOST_TEST_EQ(i64, 0x0102030405060708LL);
     be::flip(j64, k64);
-    BOOST_TEST_EQ(k64, 0x0102030405060708);
+    BOOST_TEST_EQ(k64, 0x0102030405060708LL);
 
-    i64 = 0xfefdfcfbfaf9f8f7;
+    i64 = 0xfefdfcfbfaf9f8f7LL;
     be::flip(i64, j64);
-    BOOST_TEST_EQ(j64, static_cast<boost::int64_t>(0xf7f8f9fafbfcfdfe));
+    BOOST_TEST_EQ(j64, static_cast<boost::int64_t>(0xf7f8f9fafbfcfdfeLL));
     be::flip(j64, k64);
-    BOOST_TEST_EQ(k64, static_cast<boost::int64_t>(0xfefdfcfbfaf9f8f7));
+    BOOST_TEST_EQ(k64, static_cast<boost::int64_t>(0xfefdfcfbfaf9f8f7LL));
 
     boost::int32_t i32 = 0x01020304, j32, k32;
     be::flip(i32, j32);
@@ -113,17 +115,17 @@ namespace
     be::flip(j16, k16);
     BOOST_TEST_EQ(k16, 0x0102);
 
-    i16 = static_cast<boost::int16_t>(static_cast<boost::uint16_t>(0xfefd)), j16, k16;
+    i16 = static_cast<boost::int16_t>(static_cast<boost::uint16_t>(0xfefd));
     be::flip(i16, j16);
     BOOST_TEST_EQ(j16, static_cast<boost::int16_t>(static_cast<boost::uint16_t>(0xfdfe)));
     be::flip(j16, k16);
     BOOST_TEST_EQ(k16, static_cast<boost::int16_t>(static_cast<boost::uint16_t>(0xfefd)));
 
-    boost::uint64_t ui64 = 0x0102030405060708, uj64, uk64;
+    boost::uint64_t ui64 = 0x0102030405060708ULL, uj64, uk64;
     be::flip(ui64, uj64);
-    BOOST_TEST_EQ(uj64, static_cast<boost::uint64_t>(0x0807060504030201));
+    BOOST_TEST_EQ(uj64, 0x0807060504030201ULL);
     be::flip(uj64, uk64);
-    BOOST_TEST_EQ(uk64, static_cast<boost::uint64_t>(0x0102030405060708));
+    BOOST_TEST_EQ(uk64, 0x0102030405060708ULL);
 
     boost::uint32_t ui32 = 0x01020304, uj32, uk32;
     be::flip(ui32, uj32);
@@ -140,13 +142,13 @@ namespace
     std::cout << "  test_copying_flip complete\n";
   }
 
-  const boost::int64_t ni64 = 0x0102030405060708;
+  const boost::int64_t ni64 = 0x0102030405060708LL;
 # ifdef BOOST_BIG_ENDIAN
-  const boost::int64_t bi64 = 0x0102030405060708;
-  const boost::int64_t li64 = 0x0807060504030201;
+  const boost::int64_t bi64 = 0x0102030405060708LL;
+  const boost::int64_t li64 = 0x0807060504030201LL;
 # else
-  const boost::int64_t bi64 = 0x0807060504030201;
-  const boost::int64_t li64 = 0x0102030405060708;
+  const boost::int64_t bi64 = 0x0807060504030201LL;
+  const boost::int64_t li64 = 0x0102030405060708LL;
 # endif
 
   const boost::int32_t ni32 = 0x01020304;
@@ -167,13 +169,13 @@ namespace
   const boost::int16_t li16 = 0x0102;
 # endif
 
-  const boost::uint64_t nui64 = 0x0102030405060708;
+  const boost::uint64_t nui64 = 0x0102030405060708ULL;
 # ifdef BOOST_BIG_ENDIAN
-  const boost::uint64_t bui64 = 0x0102030405060708;
-  const boost::uint64_t lui64 = 0x0807060504030201;
+  const boost::uint64_t bui64 = 0x0102030405060708ULL;
+  const boost::uint64_t lui64 = 0x0807060504030201ULL;
 # else
-  const boost::uint64_t bui64 = 0x0807060504030201;
-  const boost::uint64_t lui64 = 0x0102030405060708;
+  const boost::uint64_t bui64 = 0x0807060504030201ULL;
+  const boost::uint64_t lui64 = 0x0102030405060708ULL;
 # endif
 
   const boost::uint32_t nui32 = 0x01020304;
@@ -332,11 +334,11 @@ namespace
     be::flip(i16);
     BOOST_TEST_EQ(i16, static_cast<boost::int16_t>(static_cast<boost::uint16_t>(0xfefd)));
 
-    ui64 = 0x0102030405060708;
+    ui64 = 0x0102030405060708ULL;
     be::flip(ui64);
-    BOOST_TEST_EQ(ui64, static_cast<boost::uint64_t>(0x0807060504030201));
+    BOOST_TEST_EQ(ui64, static_cast<boost::uint64_t>(0x0807060504030201ULL));
     be::flip(ui64);
-    BOOST_TEST_EQ(ui64, static_cast<boost::uint64_t>(0x0102030405060708));
+    BOOST_TEST_EQ(ui64, static_cast<boost::uint64_t>(0x0102030405060708ULL));
 
     ui32 = 0x01020304;
     be::flip(ui32);
@@ -364,3 +366,5 @@ int cpp_main(int, char * [])
 
   return ::boost::report_errors();
 }
+
+#include <boost/endian/detail/disable_warnings_pop.hpp>

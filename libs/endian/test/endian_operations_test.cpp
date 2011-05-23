@@ -17,6 +17,9 @@
 //----------------------------------------------------------------------------//
 
 #define BOOST_ENDIAN_LOG
+#define BOOST_SHORT_ENDIAN_TEST 1
+
+#include <boost/endian/detail/disable_warnings.hpp>
 
 #include <boost/endian/integers.hpp>
 #include <boost/detail/lightweight_main.hpp>
@@ -36,7 +39,8 @@ struct default_construct
   static void test()
   {
     T1 o1;
-    o1 = 1; // quiet warnings
+    o1 = 1;         // quiet warnings
+    if (o1) return; // quiet warnings
   }
 };
 
@@ -71,6 +75,7 @@ struct assign
     o2 = 1;
     T1 o1;
     o1 = o2;
+    if (o1) return; // quiet warnings
   }
 };
 
@@ -104,6 +109,8 @@ struct op_plus
     o3 = o1 + o2;
 
     o1 += o2;
+
+    if (o3) return; // quiet warnings
   }
 };
 
@@ -119,6 +126,8 @@ struct op_star
     o3 = o1 * o2;
 
     o1 *= o2;
+
+    if (o3) return; // quiet warnings
   }
 };
 

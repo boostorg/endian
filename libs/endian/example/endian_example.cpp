@@ -11,10 +11,12 @@
 
 #define _CRT_SECURE_NO_DEPRECATE  // quiet VC++ 8.0 foolishness
 
+#include <boost/endian/detail/disable_warnings.hpp>
+
 #include <iostream>
-#include <cassert>
 #include <cstdio>
 #include <boost/endian/integers.hpp>
+#include <boost/detail/lightweight_test.hpp>
 #include <boost/detail/lightweight_main.hpp>
 
 using namespace boost::endian;
@@ -39,7 +41,7 @@ namespace
 
 int cpp_main(int, char * [])
 {
-  assert( sizeof( header ) == 16 );  // requirement for interoperability
+  BOOST_TEST_EQ( sizeof( header ), 16U );  // requirement for interoperability
   
   header h;
 
@@ -54,9 +56,9 @@ int cpp_main(int, char * [])
   //  point that endian integers are often used in fairly low-level code that
   //  does bulk I/O operations, <cstdio> fopen/fwrite is used for I/O in this example.
 
-  std::FILE * fi;
+  std::FILE * fi = std::fopen( filename, "wb" );  // MUST BE BINARY
   
-  if ( !(fi = std::fopen( filename, "wb" )) )  // MUST BE BINARY
+  if ( !fi )
   {
     std::cout << "could not open " << filename << '\n';
     return 1;
@@ -71,5 +73,6 @@ int cpp_main(int, char * [])
   std::fclose( fi );
 
   std::cout << "created file " << filename << '\n';
-  return 0;
+
+  return ::boost::report_errors();
 }

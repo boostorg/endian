@@ -11,6 +11,8 @@
 
 #define BOOST_ENDIAN_FORCE_PODNESS
 
+#include <boost/endian/detail/disable_warnings.hpp>
+
 #include <boost/endian/integers.hpp>
 #include <boost/detail/lightweight_main.hpp>
 #include <cassert>

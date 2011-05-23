@@ -16,6 +16,8 @@
 
 //----------------------------------------------------------------------------//
 
+#include <boost/endian/detail/disable_warnings.hpp>
+
 #include <boost/endian/integers.hpp>
 #include <boost/cstdint.hpp>
 #include <boost/progress.hpp>
@@ -539,7 +541,7 @@ namespace
     VERIFY_VALUE_AND_OPS( ubig56_t, uint_least64_t, 0xffffffffffffffLL );
 
     VERIFY_BIG_REPRESENTATION( ubig64_t );
-    VERIFY_VALUE_AND_OPS( ubig64_t, uint_least64_t, 0xffffffffffffffffLL );
+    VERIFY_VALUE_AND_OPS( ubig64_t, uint_least64_t, 0xffffffffffffffffULL );
 
     VERIFY_LITTLE_REPRESENTATION( little8_t );
     VERIFY_VALUE_AND_OPS( little8_t, int_least8_t,   0x7f );
@@ -595,7 +597,7 @@ namespace
     VERIFY_VALUE_AND_OPS( ulittle56_t, uint_least64_t, 0xffffffffffffffLL );
 
     VERIFY_LITTLE_REPRESENTATION( ulittle64_t );
-    VERIFY_VALUE_AND_OPS( ulittle64_t, uint_least64_t, 0xffffffffffffffffLL );
+    VERIFY_VALUE_AND_OPS( ulittle64_t, uint_least64_t, 0xffffffffffffffffULL );
 
     VERIFY_NATIVE_REPRESENTATION( native8_t );
     VERIFY_VALUE_AND_OPS( native8_t, int_least8_t,   0x7f );
@@ -651,7 +653,7 @@ namespace
     VERIFY_VALUE_AND_OPS( unative56_t, uint_least64_t, 0xffffffffffffffLL );
 
     VERIFY_NATIVE_REPRESENTATION( unative64_t );
-    VERIFY_VALUE_AND_OPS( unative64_t, uint_least64_t, 0xffffffffffffffffLL );
+    VERIFY_VALUE_AND_OPS( unative64_t, uint_least64_t, 0xffffffffffffffffULL );
 
     VERIFY_BIG_REPRESENTATION( aligned_big16_t );
     VERIFY_VALUE_AND_OPS( aligned_big16_t, int_least16_t,  0x7fff );
@@ -672,7 +674,7 @@ namespace
     VERIFY_VALUE_AND_OPS( aligned_ubig32_t, uint_least32_t, 0xffffffff );
 
     VERIFY_BIG_REPRESENTATION( aligned_ubig64_t );
-    VERIFY_VALUE_AND_OPS( aligned_ubig64_t, uint_least64_t, 0xffffffffffffffffLL );
+    VERIFY_VALUE_AND_OPS( aligned_ubig64_t, uint_least64_t, 0xffffffffffffffffULL );
 
     VERIFY_LITTLE_REPRESENTATION( aligned_little16_t );
     VERIFY_VALUE_AND_OPS( aligned_little16_t, int_least16_t,  0x7fff );
@@ -693,7 +695,7 @@ namespace
     VERIFY_VALUE_AND_OPS( aligned_ulittle32_t, uint_least32_t, 0xffffffff );
 
     VERIFY_LITTLE_REPRESENTATION( aligned_ulittle64_t );
-    VERIFY_VALUE_AND_OPS( aligned_ulittle64_t, uint_least64_t, 0xffffffffffffffffLL );
+    VERIFY_VALUE_AND_OPS( aligned_ulittle64_t, uint_least64_t, 0xffffffffffffffffULL );
 
   } // check_representation_and_range
 
