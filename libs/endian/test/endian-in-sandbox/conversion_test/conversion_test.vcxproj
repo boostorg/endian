@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\endian_flip_test.cpp" />
+    <ClCompile Include="..\..\conversion_test.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9FA33B0B-2B00-49E8-A892-E049D86076A9}</ProjectGuid>

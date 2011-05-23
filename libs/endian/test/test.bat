@@ -1,7 +1,8 @@
 @echo off
 echo Special version of boost_test for sandbox version of endian library.
-xcopy /D %BOOST_TRUNK%\boost-build.jam ..\..\..
-xcopy /D %BOOST_TRUNK%\Jamroot ..\..\..
+xcopy /D %BOOST_TRUNK%\boost-build.jam ..\..\..\..
+xcopy /D %BOOST_TRUNK%\boostcpp.jam ..\..\..\..
+xcopy /D %BOOST_TRUNK%\Jamroot ..\..\..\..
 set BOOST_BUILD_PATH=%BOOST_TRUNK%\tools\build\v2
 
 if not $%1==$--help goto nohelp

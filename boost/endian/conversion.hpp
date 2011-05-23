@@ -137,7 +137,7 @@ namespace endian
     const char* s (reinterpret_cast<const char*>(&source));
     char * t (reinterpret_cast<char*>(&target) + sizeof(target) - 1);
     *t = *s;
-    *++t = *++s;
+    *--t = *++s;
   }
 
   inline void flip(int32_t source, int32_t& target)
@@ -145,9 +145,9 @@ namespace endian
     const char* s (reinterpret_cast<const char*>(&source));
     char * t (reinterpret_cast<char*>(&target) + sizeof(target) - 1);
     *t = *s;
-    *++t = *++s;
-    *++t = *++s;
-    *++t = *++s;
+    *--t = *++s;
+    *--t = *++s;
+    *--t = *++s;
   }
 
   inline void flip(int64_t source, int64_t& target)
@@ -155,13 +155,13 @@ namespace endian
     const char* s (reinterpret_cast<const char*>(&source));
     char * t (reinterpret_cast<char*>(&target) + sizeof(target) - 1);
     *t = *s;
-    *++t = *++s;
-    *++t = *++s;
-    *++t = *++s;
-    *++t = *++s;
-    *++t = *++s;
-    *++t = *++s;
-    *++t = *++s;
+    *--t = *++s;
+    *--t = *++s;
+    *--t = *++s;
+    *--t = *++s;
+    *--t = *++s;
+    *--t = *++s;
+    *--t = *++s;
   }
 
   inline void flip(uint16_t source, uint16_t& target)
@@ -169,7 +169,7 @@ namespace endian
     const char* s (reinterpret_cast<const char*>(&source));
     char * t (reinterpret_cast<char*>(&target) + sizeof(target) - 1);
     *t = *s;
-    *++t = *++s;
+    *--t = *++s;
   }
 
   inline void flip(uint32_t source, uint32_t& target)
@@ -177,9 +177,9 @@ namespace endian
     const char* s (reinterpret_cast<const char*>(&source));
     char * t (reinterpret_cast<char*>(&target) + sizeof(target) - 1);
     *t = *s;
-    *++t = *++s;
-    *++t = *++s;
-    *++t = *++s;
+    *--t = *++s;
+    *--t = *++s;
+    *--t = *++s;
   }
 
   inline void flip(uint64_t source, uint64_t& target)
@@ -187,15 +187,78 @@ namespace endian
     const char* s (reinterpret_cast<const char*>(&source));
     char * t (reinterpret_cast<char*>(&target) + sizeof(target) - 1);
     *t = *s;
-    *++t = *++s;
-    *++t = *++s;
-    *++t = *++s;
-    *++t = *++s;
-    *++t = *++s;
-    *++t = *++s;
-    *++t = *++s;
+    *--t = *++s;
+    *--t = *++s;
+    *--t = *++s;
+    *--t = *++s;
+    *--t = *++s;
+    *--t = *++s;
+    *--t = *++s;
   }
 
+  template <class T> inline void to_big(T& x)
+  {
+#   ifdef BOOST_LITTLE_ENDIAN
+      flip(x);
+#   endif
+  }
+
+  template <class T> inline void to_little(T& x)
+  {
+#   ifdef BOOST_BIG_ENDIAN
+      flip(x);
+#   endif
+  }
+
+  template <class T> inline void from_big(T& x)
+  {
+#   ifdef BOOST_LITTLE_ENDIAN
+      flip(x);
+#   endif
+  }
+
+  template <class T> inline void from_little(T& x)
+  {
+#   ifdef BOOST_BIG_ENDIAN
+      flip(x);
+#   endif
+  }
+
+  template <class T> inline void to_big(T native, T& big)
+  {
+#   ifdef BOOST_LITTLE_ENDIAN
+      flip(native, big);
+#   else
+      big = native;
+#   endif
+  }
+
+  template <class T> inline void to_little(T native, T& little)
+  {
+#   ifdef BOOST_BIG_ENDIAN
+      flip(native, little);
+#   else
+      little = native;
+#   endif
+  }
+
+  template <class T> inline void from_big(T big, T& native)
+  {
+#   ifdef BOOST_LITTLE_ENDIAN
+      flip(big, native);
+#   else
+      native = big;
+#   endif
+  }
+
+  template <class T> inline void from_little(T little, T& native)
+  {
+#   ifdef BOOST_BIG_ENDIAN
+      flip(little, native);
+#   else
+      native = little;
+#   endif
+  }
 }  // namespace endian
 }  // namespace boost
 
