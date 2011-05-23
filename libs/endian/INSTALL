@@ -1,0 +1,23 @@
+To install the Boost.Endian library on either Windox or POSIX-like system
+in an fresh checkout of the Boost trunk, do the following in the
+directory where you want the install to go:
+
+  mkdir endian
+  svn co http://svn.boost.org/svn/boost/sandbox/endian endian
+  svn export --force http://svn.boost.org/svn/boost/trunk endian
+  
+To copy the library into an existing boost subversion checkout, do 
+the following, replacing "BOOST" with the path of the boost checkout: 
+
+  svn export --force http://svn.boost.org/svn/boost/sandbox/endian BOOST
+
+Boost.Endian is a header only library, so the library is ready to go
+without running a build.  
+  
+To run the tests:
+
+  cd endian/libs/endian/test
+  bjam  
+
+Copyright Beman Dawes 2011
+Distributed under the Boost Software License, Version 1.0.  See http://www.boost.org/LICENSE_1_0.txt 
