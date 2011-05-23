@@ -196,69 +196,26 @@ namespace endian
     *--t = *++s;
   }
 
-  template <class T> inline void to_big(T& x)
-  {
-#   ifdef BOOST_LITTLE_ENDIAN
-      flip(x);
-#   endif
-  }
+#ifdef BOOST_LITTLE_ENDIAN
+  template <class T> inline void to_big(T& x)  { flip(x); }
+  template <class T> inline void to_little(T&) {}
+  template <class T> inline void from_big(T& x)  { flip(x); }
+  template <class T> inline void from_little(T&) {}
+  template <class T> inline void to_big(T native, T& big) { flip(native, big); }
+  template <class T> inline void to_little(T native, T& little) { little = native; }
+  template <class T> inline void from_big(T big, T& native) { flip(big, native); }
+  template <class T> inline void from_little(T little, T& native) { native = little; }
+#else
+  template <class T> inline void to_big(T&)  {}
+  template <class T> inline void to_little(T& x) { flip(x); }
+  template <class T> inline void from_big(T&)  {}
+  template <class T> inline void from_little(T& x) { flip(x); }
+  template <class T> inline void to_big(T native, T& big) { big = native; }
+  template <class T> inline void to_little(T native, T& little) { flip(native, little); }
+  template <class T> inline void from_big(T big, T& native) { native = big; }
+  template <class T> inline void from_little(T little, T& native) { flip(little, native); }
+#endif
 
-  template <class T> inline void to_little(T& x)
-  {
-#   ifdef BOOST_BIG_ENDIAN
-      flip(x);
-#   endif
-  }
-
-  template <class T> inline void from_big(T& x)
-  {
-#   ifdef BOOST_LITTLE_ENDIAN
-      flip(x);
-#   endif
-  }
-
-  template <class T> inline void from_little(T& x)
-  {
-#   ifdef BOOST_BIG_ENDIAN
-      flip(x);
-#   endif
-  }
-
-  template <class T> inline void to_big(T native, T& big)
-  {
-#   ifdef BOOST_LITTLE_ENDIAN
-      flip(native, big);
-#   else
-      big = native;
-#   endif
-  }
-
-  template <class T> inline void to_little(T native, T& little)
-  {
-#   ifdef BOOST_BIG_ENDIAN
-      flip(native, little);
-#   else
-      little = native;
-#   endif
-  }
-
-  template <class T> inline void from_big(T big, T& native)
-  {
-#   ifdef BOOST_LITTLE_ENDIAN
-      flip(big, native);
-#   else
-      native = big;
-#   endif
-  }
-
-  template <class T> inline void from_little(T little, T& native)
-  {
-#   ifdef BOOST_BIG_ENDIAN
-      flip(little, native);
-#   else
-      native = little;
-#   endif
-  }
 }  // namespace endian
 }  // namespace boost
 
