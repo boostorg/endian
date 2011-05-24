@@ -17,9 +17,16 @@
 //----------------------------------------------------------------------------//
 
 #define BOOST_ENDIAN_LOG
-#define BOOST_SHORT_ENDIAN_TEST 1
 
 #include <boost/endian/detail/disable_warnings.hpp>
+
+#ifdef _MSC_VER
+# pragma warning( disable : 4242 )  // conversion ..., possible loss of data
+# pragma warning( disable : 4244 )  // conversion ..., possible loss of data
+# pragma warning( disable : 4018 )  // signed/unsigned mismatch
+# pragma warning( disable : 4365 )  // signed/unsigned mismatch
+# pragma warning( disable : 4389 )  // signed/unsigned mismatch
+#endif
 
 #include <boost/endian/integers.hpp>
 #include <boost/detail/lightweight_main.hpp>
@@ -27,11 +34,6 @@
 #include <iostream>
 
 namespace be = boost::endian;
-
-#ifdef _MSC_VER
-# pragma warning( disable : 4244 )  // conversion ..., possible loss of data
-# pragma warning( disable : 4018 )  // signed/unsigned mismatch
-#endif
 
 template <class T1,  class T2>
 struct default_construct

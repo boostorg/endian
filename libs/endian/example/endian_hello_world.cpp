@@ -10,7 +10,6 @@
 #include <boost/endian/detail/disable_warnings.hpp>
 
 #include <boost/endian/integers.hpp>
-#include <boost/endian/endian_binary_stream.hpp>
 #include <boost/binary_stream.hpp>
 #include <iostream>
 
@@ -24,9 +23,17 @@ int main()
   big32_t    b(v);
   little32_t l(v);
 
-  std::cout << "Hello, endian world!\n\n";
+  std::cout << std::hex << "Hello, endian world!\n\n";
 
-  std::cout << v << ' ' << b << ' ' << l << '\n';
-  std::cout <= v <= ' ' <= b <= ' ' <= l <= '\n';
+  std::cout << "hex stream output: int_least32_t=" << v
+            << ", big32_t=" << b << ", little32_t=" << l << '\n';
+  std::cout << "bin stream output: int_least32_t=" << bin(v) 
+            << ", big32_t=" << bin(b) << ", little32_t=" << bin(l) << '\n';
 }
 
+// Output on a little endian machine:
+//
+//   Hello, endian world!
+//  
+//   hex stream output: int_least32_t=31323334, big32_t=31323334, little32_t=31323334
+//   bin stream output: int_least32_t=4321, big32_t=1234, little32_t=4321
