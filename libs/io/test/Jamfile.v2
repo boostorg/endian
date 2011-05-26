@@ -23,4 +23,5 @@ test-suite "io"
         ]
         
         [ run quoted_manip_test.cpp ]
+        [ run bin_manip_test.cpp ]
   ;

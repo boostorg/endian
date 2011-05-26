@@ -1,14 +1,12 @@
-//  boost/binary_stream.hpp  ----------------------------------------------------------//
+//  boost/io/detail/bin_manip.hpp  -----------------------------------------------------//
 
 //  Copyright Beman Dawes 2009, 2011
 
 //  Distributed under the Boost Software License, Version 1.0.
 //  See http://www.boost.org/LICENSE_1_0.txt
 
-//  See documentation at http://www.boost.org/libs/utility
-
-#ifndef BOOST_BINARY_STREAM_HPP
-#define BOOST_BINARY_STREAM_HPP
+#ifndef BOOST_BIN_MANIP_HPP
+#define BOOST_BIN_MANIP_HPP
 
 #include <boost/config.hpp>
 #include <ostream>
@@ -20,7 +18,7 @@
 # include <cwchar>   // for wcslen
 #endif
 
-//  unformatted binary (as opposed to formatted character) input and output
+//  unformatted binary (as opposed to formatted character) input and output manipulator
 
 //  Caution: Use only on streams opened with filemode std::ios_base::binary. Thus
 //  unformatted binary I/O should not be with the standard streams (cout, cin, etc.)
@@ -79,4 +77,4 @@ inline std::istream& operator>>(std::istream& is, detail::binary_data<T> x)
 
 }  // namespace boost
 
-#endif  // BOOST_BINARY_STREAM_HPP
+#endif  // BOOST_BIN_MANIP_HPP

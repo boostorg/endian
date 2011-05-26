@@ -1,11 +1,11 @@
-//  binary_stream_test.cpp  ------------------------------------------------------------//
+//  bin_manip_test.cpp  ----------------------------------------------------------------//
 
 //  Copyright Beman Dawes 2009
 
 //  Distributed under the Boost Software License, Version 1.0.
 //  See http://www.boost.org/LICENSE_1_0.txt
 
-#include <boost/binary_stream.hpp>
+#include <boost/io/detail/bin_manip.hpp>
 #include <string>
 #include <iostream>
 #include <sstream>
