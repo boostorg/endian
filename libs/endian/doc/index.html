@@ -1,0 +1,202 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+<title>Boost Endian Library</title>
+<link rel="stylesheet" type="text/css" href="../../../doc/src/minimal.css">
+</head>
+
+<body>
+
+<table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="710">
+  <tr>
+    <td width="277">
+<a href="../../../index.html">
+<img src="../../../boost.png" alt="boost.png (6897 bytes)" align="middle" width="277" height="86" border="0"></a></td>
+    <td width="413" align="middle">
+    <font size="7">Endian Library</font></td>
+  </tr>
+</table>
+
+<table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" bgcolor="#D7EEFF" width="100%">
+  <tr>
+    <td><a href="../../../index.htm">Boost Home</a>&nbsp; Conversion Reference 
+    Types Reference Tutorial</td>
+  </tr>
+</table>
+
+<h2><a name="Introduction">Introduction</a></h2>
+
+<p>The Boost Endian Library provides facilities to deal with endianness. See
+<a href="#Introduction-to-endianness">Introduction to endianness</a> below for 
+the basics of endianness.</p>
+
+<p>The library provides two approaches to dealing with integer endianness:</p>
+
+<blockquote>
+
+<p><b>Endian conversions for native integers -</b> The application uses the 
+built-in integer types, and calls the provided conversion functions to swap 
+bytes as needed. Both mutating and non-mutating conversions are supplied, and 
+each comes in unconditional and conditional variants. This approach is simple 
+and efficient, but is less flexible in terms of size and alignment, and can be 
+hard to manage in code with many logical paths involving endianness transitions.</p>
+
+<p><b>Endian integer types</b></p>
+
+</blockquote>
+
+<h2><a name="Introduction-to-endianness">Introduction to endianness</a></h2>
+
+<p>Consider a C++ program that defines variables x, y, and z as 16, 32, and 
+64-bit integers, respectively. There are several ways a processor might layout 
+the individual bytes for these variables in memory:</p>
+
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
+  <tr>
+    <td colspan="6" align="center"><b>int16_t x = 0x0A0B;</b></td>
+  </tr>
+  <tr>
+    <td colspan="3" align="center"><b>Big Endian</b></td>
+    <td colspan="3" align="center"><b>Little Endian</b></td>
+  </tr>
+  <tr>
+    <td><b>Value</b></td>
+    <td align="center"><b>0A</b></td>
+    <td align="center"><b>0B</b></td>
+    <td><b>Value</b></td>
+    <td align="center"><b>0B</b></td>
+    <td align="center"><b>0A</b></td>
+  </tr>
+  <tr>
+    <td><b>Address</b></td>
+    <td align="center"><b>...0</b></td>
+    <td align="center"><b>...1</b></td>
+    <td><b>Address</b></td>
+    <td align="center"><b>...0</b></td>
+    <td align="center"><b>...1</b></td>
+  </tr>
+</table>
+
+<br>
+
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
+  <tr>
+    <td colspan="10" align="center"><b>int32_t y = 0x0A0B0C0D;</b></td>
+  </tr>
+  <tr>
+    <td colspan="5" align="center"><b>Big Endian</b></td>
+    <td colspan="5" align="center"><b>Little Endian</b></td>
+  </tr>
+  <tr>
+    <td><b>Value</b></td>
+    <td align="center"><b>0A</b></td>
+    <td align="center"><b>0B</b></td>
+    <td align="center"><b>0C</b></td>
+    <td align="center"><b>0D</b></td>
+    <td><b>Value</b></td>
+    <td align="center"><b>0D</b></td>
+    <td align="center"><b>0C</b></td>
+    <td align="center"><b>0B</b></td>
+    <td align="center"><b>0A</b></td>
+  </tr>
+  <tr>
+    <td><b>Address</b></td>
+    <td align="center"><b>...0</b></td>
+    <td align="center"><b>...1</b></td>
+    <td align="center"><b>...2</b></td>
+    <td align="center"><b>...3</b></td>
+    <td><b>Address</b></td>
+    <td align="center"><b>...0</b></td>
+    <td align="center"><b>...1</b></td>
+    <td align="center"><b>...2</b></td>
+    <td align="center"><b>...3</b></td>
+  </tr>
+</table>
+
+<br>
+
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
+  <tr>
+    <td colspan="18" align="center"><b>int64_t z = 0x0A0B0C0D0E0F0102;</b></td>
+  </tr>
+  <tr>
+    <td colspan="9" align="center"><b>Big Endian</b></td>
+    <td colspan="9" align="center"><b>Little Endian</b></td>
+  </tr>
+  <tr>
+    <td><b>Value</b></td>
+    <td align="center"><b>0A</b></td>
+    <td align="center"><b>0B</b></td>
+    <td align="center"><b>0C</b></td>
+    <td align="center"><b>0D</b></td>
+    <td align="center"><b>0E</b></td>
+    <td align="center"><b>0F</b></td>
+    <td align="center"><b>01</b></td>
+    <td align="center"><b>02</b></td>
+    <td><b>Value</b></td>
+    <td align="center"><b>02</b></td>
+    <td align="center"><b>01</b></td>
+    <td align="center"><b>0F</b></td>
+    <td align="center"><b>0E</b></td>
+    <td align="center"><b>0D</b></td>
+    <td align="center"><b>0C</b></td>
+    <td align="center"><b>0B</b></td>
+    <td align="center"><b>0A</b></td>
+  </tr>
+  <tr>
+    <td><b>Address</b></td>
+    <td align="center"><b>...0</b></td>
+    <td align="center"><b>...1</b></td>
+    <td align="center"><b>...2</b></td>
+    <td align="center"><b>...3</b></td>
+    <td align="center"><b>...4</b></td>
+    <td align="center"><b>...5</b></td>
+    <td align="center"><b>...6</b></td>
+    <td align="center"><b>...7</b></td>
+    <td><b>Address</b></td>
+    <td align="center"><b>...0</b></td>
+    <td align="center"><b>...1</b></td>
+    <td align="center"><b>...2</b></td>
+    <td align="center"><b>...3</b></td>
+    <td align="center"><b>...4</b></td>
+    <td align="center"><b>...5</b></td>
+    <td align="center"><b>...6</b></td>
+    <td align="center"><b>...7</b></td>
+  </tr>
+</table>
+
+<p>The most-significant byte first ordering is traditionally called &quot;big endian&quot; 
+ordering and the least-significant byte first is traditionally called 
+&quot;little-endian&quot; ordering. Although some other orderings are possible, most 
+modern uses are as shown above. The names are derived from
+<a href="http://en.wikipedia.org/wiki/Jonathan_Swift" title="Jonathan Swift">
+Jonathan Swift</a>'s satirical novel <i>
+<a href="http://en.wikipedia.org/wiki/Gulliver's_Travels" title="Gulliver's Travels">
+Gulliver’s Travels</a></i>, where rival kingdom's opened their soft-boiled eggs 
+at different ends.</p>
+
+<p>Intel processors are traditionally little endian while many others are big 
+endian. Some processors can switch endianness, so which is in use depends on the 
+operating system. The Wikipedia's
+<a href="http://en.wikipedia.org/wiki/Endianness">Endianness</a> entry lists 
+details for many processors and operating systems.</p>
+
+<p>External memory, such as disks, generally uses the same endianness as the 
+operating system. Networks traditionally use big endian ordering, so this is 
+sometimes referred as network endianness.</p>
+<hr>
+<p>Last revised:
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->27 May, 2011<!--webbot bot="Timestamp" endspan i-checksum="13974" --></p>
+<p>© Copyright Beman Dawes, 2011</p>
+<p>Distributed under the Boost Software License, Version 1.0. See
+<a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
+
+<p>&nbsp;</p>
+
+</body>
+
+</html>
