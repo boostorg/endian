@@ -1,0 +1,93 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+<title>Boost Endian Conversion Functions</title>
+<link rel="stylesheet" type="text/css" href="../../../doc/src/minimal.css">
+</head>
+
+<body>
+
+<table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="933">
+  <tr>
+    <td width="277">
+<a href="../../../index.html">
+<img src="../../../boost.png" alt="boost.png (6897 bytes)" align="middle" width="277" height="86" border="0"></a></td>
+    <td width="636" align="middle">
+    <font size="7">Endian Conversion Functions</font></td>
+  </tr>
+</table>
+
+<table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" bgcolor="#D7EEFF" width="100%">
+  <tr>
+    <td><a href="../../../index.htm">Boost Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="index.html">Endian Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="conversion.html">Conversion Reference</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="types.html">Types Reference</a>&nbsp;&nbsp;&nbsp;&nbsp; Tutorial</td>
+  </tr>
+</table>
+
+<h2><a name="Introduction">Introduction</a></h2>
+
+<p>&nbsp;</p>
+
+<h2>Header <font face="Courier New">&lt;boost/endian/conversion&gt;</font>
+<a name="Synopsis">Synopsis</a></h2>
+
+<pre>namespace boost
+{
+namespace endian
+{
+  // unconditional modifying (i.e. in-place) endianness reversal
+
+  inline void flip(int16_t&amp; x);
+  inline void flip(int32_t&amp; x);
+  inline void flip(int64_t&amp; x);
+  inline void flip(uint16_t&amp; x);
+  inline void flip(uint32_t&amp; x);
+  inline void flip(uint64_t&amp; x);
+
+  // unconditional non-modifying endianness reversing copy
+
+  inline void flip(int16_t source, int16_t&amp; target);
+  inline void flip(int32_t source, int32_t&amp; target);
+  inline void flip(int64_t source, int64_t&amp; target);
+  inline void flip(uint16_t source, uint16_t&amp; target);
+  inline void flip(uint32_t source, uint32_t&amp; target);
+  inline void flip(uint64_t source, uint64_t&amp; target);
+
+  // conditional modifying (i.e. in-place) endianness reversal;
+  //  no effect if native endianness and specified endianness are the same
+
+  template &lt;class T&gt; inline void to_big(T&amp; x);       // if different, convert native to big
+  template &lt;class T&gt; inline void to_little(T&amp; x);    // if different, convert native to little
+  template &lt;class T&gt; inline void from_big(T&amp; x);     // if different, convert big to native
+  template &lt;class T&gt; inline void from_little(T&amp; x);  // if different, convert little to native
+
+  // non-modifying copy, conditionally reversing endianness;
+  //   copy the first argument to the second argument, converting to or from the
+  //   specified endianness if different than native endianness
+
+  template &lt;class T&gt; inline void to_big(T native, T&amp; big);
+  template &lt;class T&gt; inline void to_little(T native, T&amp; little);
+  template &lt;class T&gt; inline void from_big(T big, T&amp; native);
+  template &lt;class T&gt; inline void from_little(T little, T&amp; native);
+</pre>
+<pre>} // namespace endian
+} // namespace boost</pre>
+<h2><a name="Acknowledgements">Acknowledgements</a></h2>
+<hr>
+<p>Last revised:
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->27 May, 2011<!--webbot bot="Timestamp" endspan i-checksum="13974" --></p>
+<p>© Copyright Beman Dawes, 2011</p>
+<p>Distributed under the Boost Software License, Version 1.0. See
+<a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
+
+<p>&nbsp;</p>
+
+</body>
+
+</html>
