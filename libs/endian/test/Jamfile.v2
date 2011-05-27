@@ -11,7 +11,7 @@
    
    test-suite "endian"
        :
-         [ run binary_stream_test.cpp ]
+         [ run ../../io/test/bin_manip_test.cpp ]
          [ run endian_test.cpp ]
          [ run endian_operations_test.cpp
             :  :  : <toolset>gcc:<cxxflags>-Wno-sign-compare ]

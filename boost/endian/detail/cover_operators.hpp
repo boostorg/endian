@@ -1,4 +1,4 @@
-//  boost/integer/cover_operators.hpp ----------------------------------------//
+//  boost/endian/detail/cover_operators.hpp ----------------------------------//
 
 //  Copyright Darin Adler 2000
 //  Copyright Beman Dawes 2008

@@ -15,7 +15,7 @@
 
 #include <iostream>
 #include <cstdio>
-#include <boost/endian/integers.hpp>
+#include <boost/endian/types.hpp>
 #include <boost/detail/lightweight_test.hpp>
 #include <boost/detail/lightweight_main.hpp>
 

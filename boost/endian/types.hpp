@@ -1,4 +1,4 @@
-//  Boost endian.hpp header file -------------------------------------------------------//
+//  boost/endian/types.hpp  ------------------------------------------------------------//
 
 //  (C) Copyright Darin Adler 2000
 //  (C) Copyright Beman Dawes 2006, 2009
@@ -33,7 +33,7 @@
 #include <boost/detail/endian.hpp>
 #define BOOST_MINIMAL_INTEGER_COVER_OPERATORS
 #define BOOST_NO_IO_COVER_OPERATORS
-#include <boost/endian/cover_operators.hpp>
+#include <boost/endian/detail/cover_operators.hpp>
 #undef  BOOST_NO_IO_COVER_OPERATORS
 #undef  BOOST_MINIMAL_INTEGER_COVER_OPERATORS
 #include <boost/type_traits/is_signed.hpp>
