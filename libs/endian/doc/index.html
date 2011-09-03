@@ -30,170 +30,71 @@
   </tr>
 </table>
 
-<h2><a name="Introduction">Introduction</a></h2>
-
-<p>The Boost Endian Library provides facilities to deal with integer endianness. See
-<a href="#Introduction-to-endianness">Introduction to endianness</a> below for 
-the basics of endianness.</p>
-
-<p>The library provides two approaches to dealing with integer endianness:</p>
-
-<blockquote>
-
-<p><b>Endian conversions for native integers -</b> With this approach, the application uses the 
-built-in integer types, and calls the provided conversion functions to convert 
-byte ordering as needed. Both mutating and non-mutating conversions are supplied, and 
-each comes in unconditional and conditional variants. This approach is simple 
-and efficient, but is less flexible in terms of size and alignment, and can be 
-hard-to-manage and error-prone in code with many logical paths involving endianness transitions.</p>
-
-<p><b>Endian integer types -</b> With this approach, the application uses the 
-provided endian classes which mimic the 
-built-in integer types. For example, <code>big32_t</code> or <code>little64_t</code>. </p>
-
-</blockquote>
-
-<p>Boost Endian is header-only library.</p>
-
 <h2><a name="Introduction-to-endianness">Introduction to endianness</a></h2>
 
-<p>Consider a C++ program that defines variables x, y, and z as 16, 32, and 
-64-bit integers, respectively. There are several ways a processor might layout 
-the individual bytes for these variables in memory:</p>
+<p>Consider the following code:</p>
 
-<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
-  <tr>
-    <td colspan="6" align="center"><b>int16_t x = 0x0A0B;</b></td>
-  </tr>
-  <tr>
-    <td colspan="3" align="center"><b>Big Endian</b></td>
-    <td colspan="3" align="center"><b>Little Endian</b></td>
-  </tr>
-  <tr>
-    <td><b>Value</b></td>
-    <td align="center"><b>0A</b></td>
-    <td align="center"><b>0B</b></td>
-    <td><b>Value</b></td>
-    <td align="center"><b>0B</b></td>
-    <td align="center"><b>0A</b></td>
-  </tr>
-  <tr>
-    <td><b>Address</b></td>
-    <td align="center"><b>...0</b></td>
-    <td align="center"><b>...1</b></td>
-    <td><b>Address</b></td>
-    <td align="center"><b>...0</b></td>
-    <td align="center"><b>...1</b></td>
-  </tr>
-</table>
-
-<br>
-
-<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
-  <tr>
-    <td colspan="10" align="center"><b>int32_t y = 0x0A0B0C0D;</b></td>
-  </tr>
-  <tr>
-    <td colspan="5" align="center"><b>Big Endian</b></td>
-    <td colspan="5" align="center"><b>Little Endian</b></td>
-  </tr>
-  <tr>
-    <td><b>Value</b></td>
-    <td align="center"><b>0A</b></td>
-    <td align="center"><b>0B</b></td>
-    <td align="center"><b>0C</b></td>
-    <td align="center"><b>0D</b></td>
-    <td><b>Value</b></td>
-    <td align="center"><b>0D</b></td>
-    <td align="center"><b>0C</b></td>
-    <td align="center"><b>0B</b></td>
-    <td align="center"><b>0A</b></td>
-  </tr>
-  <tr>
-    <td><b>Address</b></td>
-    <td align="center"><b>...0</b></td>
-    <td align="center"><b>...1</b></td>
-    <td align="center"><b>...2</b></td>
-    <td align="center"><b>...3</b></td>
-    <td><b>Address</b></td>
-    <td align="center"><b>...0</b></td>
-    <td align="center"><b>...1</b></td>
-    <td align="center"><b>...2</b></td>
-    <td align="center"><b>...3</b></td>
-  </tr>
-</table>
-
-<br>
-
-<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
-  <tr>
-    <td colspan="18" align="center"><b>int64_t z = 0x0A0B0C0D0E0F0102;</b></td>
-  </tr>
-  <tr>
-    <td colspan="9" align="center"><b>Big Endian</b></td>
-    <td colspan="9" align="center"><b>Little Endian</b></td>
-  </tr>
-  <tr>
-    <td><b>Value</b></td>
-    <td align="center"><b>0A</b></td>
-    <td align="center"><b>0B</b></td>
-    <td align="center"><b>0C</b></td>
-    <td align="center"><b>0D</b></td>
-    <td align="center"><b>0E</b></td>
-    <td align="center"><b>0F</b></td>
-    <td align="center"><b>01</b></td>
-    <td align="center"><b>02</b></td>
-    <td><b>Value</b></td>
-    <td align="center"><b>02</b></td>
-    <td align="center"><b>01</b></td>
-    <td align="center"><b>0F</b></td>
-    <td align="center"><b>0E</b></td>
-    <td align="center"><b>0D</b></td>
-    <td align="center"><b>0C</b></td>
-    <td align="center"><b>0B</b></td>
-    <td align="center"><b>0A</b></td>
-  </tr>
-  <tr>
-    <td><b>Address</b></td>
-    <td align="center"><b>...0</b></td>
-    <td align="center"><b>...1</b></td>
-    <td align="center"><b>...2</b></td>
-    <td align="center"><b>...3</b></td>
-    <td align="center"><b>...4</b></td>
-    <td align="center"><b>...5</b></td>
-    <td align="center"><b>...6</b></td>
-    <td align="center"><b>...7</b></td>
-    <td><b>Address</b></td>
-    <td align="center"><b>...0</b></td>
-    <td align="center"><b>...1</b></td>
-    <td align="center"><b>...2</b></td>
-    <td align="center"><b>...3</b></td>
-    <td align="center"><b>...4</b></td>
-    <td align="center"><b>...5</b></td>
-    <td align="center"><b>...6</b></td>
-    <td align="center"><b>...7</b></td>
-  </tr>
-</table>
-
+<blockquote>
+  <pre>int16_t i = 0x0102;
+FILE * file = fopen(&quot;test&quot;, &quot;wb&quot;);   // MUST BE BINARY
+fwrite(&amp;i, sizeof(int16_t), 1, file);
+fclose(file);</pre>
+</blockquote>
+<p>On a modern Apple, Linux, or Windows computer with an Intel CPU, a hex dump 
+of the &quot;test&quot; output file produces:</p>
+<blockquote>
+  <p><code>0201</code></p>
+</blockquote>
+<p>On a Oracle/Sun Solaris computer with a SPARC CPU, a hex dump of the &quot;test&quot; 
+output file produces:</p>
+<blockquote>
+  <p><code>0102</code></p>
+</blockquote>
+<p>What's happening here is that Intel CPU's order the bytes of an integer with 
+the least-significant byte first, while SPARC CPU's place the most-significant 
+byte first. Some CPU's, such as the PowerPC, allow the operating system to 
+choose which ordering applies.</p>
 <p>The most-significant byte first ordering is traditionally called &quot;big endian&quot; 
 ordering and the least-significant byte first is traditionally called 
-&quot;little-endian&quot; ordering. Although some other orderings are possible, most 
-modern uses are as shown above. The names are derived from
+&quot;little-endian&quot; ordering. The names are derived from
 <a href="http://en.wikipedia.org/wiki/Jonathan_Swift" title="Jonathan Swift">
 Jonathan Swift</a>'s satirical novel <i>
 <a href="http://en.wikipedia.org/wiki/Gulliver's_Travels" title="Gulliver's Travels">
 Gulliver’s Travels</a></i>, where rival kingdom's opened their soft-boiled eggs 
 at different ends.</p>
+<p>For a more complete introduction to endianness, see the Wikipedia's
+<a href="http://en.wikipedia.org/wiki/Endianness">Endianness</a> article.</p>
+<p>Except for reading an occasional core dump, most programmers can ignore 
+endianness. But when exchanging data with other computer systems, whether by 
+file transfers or over a network, programmers have to deal with endianness when 
+binary data is involved.</p>
+<h2><a name="Introduction">Introduction</a> to the Boost Endian Library</h2>
 
-<p>Intel processors are traditionally little endian while many others are big 
-endian. Some processors can switch endianness, so which is in use depends on the 
-operating system. The Wikipedia's
-<a href="http://en.wikipedia.org/wiki/Endianness">Endianness</a> entry lists 
-details for many processors and operating systems.</p>
+<p>The Boost Endian Library provides facilities to deal with integer endianness.</p>
 
-<p>External memory, such as disks, generally uses the same endianness as the 
-operating system. Networks traditionally use big endian ordering, so this is 
-sometimes referred as network endianness.</p>
+<p>The library provides two approaches to dealing with integer endianness:</p>
+
+<blockquote>
+
+<p><b>Endian conversions for native integers -</b> The application uses the 
+built-in integer types, and calls the provided conversion functions to convert 
+byte ordering as needed. Both mutating and non-mutating conversions are supplied, and 
+each comes in unconditional and conditional variants. This approach is simple 
+and usually more efficient, but is less flexible in terms of size and alignment, can be 
+hard-to-manage and error-prone in code with many logical paths involving endianness transitions, 
+and can foster very hard to debug logic errors. </p>
+
+<p><b>Endian integer types -</b> The application uses the provided endian types 
+which mimic the 
+built-in integer types. For example, <code>big32_t</code> or <code>little64_t</code>. 
+This approach is also simple, but can be less efficient. Types with lengths of 
+1-8 bytes are supported, rather than just 1, 2, 4, and 8 bytes. Strict alignment 
+requirements are avoided, and this may allow data to be packed more tightly.</p>
+
+</blockquote>
+
+<p>Boost Endian is a header-only library.</p>
+
 <h2><a name="Acknowledgements">Acknowledgements</a></h2>
 <p>Comments and suggestions were 
 received from
