@@ -38,19 +38,19 @@ namespace endian
   // conditional modifying (i.e. in-place) endianness reversal;
   //  no effect if native endianness and specified endianness are the same
 
-  template <class T> inline void to_big(T& x);       // if different, convert native to big
-  template <class T> inline void to_little(T& x);    // if different, convert native to little
-  template <class T> inline void from_big(T& x);     // if different, convert big to native
-  template <class T> inline void from_little(T& x);  // if different, convert little to native
+  template <class T> inline void native_to_big(T& x);       
+  template <class T> inline void native_to_little(T& x);    
+  template <class T> inline void big_to_native(T& x);     
+  template <class T> inline void little_to_native(T& x);  
 
-  // non-modifying copy, conditionally reversing endianness;
-  //   copy the first argument to the second argument, converting to or from the
-  //   specified endianness if different than native endianness
+  // non-modifying copy conditionally reversing endianness;
+  //   copy the source argument to the target argument, converting to or from the
+  //   indicated endianness if different than native endianness
 
-  template <class T> inline void to_big(T native, T& big);
-  template <class T> inline void to_little(T native, T& little);
-  template <class T> inline void from_big(T big, T& native);
-  template <class T> inline void from_little(T little, T& native);
+  template <class T> inline void native_to_big(T source, T& target);
+  template <class T> inline void native_to_little(T source, T& target);
+  template <class T> inline void big_to_native(T source, T& target);
+  template <class T> inline void little_to_native(T source, T& target);
 
 //----------------------------------- implementation -----------------------------------//
                                                 
@@ -197,23 +197,23 @@ namespace endian
   }
 
 #ifdef BOOST_LITTLE_ENDIAN
-  template <class T> inline void to_big(T& x)  { flip(x); }
-  template <class T> inline void to_little(T&) {}
-  template <class T> inline void from_big(T& x)  { flip(x); }
-  template <class T> inline void from_little(T&) {}
-  template <class T> inline void to_big(T native, T& big) { flip(native, big); }
-  template <class T> inline void to_little(T native, T& little) { little = native; }
-  template <class T> inline void from_big(T big, T& native) { flip(big, native); }
-  template <class T> inline void from_little(T little, T& native) { native = little; }
+  template <class T> inline void native_to_big(T& x)  { flip(x); }
+  template <class T> inline void native_to_little(T&) {}
+  template <class T> inline void big_to_native(T& x)  { flip(x); }
+  template <class T> inline void little_to_native(T&) {}
+  template <class T> inline void native_to_big(T source, T& target) { flip(source, target); }
+  template <class T> inline void native_to_little(T source, T& target) { target = source; }
+  template <class T> inline void big_to_native(T source, T& target) { flip(source, target); }
+  template <class T> inline void little_to_native(T source, T& target) { target = source; }
 #else
-  template <class T> inline void to_big(T&)  {}
-  template <class T> inline void to_little(T& x) { flip(x); }
-  template <class T> inline void from_big(T&)  {}
-  template <class T> inline void from_little(T& x) { flip(x); }
-  template <class T> inline void to_big(T native, T& big) { big = native; }
-  template <class T> inline void to_little(T native, T& little) { flip(native, little); }
-  template <class T> inline void from_big(T big, T& native) { native = big; }
-  template <class T> inline void from_little(T little, T& native) { flip(little, native); }
+  template <class T> inline void native_to_big(T&)  {}
+  template <class T> inline void native_to_little(T& x) { flip(x); }
+  template <class T> inline void big_to_native(T&)  {}
+  template <class T> inline void little_to_native(T& x) { flip(x); }
+  template <class T> inline void native_to_big(T native, T& big) { target = source; }
+  template <class T> inline void native_to_little(T native, T& little) { flip(source, target); }
+  template <class T> inline void big_to_native(T big, T& native) { target = source; }
+  template <class T> inline void little_to_native(T little, T& native) { flip(source, target); }
 #endif
 
 }  // namespace endian
