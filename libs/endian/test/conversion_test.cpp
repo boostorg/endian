@@ -19,127 +19,127 @@ namespace be = boost::endian;
 namespace
 {
 
-  void test_in_place_flip()
+  void test_in_place_invert()
   {
-    std::cout << "test_in_place_flip...\n";
+    std::cout << "test_in_place_invert...\n";
 
     boost::int64_t i64 = 0x0102030405060708LL;
-    be::flip(i64);
+    be::invert(i64);
     BOOST_TEST_EQ(i64, 0x0807060504030201LL);
-    be::flip(i64);
+    be::invert(i64);
     BOOST_TEST_EQ(i64, 0x0102030405060708LL);
 
     i64 = 0xfefdfcfbfaf9f8f7LL;
-    be::flip(i64);
+    be::invert(i64);
     BOOST_TEST_EQ(i64, static_cast<boost::int64_t>(0xf7f8f9fafbfcfdfeULL));
-    be::flip(i64);
+    be::invert(i64);
     BOOST_TEST_EQ(i64, static_cast<boost::int64_t>(0xfefdfcfbfaf9f8f7ULL));
 
     boost::int32_t i32 = 0x01020304;
-    be::flip(i32);
+    be::invert(i32);
     BOOST_TEST_EQ(i32, 0x04030201);
-    be::flip(i32);
+    be::invert(i32);
     BOOST_TEST_EQ(i32, 0x01020304);
 
     i32 = 0xfefdfcfb;
-    be::flip(i32);
+    be::invert(i32);
     BOOST_TEST_EQ(i32, static_cast<boost::int32_t>(0xfbfcfdfe));
-    be::flip(i32);
+    be::invert(i32);
     BOOST_TEST_EQ(i32, static_cast<boost::int32_t>(0xfefdfcfb));
 
     boost::int16_t i16 = 0x0102;
-    be::flip(i16);
+    be::invert(i16);
     BOOST_TEST_EQ(i16, 0x0201);
-    be::flip(i16);
+    be::invert(i16);
     BOOST_TEST_EQ(i16, 0x0102);
 
     i16 = static_cast<boost::int16_t>(static_cast<boost::uint16_t>(0xfefd));
-    be::flip(i16);
+    be::invert(i16);
     BOOST_TEST_EQ(i16, static_cast<boost::int16_t>(static_cast<boost::uint16_t>(0xfdfe)));
-    be::flip(i16);
+    be::invert(i16);
     BOOST_TEST_EQ(i16, static_cast<boost::int16_t>(static_cast<boost::uint16_t>(0xfefd)));
 
     boost::uint64_t ui64 = 0x0102030405060708ULL;
-    be::flip(ui64);
+    be::invert(ui64);
     BOOST_TEST_EQ(ui64, 0x0807060504030201ULL);
-    be::flip(ui64);
+    be::invert(ui64);
     BOOST_TEST_EQ(ui64, 0x0102030405060708ULL);
 
     boost::uint32_t ui32 = 0x01020304;
-    be::flip(ui32);
+    be::invert(ui32);
     BOOST_TEST_EQ(ui32, static_cast<boost::uint32_t>(0x04030201));
-    be::flip(ui32);
+    be::invert(ui32);
     BOOST_TEST_EQ(ui32, static_cast<boost::uint32_t>(0x01020304));
 
     boost::uint16_t ui16 = 0x0102;
-    be::flip(ui16);
+    be::invert(ui16);
     BOOST_TEST_EQ(ui16, 0x0201);
-    be::flip(ui16);
+    be::invert(ui16);
     BOOST_TEST_EQ(ui16, static_cast<boost::uint16_t>(0x0102));
     
-    std::cout << "  test_in_place_flip complete\n";
+    std::cout << "  test_in_place_invert complete\n";
   }
 
-  void test_copying_flip()
+  void test_copying_invert()
   {
-    std::cout << "test_copying_flip...\n";
+    std::cout << "test_copying_invert...\n";
 
     boost::int64_t i64 = 0x0102030405060708LL, j64, k64;
-    be::flip(i64, j64);
+    be::invert(i64, j64);
     BOOST_TEST_EQ(j64, 0x0807060504030201LL);
     BOOST_TEST_EQ(i64, 0x0102030405060708LL);
-    be::flip(j64, k64);
+    be::invert(j64, k64);
     BOOST_TEST_EQ(k64, 0x0102030405060708LL);
 
     i64 = 0xfefdfcfbfaf9f8f7LL;
-    be::flip(i64, j64);
+    be::invert(i64, j64);
     BOOST_TEST_EQ(j64, static_cast<boost::int64_t>(0xf7f8f9fafbfcfdfeLL));
-    be::flip(j64, k64);
+    be::invert(j64, k64);
     BOOST_TEST_EQ(k64, static_cast<boost::int64_t>(0xfefdfcfbfaf9f8f7LL));
 
     boost::int32_t i32 = 0x01020304, j32, k32;
-    be::flip(i32, j32);
+    be::invert(i32, j32);
     BOOST_TEST_EQ(j32, 0x04030201);
-    be::flip(j32, k32);
+    be::invert(j32, k32);
     BOOST_TEST_EQ(k32, 0x01020304);
 
     i32 = 0xfefdfcfb;
-    be::flip(i32, j32);
+    be::invert(i32, j32);
     BOOST_TEST_EQ(j32, static_cast<boost::int32_t>(0xfbfcfdfe));
-    be::flip(j32, k32);
+    be::invert(j32, k32);
     BOOST_TEST_EQ(k32, static_cast<boost::int32_t>(0xfefdfcfb));
 
     boost::int16_t i16 = 0x0102, j16, k16;
-    be::flip(i16, j16);
+    be::invert(i16, j16);
     BOOST_TEST_EQ(j16, 0x0201);
-    be::flip(j16, k16);
+    be::invert(j16, k16);
     BOOST_TEST_EQ(k16, 0x0102);
 
     i16 = static_cast<boost::int16_t>(static_cast<boost::uint16_t>(0xfefd));
-    be::flip(i16, j16);
+    be::invert(i16, j16);
     BOOST_TEST_EQ(j16, static_cast<boost::int16_t>(static_cast<boost::uint16_t>(0xfdfe)));
-    be::flip(j16, k16);
+    be::invert(j16, k16);
     BOOST_TEST_EQ(k16, static_cast<boost::int16_t>(static_cast<boost::uint16_t>(0xfefd)));
 
     boost::uint64_t ui64 = 0x0102030405060708ULL, uj64, uk64;
-    be::flip(ui64, uj64);
+    be::invert(ui64, uj64);
     BOOST_TEST_EQ(uj64, 0x0807060504030201ULL);
-    be::flip(uj64, uk64);
+    be::invert(uj64, uk64);
     BOOST_TEST_EQ(uk64, 0x0102030405060708ULL);
 
     boost::uint32_t ui32 = 0x01020304, uj32, uk32;
-    be::flip(ui32, uj32);
+    be::invert(ui32, uj32);
     BOOST_TEST_EQ(uj32, static_cast<boost::uint32_t>(0x04030201));
-    be::flip(uj32, uk32);
+    be::invert(uj32, uk32);
     BOOST_TEST_EQ(uk32, static_cast<boost::uint32_t>(0x01020304));
 
     boost::uint16_t ui16 = 0x0102, uj16, uk16;
-    be::flip(ui16, uj16);
+    be::invert(ui16, uj16);
     BOOST_TEST_EQ(uj16, 0x0201);
-    be::flip(uj16, uk16);
+    be::invert(uj16, uk16);
     BOOST_TEST_EQ(uk16, 0x0102);
     
-    std::cout << "  test_copying_flip complete\n";
+    std::cout << "  test_copying_invert complete\n";
   }
 
   const boost::int64_t ni64 = 0x0102030405060708LL;
@@ -196,9 +196,9 @@ namespace
   const boost::uint16_t lui16 = 0x0102;
 # endif
 
-  void test_in_place_conditional_flip()
+  void test_in_place_conditional_invert()
   {
-    std::cout << "test_in_place_conditional_flip...\n";
+    std::cout << "test_in_place_conditional_invert...\n";
 
     boost::int64_t i64;
 
@@ -308,12 +308,12 @@ namespace
     be::little_to_native(ui16);
     BOOST_TEST_EQ(ui16, nui16);
     
-    std::cout << "  test_in_place_conditional_flip complete\n";
+    std::cout << "  test_in_place_conditional_invert complete\n";
   }
 
-  void test_copying_conditional_flip()
+  void test_copying_conditional_invert()
   {
-    std::cout << "test_copying_conditional_flip...\n";
+    std::cout << "test_copying_conditional_invert...\n";
 
     boost::int64_t i64, ti64;
 
@@ -423,7 +423,7 @@ namespace
     be::little_to_native(ui16, tui16);
     BOOST_TEST_EQ(tui16, nui16);
     
-    std::cout << "  test_copying_conditional_flip complete\n";
+    std::cout << "  test_copying_conditional_invert complete\n";
   }
 
 }  // unnamed namespace
@@ -431,10 +431,10 @@ namespace
 int cpp_main(int, char * [])
 {
   std::cerr << std::hex;
-  test_in_place_flip();
-  test_copying_flip();
-  test_in_place_conditional_flip();
-  test_copying_conditional_flip();
+  test_in_place_invert();
+  test_copying_invert();
+  test_in_place_conditional_invert();
+  test_copying_conditional_invert();
 
   return ::boost::report_errors();
 }

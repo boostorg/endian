@@ -32,7 +32,7 @@
 
 <h2><a name="Introduction">Introduction</a></h2>
 
-<p>The Boost Endian Library provides facilities to deal with endianness. See
+<p>The Boost Endian Library provides facilities to deal with integer endianness. See
 <a href="#Introduction-to-endianness">Introduction to endianness</a> below for 
 the basics of endianness.</p>
 
@@ -40,16 +40,20 @@ the basics of endianness.</p>
 
 <blockquote>
 
-<p><b>Endian conversions for native integers -</b> The application uses the 
-built-in integer types, and calls the provided conversion functions to swap 
-bytes as needed. Both mutating and non-mutating conversions are supplied, and 
+<p><b>Endian conversions for native integers -</b> With this approach, the application uses the 
+built-in integer types, and calls the provided conversion functions to convert 
+byte ordering as needed. Both mutating and non-mutating conversions are supplied, and 
 each comes in unconditional and conditional variants. This approach is simple 
 and efficient, but is less flexible in terms of size and alignment, and can be 
-hard to manage in code with many logical paths involving endianness transitions.</p>
+hard-to-manage and error-prone in code with many logical paths involving endianness transitions.</p>
 
-<p><b>Endian integer types</b></p>
+<p><b>Endian integer types -</b> With this approach, the application uses the 
+provided endian classes which mimic the 
+built-in integer types. For example, <code>big32_t</code> or <code>little64_t</code>. </p>
 
 </blockquote>
+
+<p>Boost Endian is header-only library.</p>
 
 <h2><a name="Introduction-to-endianness">Introduction to endianness</a></h2>
 
@@ -190,9 +194,27 @@ details for many processors and operating systems.</p>
 <p>External memory, such as disks, generally uses the same endianness as the 
 operating system. Networks traditionally use big endian ordering, so this is 
 sometimes referred as network endianness.</p>
+<h2><a name="Acknowledgements">Acknowledgements</a></h2>
+<p>Comments and suggestions were 
+received from
+Benaka Moorthi,
+Christopher Kohlhoff,
+Cliff Green, 
+Gennaro Proto,
+Giovanni Piero Deretta, dizzy, Jeff Flinn,
+John Maddock,
+Kim Barrett,
+Marsh Ray,
+Martin Bonner,
+Matias Capeletto,
+Neil Mayhew, Phil Endecott, Rene Rivera,
+Roland Schwarz, Scott McMurray, 
+Sebastian Redl, 
+Tomas Puverle, Vincente Botet, and
+Yuval Ronen.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->27 May, 2011<!--webbot bot="Timestamp" endspan i-checksum="13974" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->03 September, 2011<!--webbot bot="Timestamp" endspan i-checksum="39334" --></p>
 <p>© Copyright Beman Dawes, 2011</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

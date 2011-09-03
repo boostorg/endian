@@ -15,7 +15,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "endian_hello_world", "endia
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "binary_stream_test", "binary_stream_test\binary_stream_test.vcxproj", "{1382D085-FF3F-4573-8709-E10D3D74D620}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "binary_stream_example", "binary_stream_example\binary_stream_example.vcxproj", "{06736C67-6305-4A9F-8D10-850FD0CE907D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bin_manip_example", "binary_stream_example\binary_stream_example.vcxproj", "{06736C67-6305-4A9F-8D10-850FD0CE907D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "conversion_test", "conversion_test\conversion_test.vcxproj", "{9FA33B0B-2B00-49E8-A892-E049D86076A9}"
 EndProject

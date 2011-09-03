@@ -19,24 +19,24 @@ namespace endian
 {
   // unconditional modifying (i.e. in-place) endianness reversal
 
-  inline void flip(int16_t& x);
-  inline void flip(int32_t& x);
-  inline void flip(int64_t& x);
-  inline void flip(uint16_t& x);
-  inline void flip(uint32_t& x);
-  inline void flip(uint64_t& x);
+  inline void invert(int16_t& x);
+  inline void invert(int32_t& x);
+  inline void invert(int64_t& x);
+  inline void invert(uint16_t& x);
+  inline void invert(uint32_t& x);
+  inline void invert(uint64_t& x);
 
   // unconditional non-modifying endianness reversing copy
 
-  inline void flip(int16_t source, int16_t& target);
-  inline void flip(int32_t source, int32_t& target);
-  inline void flip(int64_t source, int64_t& target);
-  inline void flip(uint16_t source, uint16_t& target);
-  inline void flip(uint32_t source, uint32_t& target);
-  inline void flip(uint64_t source, uint64_t& target);
+  inline void invert(int16_t source, int16_t& target);
+  inline void invert(int32_t source, int32_t& target);
+  inline void invert(int64_t source, int64_t& target);
+  inline void invert(uint16_t source, uint16_t& target);
+  inline void invert(uint32_t source, uint32_t& target);
+  inline void invert(uint64_t source, uint64_t& target);
 
   // conditional modifying (i.e. in-place) endianness reversal;
-  //  no effect if native endianness and specified endianness are the same
+  //  no effect if native endianness and indicated endianness are the same
 
   template <class T> inline void native_to_big(T& x);       
   template <class T> inline void native_to_little(T& x);    
@@ -54,7 +54,7 @@ namespace endian
 
 //----------------------------------- implementation -----------------------------------//
                                                 
-  inline void flip(int16_t& x)
+  inline void invert(int16_t& x)
   {
     char* rep = reinterpret_cast<char*>(&x);
     char tmp;
@@ -63,7 +63,7 @@ namespace endian
     *(rep+1) = tmp;
   }
 
-  inline void flip(int32_t& x)
+  inline void invert(int32_t& x)
   {
     char* rep = reinterpret_cast<char*>(&x);
     char tmp;
@@ -75,7 +75,7 @@ namespace endian
     *(rep+2) = tmp;
   }
 
-  inline void flip(int64_t& x)
+  inline void invert(int64_t& x)
   {
     char* rep = reinterpret_cast<char*>(&x);
     char tmp;
@@ -93,7 +93,7 @@ namespace endian
     *(rep+4) = tmp;
   }
 
-  inline void flip(uint16_t& x)
+  inline void invert(uint16_t& x)
   {
     char* rep = reinterpret_cast<char*>(&x);
     char tmp;
@@ -102,7 +102,7 @@ namespace endian
     *(rep+1) = tmp;
   }
 
-  inline void flip(uint32_t& x)
+  inline void invert(uint32_t& x)
   {
     char* rep = reinterpret_cast<char*>(&x);
     char tmp;
@@ -114,7 +114,7 @@ namespace endian
     *(rep+2) = tmp;
   }
 
-  inline void flip(uint64_t& x)
+  inline void invert(uint64_t& x)
   {
     char* rep = reinterpret_cast<char*>(&x);
     char tmp;
@@ -132,7 +132,7 @@ namespace endian
     *(rep+4) = tmp;
   }
 
-  inline void flip(int16_t source, int16_t& target)
+  inline void invert(int16_t source, int16_t& target)
   {
     const char* s (reinterpret_cast<const char*>(&source));
     char * t (reinterpret_cast<char*>(&target) + sizeof(target) - 1);
@@ -140,39 +140,7 @@ namespace endian
     *--t = *++s;
   }
 
-  inline void flip(int32_t source, int32_t& target)
-  {
-    const char* s (reinterpret_cast<const char*>(&source));
-    char * t (reinterpret_cast<char*>(&target) + sizeof(target) - 1);
-    *t = *s;
-    *--t = *++s;
-    *--t = *++s;
-    *--t = *++s;
-  }
-
-  inline void flip(int64_t source, int64_t& target)
-  {
-    const char* s (reinterpret_cast<const char*>(&source));
-    char * t (reinterpret_cast<char*>(&target) + sizeof(target) - 1);
-    *t = *s;
-    *--t = *++s;
-    *--t = *++s;
-    *--t = *++s;
-    *--t = *++s;
-    *--t = *++s;
-    *--t = *++s;
-    *--t = *++s;
-  }
-
-  inline void flip(uint16_t source, uint16_t& target)
-  {
-    const char* s (reinterpret_cast<const char*>(&source));
-    char * t (reinterpret_cast<char*>(&target) + sizeof(target) - 1);
-    *t = *s;
-    *--t = *++s;
-  }
-
-  inline void flip(uint32_t source, uint32_t& target)
+  inline void invert(int32_t source, int32_t& target)
   {
     const char* s (reinterpret_cast<const char*>(&source));
     char * t (reinterpret_cast<char*>(&target) + sizeof(target) - 1);
@@ -182,7 +150,39 @@ namespace endian
     *--t = *++s;
   }
 
-  inline void flip(uint64_t source, uint64_t& target)
+  inline void invert(int64_t source, int64_t& target)
+  {
+    const char* s (reinterpret_cast<const char*>(&source));
+    char * t (reinterpret_cast<char*>(&target) + sizeof(target) - 1);
+    *t = *s;
+    *--t = *++s;
+    *--t = *++s;
+    *--t = *++s;
+    *--t = *++s;
+    *--t = *++s;
+    *--t = *++s;
+    *--t = *++s;
+  }
+
+  inline void invert(uint16_t source, uint16_t& target)
+  {
+    const char* s (reinterpret_cast<const char*>(&source));
+    char * t (reinterpret_cast<char*>(&target) + sizeof(target) - 1);
+    *t = *s;
+    *--t = *++s;
+  }
+
+  inline void invert(uint32_t source, uint32_t& target)
+  {
+    const char* s (reinterpret_cast<const char*>(&source));
+    char * t (reinterpret_cast<char*>(&target) + sizeof(target) - 1);
+    *t = *s;
+    *--t = *++s;
+    *--t = *++s;
+    *--t = *++s;
+  }
+
+  inline void invert(uint64_t source, uint64_t& target)
   {
     const char* s (reinterpret_cast<const char*>(&source));
     char * t (reinterpret_cast<char*>(&target) + sizeof(target) - 1);
@@ -197,23 +197,23 @@ namespace endian
   }
 
 #ifdef BOOST_LITTLE_ENDIAN
-  template <class T> inline void native_to_big(T& x)  { flip(x); }
+  template <class T> inline void native_to_big(T& x)  { invert(x); }
   template <class T> inline void native_to_little(T&) {}
-  template <class T> inline void big_to_native(T& x)  { flip(x); }
+  template <class T> inline void big_to_native(T& x)  { invert(x); }
   template <class T> inline void little_to_native(T&) {}
-  template <class T> inline void native_to_big(T source, T& target) { flip(source, target); }
+  template <class T> inline void native_to_big(T source, T& target) { invert(source, target); }
   template <class T> inline void native_to_little(T source, T& target) { target = source; }
-  template <class T> inline void big_to_native(T source, T& target) { flip(source, target); }
+  template <class T> inline void big_to_native(T source, T& target) { invert(source, target); }
   template <class T> inline void little_to_native(T source, T& target) { target = source; }
 #else
   template <class T> inline void native_to_big(T&)  {}
-  template <class T> inline void native_to_little(T& x) { flip(x); }
+  template <class T> inline void native_to_little(T& x) { invert(x); }
   template <class T> inline void big_to_native(T&)  {}
-  template <class T> inline void little_to_native(T& x) { flip(x); }
+  template <class T> inline void little_to_native(T& x) { invert(x); }
   template <class T> inline void native_to_big(T native, T& big) { target = source; }
-  template <class T> inline void native_to_little(T native, T& little) { flip(source, target); }
+  template <class T> inline void native_to_little(T native, T& little) { invert(source, target); }
   template <class T> inline void big_to_native(T big, T& native) { target = source; }
-  template <class T> inline void little_to_native(T little, T& native) { flip(source, target); }
+  template <class T> inline void little_to_native(T little, T& native) { invert(source, target); }
 #endif
 
 }  // namespace endian
