@@ -46,34 +46,32 @@ ordering.</p>
 {
 namespace endian
 {
-  // invert: <span class="f">verb: p</span>ut upside down or in the opposite position, order, or arrangement.
+  // unconditional modifying (i.e. in-place) reverse byte order
 
-  // unconditional modifying (i.e. in-place) endianness reversal
+  inline void reorder(int16_t&amp; x);
+  inline void reorder(int32_t&amp; x);
+  inline void reorder(int64_t&amp; x);
+  inline void reorder(uint16_t&amp; x);
+  inline void reorder(uint32_t&amp; x);
+  inline void reorder(uint64_t&amp; x);
 
-  inline void invert(int16_t&amp; x);
-  inline void invert(int32_t&amp; x);
-  inline void invert(int64_t&amp; x);
-  inline void invert(uint16_t&amp; x);
-  inline void invert(uint32_t&amp; x);
-  inline void invert(uint64_t&amp; x);
+  // unconditional non-modifying reverse byte order copy
 
-  // unconditional non-modifying endianness reversing copy
+  inline void reorder(int16_t source, int16_t&amp; target);
+  inline void reorder(int32_t source, int32_t&amp; target);
+  inline void reorder(int64_t source, int64_t&amp; target);
+  inline void reorder(uint16_t source, uint16_t&amp; target);
+  inline void reorder(uint32_t source, uint32_t&amp; target);
+  inline void reorder(uint64_t source, uint64_t&amp; target);
 
-  inline void invert(int16_t source, int16_t&amp; target);
-  inline void invert(int32_t source, int32_t&amp; target);
-  inline void invert(int64_t source, int64_t&amp; target);
-  inline void invert(uint16_t source, uint16_t&amp; target);
-  inline void invert(uint32_t source, uint32_t&amp; target);
-  inline void invert(uint64_t source, uint64_t&amp; target);
-
-  // conditional modifying (i.e. in-place) endianness reversal
+  // conditional modifying (i.e. in-place) reverse byte order
 
   template &lt;class T&gt; void native_to_big(T&amp; x);
   template &lt;class T&gt; void native_to_little(T&amp; x);
   template &lt;class T&gt; void big_to_native(T&amp; x);
   template &lt;class T&gt; void little_to_native(T&amp; x);
 
-  // non-modifying copy conditionally reversing endianness;
+  // non-modifying conditional reverse byte order copy
 
   template &lt;class T&gt; void native_to_big(T source, T&amp; target);
   template &lt;class T&gt; void native_to_little(T source, T&amp; target);
@@ -83,21 +81,21 @@ namespace endian
 } // namespace endian
 } // namespace boost</pre>
 <h3 dir="ltr">Members</h3>
-<pre dir="ltr">inline void invert(int16_t&amp; x);
-inline void invert(int32_t&amp; x);
-inline void invert(int64_t&amp; x);
-inline void invert(uint16_t&amp; x);
-inline void invert(uint32_t&amp; x);
-inline void invert(uint64_t&amp; x);</pre>
+<pre dir="ltr">inline void reorder(int16_t&amp; x);
+inline void reorder(int32_t&amp; x);
+inline void reorder(int64_t&amp; x);
+inline void reorder(uint16_t&amp; x);
+inline void reorder(uint32_t&amp; x);
+inline void reorder(uint64_t&amp; x);</pre>
 <blockquote>
   <p dir="ltr"><i>Effects:</i> Reverses the byte order of <i><code>x</code></i>.</p>
 </blockquote>
-<pre dir="ltr">inline void invert(int16_t source, int16_t&amp; target);
-inline void invert(int32_t source, int32_t&amp; target);
-inline void invert(int64_t source, int64_t&amp; target);
-inline void invert(uint16_t source, uint16_t&amp; target);
-inline void invert(uint32_t source, uint32_t&amp; target);
-inline void invert(uint64_t source, uint64_t&amp; target);</pre>
+<pre dir="ltr">inline void reorder(int16_t source, int16_t&amp; target);
+inline void reorder(int32_t source, int32_t&amp; target);
+inline void reorder(int64_t source, int64_t&amp; target);
+inline void reorder(uint16_t source, uint16_t&amp; target);
+inline void reorder(uint32_t source, uint32_t&amp; target);
+inline void reorder(uint64_t source, uint64_t&amp; target);</pre>
 <blockquote>
   <p dir="ltr"><i>Effects:</i> Copies <code>source</code> to <code>target</code>, 
   reversing the byte order.</p>
@@ -108,7 +106,7 @@ template &lt;class T&gt; void big_to_native(T&amp; x);
 template &lt;class T&gt; void little_to_native(T&amp; x);</pre>
 <blockquote>
   <p dir="ltr"><i>Effects:</i> If the native byte ordering and indicated byte 
-  ordering are different, <code>invert(x)</code>, otherwise no effect.</p>
+  ordering are different, <code>reorder(x)</code>, otherwise no effect.</p>
 </blockquote>
 <pre dir="ltr">template &lt;class T&gt; void native_to_big(T source, T&amp; target);
 template &lt;class T&gt; void native_to_little(T source, T&amp; target);
@@ -116,7 +114,7 @@ template &lt;class T&gt; void big_to_native(T source, T&amp; target);
 template &lt;class T&gt; void little_to_native(T source, T&amp; target);</pre>
 <blockquote>
   <p dir="ltr"><i>Effects:</i> If the native byte ordering and indicated byte 
-  ordering are different, <code>invert(source, target)</code>, otherwise <code>
+  ordering are different, <code>reorder(source, target)</code>, otherwise <code>
   target = source</code>.</p>
 </blockquote>
 <h2><a name="Acknowledgements">Acknowledgements</a></h2>

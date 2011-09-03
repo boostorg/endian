@@ -16,8 +16,8 @@
 #include <iostream>
 #include <cstdio>
 #include <boost/endian/types.hpp>
-#include <boost/detail/lightweight_test.hpp>
 #include <boost/detail/lightweight_main.hpp>
+#include <boost/static_assert.hpp>
 
 using namespace boost::endian;
 
@@ -41,14 +41,14 @@ namespace
 
 int cpp_main(int, char * [])
 {
-  BOOST_TEST_EQ( sizeof( header ), 16U );  // requirement for interoperability
+  BOOST_STATIC_ASSERT( sizeof( header ) == 16U );  // requirement for interoperability
   
   header h;
 
-  h.file_code   = 0x04030201;
+  h.file_code   = 0x01020304;
   h.file_length = sizeof( header );
   h.version     = -1;
-  h.shape_type  = 0x04030201;
+  h.shape_type  = 0x01020304;
 
   //  Low-level I/O such as POSIX read/write or <cstdio> fread/fwrite is sometimes
   //  used for binary file operations when ultimate efficiency is important.
@@ -74,5 +74,5 @@ int cpp_main(int, char * [])
 
   std::cout << "created file " << filename << '\n';
 
-  return ::boost::report_errors();
+  return 0;
 }
