@@ -16,7 +16,6 @@
 #include <iostream>
 #include <cstdio>
 #include <boost/endian/integers.hpp>
-#include <boost/detail/lightweight_main.hpp>
 #include <boost/static_assert.hpp>
 
 using namespace boost::endian;
@@ -39,9 +38,9 @@ namespace
   const char * filename = "test.dat";
 }
 
-int cpp_main(int, char * [])
+int main(int, char * [])
 {
-  BOOST_STATIC_ASSERT( sizeof( header ) == 16U );  // requirement for interoperability
+  BOOST_STATIC_ASSERT( sizeof( header ) == 16U );  // check requirement
   
   header h;
 

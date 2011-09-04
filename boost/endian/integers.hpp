@@ -1,4 +1,4 @@
-//  boost/endian/types.hpp  ------------------------------------------------------------//
+//  boost/endian/integers.hpp  ---------------------------------------------------------//
 
 //  (C) Copyright Darin Adler 2000
 //  (C) Copyright Beman Dawes 2006, 2009

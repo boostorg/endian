@@ -25,8 +25,31 @@
   <tr>
     <td><a href="../../../index.htm">Boost Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="index.html">Endian Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="conversion.html">Conversion Reference</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="types.html">Types Reference</a>&nbsp;&nbsp;&nbsp;&nbsp; Tutorial</td>
+    <a href="conversion.html">Conversion Functions</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="integers.html">Integer Types</a>&nbsp;&nbsp;&nbsp;&nbsp; Tutorial</td>
+  </tr>
+</table>
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" align="right">
+  <tr>
+    <td width="100%" bgcolor="#D7EEFF" align="center">
+      <i><b>Contents</b></i></td>
+  </tr>
+  <tr>
+    <td width="100%" bgcolor="#E8F5FF">
+      <a href="#Introduction">Introduction</a><br>
+      <a href="#Reference">Reference</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Synopsis">Synopsis</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Members">Members</a><br>
+      <a href="#Acknowledgements">Acknowledgements</a></td>
+  </tr>
+  <tr>
+    <td width="100%" bgcolor="#D7EEFF" align="center">
+      <b><i>Headers</i></b></td>
+  </tr>
+  <tr>
+    <td width="100%" bgcolor="#E8F5FF">
+      <a href="../../../boost/endian/conversion.hpp">&lt;boost/endian/conversion.hpp&gt;</a><br>
+      <a href="../../../boost/endian/integers.hpp">&lt;boost/endian/integers.hpp&gt;</a></td>
   </tr>
 </table>
 
@@ -34,7 +57,7 @@
 
 <p>Header <a href="../../../boost/endian/conversion.hpp">boost/endian/conversion.hpp</a> 
 provides functions that convert built-in 
-integers from the native byte ordering to or from big or little endian byte 
+integers between native byte ordering and <a href="index.html#definition">big or little endian</a> byte 
 ordering.</p>
 
 <h2><a name="Reference">Reference</a></h2>
@@ -80,7 +103,7 @@ namespace endian
 
 } // namespace endian
 } // namespace boost</pre>
-<h3 dir="ltr">Members</h3>
+<h3 dir="ltr"><a name="Members">Members</a></h3>
 <pre dir="ltr">inline void reorder(int16_t&amp; x);
 inline void reorder(int32_t&amp; x);
 inline void reorder(int64_t&amp; x);
@@ -122,7 +145,7 @@ template &lt;class T&gt; void little_to_native(T source, T&amp; target);</pre>
 support endian conversion as separate from endian types.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->03 September, 2011<!--webbot bot="Timestamp" endspan i-checksum="39334" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->04 September, 2011<!--webbot bot="Timestamp" endspan i-checksum="39336" --></p>
 <p>© Copyright Beman Dawes, 2011</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

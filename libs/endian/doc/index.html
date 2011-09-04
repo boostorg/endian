@@ -25,10 +25,56 @@
   <tr>
     <td><a href="../../../index.htm">Boost Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="index.html">Endian Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="conversion.html">Conversion Reference</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="types.html">Types Reference</a>&nbsp;&nbsp;&nbsp;&nbsp; Tutorial</td>
+    <a href="conversion.html">Conversion Functions</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="integers.html">Integer Types</a>&nbsp;&nbsp;&nbsp;&nbsp; Tutorial</td>
   </tr>
 </table>
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" align="right">
+  <tr>
+    <td width="100%" bgcolor="#D7EEFF" align="center">
+      <i><b>Contents</b></i></td>
+  </tr>
+  <tr>
+    <td width="100%" bgcolor="#E8F5FF">
+      <a href="#Abstract">Abstract</a><br>
+      <a href="#Introduction-to-endianness">Introduction to endianness</a><br>
+      <a href="#Introduction">Introduction to the Boost.Endian library</a><br>
+      <a href="#Acknowledgements">Acknowledgements</a></td>
+  </tr>
+  <tr>
+    <td width="100%" bgcolor="#D7EEFF" align="center">
+      <b><i>Headers</i></b></td>
+  </tr>
+  <tr>
+    <td width="100%" bgcolor="#E8F5FF">
+      <a href="../../../boost/endian/conversion.hpp">&lt;boost/endian/conversion.hpp&gt;</a><br>
+      <a href="../../../boost/endian/integers.hpp">&lt;boost/endian/integers.hpp&gt;</a></td>
+  </tr>
+</table>
+<h2><a name="Abstract">Abstract</a></h2>
+
+<p>Boost.Endian provides facilities to manipulate the byte ordering of integers.</p>
+<ul>
+  <li>The primary use case is binary I/O of integers for portable exchange with 
+  other systems, via either file or network transmission.<br>
+&nbsp;</li>
+  <li>A secondary use case is minimizing storage size via integers of sizes 
+  and/or alignments not supported by the built-in types. Integers 1, 2, 3, 4, 5, 
+  6, 7, and 8 bytes in length are supported.<br>
+&nbsp;</li>
+  <li>Two distinct approaches to byte ordering are provided. Each approach has a 
+  long history of successful use, and each approach has use cases where it is 
+  superior to the other approach.<br>
+&nbsp;<ul>
+    <li>The explicit approach provides <a href="conversion.html">conversion 
+    functions</a> to reorder bytes. All four combinations of non-modifying or 
+    modifying, and unconditional or conditional, functions are provided.<br>
+&nbsp;</li>
+    <li>The implicit approach provides <a href="integers.html">integer types</a> 
+    that mimic the built-in integers, implicitly handling all byte reordering.</li>
+  </ul>
+  </li>
+</ul>
 
 <h2><a name="Introduction-to-endianness">Introduction to endianness</a></h2>
 
@@ -54,23 +100,23 @@ output file produces:</p>
 the least-significant byte first, while SPARC CPU's place the most-significant 
 byte first. Some CPU's, such as the PowerPC, allow the operating system to 
 choose which ordering applies.</p>
-<p>The most-significant byte first ordering is traditionally called &quot;big endian&quot; 
-ordering and the least-significant byte first is traditionally called 
+<p><a name="definition"></a>Most-significant-byte-first ordering is traditionally called &quot;big endian&quot; 
+ordering and the least-significant-byte-first is traditionally called 
 &quot;little-endian&quot; ordering. The names are derived from
 <a href="http://en.wikipedia.org/wiki/Jonathan_Swift" title="Jonathan Swift">
 Jonathan Swift</a>'s satirical novel <i>
 <a href="http://en.wikipedia.org/wiki/Gulliver's_Travels" title="Gulliver's Travels">
-Gulliver’s Travels</a></i>, where rival kingdom's opened their soft-boiled eggs 
+Gulliver’s Travels</a></i>, where rival kingdoms opened their soft-boiled eggs 
 at different ends.</p>
-<p>For a more complete introduction to endianness, see the Wikipedia's
-<a href="http://en.wikipedia.org/wiki/Endianness">Endianness</a> article.</p>
+<p>See the Wikipedia's
+<a href="http://en.wikipedia.org/wiki/Endianness">Endianness</a> article for an 
+extensive discussion of endianness.</p>
 <p>Except for reading an occasional core dump, most programmers can ignore 
-endianness. But when exchanging data with other computer systems, whether by 
-file transfers or over a network, programmers have to deal with endianness when 
-binary data is involved.</p>
-<h2><a name="Introduction">Introduction</a> to the Boost Endian Library</h2>
+endianness. But when exchanging binary integers with other computer systems, whether by 
+file transfers or over a network, programmers have to deal with endianness. </p>
+<h2><a name="Introduction">Introduction</a> to the Boost.Endian library</h2>
 
-<p>The Boost Endian Library provides facilities to deal with integer endianness.</p>
+<p>The Boost.Endian library provides facilities to deal with integer endianness.</p>
 
 <p>The library provides two approaches to dealing with integer endianness:</p>
 
@@ -115,7 +161,7 @@ Tomas Puverle, Vincente Botet, and
 Yuval Ronen.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->03 September, 2011<!--webbot bot="Timestamp" endspan i-checksum="39334" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->04 September, 2011<!--webbot bot="Timestamp" endspan i-checksum="39336" --></p>
 <p>© Copyright Beman Dawes, 2011</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

@@ -20,7 +20,6 @@
 
 #include <boost/endian/integers.hpp>
 #include <boost/cstdint.hpp>
-#include <boost/progress.hpp>
 #include <boost/detail/lightweight_main.hpp>
 
 #include <iostream>
