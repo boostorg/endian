@@ -1,4 +1,5 @@
 echo create zip file...
+echo must be run from libs\endian directory
 
 if $%1 == $ goto error
 
@@ -6,28 +7,19 @@ rmdir /s \temp\%1 2>nul
 pushd .
 mkdir \temp\%1
 cd \temp\%1
-md doc\html
-md boost\integer
-md libs\integer\doc
-md libs\integer\example
-md libs\integer\test
+md boost\endian\detail
+md libs\endian\doc
+md libs\endian\example
+md libs\endian\test
 popd
-copy ..\..\boost.png \temp\%1
-copy ..\..\doc\html\minimal.css \temp\%1\doc\html
-copy ..\..\boost\binary_stream.hpp \temp\%1\boost
-copy ..\..\boost\integer\endian.hpp \temp\%1\boost\integer
-copy ..\..\boost\integer\endian_binary_stream.hpp \temp\%1\boost\integer
-copy ..\..\boost\integer\cover_operators.hpp \temp\%1\boost\integer
-copy ..\..\libs\integer\doc\endian.html \temp\%1\libs\integer\doc
-copy ..\..\libs\integer\example\endian_example.cpp \temp\%1\libs\integer\example
-copy ..\..\libs\integer\example\endian_hello_world.cpp \temp\%1\libs\integer\example
-copy ..\..\libs\integer\test\endian_test.cpp \temp\%1\libs\integer\test
-copy ..\..\libs\integer\test\binary_stream_test.cpp \temp\%1\libs\integer\test
-copy ..\..\libs\integer\test\endian_binary_stream_test.cpp \temp\%1\libs\integer\test
-copy ..\..\libs\integer\test\endian_in_union_test.cpp \temp\%1\libs\integer\test
-copy ..\..\libs\integer\test\endian_operations_test.cpp \temp\%1\libs\integer\test
-copy ..\..\libs\integer\test\scoped_enum_emulation_test.cpp \temp\%1\libs\integer\test
-copy ..\..\libs\integer\test\Jamfile.* \temp\%1\libs\integer\test
+copy ..\..\boost\endian\*.hpp \temp\%1\boost\endian
+copy ..\..\boost\endian\detail\*.hpp \temp\%1\boost\endian\detail
+copy ..\..\libs\endian\index.html \temp\%1\libs\endian
+copy ..\..\libs\endian\INSTALL \temp\%1\libs\endian
+copy ..\..\libs\endian\doc\*.html \temp\%1\libs\endian\doc
+copy ..\..\libs\endian\example\*.cpp \temp\%1\libs\endian\example
+copy ..\..\libs\endian\test\Jamfile.v2 \temp\%1\libs\endian\test
+copy ..\..\libs\endian\test\*.cpp \temp\%1\libs\endian\test
 
 pushd \temp
 zip -r %1.zip %1
@@ -39,6 +31,6 @@ goto done
 :error
 echo usage: zip-endian version
 echo   version will be used for both the .zip name and the highest level directory name
-echo example: zip-endian endian-1.0
+echo example: zip-endian endian-rc1
 
 :done

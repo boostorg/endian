@@ -1,22 +1,19 @@
-[Faster] To copy the library into an existing boost subversion checkout, do 
-the following, replacing "BOOST" with the path of the boost checkout: 
+Installation of a review candidate
+==================================
 
-  svn export --force http://svn.boost.org/svn/boost/sandbox/endian BOOST
+1) Download the .zip distribution file. Move it to, say, /temp, and unzip it there.
+   That will result in a directory in /temp named endian-rc#, where # is the number of the
+   review candidate.
 
-[Slower] To install with an export of the Boost trunk, do the following 
-in the directory where you want the resulting endian directory:
+2) If you haven't already done so, install a current version of Boost. 
+   Since Boost.Endian is a header only library, there is no need to run a build.
+   
+3) Copy the endian files to your Boost installation (replace MY-BOOST with its path):
 
-  mkdir endian
-  svn co http://svn.boost.org/svn/boost/sandbox/endian endian
-  svn export --force http://svn.boost.org/svn/boost/trunk endian
-  
-Boost.Endian is a header only library, so the library is ready to go
-without running a build.  
-  
-To run the tests:
+    Windows:  xcopy /s /i \temp\endian-rc#\* MY-BOOST   
+    POSIX:    cp -r /temp/endian-rc#/* MY-BOOST
+	
+4) Run the tests (as a confidence builder that the install went OK):
 
-  cd endian/libs/endian/test
-  bjam  
-
-Copyright Beman Dawes 2011
-Distributed under the Boost Software License, Version 1.0.  See http://www.boost.org/LICENSE_1_0.txt 
+       cd MY-BOOST/endian/libs/endian/test
+       bjam  
