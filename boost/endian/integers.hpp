@@ -21,6 +21,11 @@
 #ifndef BOOST_ENDIAN_HPP
 #define BOOST_ENDIAN_HPP
 
+#if defined(_MSC_VER)  
+# pragma warning(push)  
+# pragma warning(disable:4365)  // conversion ... signed/unsigned mismatch
+#endif
+
 #ifdef BOOST_ENDIAN_LOG
 # include <iostream>
 #endif
@@ -427,5 +432,9 @@ namespace boost
 #if defined(__BORLANDC__) || defined( __CODEGEARC__)
 # pragma pack(pop)
 #endif
+
+#if defined(_MSC_VER)  
+# pragma warning(pop)  
+#endif 
 
 #endif // BOOST_ENDIAN_HPP

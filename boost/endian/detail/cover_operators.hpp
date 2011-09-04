@@ -19,6 +19,11 @@
 #ifndef BOOST_INTEGER_COVER_OPERATORS_HPP
 #define BOOST_INTEGER_COVER_OPERATORS_HPP
 
+#if defined(_MSC_VER)  
+# pragma warning(push)  
+# pragma warning(disable:4365)  // conversion ... signed/unsigned mismatch
+#endif
+
 # ifndef BOOST_MINIMAL_INTEGER_COVER_OPERATORS
 #   include <boost/operators.hpp>
 # endif
@@ -107,5 +112,9 @@ namespace boost
     };
   } // namespace endian
 } // namespace boost
+
+#if defined(_MSC_VER)  
+# pragma warning(pop)  
+#endif 
 
 #endif // BOOST_INTEGER_COVER_OPERATORS_HPP
