@@ -9,7 +9,7 @@
 
 #include <boost/endian/detail/disable_warnings.hpp>
 
-#include <boost/endian/types.hpp>
+#include <boost/endian/integers.hpp>
 #include <boost/io/detail/bin_manip.hpp>
 #include <iostream>
 
