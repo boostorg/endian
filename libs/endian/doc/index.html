@@ -23,10 +23,10 @@
 
 <table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" bgcolor="#D7EEFF" width="100%">
   <tr>
-    <td><a href="../../../index.htm">Boost Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <td><b><a href="../../../index.htm">Boost Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="index.html">Endian Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="conversion.html">Conversion Functions</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="integers.html">Integer Types</a>&nbsp;&nbsp;&nbsp;&nbsp; Tutorial</td>
+    <a href="integers.html">Integer Types</a>&nbsp;&nbsp;&nbsp;&nbsp; Tutorial</b></td>
   </tr>
 </table>
 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" align="right">
@@ -122,7 +122,7 @@ file transfers or over a network, programmers have to deal with endianness. </p>
 
 <blockquote>
 
-<p><b>Endian conversions for native integers -</b> The application uses the 
+<p><b><a href="conversion.html">Endian conversions</a> for native integers -</b> The application uses the 
 built-in integer types, and calls the provided conversion functions to convert 
 byte ordering as needed. Both mutating and non-mutating conversions are supplied, and 
 each comes in unconditional and conditional variants. This approach is simple 
@@ -130,7 +130,7 @@ and usually more efficient, but is less flexible in terms of size and alignment,
 hard-to-manage and error-prone in code with many logical paths involving endianness transitions, 
 and can foster very hard to debug logic errors. </p>
 
-<p><b>Endian integer types -</b> The application uses the provided endian types 
+<p><b><a href="integers.html">Endian integer types</a> -</b> The application uses the provided endian types 
 which mimic the 
 built-in integer types. For example, <code>big32_t</code> or <code>little64_t</code>. 
 This approach is also simple, but can be less efficient. Types with lengths of 

@@ -698,13 +698,13 @@ namespace
 
   } // check_representation_and_range
 
-  long iterations = 10000000;
+  long iterations = 10000;
   
   template< class Endian >
   Endian timing_test( const char * s)
   {
     cout << s << " timing test, " << iterations << " iterations: ";
-    progress_timer t;
+//    progress_timer t;
 
     Endian v = 1;
     for ( long i = 0; i < iterations; ++i )
@@ -726,7 +726,7 @@ int cpp_main( int argc, char * argv[] )
 {
   cout << "Usage: "
        << argv[0] << " [#],\n where # specifies iteration count\n"
-          " default iteration count is 1000000" << endl;
+          " default iteration count is " << iterations << endl;
 
   if ( argc > 1 )
     iterations = atol( argv[1] );
