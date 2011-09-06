@@ -40,7 +40,7 @@
   <tr>
     <td width="100%" bgcolor="#E8F5FF">
       <a href="#Introduction">Introduction</a><br>
-      <a href="#Hello-endian-world">Hello endian world</a><br>
+      <a href="#Example">Example</a><br>
       <a href="#Limitations">Limitations</a><br>
       <a href="#Feature-set">Feature set</a><br>
       <a href="#Types">Typedefs</a><br>
@@ -50,7 +50,6 @@
       <a href="#Synopsis">Synopsis</a><br>
       &nbsp;&nbsp;&nbsp; <a href="#Members">Members</a><br>
       <a href="#FAQ">FAQ</a><br>
-      <a href="#Example">Example</a><br>
       <a href="#Design">Design</a><br>
       <a href="#Experience">Experience</a><br>
       <a href="#Motivating-use-cases">Motivating use cases</a><br>
@@ -97,35 +96,76 @@ arithmetic operators are <code>+</code>, <code>+=</code>, <code>-</code>, <code>
 <code>&gt;&gt;=</code>. Binary relational operators are <code>==</code>, <code>!=</code>,
 <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>.</p>
 <p>Automatic conversion is provided to the underlying integer value type.</p>
-<h2><a name="Hello-endian-world">Hello endian world</a></h2>
+<h2><a name="Example">Example</a></h2>
+<p>The <a href="../example/endian_example.cpp">endian_example.cpp</a> program writes a 
+binary file containing four byte big-endian and little-endian integers:</p>
 <blockquote>
-  <pre>#include &lt;boost/integer/endian.hpp&gt;
-#include &lt;boost/integer/endian_binary_stream.hpp&gt;
-#include &lt;boost/binary_stream.hpp&gt;
-#include &lt;iostream&gt;
+  <pre>#include &lt;iostream&gt;
+#include &lt;cstdio&gt;
+#include &lt;boost/endian/integers.hpp&gt;
+#include &lt;boost/static_assert.hpp&gt;
 
-using namespace boost;
-using namespace boost::integer;
+using namespace boost::endian;
+
+namespace 
+{
+  // This is an extract from a very widely used GIS file format. I have no idea
+  // why a designer would mix big and little endians in the same file - but
+  // this is a real-world format and users wishing to write low level code
+  // manipulating these files have to deal with the mixed endianness.
+
+  struct header
+  {
+    big32_t     file_code;
+    big32_t     file_length;
+    little32_t  version;
+    little32_t  shape_type;
+  };
+
+  const char * filename = &quot;test.dat&quot;;
+}
 
 int main()
 {
-  int_least32_t v = 0x31323334L;  // = ASCII { '1', '2', '3', '4' }
-                                  // value chosen to work on text stream
-  big32_t    b(v);
-  little32_t l(v);
+  BOOST_STATIC_ASSERT( sizeof( header ) == 16U ); // check requirement
 
-  std::cout &lt;&lt; &quot;Hello, endian world!\n\n&quot;;
+  header h;
 
-  std::cout &lt;&lt; v &lt;&lt; ' ' &lt;&lt; b &lt;&lt; ' ' &lt;&lt; l &lt;&lt; '\n';
-  std::cout &lt;= v &lt;= ' ' &lt;= b &lt;= ' ' &lt;= l &lt;= '\n';
+  h.file_code   = 0x01020304;
+  h.file_length = sizeof( header );
+  h.version     = -1;
+  h.shape_type  = 0x01020304;
+
+  // Low-level I/O such as POSIX read/write or &lt;cstdio&gt; fread/fwrite is sometimes
+  // used for binary file operations when ultimate efficiency is important.
+  // Such I/O is often performed in some C++ wrapper class, but to drive home the
+  // point that endian integers are often used in fairly low-level code that
+  // does bulk I/O operations, &lt;cstdio&gt; fopen/fwrite is used for I/O in this example.
+
+  std::FILE * fi;
+
+  if ( !(fi = std::fopen( filename, &quot;wb&quot; )) )  // MUST BE BINARY
+  {
+    std::cout &lt;&lt; &quot;could not open &quot; &lt;&lt; filename &lt;&lt; '\n';
+    return 1;
+  }
+
+  if ( std::fwrite( &amp;h, sizeof( header ), 1, fi ) != 1 ) 
+  {
+    std::cout &lt;&lt; &quot;write failure for &quot; &lt;&lt; filename &lt;&lt; '\n';
+    return 1;
+  }
+
+  std::fclose( fi );
+
+  std::cout &lt;&lt; &quot;created file &quot; &lt;&lt; filename &lt;&lt; '\n';
+  return 0;
 }</pre>
 </blockquote>
-<p>On a little-endian CPU, this program outputs:</p>
+<p>After compiling and executing <a href="endian_example.cpp">endian_example.cpp</a>, 
+a hex dump of <code>test.dat</code> shows:</p>
 <blockquote>
-  <pre>Hello, endian world!
-
-825373492 825373492 825373492
-4321 1234 4321</pre>
+  <pre>0102 0304 0000 0010 ffff ffff 0403 0201</pre>
 </blockquote>
 <h2><a name="Limitations">Limitations</a></h2>
 <p>Requires <code>&lt;climits&gt;</code> <code>CHAR_BIT == 8</code>. If <code>CHAR_BIT</code> 
@@ -470,76 +510,6 @@ incrementing a variable in a record. It is very convenient to write:</p>
 <pre wrap>    int temp(record.foo);
     ++temp;
     record.foo = temp;</pre>
-<h2><a name="Example">Example</a></h2>
-<p>The <a href="../example/endian_example.cpp">endian_example.cpp</a> program writes a 
-binary file containing four byte big-endian and little-endian integers:</p>
-<blockquote>
-  <pre>#include &lt;iostream&gt;
-#include &lt;cstdio&gt;
-#include &lt;boost/endian/integers.hpp&gt;
-#include &lt;boost/static_assert.hpp&gt;
-
-using namespace boost::endian;
-
-namespace 
-{
-  // This is an extract from a very widely used GIS file format. I have no idea
-  // why a designer would mix big and little endians in the same file - but
-  // this is a real-world format and users wishing to write low level code
-  // manipulating these files have to deal with the mixed endianness.
-
-  struct header
-  {
-    big32_t     file_code;
-    big32_t     file_length;
-    little32_t  version;
-    little32_t  shape_type;
-  };
-
-  const char * filename = &quot;test.dat&quot;;
-}
-
-int main()
-{
-  BOOST_STATIC_ASSERT( sizeof( header ) == 16U ); // check requirement
-
-  header h;
-
-  h.file_code   = 0x04030201;
-  h.file_length = sizeof( header );
-  h.version     = -1;
-  h.shape_type  = 0x04030201;
-
-  // Low-level I/O such as POSIX read/write or &lt;cstdio&gt; fread/fwrite is sometimes
-  // used for binary file operations when ultimate efficiency is important.
-  // Such I/O is often performed in some C++ wrapper class, but to drive home the
-  // point that endian integers are often used in fairly low-level code that
-  // does bulk I/O operations, &lt;cstdio&gt; fopen/fwrite is used for I/O in this example.
-
-  std::FILE * fi;
-
-  if ( !(fi = std::fopen( filename, &quot;wb&quot; )) )  // MUST BE BINARY
-  {
-    std::cout &lt;&lt; &quot;could not open &quot; &lt;&lt; filename &lt;&lt; '\n';
-    return 1;
-  }
-
-  if ( std::fwrite( &amp;h, sizeof( header ), 1, fi ) != 1 ) 
-  {
-    std::cout &lt;&lt; &quot;write failure for &quot; &lt;&lt; filename &lt;&lt; '\n';
-    return 1;
-  }
-
-  std::fclose( fi );
-
-  std::cout &lt;&lt; &quot;created file &quot; &lt;&lt; filename &lt;&lt; '\n';
-  return 0;
-}</pre>
-</blockquote>
-<p>After compiling and executing <a href="endian_example.cpp">endian_example.cpp</a>, a hex dump of <code>test.dat</code> shows:</p>
-<blockquote>
-  <pre>0403 0201 0000 0010 ffff ffff 0102 0304</pre>
-</blockquote>
 <h2><a name="Design">Design</a> considerations for Boost.Endian integers</h2>
 <ul>
   <li>Must be suitable for I/O - in other words, must be memcpyable.</li>
@@ -607,7 +577,7 @@ sign partial specialization to correctly extend the sign when cover integer size
 differs from endian representation size.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->04 September, 2011<!--webbot bot="Timestamp" endspan i-checksum="39336" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->05 September, 2011<!--webbot bot="Timestamp" endspan i-checksum="39338" --></p>
 <p>© Copyright Beman Dawes, 2006-2009</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

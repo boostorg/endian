@@ -128,24 +128,38 @@ template &lt;class T&gt; void native_to_little(T&amp; x);
 template &lt;class T&gt; void big_to_native(T&amp; x);
 template &lt;class T&gt; void little_to_native(T&amp; x);</pre>
 <blockquote>
-  <p dir="ltr"><i>Effects:</i> If the native byte ordering and indicated byte 
-  ordering are different, <code>reorder(x)</code>, otherwise no effect.</p>
+  <p dir="ltr"><i>Effects:</i> If the native byte ordering and  byte 
+  ordering indicated by the function name are different, <code>reorder(x)</code>, otherwise no effect.</p>
+  <p dir="ltr"><i>Example:</i></p>
+  <blockquote>
+    <pre>int32_t x = <b><i>some-value</i></b>;
+native_to_big(x); // converts x to big-endian unless
+                  // the native representation is already big-endian</pre>
+  </blockquote>
 </blockquote>
 <pre dir="ltr">template &lt;class T&gt; void native_to_big(T source, T&amp; target);
 template &lt;class T&gt; void native_to_little(T source, T&amp; target);
 template &lt;class T&gt; void big_to_native(T source, T&amp; target);
 template &lt;class T&gt; void little_to_native(T source, T&amp; target);</pre>
 <blockquote>
-  <p dir="ltr"><i>Effects:</i> If the native byte ordering and indicated byte 
-  ordering are different, <code>reorder(source, target)</code>, otherwise <code>
+  <p dir="ltr"><i>Effects:</i> If the native byte ordering and  byte 
+  ordering indicated by the function name are different, <code>reorder(source, target)</code>, otherwise <code>
   target = source</code>.</p>
+  <p dir="ltr"><i>Example:</i></p>
+  <blockquote>
+    <pre>int32_t x;
+<i>... read an external little-endian value into x ...</i>
+int32_t y;
+little_to_native(x, y); // if native ordering is big-endian, reorder(x, y),
+                        // otherwise y = x</pre>
+  </blockquote>
 </blockquote>
 <h2><a name="Acknowledgements">Acknowledgements</a></h2>
 <p>Tomas Puverle was instrumental in identifying and articulating the need to 
 support endian conversion as separate from endian types.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->04 September, 2011<!--webbot bot="Timestamp" endspan i-checksum="39336" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->05 September, 2011<!--webbot bot="Timestamp" endspan i-checksum="39338" --></p>
 <p>© Copyright Beman Dawes, 2011</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
