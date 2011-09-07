@@ -58,7 +58,7 @@ namespace boost
      ~timer()                         {}  // never throws
 
       void            start();
-      const times_t& stop();
+      const times_t&  stop();
       bool            stopped() const { return m_flags& m_stopped; }
       void            elapsed(times_t& result); // does not stop()
 

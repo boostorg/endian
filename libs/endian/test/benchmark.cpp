@@ -7,11 +7,13 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
+#include <cstdlib>
 #include <boost/endian/conversion.hpp>
 #include <boost/random.hpp>
 #include <boost/cstdint.hpp>
 #include <boost/endian/support/timer.hpp>
 #include <iostream>
+#include <string>
 
 using namespace boost;
 using std::cout;
@@ -19,33 +21,44 @@ using std::cerr;
 using std::endl;
 using std::vector;
 
-#define BENCHMARK(Function)                     \
-{                                               \
-  cout << "\nRunning benchmark..." << endl << ' ';     \
-  int64_t sum = 0;                              \
-  int32_t value;                                \
-                                                \
-  endian::run_timer t;                          \
-                                                \
-  for (int32_t i = n; i; --i)                   \
-  {                                             \
-    value = 0x01020304;                         \
-    Function(value);                            \
-    sum += value ;                              \
-  }                                             \
-                                                \
-  t.report();                                   \
-                                                \
-  cout << "  Benchmark complete\n"              \
-          "    sum is " << sum << endl;         \
-}
-
 namespace
 {
   std::string command_args;
-  long n;
-  long seed = 1;
+  long long n;
   int places = 2;
+  bool verbose (false);
+
+  typedef int32_t (*timee_func)(int32_t);
+
+  endian::microsecond_t benchmark(timee_func timee, const char* msg,
+    endian::microsecond_t overhead = 0)              
+  {                                               
+    if (verbose)                                  
+      cout << "\nRunning benchmark..." << endl;   
+    int64_t sum = 0;                              
+    endian::times_t times;
+    endian::microsecond_t cpu_time;
+    endian::run_timer t(places);                  
+                                                
+    for (long long i = n; i; --i)                 
+    {                                             
+      sum += timee(static_cast<int32_t>(i)) ;                              
+    }                                             
+    times = t.stop();
+    cpu_time = (times.system + times.user) - overhead;
+    const long double sec = 1000000.0L;
+    cout.setf(std::ios_base::fixed, std::ios_base::floatfield);
+    cout.precision(places);
+    cout << msg << " " << cpu_time / sec << endl;                                 
+                                                
+    if (verbose)                                  
+    { 
+      t.report();
+      cout << "  Benchmark complete\n"            
+              "    sum is " << sum << endl;       
+    }
+    return cpu_time;
+  }
 
   void process_command_line(int argc, char * argv[])
   {
@@ -59,12 +72,18 @@ namespace
     cout << command_args << '\n';;
 
     if (argc >=2)
-      n = std::atol(argv[1]);
+#ifndef _MSC_VER
+      n = std::atoll(argv[1]);
+#else
+      n = _atoi64(argv[1]);
+#endif
 
     for (; argc > 2; ++argv, --argc) 
     {
       if ( *(argv[2]+1) == 'p' )
         places = atoi( argv[2]+2 );
+      else if ( *(argv[2]+1) == 'v' )
+        verbose = true;
       else
       {
         cout << "Error - unknown option: " << argv[2] << "\n\n";
@@ -78,17 +97,41 @@ namespace
       cout << "Usage: benchmark n [Options]\n"
               "  The argument n specifies the number of test cases to run\n"
               "  Options:\n"
+              "   -v       Verbose messages\n"
               "   -p#      Decimal places for times; default -p" << places << "\n";
       return std::exit(1);
     }
   }
 
-  inline void noop(int32_t&) {}
-
-  inline void shift_and_mask(int32_t& x)
+  inline void in_place(int32_t& x)
   {
     x = ((x << 24) & 0xff000000) | ((x << 8) & 0x00ff0000) | ((x >> 24) & 0x000000ff)
       | ((x >> 8) & 0x0000ff00);
+  }
+
+  inline int32_t by_return(int32_t x)
+  {
+    return ((x << 24) & 0xff000000) | ((x << 8) & 0x00ff0000) | ((x >> 24) & 0x000000ff)
+      | ((x >> 8) & 0x0000ff00);
+  }
+
+  int32_t modify_noop(int32_t x)
+  {
+    int32_t v(x);
+    return v;
+  }
+
+  int32_t modify_in_place(int32_t x)
+  {
+    int32_t v(x);
+    in_place(v);
+    return v;
+  }
+
+  int32_t modify_by_return(int32_t x)
+  {
+    int32_t v(x);
+    return by_return(v);
   }
 
 } // unnamed namespace
@@ -99,9 +142,11 @@ int main(int argc, char * argv[])
 {
   process_command_line(argc, argv);
 
-  BENCHMARK(noop);
-  BENCHMARK(endian::reorder);
-  BENCHMARK(shift_and_mask);
+  endian::microsecond_t overhead;
+
+  overhead = benchmark(modify_noop, "modify no-op");
+  benchmark(modify_in_place, "modify in place", overhead);
+  benchmark(modify_by_return, "modify by return", overhead);
 
   return 0;
 }
