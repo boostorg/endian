@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "endian_example", "endian_ex
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "conversion_test", "conversion_test\conversion_test.vcxproj", "{9FA33B0B-2B00-49E8-A892-E049D86076A9}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "benchmark", "benchmark\benchmark.vcxproj", "{C9FEAE75-4DD9-44F5-B302-9910559A91BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -43,6 +45,10 @@ Global
 		{9FA33B0B-2B00-49E8-A892-E049D86076A9}.Debug|Win32.Build.0 = Debug|Win32
 		{9FA33B0B-2B00-49E8-A892-E049D86076A9}.Release|Win32.ActiveCfg = Release|Win32
 		{9FA33B0B-2B00-49E8-A892-E049D86076A9}.Release|Win32.Build.0 = Release|Win32
+		{C9FEAE75-4DD9-44F5-B302-9910559A91BE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C9FEAE75-4DD9-44F5-B302-9910559A91BE}.Debug|Win32.Build.0 = Debug|Win32
+		{C9FEAE75-4DD9-44F5-B302-9910559A91BE}.Release|Win32.ActiveCfg = Release|Win32
+		{C9FEAE75-4DD9-44F5-B302-9910559A91BE}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
