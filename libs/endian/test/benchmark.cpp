@@ -28,7 +28,11 @@ namespace
   int places = 2;
   bool verbose (false);
 
+#ifndef BOOST_TWO_ARG
   typedef int32_t (*timee_func)(int32_t);
+#else
+  typedef void (*timee_func)(int32_t, int32_t&);
+#endif
 
   endian::microsecond_t benchmark(timee_func timee, const char* msg,
     endian::microsecond_t overhead = 0)              
@@ -42,7 +46,13 @@ namespace
                                                 
     for (long long i = n; i; --i)                 
     {                                             
+#   ifndef BOOST_TWO_ARG
       sum += timee(static_cast<int32_t>(i)) ;                              
+#   else
+      int32_t y;
+      timee(static_cast<int32_t>(i), y);
+      sum += y;
+#   endif
     }                                             
     times = t.stop();
     cpu_time = (times.system + times.user) - overhead;
@@ -115,6 +125,12 @@ namespace
       | ((x >> 8) & 0x0000ff00);
   }
 
+  inline int32_t two_operand(int32_t x, int32_t& y)
+  {
+    return y = ((x << 24) & 0xff000000) | ((x << 8) & 0x00ff0000) | ((x >> 24) & 0x000000ff)
+      | ((x >> 8) & 0x0000ff00);
+  }
+
   int32_t modify_noop(int32_t x)
   {
     int32_t v(x);
@@ -134,6 +150,21 @@ namespace
     return by_return(v);
   }
 
+  void non_modify_assign(int32_t x, int32_t& y)
+  {
+    y = x;
+  }
+
+  void non_modify_two_operand(int32_t x, int32_t& y)
+  {
+    two_operand(x, y);
+  }
+
+  void non_modify_by_return(int32_t x, int32_t& y)
+  {
+    y = by_return(x);
+  }
+
 } // unnamed namespace
 
 //-------------------------------------- main()  ---------------------------------------//
@@ -144,9 +175,15 @@ int main(int argc, char * argv[])
 
   endian::microsecond_t overhead;
 
+#ifndef BOOST_TWO_ARG
   overhead = benchmark(modify_noop, "modify no-op");
   benchmark(modify_in_place, "modify in place", overhead);
   benchmark(modify_by_return, "modify by return", overhead);
+#else
+  overhead = benchmark(non_modify_assign, "non_modify_assign     ");
+  benchmark(non_modify_two_operand,       "non_modify_two_operand", overhead);
+  benchmark(non_modify_by_return,         "non_modify_by_return  ", overhead);
+#endif
 
   return 0;
 }
