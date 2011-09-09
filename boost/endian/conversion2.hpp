@@ -82,14 +82,12 @@ namespace endian2
 
   inline int64_t reorder(int64_t x)
   {
-    return (static_cast<uint64_t>(x) << 56)
-      | ((static_cast<uint64_t>(x) << 40) & 0x00ff000000000000ULL)
-      | ((static_cast<uint64_t>(x) << 24) & 0x0000ff0000000000ULL)
-      | ((static_cast<uint64_t>(x) << 8)  & 0x000000ff00000000ULL)
-      | ((static_cast<uint64_t>(x) >> 8)  & 0x00000000ff000000ULL)
-      | ((static_cast<uint64_t>(x) >> 24) & 0x0000000000ff0000ULL)
-      | ((static_cast<uint64_t>(x) >> 40) & 0x000000000000ff00ULL)
-      | (static_cast<uint64_t>(x) >> 56);
+    uint64_t step32, step16;
+    step32 = static_cast<uint64_t>(x) << 32 | static_cast<uint64_t>(x) >> 32;
+    step16 = (step32 & 0x0000FFFF0000FFFF) << 16
+           | (step32 & 0xFFFF0000FFFF0000) >> 16;
+    return static_cast<int64_t>((step16 & 0x00FF00FF00FF00FF) << 8
+           | (step16 & 0xFF00FF00FF00FF00) >> 8);
   }
 
   inline uint16_t reorder(uint16_t x)
@@ -109,14 +107,12 @@ namespace endian2
 
   inline uint64_t reorder(uint64_t x)
   {
-    return (x << 56)
-      | ((x << 40) & 0x00ff000000000000)
-      | ((x << 24) & 0x0000ff0000000000)
-      | ((x << 8)  & 0x000000ff00000000)
-      | ((x >> 8)  & 0x00000000ff000000)
-      | ((x >> 24) & 0x0000000000ff0000)
-      | ((x >> 40) & 0x000000000000ff00)
-      | (x >> 56);
+    uint64_t step32, step16;
+    step32 = x << 32 | x >> 32;
+    step16 = (step32 & 0x0000FFFF0000FFFF) << 16
+           | (step32 & 0xFFFF0000FFFF0000) >> 16;
+    return (step16 & 0x00FF00FF00FF00FF) << 8
+           | (step16 & 0xFF00FF00FF00FF00) >> 8;
   }
 
 
@@ -132,7 +128,7 @@ namespace endian2
   }
 
   template <class T>
-    inline T big(const T& x)
+  inline T big(const T& x)
   {
 #   ifdef BOOST_BIG_ENDIAN
       return x;
@@ -142,7 +138,7 @@ namespace endian2
   }
 
   template <class T>
-    inline T little(const T& x)    
+  inline T little(const T& x)    
   {
 #   ifdef BOOST_LITTLE_ENDIAN
       return x;
