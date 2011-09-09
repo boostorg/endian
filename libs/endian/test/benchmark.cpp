@@ -115,14 +115,27 @@ namespace
 
   inline void in_place(int32_t& x)
   {
-    x = ((x << 24) & 0xff000000) | ((x << 8) & 0x00ff0000) | ((x >> 24) & 0x000000ff)
-      | ((x >> 8) & 0x0000ff00);
+    x =  (static_cast<uint32_t>(x) << 24)
+      | ((static_cast<uint32_t>(x) << 8) & 0x00ff0000)
+      | ((static_cast<uint32_t>(x) >> 8) & 0x0000ff00)
+      | (static_cast<uint32_t>(x) >> 24);
   }
 
   inline int32_t by_return(int32_t x)
   {
-    return ((x << 24) & 0xff000000) | ((x << 8) & 0x00ff0000) | ((x >> 24) & 0x000000ff)
-      | ((x >> 8) & 0x0000ff00);
+    return (static_cast<uint32_t>(x) << 24)
+      | ((static_cast<uint32_t>(x) << 8) & 0x00ff0000)
+      | ((static_cast<uint32_t>(x) >> 8) & 0x0000ff00)
+      | (static_cast<uint32_t>(x) >> 24);
+  }
+
+  inline int32_t by_return_pyry(int32_t x)
+  {
+    uint32_t step16;
+    step16 = static_cast<uint32_t>(x) << 16 | static_cast<uint32_t>(x) >> 16;
+    return
+        ((static_cast<uint32_t>(step16) << 8) & 0xff00ff00)
+      | ((static_cast<uint32_t>(step16) >> 8) & 0x00ff00ff);
   }
 
   inline int32_t two_operand(int32_t x, int32_t& y)
@@ -148,6 +161,12 @@ namespace
   {
     int32_t v(x);
     return by_return(v);
+  }
+
+  int32_t modify_by_return_pyry(int32_t x)
+  {
+    int32_t v(x);
+    return by_return_pyry(v);
   }
 
   void non_modify_assign(int32_t x, int32_t& y)
@@ -179,6 +198,7 @@ int main(int argc, char * argv[])
   overhead = benchmark(modify_noop, "modify no-op");
   benchmark(modify_in_place, "modify in place", overhead);
   benchmark(modify_by_return, "modify by return", overhead);
+  benchmark(modify_by_return_pyry, "modify by return", overhead);
 #else
   overhead = benchmark(non_modify_assign, "non_modify_assign     ");
   benchmark(non_modify_two_operand,       "non_modify_two_operand", overhead);
