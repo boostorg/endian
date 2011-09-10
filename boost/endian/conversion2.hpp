@@ -21,10 +21,9 @@
 //    -- reorder implementation approach suggested by tymofey, with avoidance of
 //       undefined behavior as suggested by Giovanni Piero Deretta, and a further
 //       refinement suggested by Pyry Jahkola.
-//    -- general reorder function template to meet requests for UDT support by
-//       Vicente Botet and others. 
-//    -- general reorder function template implementation approach using std::reverse
-//       suggested by Mathias Gaunard
+//
+//   Q: Why no general reorder template? A: It wouldn't work for classes with more than
+//      one member; each member must be reordered individually.
 //
 //--------------------------------------------------------------------------------------//
 
@@ -45,15 +44,10 @@ namespace endian2
 
   // TODO: Need implementation
   // TODO: Need to verify the return does not invoke undefined behavior (as might happen
-  // if there are unutterable floating point values, such as happens with the unutterable
-  // pointer values on some architectures
+  // if there are unutterable floating point values, similar to the unutterable pointer
+  // values on some architectures
   inline float    reorder(float x);    
   inline double   reorder(double x);   
-
-  // TODO: Would pass by value be better for the following functions?
-
-  template <class T>
-  inline T reorder(const T& x);
 
   template <class T>
   inline T big(const T& x);    
@@ -113,18 +107,6 @@ namespace endian2
            | (step32 & 0xFFFF0000FFFF0000) >> 16;
     return (step16 & 0x00FF00FF00FF00FF) << 8
            | (step16 & 0xFF00FF00FF00FF00) >> 8;
-  }
-
-
-  template <class T>
-  inline T reorder(const T& x)
-  {
-    T tmp;
-    std::reverse(
-      reinterpret_cast<const char*>(&x),
-      reinterpret_cast<const char*>(&x) + sizeof(T),
-      reinterpret_cast<char*>(&tmp));
-    return tmp;
   }
 
   template <class T>
