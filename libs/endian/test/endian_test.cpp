@@ -73,6 +73,8 @@ namespace
 
     ++v; // verify integer_cover_operators being applied to this type -
          // will fail to compile if no endian<> specialization is present
+
+    v+v;
   }
 
   const char * big_rep    = "\x12\x34\x56\x78\x9A\xBC\xDE\xF0";
@@ -698,6 +700,35 @@ namespace
 
   } // check_representation_and_range
 
+  class MyInt
+  {
+    int32_t mx;
+  public:
+    MyInt(int32_t x) : mx(x) {}
+    operator int32_t() const {return mx;}
+
+    //friend int32_t operator+(const MyInt& x) {return x;}
+  };
+
+  void check_udt()
+  {
+    typedef boost::endian::endian< endianness::big, MyInt, 32 >  mybig32_t;
+
+    mybig32_t v(10);
+    cout << "+v is " << +v << endl;
+    v += 1;
+    cout << "v is " << +v << endl;
+    v -= 2;
+    cout << "v is " << +v << endl;
+    v *= 2;
+    cout << "v is " << +v << endl;
+    ++v;
+    cout << "v is " << +v << endl;
+    --v;
+    cout << "v is " << +v << endl;
+//    cout << "v+v is " << +(v+v) << endl;
+  }
+
   long iterations = 10000;
   
   template< class Endian >
@@ -737,6 +768,7 @@ int cpp_main( int argc, char * argv[] )
   check_alignment();
   check_representation_and_range_and_ops();
   check_data();
+  check_udt();
 
   //timing_test<big32_t> ( "big32_t" );
   //timing_test<aligned_big32_t>( "aligned_big32_t" );
