@@ -15,24 +15,148 @@
 <h3 dir="ltr">Votes</h3>
 <ul>
   <li dir="ltr">
-  <p dir="ltr">&nbsp;</li>
+  <p dir="ltr">John Filo - &quot;Absolutely. I'd like to see support for float and 
+  double, but<br>
+  even without those additions, I still vote yes.&quot; &quot;For those who deal with 
+  non-native endian data, this library is<br>
+  extremely useful. It automatically eliminates a whole class of common<br>
+  programming errors when dealing with such data.&quot;<br>
+&nbsp;</li>
+  <li dir="ltr">
+  <p dir="ltr">Hartmut Kaiser - &quot;Even if this is not a full review, I would like 
+  to vote YES to include this <br>
+  library into Boost. 
+  <p>Boost.Spirit is using (and shipping) with an older version of this library
+  <br>
+  for several years now and we never had any problems with its usage in <br>
+  Spirit. It is used as the underlying framework for the binary parsers and <br>
+  generators and it is functioning as advertised.</p>
+  <p>As a quick test I replaced the internal (older) version of Boost.Endian in
+  <br>
+  Spirit with the reviewed version. All of Spirits regression tests still <br>
+  pass. &quot;<br>
+&nbsp;</li>
+  <li dir="ltr">
+  <p dir="ltr">Robert Stewart - &quot;There are issues that keep me from saying yes 
+  at this time. &nbsp;There are too many suggested variations and ideas under 
+  consideration to accept the library in its present state. &nbsp;However, a 
+  mini-review should be sufficient to evaluate the final form, once Beman 
+  determines a course of action, and determine whether to accept it or not.&quot;<br>
+&nbsp;</li>
+  <li dir="ltr">
+  <p dir="ltr">Tim Blechmann - &quot;the library should be accepted, if<br>
+  <br>
+  (a) the interface of the conversion functions is changed<br>
+  (b) the performance can be improved<br>
+  (c) the documentation integrates better with the rest of the boost<br>
+  &nbsp; &nbsp;documentation.&quot;</li>
 </ul>
 <h3>Executive summary</h3>
 <ul>
-  <li>Great concern and many suggestions regarding performance</li>
+  <li>Great concern and many suggestions regarding performance.</li>
   <li>Request for performance benchmarks.</li>
-  <li>Great concern about documentation distinguishing use cases</li>
+  <li>Great concern about documentation distinguishing use cases and 
+  recommendations for which approach (integers vs conversion) is appropriate.</li>
+  <li>Interest in support for float, double (IEEE754) and user defined types</li>
+  <li>Either add tutorial or remove from menu bar.</li>
 </ul>
 <h3>Docs</h3>
 <ul>
   <li>Conversion in note mention similarity to htonl() , etc.</li>
+  <li>Conversion: add discussion of alignment, packing, etc. Bottom line; use at 
+  your own risk. Use Phil's example:<br>
+  struct S {<br>
+  &nbsp;uint16_t a;<br>
+  &nbsp;uint32_t b;<br>
+  } __attribute__ ((packed));</li>
+  <li>Requirements for template parameters. </li>
+  <li>UDTs<ul>
+  <li>Integers</li>
+  <li>Conversion</li>
+</ul>
+  </li>
+  <li>Distinguish use cases and recommendations for which approach (integers vs 
+  conversion) is appropriate.<ul>
+  <li><a href="http://lists.boost.org/Archives/boost/2011/09/185698.php">
+  http://lists.boost.org/Archives/boost/2011/09/185698.php</a></li>
+</ul>
+  </li>
+  <li>&gt; section `experience': this section gives no insights for people who use 
+  or<br>
+  &gt; read the code. it mainly tells: &quot;we are not the first and the domain of the<br>
+  &gt; library is important.&quot;. imo this section can be removed (maybe the part that<br>
+  &gt; it is not related to any c library can go to the `design considerations'<br>
+  &gt;<br>
+  &gt; section &quot;motivating use cases&quot;: this is more a marketing blurb/testimonial.<br>
+  &gt; maybe this could be changed to a section about possible use cases, listing<br>
+  &gt; `communicating between different devices' and `reading/writing of binary 
+  file<br>
+  &gt; formats'.</li>
+  <li>one other point ... the help file seems to directly link to the c++ 
+  headers.<br>
+  this should be changed:<br>
+  <br>
+  * some browsers (at least chromium) will not display the header when clicking<br>
+  &nbsp;the link, but will save them on disk.<br>
+  <br>
+  * providing a direct link to the source code from the docs implies that the<br>
+  &nbsp;user will get some information that are necessary to use the library by<br>
+  &nbsp;reading the sources. imo, this is not the case for using boost.endian.<br>
+  <br>
+  * if a user opens integer.hpp, the first 60 lines just contain copyright, some<br>
+  &nbsp;historical notes, compiler-specific stuff, includes and ifdefs. imo, this is<br>
+  &nbsp;the implementation part, which should not be exposed to a user.<br>
+  <br>
+  so i'd suggest to completely remove the links to the c++ headers.</li>
 </ul>
 <h3>Code</h3>
 <ul>
   <li>Merge conversion2 into conversion.hpp</li>
+  <li>Use builtins where applicable (GCC, possibly others)</li>
+  <li>Endian integer types should use the conversion functions where applicable</li>
 </ul>
+<h3>Infrastructure</h3>
+<ul>
+  <li>Remove scoped_enum_emulation_test stuff.</li>
+  <li>Remove timer stuff.</li>
+  <li>Use Boost.Timer.</li>
+  <li>
+  <div class="im">
+    &gt; endian_operations_test.cpp and endian_in_union_test.cpp ... maybe rename 
+    from<br>
+    &gt; _test.cpp to _compile_test.cpp? they don't seem to do any run-time tests. 
+    they<br>
+    &gt; also should not include &lt;cassert&gt; since no assertion statement is needed, 
+    this<br>
+    &gt; might speed up the compilation time of the testsuite by something like 
+    50ms ;)</div>
+  <p>Will do.</li>
+</ul>
+<h3>Performance</h3>
+<p>&nbsp;</p>
 <h3>Acknowledge</h3>
-<p>Gordon Woodhull, Phil Endecott, tymofey, Giovanni Piero Deretta, Pyry Jahkola</p>
+<p>Gordon Woodhull, Hartmut Kaiser, Phil Endecott, tymofey, Giovanni Piero Deretta, Pyry Jahkola, 
+John Filo, Vitaly Budovski, Tomas Puverle, Vicente J. Botet Escriba, Tim 
+Blechmann, Daniel James, Mathias Gaunard</p>
+
+<p>Paul Bristow docs help </p>
+
+<h2>Floating Point Support</h2>
+
+<p>* Because FP formats vary, just dealing with endianness doesn't ensure<br>
+portability.<br>
+* The endianness of FP and integer values differs on some platforms,<br>
+so we will have to build up a config file with separate entries for<br>
+each platform, and that will take time to mature.<br>
+* Ditto FP sizes.<br>
+* I'm only willing to provide conversion.hpp FP support. Providing<br>
+types that mimic FP types is far beyond my knowledge of how to deal<br>
+with floating point's notorious arithmetic issues.</p>
+<p>Support IEEE754 format (32 bit, 64 bit) only.</p>
+<div class="im">
+  <br>
+&nbsp;</div>
+<p>&nbsp;</p>
 
 </body>
 
