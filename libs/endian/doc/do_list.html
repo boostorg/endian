@@ -11,6 +11,22 @@
 <body>
 
 <h1>Endian Library Do List</h1>
+<h2>To Do</h2>
+<ul>
+  <li>Re-read all messages, and extract Acknowledgements and revise TODO list.</li>
+  <li>Develop the use-cases example programs, using plain integers and UDT's. 
+  </li>
+  <li>Apply revised conversion functions to the example programs. Iterate until 
+  happy.</li>
+  <li>Apply the integers to the example programs, and also see if using<br>
+  the revised conversion functions to implement some or all of the<br>
+  integers.</li>
+  <li>Apply mockups of the buffers to the example programs, to get a<br>
+  firmer idea if the buffer idea actually seems to do be worthwhile in<br>
+  practice.</li>
+  <li>Post work-in-progress for feedback.</li>
+  <li>Finalize and hold mini-review.</li>
+</ul>
 <h2>Format Review Comments</h2>
 <h3 dir="ltr">Votes</h3>
 <ul>
@@ -49,19 +65,52 @@
   (a) the interface of the conversion functions is changed<br>
   (b) the performance can be improved<br>
   (c) the documentation integrates better with the rest of the boost<br>
-  &nbsp; &nbsp;documentation.&quot;</li>
+  &nbsp; &nbsp;documentation.&quot;<br>
+&nbsp;</li>
+  <li dir="ltr">
+  <p dir="ltr">Vicente J. Botet Escriba - &quot;No in its current state.<br>
+  Once the library takes in account the requested modification (that Beman has 
+  already accepted) a mini-review will be necessary to improve the library 
+  before release.&quot;</li>
 </ul>
 <h3>Executive summary</h3>
 <ul>
-  <li>Great concern and many suggestions regarding performance.</li>
-  <li>Request for performance benchmarks.</li>
-  <li>Great concern about documentation distinguishing use cases and 
-  recommendations for which approach (integers vs conversion) is appropriate.</li>
-  <li>Interest in support for float, double (IEEE754) and user defined types</li>
-  <li>Either add tutorial or remove from menu bar.</li>
+  <li>Common use case scenarios should be developed.</li>
+  <li>Example programs should be developed for the common use case scenarios.</li>
+  <li>Documentation should illuminate the differences between endian 
+  integer/float type and endian conversion approaches to the common use case 
+  scenarios, and provide guidelines for choosing the most appropriate approach 
+  for user's applications.</li>
+  <li>Conversion functions supplying results via <code>return</code> should be 
+  provided.</li>
+  <li>Platform specific performance enhancements such as use of compiler 
+  intrinsics or relaxed alignment requirements should be supported.</li>
+  <li>Endian integer (and floating) types should be implemented via the 
+  conversion functions. If that can't be done efficiently, consideration should 
+  be given to expanding the conversion function signatures to resolve the 
+  inefficiencies.</li>
+  <li>Benchmarks that measure performance should be provided. It should be 
+  possible to compare platform specific performance enhancements against 
+  portable base implementations, and to compare endian integer approaches 
+  against endian conversion approaches for the common use case scenarios.</li>
+  <li>Float (32-bits) and double (64-bits) should be supported. IEEE 754 is the 
+  primary use case.</li>
+  <li>Support for user defined types (UDTs) is desirable, and should be 
+  supported where there would be no conflict with the other concerns.</li>
+  <li>There is some concern that endian integer/float arithmetic operations 
+  might used 
+  inadvertently or inappropriately. The impact of adding an endian_buffer class without arithmetic 
+  operations should be investigated.</li>
+  <li>Stream insertion and extraction of the endian integer/float types should 
+  be documented and included in the test coverage.</li>
+  <li>Binary I/O support that was investigated during development of the Endian 
+  library should be put up for min-review for inclusion in the Boost I/O 
+  library.</li>
 </ul>
 <h3>Docs</h3>
 <ul>
+  <li>Document use of endian integers with stream inserters and extractors.</li>
+  <li>Either add tutorial or remove from menu bar.</li>
   <li>Conversion in note mention similarity to htonl() , etc.</li>
   <li>Conversion: add discussion of alignment, packing, etc. Bottom line; use at 
   your own risk. Use Phil's example:<br>
@@ -107,13 +156,75 @@
   &nbsp;historical notes, compiler-specific stuff, includes and ifdefs. imo, this is<br>
   &nbsp;the implementation part, which should not be exposed to a user.<br>
   <br>
-  so i'd suggest to completely remove the links to the c++ headers.</li>
+  so i'd suggest to completely remove the links to the c++ headers.<br>
+&nbsp;</li>
+  <li>
+  <div class="im">
+    &gt; explaining the other builting types are not considered. Why only 
+    big/little<br>
+    &gt; endianness has been taken in account?</div>
+  <p>I'll add FAQ and/or add more entries to the final docs.<br>
+  <br>
+  Only big/little endianness is taken into account because these are the<br>
+  only endian schemes that have any practical value. All the others are<br>
+  just historical curiosities.</li>
 </ul>
 <h3>Code</h3>
+<p>Also change docs if applicable.</p>
 <ul>
+  <li><span style="background-color: #FFCCFF">Beman: TODO</span><span style="background-color: #FFCCFF">:
+  </span><span style="background-color: #FFCCFF">Google</span><span style="background-color: #FFCCFF"> 
+  &quot;unaligned integer&quot;, look at various entries. For example, http://</span><span style="background-color: #FFCCFF">infocenter.arm.com</span><span style="background-color: #FFCCFF">/help/</span><span style="background-color: #FFCCFF">index.jsp?topic</span><span style="background-color: #FFCCFF">=/</span><span style="background-color: #FFCCFF">com.arm.doc.faqs</span><span style="background-color: #FFCCFF">/ka3544.html</span></li>
   <li>Merge conversion2 into conversion.hpp</li>
   <li>Use builtins where applicable (GCC, possibly others)</li>
-  <li>Endian integer types should use the conversion functions where applicable</li>
+  <li>Endian integer types should use the conversion functions where applicable.</li>
+  <li>Beman: Some platforms (compiler/processor taken together) don't require 
+  alignment for the conversion functions if code is inlined, although speed may 
+  suffer. (test to verify this assertion). On those platforms, conversion 
+  functions (perhaps in-place) can be used to implement unaligned integers.<ul>
+  <li>Microsoft <a href="http://msdn.microsoft.com/en-us/library/ms253978.aspx">
+  UNALIGNED / __unaligned</a> keywords for pointers. Also
+  <a href="http://msdn.microsoft.com/en-us/library/ms253935.aspx">Packing 
+  Structures</a>.</li>
+  <li>GCC
+  <a href="http://www.mailinglistarchive.com/gcc@gcc.gnu.org/msg21079.html">
+  http://www.mailinglistarchive.com/gcc@gcc.gnu.org/msg21079.html</a></li>
+  <li>Intel performs well on simple unaligned test. See
+  <a href="../test/unaligned_test.cpp">../test/unaligned_test.cpp</a></li>
+</ul>
+  </li>
+  <li>Beman: Does the use of the unrolling templates get in the way of processor 
+  specific optimization code?</li>
+  <li>Test use of endian integers with stream inserters and extractors.</li>
+  <li>Continue work on benchmarks and timings. Consider using use-case example 
+  programs as benchmarks.</li>
+  <li>
+  <div class="im">
+    &gt; The reorder fuction should provide both reorder in place and returned.</div>
+  <p>Interesting, but providing two ways of doing something is often<br>
+  considered the not best design practice. And the tests I've run so far<br>
+  don't indicate any efficiency concern. Once all other aspects of the<br>
+  interface and implementation are settled, let's revisit that question.<br>
+&nbsp;</li>
+  <li>&gt; The endianness scoped enum native should be replaced so it is defined<br>
+  &gt; depending on the endianess of the platform.<br>
+  &gt;<br>
+  &gt; &nbsp;BOOST_SCOPED_ENUM_START(<wbr />endianness) { big, little, native=(big or 
+  little)<br>
+  &gt; }; BOOST_SCOPED_ENUM_END<br>
+  &gt;<br>
+  &gt; This will have the advantage to reduce of 1/3 the number of specializations.<br>
+  <br>
+  Does this work?<br>
+&nbsp;</li>
+  <li dir="ltr">
+  <div class="im">
+    &gt; The library should provide in addition endian conversion functions that 
+    have<br>
+    &gt; the endiannes as template parameters to make possible generic functions.</div>
+  <p dir="ltr">Compile time dispatch on an endianness enum was also requested in<br>
+  another review. That's fine with me, but I haven't had a chance to<br>
+  figure out the interface details.</li>
 </ul>
 <h3>Infrastructure</h3>
 <ul>
@@ -131,13 +242,14 @@
     &gt; might speed up the compilation time of the testsuite by something like 
     50ms ;)</div>
   <p>Will do.</li>
+  <li>Make the bin() functionality available</li>
 </ul>
 <h3>Performance</h3>
 <p>&nbsp;</p>
 <h3>Acknowledge</h3>
 <p>Gordon Woodhull, Hartmut Kaiser, Phil Endecott, tymofey, Giovanni Piero Deretta, Pyry Jahkola, 
 John Filo, Vitaly Budovski, Tomas Puverle, Vicente J. Botet Escriba, Tim 
-Blechmann, Daniel James, Mathias Gaunard</p>
+Blechmann, Daniel James, Mathias Gaunard, Adder, Tim Moore</p>
 
 <p>Paul Bristow docs help </p>
 
