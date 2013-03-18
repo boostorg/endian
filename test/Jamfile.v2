@@ -1,19 +1,26 @@
 # Boost Endian Library test Jamfile
 
-# Copyright Beman Dawes 2006
+# Copyright Beman Dawes 2006, 2013
 
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
 # See library home page at http://www.boost.org/libs/endian
 
-   import testing ;
+project
+    : requirements
+      <toolset>msvc:<asynch-exceptions>on
+    ;
    
    test-suite "endian"
        :
-         [ run endian_test.cpp ]
-         [ run endian_operations_test.cpp
-            :  :  : <toolset>gcc:<cxxflags>-Wno-sign-compare ]
+         [ run endian_test.cpp
+           : # command line
+           : # input files
+           : # requirements
+         ]
+         [ run endian_operations_test.cpp ]
          [ run endian_in_union_test.cpp ]
          [ run conversion_test.cpp ]
-      ;
+         [ run conversion2_test.cpp ]
+       ;
