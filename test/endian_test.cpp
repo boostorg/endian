@@ -74,7 +74,9 @@ namespace
     ++v; // verify integer_cover_operators being applied to this type -
          // will fail to compile if no endian<> specialization is present
 
-    v+v;
+    auto x = v+v;
+    if ( x == x ) // silence warning
+      return;
   }
 
   const char * big_rep    = "\x12\x34\x56\x78\x9A\xBC\xDE\xF0";

@@ -87,9 +87,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\system\src\error_code.cpp" />
-    <ClCompile Include="..\..\..\support\run_timer.cpp" />
-    <ClCompile Include="..\..\..\support\run_timer_ctors.cpp" />
-    <ClCompile Include="..\..\..\support\timer.cpp" />
+    <ClCompile Include="..\..\..\..\timer\src\auto_timers_construction.cpp" />
+    <ClCompile Include="..\..\..\..\timer\src\cpu_timer.cpp" />
     <ClCompile Include="..\..\benchmark.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -7,7 +7,7 @@
 
 //  See documentation at http://www.boost.org/libs/utility/scoped_enum_emulation.html
 
-#include <boost/endian/detail/disable_warnings.hpp>
+#include <boost/detail/disable_warnings.hpp>
 
 #include <boost/detail/scoped_enum_emulation.hpp>
 #include <boost/assert.hpp>
