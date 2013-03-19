@@ -107,9 +107,9 @@ namespace
 #   endif
   }
 
-  //  detect_endianness  -----------------------------------------------------//
+  //  detect_order  -----------------------------------------------------//
 
-  void detect_endianness()
+  void detect_order()
   {
     union View
     { 
@@ -146,7 +146,7 @@ namespace
       exit(1);
     }
     cout << "That should not matter and is presented for your information only.\n";
-  } // detect_endianness
+  } // detect_order
 
   //  check_data  ------------------------------------------------------------//
 
@@ -714,7 +714,7 @@ namespace
 
   void check_udt()
   {
-    typedef boost::endian::endian< endianness::big, MyInt, 32 >  mybig32_t;
+    typedef boost::endian::endian< order::big, MyInt, 32 >  mybig32_t;
 
     mybig32_t v(10);
     cout << "+v is " << +v << endl;
@@ -765,7 +765,7 @@ int cpp_main( int argc, char * argv[] )
     iterations = atol( argv[1] );
   if ( iterations < 1 ) iterations = 1;
 
-  detect_endianness();
+  detect_order();
   check_size();
   check_alignment();
   check_representation_and_range_and_ops();

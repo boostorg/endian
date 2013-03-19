@@ -8,10 +8,10 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <cstdlib>
-#include <boost/endian/conversion.hpp>
+#include <boost/endian/converters.hpp>
 #include <boost/random.hpp>
 #include <boost/cstdint.hpp>
-#include <boost/endian/support/timer.hpp>
+#include <boost/timer/timer.hpp>
 #include <iostream>
 #include <string>
 
@@ -34,15 +34,16 @@ namespace
   typedef void (*timee_func)(int32_t, int32_t&);
 #endif
 
-  endian::microsecond_t benchmark(timee_func timee, const char* msg,
-    endian::microsecond_t overhead = 0)              
+  typedef  boost::timer::nanosecond_type nanosecond_t;
+  nanosecond_t benchmark(timee_func timee, const char* msg,
+    nanosecond_t overhead = 0)              
   {                                               
     if (verbose)                                  
       cout << "\nRunning benchmark..." << endl;   
     int64_t sum = 0;                              
-    endian::times_t times;
-    endian::microsecond_t cpu_time;
-    endian::run_timer t(places);                  
+    boost::timer::cpu_times times;
+    nanosecond_t cpu_time;
+    boost::timer::auto_cpu_timer t(places);                  
                                                 
     for (long long i = n; i; --i)                 
     {                                             
@@ -53,8 +54,9 @@ namespace
       timee(static_cast<int32_t>(i), y);
       sum += y;
 #   endif
-    }                                             
-    times = t.stop();
+    }
+    t.stop();
+    times = t.elapsed();
     cpu_time = (times.system + times.user) - overhead;
     const long double sec = 1000000.0L;
     cout.setf(std::ios_base::fixed, std::ios_base::floatfield);
@@ -192,7 +194,7 @@ int main(int argc, char * argv[])
 {
   process_command_line(argc, argv);
 
-  endian::microsecond_t overhead;
+  nanosecond_t overhead;
 
 #ifndef BOOST_TWO_ARG
   overhead = benchmark(modify_noop, "modify no-op");

@@ -44,11 +44,11 @@ namespace endian
 
   template <class T>
   inline T big(T x);    
-    //  Return: x if native endianness is big, otherwise reorder(x);
+    //  Return: x if native endian order is big, otherwise reorder(x);
 
   template <class T>
   inline T little(T x);
-    //  Return: x if native endianness is little, otherwise reorder(x);
+    //  Return: x if native endian order is little, otherwise reorder(x);
 
 //----------------------------------- implementation -----------------------------------//
 //    -- reorder implementation approach suggested by tymofey, with avoidance of
@@ -120,7 +120,7 @@ namespace endian
   }
 
   template <class T>
-  inline T big(const T& x)
+  inline T big(T x)
   {
 #   ifdef BOOST_BIG_ENDIAN
       return x;
@@ -130,7 +130,7 @@ namespace endian
   }
 
   template <class T>
-  inline T little(const T& x)    
+  inline T little(T x)    
   {
 #   ifdef BOOST_LITTLE_ENDIAN
       return x;
