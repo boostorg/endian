@@ -9,12 +9,12 @@
 
 #include <boost/endian/detail/disable_warnings.hpp>
 
-#include <boost/endian/conversion2.hpp>
+#include <boost/endian/converters.hpp>
 #include <boost/detail/lightweight_main.hpp>
 #include <boost/detail/lightweight_test.hpp>
 #include <iostream>
 
-namespace be = boost::endian2;
+namespace be = boost::endian;
 
 namespace
 {

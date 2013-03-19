@@ -5,36 +5,21 @@
 //  Distributed under the Boost Software License, Version 1.0.
 //  http://www.boost.org/LICENSE_1_0.txt
 
-#ifndef BOOST_ENDIAN_CONVERSION2_HPP
-#define BOOST_ENDIAN_CONVERSION2_HPP
+#ifndef BOOST_ENDIAN_CONVERTERS_HPP
+#define BOOST_ENDIAN_CONVERTERS_HPP
 
 #include <boost/detail/endian.hpp>
 #include <boost/cstdint.hpp>
 #include <algorithm>
 
-//--------------------------------------------------------------------------------------//
-// 
-//  This header explores
-//    -- value returning interface approach suggested by Phil Endecott.
-//    -- additional reorder overloads for floating point types as requested by Vicente
-//       Botet and others.
-//    -- reorder implementation approach suggested by tymofey, with avoidance of
-//       undefined behavior as suggested by Giovanni Piero Deretta, and a further
-//       refinement suggested by Pyry Jahkola.
-//    -- general reorder function template to meet requests for UDT support by
-//       Vicente Botet and others. 
-//    -- general reorder function template implementation approach using std::reverse
-//       suggested by Mathias Gaunard
-//
-//--------------------------------------------------------------------------------------//
-
 //------------------------------------- synopsis ---------------------------------------//
 
 namespace boost
 {
-namespace endian2
+namespace endian
 {
   // reverse byte order (i.e. endianness)
+  //   value returning interface approach suggested by Phil Endecott.
 
   inline int16_t  reorder(int16_t x);
   inline int32_t  reorder(int32_t x);
@@ -43,6 +28,8 @@ namespace endian2
   inline uint32_t reorder(uint32_t x);
   inline uint64_t reorder(uint64_t x);
 
+  //  additional reorder overloads for floating point types as requested by Vicente
+  //  Botet and others.
   // TODO: Need implementation
   // TODO: Need to verify the return does not invoke undefined behavior (as might happen
   // if there are unutterable floating point values, such as happens with the unutterable
@@ -50,20 +37,23 @@ namespace endian2
   inline float    reorder(float x);    
   inline double   reorder(double x);   
 
-  // TODO: Would pass by value be better for the following functions?
+  //  general reorder function template to meet requests for UDT support by Vicente
+  //  Botet and others. 
+  template <class T>
+  inline T reorder(T x);
 
   template <class T>
-  inline T reorder(const T& x);
-
-  template <class T>
-  inline T big(const T& x);    
+  inline T big(T x);    
     //  Return: x if native endianness is big, otherwise reorder(x);
 
   template <class T>
-  inline T little(const T& x);
+  inline T little(T x);
     //  Return: x if native endianness is little, otherwise reorder(x);
 
 //----------------------------------- implementation -----------------------------------//
+//    -- reorder implementation approach suggested by tymofey, with avoidance of
+//       undefined behavior as suggested by Giovanni Piero Deretta, and a further
+//       refinement suggested by Pyry Jahkola.
                                                 
   inline int16_t reorder(int16_t x)
   {
@@ -116,8 +106,10 @@ namespace endian2
   }
 
 
+//  general reorder function template implementation approach using std::reverse
+//  suggested by Mathias Gaunard
   template <class T>
-  inline T reorder(const T& x)
+  inline T reorder(T x)
   {
     T tmp;
     std::reverse(
@@ -147,7 +139,7 @@ namespace endian2
 #   endif
   }
 
-}  // namespace endian2
+}  // namespace endian
 }  // namespace boost
 
-#endif // BOOST_ENDIAN_CONVERSION2_HPP
+#endif // BOOST_ENDIAN_CONVERTERS_HPP
