@@ -21,6 +21,5 @@ project
          ]
          [ run endian_operations_test.cpp ]
          [ run endian_in_union_test.cpp ]
-         [ run conversion_test.cpp ]
-         [ run conversion2_test.cpp ]
+         [ run converter_test.cpp ]
        ;
