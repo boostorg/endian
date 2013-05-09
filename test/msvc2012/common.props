@@ -7,12 +7,16 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\endian\include;..\..\..\..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\endian\include;$(BOOST_TRUNK);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>EnableAllWarnings</WarningLevel>
+      <PreprocessorDefinitions>BOOST_ALL_DYN_LINK;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <PostBuildEvent>
       <Message>Executing test $(TargetName).exe...</Message>
       <Command>"$(TargetDir)\$(TargetName).exe"</Command>
     </PostBuildEvent>
+    <Link>
+      <AdditionalLibraryDirectories>$(BOOST_TRUNK)\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
 </Project>
