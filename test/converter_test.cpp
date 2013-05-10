@@ -155,7 +155,66 @@ namespace
   {
     std::cout << "test_compile_time_convert_bytes...\n";
 
+    BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::big>(bi16)), bi16);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::little>(li16)), li16);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::native>(ni16)), ni16);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::big>(bui16)), bui16);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::little>(lui16)), lui16);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::native>(nui16)), nui16);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::big>(bi32)), bi32);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::little>(li32)), li32);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::native>(ni32)), ni32);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::big>(bui32)), bui32);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::little>(lui32)), lui32);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::native>(nui32)), nui32);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::big>(bi64)), bi64);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::little>(li64)), li64);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::native>(ni64)), ni64);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::big>(bui64)), bui64);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::little>(lui64)), lui64);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::native>(nui64)), nui64);
+
+    BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::little>(bi16)), li16);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::native>(bi16)), ni16);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::big>(li16)), bi16);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::native>(li16)), ni16);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::big>(ni16)), bi16);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::little>(ni16)), ni16);
+
+    BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::little>(bui16)), lui16);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::native>(bui16)), nui16);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::big>(lui16)), bui16);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::native>(lui16)), nui16);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::big>(nui16)), bui16);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::little>(nui16)), nui16);
+
     BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::little>(bi32)), li32);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::native>(bi32)), ni32);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::big>(li32)), bi32);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::native>(li32)), ni32);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::big>(ni32)), bi32);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::little>(ni32)), ni32);
+
+    BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::little>(bui32)), lui32);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::native>(bui32)), nui32);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::big>(lui32)), bui32);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::native>(lui32)), nui32);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::big>(nui32)), bui32);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::little>(nui32)), nui32);
+
+    BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::little>(bi64)), li64);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::native>(bi64)), ni64);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::big>(li64)), bi64);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::native>(li64)), ni64);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::big>(ni64)), bi64);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::little>(ni64)), ni64);
+
+    BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::little>(bui64)), lui64);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::native>(bui64)), nui64);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::big>(lui64)), bui64);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::native>(lui64)), nui64);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::big>(nui64)), bui64);
+    BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::little>(nui64)), nui64);
 
     std::cout << "  test_compile_time_convert_bytes complete\n";
   }
@@ -170,7 +229,7 @@ namespace
 
 int cpp_main(int, char * [])
 {
-  std::cerr << std::hex;
+  //std::cerr << std::hex;
   test_reverse_bytes();
   test_conditional_reverse_bytes();
   test_compile_time_convert_bytes();
