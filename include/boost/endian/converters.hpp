@@ -20,16 +20,10 @@ namespace boost
 {
 namespace endian
 {
+#ifndef BOOST_ENDIAN_ORDER_ENUM_DEFINED
   BOOST_SCOPED_ENUM_START(order) { big, little, native }; BOOST_SCOPED_ENUM_END
-
-  // runtime byte order conversion
-  template <class T>
-  inline T convert_bytes(T from, BOOST_SCOPED_ENUM(order) from_order,
-                         BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT; 
-
-  // compile-time generic byte order conversion
-  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class T>
-  inline T convert_bytes(T from) BOOST_NOEXCEPT; 
+# define BOOST_ENDIAN_ORDER_ENUM_DEFINED
+#endif
   
   // reverse byte order (i.e. endianness)
   //   value returning interface approach suggested by Phil Endecott.
@@ -65,6 +59,19 @@ namespace endian
   template <class T>
   inline T little(T x) BOOST_NOEXCEPT; 
     //  Return: x if native endian order is little, otherwise reverse_bytes(x);
+
+  //  compile-time generic byte order conversion
+  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class T>
+  inline T convert_bytes(T from) BOOST_NOEXCEPT; 
+
+  //  runtime actual byte-order determination
+  inline BOOST_SCOPED_ENUM(order) actual_order(BOOST_SCOPED_ENUM(order) o) BOOST_NOEXCEPT;
+    //  Return: o if o != native, otherwise big or little depending on native ordering
+  
+  //  runtime byte-order conversion
+  template <class T>
+  T convert_bytes(T from, BOOST_SCOPED_ENUM(order) from_order,
+                  BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT;
 
 //----------------------------------- implementation -----------------------------------//
 //    -- reverse_bytes implementation approach suggested by tymofey, with avoidance of
@@ -121,7 +128,6 @@ namespace endian
            | (step16 & 0xFF00FF00FF00FF00) >> 8;
   }
 
-
 //  general reverse_bytes function template implementation approach using std::reverse
 //  suggested by Mathias Gaunard
   template <class T>
@@ -153,6 +159,28 @@ namespace endian
 #   else
       return reverse_bytes(x);
 #   endif
+  }
+
+  //  runtime actual byte-order determination
+  inline BOOST_SCOPED_ENUM(order) actual_order(BOOST_SCOPED_ENUM(order) o) BOOST_NOEXCEPT
+  {
+    return o != order::native ? o :
+ #   ifdef BOOST_LITTLE_ENDIAN
+      order::little
+#   else
+      order::big
+#   endif
+    ;
+  }
+
+  template <class T>
+  T convert_bytes(T from, BOOST_SCOPED_ENUM(order) from_order,
+                  BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT
+  {
+    if (actual_order(from_order) == order::big)
+      return actual_order(to_order) == order::big ? from : reverse_bytes(from);
+    // actual from_order is little
+    return actual_order(to_order) == order::little ? from : reverse_bytes(from);
   }
 
 }  // namespace endian

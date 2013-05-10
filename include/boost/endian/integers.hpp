@@ -163,7 +163,10 @@ namespace boost
 
   //  endian class template and specializations  ---------------------------------------//
 
+#ifndef BOOST_ENDIAN_ORDER_ENUM_DEFINED
   BOOST_SCOPED_ENUM_START(order) { big, little, native }; BOOST_SCOPED_ENUM_END
+# define BOOST_ENDIAN_ORDER_ENUM_DEFINED
+#endif
   BOOST_SCOPED_ENUM_START(alignment) { unaligned, aligned }; BOOST_SCOPED_ENUM_END
 
   template <BOOST_SCOPED_ENUM(order) E, typename T, std::size_t n_bits,
