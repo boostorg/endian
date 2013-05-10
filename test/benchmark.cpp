@@ -35,6 +35,7 @@ namespace
 #endif
 
   typedef  boost::timer::nanosecond_type nanosecond_t;
+
   nanosecond_t benchmark(timee_func timee, const char* msg,
     nanosecond_t overhead = 0)              
   {                                               
@@ -58,7 +59,7 @@ namespace
     t.stop();
     times = t.elapsed();
     cpu_time = (times.system + times.user) - overhead;
-    const long double sec = 1000000.0L;
+    const long double sec = 1000000000.0L;
     cout.setf(std::ios_base::fixed, std::ios_base::floatfield);
     cout.precision(places);
     cout << msg << " " << cpu_time / sec << endl;                                 
@@ -131,6 +132,11 @@ namespace
       | (static_cast<uint32_t>(x) >> 24);
   }
 
+  inline int32_t by_return_intrinsic(int32_t x)
+  {
+    return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_4(static_cast<uint32_t>(x));
+  }
+
   inline int32_t by_return_pyry(int32_t x)
   {
     uint32_t step16;
@@ -146,42 +152,48 @@ namespace
       | ((x >> 8) & 0x0000ff00);
   }
 
-  int32_t modify_noop(int32_t x)
+  inline int32_t modify_noop(int32_t x)
   {
     int32_t v(x);
     return v;
   }
 
-  int32_t modify_in_place(int32_t x)
+  inline int32_t modify_in_place(int32_t x)
   {
     int32_t v(x);
     in_place(v);
     return v;
   }
 
-  int32_t modify_by_return(int32_t x)
+  inline int32_t modify_by_return(int32_t x)
   {
     int32_t v(x);
     return by_return(v);
   }
 
-  int32_t modify_by_return_pyry(int32_t x)
+  inline int32_t modify_by_return_pyry(int32_t x)
   {
     int32_t v(x);
     return by_return_pyry(v);
   }
 
-  void non_modify_assign(int32_t x, int32_t& y)
+  inline int32_t modify_by_return_intrinsic(int32_t x)
+  {
+    int32_t v(x);
+    return by_return_intrinsic(v);
+  }
+
+  inline void non_modify_assign(int32_t x, int32_t& y)
   {
     y = x;
   }
 
-  void non_modify_two_operand(int32_t x, int32_t& y)
+  inline void non_modify_two_operand(int32_t x, int32_t& y)
   {
     two_operand(x, y);
   }
 
-  void non_modify_by_return(int32_t x, int32_t& y)
+  inline void non_modify_by_return(int32_t x, int32_t& y)
   {
     y = by_return(x);
   }
@@ -198,9 +210,10 @@ int main(int argc, char * argv[])
 
 #ifndef BOOST_TWO_ARG
   overhead = benchmark(modify_noop, "modify no-op");
-  benchmark(modify_in_place, "modify in place", overhead);
-  benchmark(modify_by_return, "modify by return", overhead);
-  benchmark(modify_by_return_pyry, "modify by return", overhead);
+  benchmark(modify_in_place, "modify in place"/*, overhead*/);
+  benchmark(modify_by_return, "modify by return"/*, overhead*/);
+  benchmark(modify_by_return_pyry, "modify by return_pyry"/*, overhead*/);
+  benchmark(modify_by_return_intrinsic, "modify by return_intrinsic"/*, overhead*/);
 #else
   overhead = benchmark(non_modify_assign, "non_modify_assign     ");
   benchmark(non_modify_two_operand,       "non_modify_two_operand", overhead);

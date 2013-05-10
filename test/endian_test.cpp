@@ -122,27 +122,28 @@ namespace
     if ( memcmp( v.c, "\10\7\6\5\4\3\2\1", 8) == 0 )
     {
       cout << "This machine is little-endian.\n";
-  #   ifdef BOOST_BIG_INTEGER_OPERATORS
-        cout << "yet boost/detail/endian.hpp defines BOOST_BIG_INTEGER_OPERATORS.\n"
-          "You must fix boost/detail/endian.hpp for boost/endian.hpp to work correctly.\n"
-          "Please report the fix to the Boost mailing list.\n";
+  #   ifndef BOOST_LITTLE_ENDIAN
+        cout << "yet boost/detail/endian.hpp does not define BOOST_LITTLE_ENDIAN.\n"
+          "This must be fixed for the Boost Endian library to work correctly on this system.\n"
+          "Please report this problem to the Boost mailing list.\n";
         exit(1);
   #   endif
     } 
     else if ( memcmp( v.c, "\1\2\3\4\5\6\7\10", 8) == 0 )
     {
       cout << "This machine is big-endian.\n";
-  #   ifdef BOOST_LITTLE_INTEGER_OPERATORS
-        cout << "yet boost/detail/endian.hpp defines BOOST__LITTLE_INTEGER_OPERATORS.\n"
-          "You must fix boost/detail/endian.hpp for boost/endian.hpp to work correctly.\n"
-          "Please report the fix to the Boost mailing list.\n";
+  #   ifndef BOOST_BIG_ENDIAN
+        cout << "yet boost/detail/endian.hpp does not define BOOST_BIG_ENDIAN.\n"
+          "This must be fixed for the Boost Endian library to work correctly on this system.\n"
+          "Please report this problem to the Boost mailing list.\n";
         exit(1);
   #   endif
     }
     else
     { 
       cout << "This machine is neither strict big-endian nor strict little-endian\n"
-        "You must modify boost/endian.hpp for it to work correctly.\n";
+        "The Boost Endian library must be revised to work correctly on this system.\n";
+          "Please report this problem to the Boost mailing list.\n";
       exit(1);
     }
     cout << "That should not matter and is presented for your information only.\n";

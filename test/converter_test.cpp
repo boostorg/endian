@@ -21,7 +21,7 @@ namespace
 
   void test_reverse_bytes()
   {
-    std::cout << "test_reorder...\n";
+    std::cout << "test_reverse_bytes...\n";
 
     boost::int64_t i64 = 0x0102030405060708LL;
     BOOST_TEST_EQ(be::reverse_bytes(i64), 0x0807060504030201LL);
@@ -59,7 +59,7 @@ namespace
     BOOST_TEST_EQ(be::reverse_bytes(ui16), 0x0201);
     BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(ui16)), ui16);
     
-    std::cout << "  test_reorder complete\n";
+    std::cout << "  test_reverse_bytes complete\n";
   }
 
   const boost::int64_t ni64 = 0x0102030405060708LL;
@@ -118,7 +118,7 @@ namespace
 
   void test_conditional_reverse_bytes()
   {
-    std::cout << "test_conditional_reorder...\n";
+    std::cout << "test_conditional_reverse_bytes...\n";
 
     BOOST_TEST_EQ(be::big(ni64), bi64);
     BOOST_TEST_EQ(be::big(ni32), bi32);
@@ -147,8 +147,23 @@ namespace
     BOOST_TEST_EQ(be::little(be::little(nui64)), nui64);
     BOOST_TEST_EQ(be::little(be::little(nui32)), nui32);
     BOOST_TEST_EQ(be::little(be::little(nui16)), nui16);
+    std::cout << " test_conditional_reverse_bytes complete\n";
 
-    std::cout << "  test_conditional_reorder complete\n";
+  }
+
+  void test_compile_time_convert_bytes()
+  {
+    std::cout << "test_compile_time_convert_bytes...\n";
+
+    BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::little>(bi32)), li32);
+
+    std::cout << "  test_compile_time_convert_bytes complete\n";
+  }
+
+  void test_runtime_convert_bytes()
+  {
+    std::cout << "test_runtime_convert_bytes...\n";
+    std::cout << "  test_runtime_convert_bytes complete\n";
   }
 
 }  // unnamed namespace
@@ -158,6 +173,7 @@ int cpp_main(int, char * [])
   std::cerr << std::hex;
   test_reverse_bytes();
   test_conditional_reverse_bytes();
+  test_compile_time_convert_bytes();
 
   return ::boost::report_errors();
 }
