@@ -19,45 +19,45 @@ namespace be = boost::endian;
 namespace
 {
 
-  void test_reorder()
+  void test_reverse_bytes()
   {
     std::cout << "test_reorder...\n";
 
     boost::int64_t i64 = 0x0102030405060708LL;
-    BOOST_TEST_EQ(be::reorder(i64), 0x0807060504030201LL);
-    BOOST_TEST_EQ(be::reorder(be::reorder(i64)), i64);
+    BOOST_TEST_EQ(be::reverse_bytes(i64), 0x0807060504030201LL);
+    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(i64)), i64);
 
     i64 = 0xfefdfcfbfaf9f8f7LL;
-    BOOST_TEST_EQ(be::reorder(i64), static_cast<boost::int64_t>(0xf7f8f9fafbfcfdfeULL));
-    BOOST_TEST_EQ(be::reorder(be::reorder(i64)), i64);
+    BOOST_TEST_EQ(be::reverse_bytes(i64), static_cast<boost::int64_t>(0xf7f8f9fafbfcfdfeULL));
+    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(i64)), i64);
 
     boost::int32_t i32 = 0x01020304;
-    BOOST_TEST_EQ(be::reorder(i32), 0x04030201);
-    BOOST_TEST_EQ(be::reorder(be::reorder(i32)), i32);
+    BOOST_TEST_EQ(be::reverse_bytes(i32), 0x04030201);
+    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(i32)), i32);
 
     i32 = 0xfefdfcfb;
-    BOOST_TEST_EQ(be::reorder(i32), static_cast<boost::int32_t>(0xfbfcfdfe));
-    BOOST_TEST_EQ(be::reorder(be::reorder(i32)), i32);
+    BOOST_TEST_EQ(be::reverse_bytes(i32), static_cast<boost::int32_t>(0xfbfcfdfe));
+    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(i32)), i32);
 
     boost::int16_t i16 = 0x0102;
-    BOOST_TEST_EQ(be::reorder(i16), 0x0201);
-    BOOST_TEST_EQ(be::reorder(be::reorder(i16)), i16);
+    BOOST_TEST_EQ(be::reverse_bytes(i16), 0x0201);
+    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(i16)), i16);
 
     i16 = static_cast<boost::int16_t>(static_cast<boost::uint16_t>(0xfefd));
-    BOOST_TEST_EQ(be::reorder(i16), static_cast<boost::int16_t>(static_cast<boost::uint16_t>(0xfdfe)));
-    BOOST_TEST_EQ(be::reorder(be::reorder(i16)), i16);
+    BOOST_TEST_EQ(be::reverse_bytes(i16), static_cast<boost::int16_t>(static_cast<boost::uint16_t>(0xfdfe)));
+    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(i16)), i16);
 
     boost::uint64_t ui64 = 0x0102030405060708ULL;
-    BOOST_TEST_EQ(be::reorder(ui64), 0x0807060504030201ULL);
-    BOOST_TEST_EQ(be::reorder(be::reorder(ui64)), ui64);
+    BOOST_TEST_EQ(be::reverse_bytes(ui64), 0x0807060504030201ULL);
+    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(ui64)), ui64);
 
     boost::uint32_t ui32 = 0x01020304;
-    BOOST_TEST_EQ(be::reorder(ui32), static_cast<boost::uint32_t>(0x04030201));
-    BOOST_TEST_EQ(be::reorder(be::reorder(ui32)), ui32);
+    BOOST_TEST_EQ(be::reverse_bytes(ui32), static_cast<boost::uint32_t>(0x04030201));
+    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(ui32)), ui32);
 
     boost::uint16_t ui16 = 0x0102;
-    BOOST_TEST_EQ(be::reorder(ui16), 0x0201);
-    BOOST_TEST_EQ(be::reorder(be::reorder(ui16)), ui16);
+    BOOST_TEST_EQ(be::reverse_bytes(ui16), 0x0201);
+    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(ui16)), ui16);
     
     std::cout << "  test_reorder complete\n";
   }
@@ -116,7 +116,7 @@ namespace
   const boost::uint16_t lui16 = 0x0102;
 # endif
 
-  void test_conditional_reorder()
+  void test_conditional_reverse_bytes()
   {
     std::cout << "test_conditional_reorder...\n";
 
@@ -156,8 +156,8 @@ namespace
 int cpp_main(int, char * [])
 {
   std::cerr << std::hex;
-  test_reorder();
-  test_conditional_reorder();
+  test_reverse_bytes();
+  test_conditional_reverse_bytes();
 
   return ::boost::report_errors();
 }

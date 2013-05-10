@@ -161,7 +161,6 @@ namespace endian
 #   endif
   }
 
-  //  runtime actual byte-order determination
   inline BOOST_SCOPED_ENUM(order) actual_order(BOOST_SCOPED_ENUM(order) o) BOOST_NOEXCEPT
   {
     return o != order::native ? o :
