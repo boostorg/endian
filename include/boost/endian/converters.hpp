@@ -8,8 +8,10 @@
 #ifndef BOOST_ENDIAN_CONVERTERS_HPP
 #define BOOST_ENDIAN_CONVERTERS_HPP
 
+#include "boost/config.hpp"
 #include <boost/detail/endian.hpp>
 #include <boost/cstdint.hpp>
+#include <boost/detail/scoped_enum_emulation.hpp>
 #include <algorithm>
 
 //------------------------------------- synopsis ---------------------------------------//
@@ -18,50 +20,64 @@ namespace boost
 {
 namespace endian
 {
+  BOOST_SCOPED_ENUM_START(order) { big, little, native }; BOOST_SCOPED_ENUM_END
+
+  // runtime byte order conversion
+  template <class T>
+  inline T convert_bytes(T from, BOOST_SCOPED_ENUM(order) from_order,
+                         BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT; 
+
+  // compile-time generic byte order conversion
+  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class T>
+  inline T convert_bytes(T from) BOOST_NOEXCEPT; 
+  
   // reverse byte order (i.e. endianness)
   //   value returning interface approach suggested by Phil Endecott.
+  inline int16_t  reverse_bytes(int16_t x) BOOST_NOEXCEPT;
+  inline int32_t  reverse_bytes(int32_t x) BOOST_NOEXCEPT;
+  inline int64_t  reverse_bytes(int64_t x) BOOST_NOEXCEPT;
+  inline uint16_t reverse_bytes(uint16_t x) BOOST_NOEXCEPT;
+  inline uint32_t reverse_bytes(uint32_t x) BOOST_NOEXCEPT;
+  inline uint64_t reverse_bytes(uint64_t x) BOOST_NOEXCEPT;
 
-  inline int16_t  reorder(int16_t x);
-  inline int32_t  reorder(int32_t x);
-  inline int64_t  reorder(int64_t x);
-  inline uint16_t reorder(uint16_t x);
-  inline uint32_t reorder(uint32_t x);
-  inline uint64_t reorder(uint64_t x);
-
-  //  additional reorder overloads for floating point types as requested by Vicente
+  //  reverse_bytes overloads for floating point types as requested by Vicente
   //  Botet and others.
   // TODO: Need implementation
   // TODO: Need to verify the return does not invoke undefined behavior (as might happen
   // if there are unutterable floating point values, such as happens with the unutterable
-  // pointer values on some architectures
-  inline float    reorder(float x);    
-  inline double   reorder(double x);   
+  // pointer values that cause an immediate abort on some legacy architectures
+  // TODO: Track progress of Floating-Point Typedefs Having Specified Widths proposal (N3626)
+  // and add boost equivalent from Paul, Chris, John, if available
+  inline float    reverse_bytes(float x) BOOST_NOEXCEPT;    
+  inline double   reverse_bytes(double x) BOOST_NOEXCEPT;   
 
-  //  general reorder function template to meet requests for UDT support by Vicente
+  //  general reverse_bytes function template to meet requests for UDT support by Vicente
   //  Botet and others. 
   template <class T>
-  inline T reorder(T x);
+  inline T reverse_bytes(T x) BOOST_NOEXCEPT;  // convert little to big or visa versa
 
+  //  reverse bytes if native endian order is not big
   template <class T>
-  inline T big(T x);    
-    //  Return: x if native endian order is big, otherwise reorder(x);
+  inline T big(T x) BOOST_NOEXCEPT;      
+    //  Return: x if native endian order is big, otherwise reverse_bytes(x)
 
+  //  reverse bytes if native endian order is not little
   template <class T>
-  inline T little(T x);
-    //  Return: x if native endian order is little, otherwise reorder(x);
+  inline T little(T x) BOOST_NOEXCEPT; 
+    //  Return: x if native endian order is little, otherwise reverse_bytes(x);
 
 //----------------------------------- implementation -----------------------------------//
-//    -- reorder implementation approach suggested by tymofey, with avoidance of
+//    -- reverse_bytes implementation approach suggested by tymofey, with avoidance of
 //       undefined behavior as suggested by Giovanni Piero Deretta, and a further
 //       refinement suggested by Pyry Jahkola.
                                                 
-  inline int16_t reorder(int16_t x)
+  inline int16_t reverse_bytes(int16_t x) BOOST_NOEXCEPT
   {
     return (static_cast<uint16_t>(x) << 8)
       | (static_cast<uint16_t>(x) >> 8);
   }
 
-  inline int32_t reorder(int32_t x)
+  inline int32_t reverse_bytes(int32_t x) BOOST_NOEXCEPT
   {
     uint32_t step16;
     step16 = static_cast<uint32_t>(x) << 16 | static_cast<uint32_t>(x) >> 16;
@@ -70,7 +86,7 @@ namespace endian
       | ((static_cast<uint32_t>(step16) >> 8) & 0x00ff00ff);
   }
 
-  inline int64_t reorder(int64_t x)
+  inline int64_t reverse_bytes(int64_t x) BOOST_NOEXCEPT
   {
     uint64_t step32, step16;
     step32 = static_cast<uint64_t>(x) << 32 | static_cast<uint64_t>(x) >> 32;
@@ -80,13 +96,13 @@ namespace endian
            | (step16 & 0xFF00FF00FF00FF00) >> 8);
   }
 
-  inline uint16_t reorder(uint16_t x)
+  inline uint16_t reverse_bytes(uint16_t x) BOOST_NOEXCEPT
   {
     return (x << 8)
       | (x >> 8);
   }
 
-  inline uint32_t reorder(uint32_t x)
+  inline uint32_t reverse_bytes(uint32_t x) BOOST_NOEXCEPT
   {
     uint32_t step16;
     step16 = x << 16 | x >> 16;
@@ -95,7 +111,7 @@ namespace endian
       | ((step16 >> 8) & 0x00ff00ff);
   }
 
-  inline uint64_t reorder(uint64_t x)
+  inline uint64_t reverse_bytes(uint64_t x) BOOST_NOEXCEPT
   {
     uint64_t step32, step16;
     step32 = x << 32 | x >> 32;
@@ -106,10 +122,10 @@ namespace endian
   }
 
 
-//  general reorder function template implementation approach using std::reverse
+//  general reverse_bytes function template implementation approach using std::reverse
 //  suggested by Mathias Gaunard
   template <class T>
-  inline T reorder(T x)
+  inline T reverse_bytes(T x) BOOST_NOEXCEPT
   {
     T tmp;
     std::reverse(
@@ -120,22 +136,22 @@ namespace endian
   }
 
   template <class T>
-  inline T big(T x)
+  inline T big(T x) BOOST_NOEXCEPT
   {
 #   ifdef BOOST_BIG_ENDIAN
       return x;
 #   else
-      return reorder(x);
+      return reverse_bytes(x);
 #   endif
   }
 
   template <class T>
-  inline T little(T x)    
+  inline T little(T x) BOOST_NOEXCEPT    
   {
 #   ifdef BOOST_LITTLE_ENDIAN
       return x;
 #   else
-      return reorder(x);
+      return reverse_bytes(x);
 #   endif
   }
 
