@@ -13,6 +13,7 @@
 #include <boost/cstdint.hpp>
 #include <boost/endian/detail/intrinsic.hpp>
 #include <boost/detail/scoped_enum_emulation.hpp>
+#include <boost/static_assert.hpp>
 #include <algorithm>
 
 //------------------------------------- synopsis ---------------------------------------//
@@ -37,14 +38,9 @@ namespace endian
 
   //  reverse_bytes overloads for floating point types as requested by Vicente
   //  Botet and others.
-  // TODO: Need implementation
-  // TODO: Need to verify the return does not invoke undefined behavior (as might happen
-  // if there are unutterable floating point values, such as happens with the unutterable
-  // pointer values that cause an immediate abort on some legacy architectures
   // TODO: Track progress of Floating-Point Typedefs Having Specified Widths proposal (N3626)
-  // and add boost equivalent from Paul, Chris, John, if available
-  inline float    reverse_bytes(float x) BOOST_NOEXCEPT;    
-  inline double   reverse_bytes(double x) BOOST_NOEXCEPT;   
+  inline float    reverse_bytes(float x) BOOST_NOEXCEPT;
+  //inline double   reverse_bytes(double x) BOOST_NOEXCEPT;   
 
   //  general reverse_bytes function template to meet requests for UDT support by Vicente
   //  Botet and others. 
@@ -154,6 +150,20 @@ namespace endian
     return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_8(x);
 # endif
   }
+
+  inline float reverse_bytes(float x) BOOST_NOEXCEPT
+  {
+    BOOST_STATIC_ASSERT_MSG(sizeof(float) == sizeof(uint32_t),
+      "boost::endian only supprts sizeof(float) == 4; please report error to boost mailing list");
+    uint32_t tmp = reverse_bytes(*(const uint32_t*)&x);
+    return *(const float*)&tmp;
+  }
+
+  //inline double reverse_bytes(double x) BOOST_NOEXCEPT
+  //{
+  //  BOOST_STATIC_ASSERT_MSG(sizeof(double) == sizeof(uint64_t),
+  //    "boost::endian only supprts sizeof(double) == 8; please report error to boost mailing list");
+  //}
 
 //  general reverse_bytes function template implementation approach using std::reverse
 //  suggested by Mathias Gaunard

@@ -306,6 +306,10 @@ int cpp_main(int, char * [])
   test_conditional_reverse_bytes();
   test_compile_time_convert_bytes();
   test_runtime_convert_bytes();
+
+  BOOST_TEST(be::reverse_bytes(1.0F) != 1.0F);
+  BOOST_TEST(be::reverse_bytes(be::reverse_bytes(1.0F)) == 1.0F);
+
   return ::boost::report_errors();
 }
 

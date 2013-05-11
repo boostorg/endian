@@ -1,6 +1,5 @@
 // Copyright (C) 2012 David Stone
 // Distributed under the Boost Software License, Version 1.0.
-// See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt
 //
 // See http://www.boost.org/libs/endian/ for documentation.
@@ -14,12 +13,6 @@
 #ifndef BOOST_CSTDINT_HPP
 #  include <boost/cstdint.hpp>
 #endif
-
-
-#undef BOOST_ENDIAN_NO_INTRINSICS
-#undef BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_2
-#undef BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_4
-#undef BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_8
 
 #if (defined __GNUC__ || defined __clang__)
     #include <byteswap.h>
