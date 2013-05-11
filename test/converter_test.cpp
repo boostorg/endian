@@ -15,13 +15,15 @@
 #include <iostream>
 
 namespace be = boost::endian;
+using std::cout;
+using std::endl;
 
 namespace
 {
 
   void test_reverse_bytes()
   {
-    std::cout << "test_reverse_bytes...\n";
+    cout << "test_reverse_bytes...\n";
 
     boost::int64_t i64 = 0x0102030405060708LL;
     BOOST_TEST_EQ(be::reverse_bytes(i64), 0x0807060504030201LL);
@@ -58,8 +60,16 @@ namespace
     boost::uint16_t ui16 = 0x0102;
     BOOST_TEST_EQ(be::reverse_bytes(ui16), 0x0201);
     BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(ui16)), ui16);
+
+    BOOST_TEST_NE(be::reverse_bytes(1.0F), 1.0F);
+    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(1.0F)), 1.0F);
+    BOOST_TEST_EQ(be::reverse_bytes(1.0F), be::reverse_bytes<float>(1.0F));
+
+    BOOST_TEST_NE(be::reverse_bytes(1.0), 1.0);
+    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(1.0)), 1.0);
+    BOOST_TEST_EQ(be::reverse_bytes(1.0), be::reverse_bytes<double>(1.0));
     
-    std::cout << "  test_reverse_bytes complete\n";
+    cout << "  test_reverse_bytes complete\n";
   }
 
   const boost::int64_t ni64 = 0x0102030405060708LL;
@@ -89,6 +99,15 @@ namespace
   const boost::int16_t li16 = 0x0102;
 # endif
 
+  const boost::int16_t ni16hi = static_cast<boost::int16_t>(0xf1f2U);
+# ifdef BOOST_BIG_ENDIAN
+  const boost::int16_t bi16hi = static_cast<boost::int16_t>(0xf1f2U);
+  const boost::int16_t li16hi = static_cast<boost::int16_t>(0xf2f1U);
+# else
+  const boost::int16_t bi16hi = static_cast<boost::int16_t>(0xf2f1U);
+  const boost::int16_t li16hi = static_cast<boost::int16_t>(0xf1f2U);
+# endif
+
   const boost::uint64_t nui64 = 0x0102030405060708ULL;
 # ifdef BOOST_BIG_ENDIAN
   const boost::uint64_t bui64 = 0x0102030405060708ULL;
@@ -116,9 +135,103 @@ namespace
   const boost::uint16_t lui16 = 0x0102;
 # endif
 
+  //  values for tests
+
+  void native_value(int16_t& x) {x = static_cast<int16_t>(0xF102U);}
+  void native_value(uint16_t& x) {x = static_cast<uint16_t>(0xF102U);}
+# ifdef BOOST_BIG_ENDIAN
+  void big_value(int16_t& x) {x = static_cast<int16_t>(0xF102U);}
+  void big_value(uint16_t& x) {x = static_cast<uint16_t>(0xF102U);}
+  void little_value(int16_t& x) {x = static_cast<int16_t>(0x02F1U);}
+  void little_value(uint16_t& x) {x = static_cast<uint16_t>(0x02F1U);}
+# else
+  void big_value(int16_t& x) {x = static_cast<int16_t>(0x02F1U);}
+  void big_value(uint16_t& x) {x = static_cast<uint16_t>(0x02F1U);}
+  void little_value(int16_t& x) {x = static_cast<int16_t>(0xF102U);}
+  void little_value(uint16_t& x) {x = static_cast<uint16_t>(0xF102U);}
+# endif
+
+  void native_value(int32_t& x) {x = static_cast<int32_t>(0xF1E21304UL);}
+  void native_value(uint32_t& x) {x = static_cast<uint32_t>(0xF1E21304UL);}
+# ifdef BOOST_BIG_ENDIAN
+  void big_value(int32_t& x) {x = static_cast<int32_t>(0xF1E21304UL);}
+  void big_value(uint32_t& x) {x = static_cast<uint32_t>(0xF1E21304UL);}
+  void little_value(int32_t& x) {x = static_cast<int32_t>(0x0413E2F1UL);}
+  void little_value(uint32_t& x) {x = static_cast<uint32_t>(0x0413E2F1UL);}
+# else
+  void big_value(int32_t& x) {x = static_cast<int32_t>(0x0413E2F1UL);}
+  void big_value(uint32_t& x) {x = static_cast<uint32_t>(0x0413E2F1UL);}
+  void little_value(int32_t& x) {x = static_cast<int32_t>(0xF1E21304UL);}
+  void little_value(uint32_t& x) {x = static_cast<uint32_t>(0xF1E21304UL);}
+# endif
+
+  void native_value(int64_t& x) {x = static_cast<int64_t>(0xF1E2D3C444231201ULL);}
+  void native_value(uint64_t& x) {x = static_cast<uint64_t>(0xF1E2D3C444231201ULL);}
+# ifdef BOOST_BIG_ENDIAN
+  void big_value(int64_t& x) {x = static_cast<int64_t>(0xF1E2D3C444231201ULL);}
+  void big_value(uint64_t& x) {x = static_cast<uint64_t>(0xF1E2D3C444231201ULL);}
+  void little_value(int64_t& x) {x = static_cast<int64_t>(0x01122344C4D3E2F1ULL);}
+  void little_value(uint64_t& x) {x = static_cast<uint64_t>(0x01122344C4D3E2F1ULL);}
+# else
+  void big_value(int64_t& x) {x = static_cast<int64_t>(0x01122344C4D3E2F1ULL);}
+  void big_value(uint64_t& x) {x = static_cast<uint64_t>(0x01122344C4D3E2F1ULL);}
+  void little_value(int64_t& x) {x = static_cast<int64_t>(0xF1E2D3C444231201ULL);}
+  void little_value(uint64_t& x) {x = static_cast<uint64_t>(0xF1E2D3C444231201ULL);}
+# endif
+
+  void native_value(float& x) {x = static_cast<float>(0xF1E21304UL);}
+  void native_value(double& x) {x = static_cast<double>(0xF1E21304UL);}
+# ifdef BOOST_BIG_ENDIAN
+  void big_value(float& x) {x = static_cast<float>(0xF1E21304UL);}
+  void big_value(double& x) {x = static_cast<double>(0xF1E21304UL);}
+  void little_value(float& x) {x = static_cast<float>(0x0413E2F1UL);}
+  void little_value(double& x) {x = static_cast<double>(0x0413E2F1UL);}
+# else
+  void big_value(float& x) {x = static_cast<float>(0x0413E2F1UL);}
+  void big_value(double& x) {x = static_cast<double>(0x0413E2F1UL);}
+  void little_value(float& x) {x = static_cast<float>(0xF1E21304UL);}
+  void little_value(double& x) {x = static_cast<double>(0xF1E21304UL);}
+# endif
+
+
+  template <class T>
+  void test()
+  {
+    T native;
+    T big;
+    T little;
+    native_value(native);
+    big_value(big);
+    little_value(little);
+
+    BOOST_TEST_EQ(be::reverse_bytes(big), little);
+    BOOST_TEST_EQ(be::reverse_bytes(little), big);
+    BOOST_TEST_EQ(be::reverse_bytes<T>(big), little);
+    BOOST_TEST_EQ(be::reverse_bytes<T>(little), big);
+# ifdef BOOST_BIG_ENDIAN
+    BOOST_TEST_EQ(be::reverse_bytes(native), little);
+    BOOST_TEST_EQ(be::reverse_bytes<T>(native), little);
+    BOOST_TEST_EQ(be::big(big), big);
+    BOOST_TEST_EQ(be::big<T>(big), big);
+    BOOST_TEST_EQ(be::big(little), little);
+    BOOST_TEST_EQ(be::big<T>(little), little);
+    BOOST_TEST_EQ(be::big(native), little);
+    BOOST_TEST_EQ(be::big<T>(native), little);
+# else
+    BOOST_TEST_EQ(be::reverse_bytes(native), big);
+    BOOST_TEST_EQ(be::reverse_bytes<T>(native), big);
+    BOOST_TEST_EQ(be::big(big), little);
+    BOOST_TEST_EQ(be::big<T>(big), little);
+    BOOST_TEST_EQ(be::big(little), big);
+    BOOST_TEST_EQ(be::big<T>(little), big);
+    BOOST_TEST_EQ(be::big(native), big);
+    BOOST_TEST_EQ(be::big<T>(native), big);
+# endif
+  }
+
   void test_conditional_reverse_bytes()
   {
-    std::cout << "test_conditional_reverse_bytes...\n";
+    cout << "test_conditional_reverse_bytes...\n";
 
     BOOST_TEST_EQ(be::big(ni64), bi64);
     BOOST_TEST_EQ(be::big(ni32), bi32);
@@ -147,13 +260,12 @@ namespace
     BOOST_TEST_EQ(be::little(be::little(nui64)), nui64);
     BOOST_TEST_EQ(be::little(be::little(nui32)), nui32);
     BOOST_TEST_EQ(be::little(be::little(nui16)), nui16);
-    std::cout << " test_conditional_reverse_bytes complete\n";
-
+    cout << " test_conditional_reverse_bytes complete\n";
   }
 
   void test_compile_time_convert_bytes()
   {
-    std::cout << "test_compile_time_convert_bytes...\n";
+    cout << "test_compile_time_convert_bytes...\n";
 
     BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::big>(bi16)), bi16);
     BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::little>(li16)), li16);
@@ -221,12 +333,12 @@ namespace
     BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::big>(nui64)), bui64);
     BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::little>(nui64)), nui64);
 
-    std::cout << "  test_compile_time_convert_bytes complete\n";
+    cout << "  test_compile_time_convert_bytes complete\n";
   }
 
   void test_runtime_convert_bytes()
   {
-    std::cout << "test_runtime_convert_bytes...\n";
+    cout << "test_runtime_convert_bytes...\n";
   
     BOOST_TEST_EQ((be::convert_bytes(bi16, be::order::big, be::order::big)), bi16);
     BOOST_TEST_EQ((be::convert_bytes(li16, be::order::little, be::order::little)), li16);
@@ -294,7 +406,7 @@ namespace
     BOOST_TEST_EQ((be::convert_bytes(nui64, be::order::native, be::order::big)), bui64);
     BOOST_TEST_EQ((be::convert_bytes(nui64, be::order::native, be::order::little)), nui64);
 
-     std::cout << "  test_runtime_convert_bytes complete\n";
+     cout << "  test_runtime_convert_bytes complete\n";
   }
 
 }  // unnamed namespace
@@ -307,8 +419,22 @@ int cpp_main(int, char * [])
   test_compile_time_convert_bytes();
   test_runtime_convert_bytes();
 
-  BOOST_TEST(be::reverse_bytes(1.0F) != 1.0F);
-  BOOST_TEST(be::reverse_bytes(be::reverse_bytes(1.0F)) == 1.0F);
+  cout << "int16_t" << endl;
+  test<int16_t>();
+  cout << "uint16_t" << endl;
+  test<uint16_t>();
+  cout << "int32_t" << endl;
+  test<int32_t>();
+  cout << "uint32_t" << endl;
+  test<uint32_t>();
+  cout << "int64_t" << endl;
+  test<int64_t>();
+  cout << "uint64_t" << endl;
+  test<uint64_t>();
+  cout << "float" << endl;
+  test<float>();
+  cout << "double" << endl;
+  test<double>();
 
   return ::boost::report_errors();
 }

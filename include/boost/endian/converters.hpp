@@ -38,28 +38,28 @@ namespace endian
 
   //  reverse_bytes overloads for floating point types as requested by Vicente
   //  Botet and others.
-  // TODO: Track progress of Floating-Point Typedefs Having Specified Widths proposal (N3626)
+  //  TODO: Track progress of Floating-Point Typedefs Having Specified Widths proposal (N3626)
   inline float    reverse_bytes(float x) BOOST_NOEXCEPT;
-  //inline double   reverse_bytes(double x) BOOST_NOEXCEPT;   
+  inline double   reverse_bytes(double x) BOOST_NOEXCEPT;   
 
   //  general reverse_bytes function template to meet requests for UDT support by Vicente
   //  Botet and others. 
   template <class T>
   inline T reverse_bytes(T x) BOOST_NOEXCEPT;  // convert little to big or visa versa
 
-  //  reverse bytes if native endian order is not big
+  //  reverse bytes unless native endianness is big
   template <class T>
-  inline T big(T x) BOOST_NOEXCEPT;      
+  inline T big(T x) BOOST_NOEXCEPT; // alternate names: reverse_bytes_unless_big, reverse_unless_big    
     //  Return: x if native endian order is big, otherwise reverse_bytes(x)
 
-  //  reverse bytes if native endian order is not little
+  //  reverse bytes unless native endianness is little
   template <class T>
-  inline T little(T x) BOOST_NOEXCEPT; 
+  inline T little(T x) BOOST_NOEXCEPT;  // alternate names: reverse_bytes_unless_little, reverse_unless_little 
     //  Return: x if native endian order is little, otherwise reverse_bytes(x);
 
   //  compile-time generic byte order conversion
   template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class T>
-  /*inline*/ T convert_bytes(T from) BOOST_NOEXCEPT; 
+  T convert_bytes(T from) BOOST_NOEXCEPT; 
 
   //  runtime actual byte-order determination
   inline BOOST_SCOPED_ENUM(order) actual_order(BOOST_SCOPED_ENUM(order) o) BOOST_NOEXCEPT;
@@ -159,22 +159,23 @@ namespace endian
     return *(const float*)&tmp;
   }
 
-  //inline double reverse_bytes(double x) BOOST_NOEXCEPT
-  //{
-  //  BOOST_STATIC_ASSERT_MSG(sizeof(double) == sizeof(uint64_t),
-  //    "boost::endian only supprts sizeof(double) == 8; please report error to boost mailing list");
-  //}
+  inline double reverse_bytes(double x) BOOST_NOEXCEPT
+  {
+    BOOST_STATIC_ASSERT_MSG(sizeof(double) == sizeof(uint64_t),
+      "boost::endian only supprts sizeof(double) == 8; please report error to boost mailing list");
+    uint64_t tmp = reverse_bytes(*(const uint64_t*)&x);
+    return *(const double*)&tmp;
+  }
 
 //  general reverse_bytes function template implementation approach using std::reverse
 //  suggested by Mathias Gaunard
   template <class T>
   inline T reverse_bytes(T x) BOOST_NOEXCEPT
   {
-    T tmp;
+    T tmp(x);
     std::reverse(
-      reinterpret_cast<const char*>(&x),
-      reinterpret_cast<const char*>(&x) + sizeof(T),
-      reinterpret_cast<char*>(&tmp));
+      reinterpret_cast<char*>(&tmp),
+      reinterpret_cast<char*>(&tmp) + sizeof(T));
     return tmp;
   }
 
