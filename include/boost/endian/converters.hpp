@@ -225,6 +225,14 @@ namespace endian
   template<> inline uint64_t convert_bytes<order::little, order::little>(uint64_t x) BOOST_NOEXCEPT {return x;} 
   template<> inline uint64_t convert_bytes<order::native, order::native>(uint64_t x) BOOST_NOEXCEPT {return x;} 
 
+  template<> inline float convert_bytes<order::big, order::big>(float x) BOOST_NOEXCEPT {return x;} 
+  template<> inline float convert_bytes<order::little, order::little>(float x) BOOST_NOEXCEPT {return x;} 
+  template<> inline float convert_bytes<order::native, order::native>(float x) BOOST_NOEXCEPT {return x;} 
+
+  template<> inline double convert_bytes<order::big, order::big>(double x) BOOST_NOEXCEPT {return x;} 
+  template<> inline double convert_bytes<order::little, order::little>(double x) BOOST_NOEXCEPT {return x;} 
+  template<> inline double convert_bytes<order::native, order::native>(double x) BOOST_NOEXCEPT {return x;} 
+
   template<> inline int16_t convert_bytes<order::big, order::little>(int16_t x) BOOST_NOEXCEPT {return reverse_bytes(x);}
   template<> inline int16_t convert_bytes<order::big, order::native>(int16_t x) BOOST_NOEXCEPT {return big(x);}
   template<> inline int16_t convert_bytes<order::little, order::big>(int16_t x) BOOST_NOEXCEPT {return reverse_bytes(x);}
@@ -266,6 +274,20 @@ namespace endian
   template<> inline uint64_t convert_bytes<order::little, order::native>(uint64_t x) BOOST_NOEXCEPT {return little(x);}
   template<> inline uint64_t convert_bytes<order::native, order::big>(uint64_t x) BOOST_NOEXCEPT {return big(x);}
   template<> inline uint64_t convert_bytes<order::native, order::little>(uint64_t x) BOOST_NOEXCEPT {return little(x);}
+
+  template<> inline float convert_bytes<order::big, order::little>(float x) BOOST_NOEXCEPT {return reverse_bytes(x);}
+  template<> inline float convert_bytes<order::big, order::native>(float x) BOOST_NOEXCEPT {return big(x);}
+  template<> inline float convert_bytes<order::little, order::big>(float x) BOOST_NOEXCEPT {return reverse_bytes(x);}
+  template<> inline float convert_bytes<order::little, order::native>(float x) BOOST_NOEXCEPT {return little(x);}
+  template<> inline float convert_bytes<order::native, order::big>(float x) BOOST_NOEXCEPT {return big(x);}
+  template<> inline float convert_bytes<order::native, order::little>(float x) BOOST_NOEXCEPT {return little(x);}
+
+  template<> inline double convert_bytes<order::big, order::little>(double x) BOOST_NOEXCEPT {return reverse_bytes(x);}
+  template<> inline double convert_bytes<order::big, order::native>(double x) BOOST_NOEXCEPT {return big(x);}
+  template<> inline double convert_bytes<order::little, order::big>(double x) BOOST_NOEXCEPT {return reverse_bytes(x);}
+  template<> inline double convert_bytes<order::little, order::native>(double x) BOOST_NOEXCEPT {return little(x);}
+  template<> inline double convert_bytes<order::native, order::big>(double x) BOOST_NOEXCEPT {return big(x);}
+  template<> inline double convert_bytes<order::native, order::little>(double x) BOOST_NOEXCEPT {return little(x);}
 
   inline BOOST_SCOPED_ENUM(order) actual_order(BOOST_SCOPED_ENUM(order) o) BOOST_NOEXCEPT
   {
