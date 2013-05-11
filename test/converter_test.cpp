@@ -21,57 +21,6 @@ using std::endl;
 namespace
 {
 
-  void test_reverse_bytes()
-  {
-    cout << "test_reverse_bytes...\n";
-
-    boost::int64_t i64 = 0x0102030405060708LL;
-    BOOST_TEST_EQ(be::reverse_bytes(i64), 0x0807060504030201LL);
-    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(i64)), i64);
-
-    i64 = 0xfefdfcfbfaf9f8f7LL;
-    BOOST_TEST_EQ(be::reverse_bytes(i64), static_cast<boost::int64_t>(0xf7f8f9fafbfcfdfeULL));
-    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(i64)), i64);
-
-    boost::int32_t i32 = 0x01020304;
-    BOOST_TEST_EQ(be::reverse_bytes(i32), 0x04030201);
-    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(i32)), i32);
-
-    i32 = 0xfefdfcfb;
-    BOOST_TEST_EQ(be::reverse_bytes(i32), static_cast<boost::int32_t>(0xfbfcfdfe));
-    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(i32)), i32);
-
-    boost::int16_t i16 = 0x0102;
-    BOOST_TEST_EQ(be::reverse_bytes(i16), 0x0201);
-    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(i16)), i16);
-
-    i16 = static_cast<boost::int16_t>(static_cast<boost::uint16_t>(0xfefd));
-    BOOST_TEST_EQ(be::reverse_bytes(i16), static_cast<boost::int16_t>(static_cast<boost::uint16_t>(0xfdfe)));
-    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(i16)), i16);
-
-    boost::uint64_t ui64 = 0x0102030405060708ULL;
-    BOOST_TEST_EQ(be::reverse_bytes(ui64), 0x0807060504030201ULL);
-    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(ui64)), ui64);
-
-    boost::uint32_t ui32 = 0x01020304;
-    BOOST_TEST_EQ(be::reverse_bytes(ui32), static_cast<boost::uint32_t>(0x04030201));
-    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(ui32)), ui32);
-
-    boost::uint16_t ui16 = 0x0102;
-    BOOST_TEST_EQ(be::reverse_bytes(ui16), 0x0201);
-    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(ui16)), ui16);
-
-    BOOST_TEST_NE(be::reverse_bytes(1.0F), 1.0F);
-    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(1.0F)), 1.0F);
-    BOOST_TEST_EQ(be::reverse_bytes(1.0F), be::reverse_bytes<float>(1.0F));
-
-    BOOST_TEST_NE(be::reverse_bytes(1.0), 1.0);
-    BOOST_TEST_EQ(be::reverse_bytes(be::reverse_bytes(1.0)), 1.0);
-    BOOST_TEST_EQ(be::reverse_bytes(1.0), be::reverse_bytes<double>(1.0));
-    
-    cout << "  test_reverse_bytes complete\n";
-  }
-
   const boost::int64_t ni64 = 0x0102030405060708LL;
 # ifdef BOOST_BIG_ENDIAN
   const boost::int64_t bi64 = 0x0102030405060708LL;
@@ -179,18 +128,41 @@ namespace
   void little_value(uint64_t& x) {x = static_cast<uint64_t>(0xF1E2D3C444231201ULL);}
 # endif
 
-  void native_value(float& x) {x = static_cast<float>(0xF1E21304UL);}
-  void native_value(double& x) {x = static_cast<double>(0xF1E21304UL);}
+  const float float_value = -1.234F;
+  const double double_value = -1.234567;
+
+  void native_value(float& x) {std::memcpy(&x, &float_value, sizeof(float));}
+  void native_value(double& x) {memcpy(&x, &double_value, sizeof(double));}
 # ifdef BOOST_BIG_ENDIAN
-  void big_value(float& x) {x = static_cast<float>(0xF1E21304UL);}
-  void big_value(double& x) {x = static_cast<double>(0xF1E21304UL);}
-  void little_value(float& x) {x = static_cast<float>(0x0413E2F1UL);}
-  void little_value(double& x) {x = static_cast<double>(0x0413E2F1UL);}
+  void big_value(float& x) {memcpy(&x, &float_value, sizeof(float));}
+  void big_value(double& x) {memcpy(&x, &double_value, sizeof(double));}
+  void little_value(float& x)
+  {
+    memcpy(&x, &float_value, sizeof(float));
+    std::reverse(reinterpret_cast<char*>(&x),
+      reinterpret_cast<char*>(&x)+sizeof(float));
+  }
+  void little_value(double& x)
+  {
+    memcpy(&x, &double_value, sizeof(double));
+    std::reverse(reinterpret_cast<char*>(&x),
+      reinterpret_cast<char*>(&x)+sizeof(double));
+  }
 # else
-  void big_value(float& x) {x = static_cast<float>(0x0413E2F1UL);}
-  void big_value(double& x) {x = static_cast<double>(0x0413E2F1UL);}
-  void little_value(float& x) {x = static_cast<float>(0xF1E21304UL);}
-  void little_value(double& x) {x = static_cast<double>(0xF1E21304UL);}
+  void big_value(float& x)
+  {
+    memcpy(&x, &float_value, sizeof(float));
+    std::reverse(reinterpret_cast<char*>(&x),
+      reinterpret_cast<char*>(&x)+sizeof(float));
+  }
+  void big_value(double& x)
+  {
+    memcpy(&x, &double_value, sizeof(double));
+    std::reverse(reinterpret_cast<char*>(&x),
+      reinterpret_cast<char*>(&x)+sizeof(double));
+  }
+  void little_value(float& x) {memcpy(&x, &float_value, sizeof(float));}
+  void little_value(double& x) {memcpy(&x, &double_value, sizeof(double));}
 # endif
 
 
@@ -208,6 +180,16 @@ namespace
     BOOST_TEST_EQ(be::reverse_bytes(little), big);
     BOOST_TEST_EQ(be::reverse_bytes<T>(big), little);
     BOOST_TEST_EQ(be::reverse_bytes<T>(little), big);
+
+    BOOST_TEST_EQ(be::big(native), big);
+    BOOST_TEST_EQ(be::little(native), little);
+    BOOST_TEST_EQ(be::big(be::big(native)), native);
+    BOOST_TEST_EQ(be::big(be::big(big)), big);
+    BOOST_TEST_EQ(be::big(be::big(little)), little);
+    BOOST_TEST_EQ(be::little(be::little(native)), native);
+    BOOST_TEST_EQ(be::little(be::little(big)), big);
+    BOOST_TEST_EQ(be::little(be::little(little)), little);
+
 # ifdef BOOST_BIG_ENDIAN
     BOOST_TEST_EQ(be::reverse_bytes(native), little);
     BOOST_TEST_EQ(be::reverse_bytes<T>(native), little);
@@ -227,40 +209,6 @@ namespace
     BOOST_TEST_EQ(be::big(native), big);
     BOOST_TEST_EQ(be::big<T>(native), big);
 # endif
-  }
-
-  void test_conditional_reverse_bytes()
-  {
-    cout << "test_conditional_reverse_bytes...\n";
-
-    BOOST_TEST_EQ(be::big(ni64), bi64);
-    BOOST_TEST_EQ(be::big(ni32), bi32);
-    BOOST_TEST_EQ(be::big(ni16), bi16);
-    BOOST_TEST_EQ(be::big(nui64), bui64);
-    BOOST_TEST_EQ(be::big(nui32), bui32);
-    BOOST_TEST_EQ(be::big(nui16), bui16);
-
-    BOOST_TEST_EQ(be::little(ni64), li64);
-    BOOST_TEST_EQ(be::little(ni32), li32);
-    BOOST_TEST_EQ(be::little(ni16), li16);
-    BOOST_TEST_EQ(be::little(nui64), lui64);
-    BOOST_TEST_EQ(be::little(nui32), lui32);
-    BOOST_TEST_EQ(be::little(nui16), lui16);
-
-    BOOST_TEST_EQ(be::big(be::big(ni64)), ni64);
-    BOOST_TEST_EQ(be::big(be::big(ni32)), ni32);
-    BOOST_TEST_EQ(be::big(be::big(ni16)), ni16);
-    BOOST_TEST_EQ(be::big(be::big(nui64)), nui64);
-    BOOST_TEST_EQ(be::big(be::big(nui32)), nui32);
-    BOOST_TEST_EQ(be::big(be::big(nui16)), nui16);
-
-    BOOST_TEST_EQ(be::little(be::little(ni64)), ni64);
-    BOOST_TEST_EQ(be::little(be::little(ni32)), ni32);
-    BOOST_TEST_EQ(be::little(be::little(ni16)), ni16);
-    BOOST_TEST_EQ(be::little(be::little(nui64)), nui64);
-    BOOST_TEST_EQ(be::little(be::little(nui32)), nui32);
-    BOOST_TEST_EQ(be::little(be::little(nui16)), nui16);
-    cout << " test_conditional_reverse_bytes complete\n";
   }
 
   void test_compile_time_convert_bytes()
@@ -415,7 +363,6 @@ int cpp_main(int, char * [])
 {
   //std::cerr << std::hex;
   test_reverse_bytes();
-  test_conditional_reverse_bytes();
   test_compile_time_convert_bytes();
   test_runtime_convert_bytes();
 

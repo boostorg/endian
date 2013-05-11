@@ -48,13 +48,15 @@ namespace endian
   inline T reverse_bytes(T x) BOOST_NOEXCEPT;  // convert little to big or visa versa
 
   //  reverse bytes unless native endianness is big
+  //  possible names: reverse_unless_native_big, reverse_bytes_unless_big, reverse_unless_big
   template <class T>
-  inline T big(T x) BOOST_NOEXCEPT; // alternate names: reverse_bytes_unless_big, reverse_unless_big    
+  inline T big(T x) BOOST_NOEXCEPT;    
     //  Return: x if native endian order is big, otherwise reverse_bytes(x)
 
   //  reverse bytes unless native endianness is little
+  //  possible names: reverse_unless_native_little, reverse_bytes_unless_little, reverse_unless_little
   template <class T>
-  inline T little(T x) BOOST_NOEXCEPT;  // alternate names: reverse_bytes_unless_little, reverse_unless_little 
+  inline T little(T x) BOOST_NOEXCEPT; 
     //  Return: x if native endian order is little, otherwise reverse_bytes(x);
 
   //  compile-time generic byte order conversion
