@@ -83,6 +83,40 @@ namespace endian
   T convert_value(T from, BOOST_SCOPED_ENUM(order) from_order,
             BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT;
 
+//--------------------------------------------------------------------------------------//
+//                             modify in place interface                                //
+//--------------------------------------------------------------------------------------//
+  
+  // reverse byte order (i.e. endianness)
+  //   
+  inline void reverse(int16_t& x) BOOST_NOEXCEPT;
+  inline void reverse(int32_t& x) BOOST_NOEXCEPT;
+  inline void reverse(int64_t& x) BOOST_NOEXCEPT;
+  inline void reverse(uint16_t& x) BOOST_NOEXCEPT;
+  inline void reverse(uint32_t& x) BOOST_NOEXCEPT;
+  inline void reverse(uint64_t& x) BOOST_NOEXCEPT;
+  inline void reverse(float& x) BOOST_NOEXCEPT;
+  inline void reverse(double& x) BOOST_NOEXCEPT;   
+
+  //  reverse unless native endianness is big
+  template <class T>
+  inline void big_endianx(T& x) BOOST_NOEXCEPT;    
+    //  Effects: none if native endian order is big, otherwise reverse(x)
+
+  //  reverse unless native endianness is little
+  //  possible names: reverse_unless_native_little, reverse_bytes_unless_little, reverse_unless_little
+  template <class T>
+  inline void little_endian(T& x) BOOST_NOEXCEPT; 
+    //  Effects: none if native endian order is little, otherwise reverse(x);
+
+  //  compile-time generic byte order conversion
+  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class T>
+  void convert(T& x) BOOST_NOEXCEPT; 
+
+  //  runtime byte-order conversion
+  template <class T>
+  void convert(T& x, BOOST_SCOPED_ENUM(order) from_order,
+               BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT;
 
 //----------------------------------- end synopsis -------------------------------------//
 
@@ -331,6 +365,49 @@ namespace endian
     // actual from_order is little
     return actual_order(to_order) == order::little ? from : reverse_value(from);
   }
+
+//--------------------------------------------------------------------------------------//
+//                             modify in place implementation                           //
+//--------------------------------------------------------------------------------------//
+  
+  // reverse byte order (i.e. endianness)
+  //   
+  inline void reverse(int16_t& x) BOOST_NOEXCEPT   {x = reverse_value(x);}
+  inline void reverse(int32_t& x) BOOST_NOEXCEPT   {x = reverse_value(x);}
+  inline void reverse(int64_t& x) BOOST_NOEXCEPT   {x = reverse_value(x);}
+  inline void reverse(uint16_t& x) BOOST_NOEXCEPT  {x = reverse_value(x);}
+  inline void reverse(uint32_t& x) BOOST_NOEXCEPT  {x = reverse_value(x);}
+  inline void reverse(uint64_t& x) BOOST_NOEXCEPT  {x = reverse_value(x);}
+  inline void reverse(float& x) BOOST_NOEXCEPT     {x = reverse_value(x);}
+  inline void reverse(double& x) BOOST_NOEXCEPT    {x = reverse_value(x);}   
+
+  //  reverse unless native endianness is big
+  template <class T>
+  inline void big_endianx(T& x) BOOST_NOEXCEPT
+  {
+#   ifndef BOOST_BIG_ENDIAN
+      reverse(x);
+#   endif
+  }
+
+  //  reverse bytes unless native endianness is little
+  template <class T>
+  inline void little_endian(T& x) BOOST_NOEXCEPT    
+  //  Effects: none if native endian order is little, otherwise reverse(x)
+  {
+#   ifndef BOOST_LITTLE_ENDIAN
+      x = reverse_value(x);
+#   endif
+  }
+
+  //  compile-time generic byte order conversion
+  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class T>
+  void convert(T& x) BOOST_NOEXCEPT {x = convert_value<From, To, T>(x);} 
+
+  //  runtime byte-order conversion
+  template <class T>
+  void convert(T& x, BOOST_SCOPED_ENUM(order) from_order,
+    BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT {x = convert_value(x, from_order, to_order);}
 
 }  // namespace endian
 }  // namespace boost
