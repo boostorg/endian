@@ -100,11 +100,10 @@ namespace endian
 
   //  reverse unless native endianness is big
   template <class T>
-  inline void big_endianx(T& x) BOOST_NOEXCEPT;    
+  inline void big_endian(T& x) BOOST_NOEXCEPT;    
     //  Effects: none if native endian order is big, otherwise reverse(x)
 
   //  reverse unless native endianness is little
-  //  possible names: reverse_unless_native_little, reverse_bytes_unless_little, reverse_unless_little
   template <class T>
   inline void little_endian(T& x) BOOST_NOEXCEPT; 
     //  Effects: none if native endian order is little, otherwise reverse(x);
@@ -383,7 +382,7 @@ namespace endian
 
   //  reverse unless native endianness is big
   template <class T>
-  inline void big_endianx(T& x) BOOST_NOEXCEPT
+  inline void big_endian(T& x) BOOST_NOEXCEPT
   {
 #   ifndef BOOST_BIG_ENDIAN
       reverse(x);

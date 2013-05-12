@@ -170,7 +170,32 @@ namespace
     BOOST_TEST_EQ((be::convert_value(little, be::order::little, be::order::native)), native);
     BOOST_TEST_EQ((be::convert_value(native, be::order::native, be::order::big)), big);
     BOOST_TEST_EQ((be::convert_value(native, be::order::native, be::order::little)), native);
- }
+ 
+    //  light test of modify-in-place functions
+
+    T x;
+
+    x = big; be::reverse(x); BOOST_TEST_EQ(x, little);
+    x = big; be::convert<be::order::big, be::order::little>(x); BOOST_TEST_EQ(x, little);
+    x = big; be::convert(x, be::order::big, be::order::little); BOOST_TEST_EQ(x, little);
+
+# ifdef BOOST_BIG_ENDIAN
+    x = native; be::big_endian(x); BOOST_TEST_EQ(x, big);
+    x = big; be::big_endian(x); BOOST_TEST_EQ(x, big);
+    x = little; be::big_endian(x); BOOST_TEST_EQ(x, little);
+    x = native; be::little_endian(x); BOOST_TEST_EQ(x, little);
+    x = big; be::little_endian(x); BOOST_TEST_EQ(x, little);
+    x = little; be::little_endian(x); BOOST_TEST_EQ(x, big);
+# else
+    x = native; be::big_endian(x); BOOST_TEST_EQ(x, big);
+    x = big; be::big_endian(x); BOOST_TEST_EQ(x, little);
+    x = little; be::big_endian(x); BOOST_TEST_EQ(x, big);
+    x = native; be::little_endian(x); BOOST_TEST_EQ(x, little);
+    x = big; be::little_endian(x); BOOST_TEST_EQ(x, big);
+    x = little; be::little_endian(x); BOOST_TEST_EQ(x, little);
+# endif
+
+  }
 }  // unnamed namespace
 
 int cpp_main(int, char * [])
