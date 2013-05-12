@@ -16,6 +16,16 @@
 #include <boost/static_assert.hpp>
 #include <algorithm>
 
+/*
+
+  TODO:
+
+  * Reversible means reverse_value(x) well-formed in some places, reverse(x) well-formed
+    in other places.
+  * Inplace converts should should be implemented in terms of reverse(), not convert_value()
+
+*/
+
 //------------------------------------- synopsis ---------------------------------------//
 
 namespace boost
@@ -383,6 +393,7 @@ namespace endian
   //  reverse unless native endianness is big
   template <class Reversible>
   inline void big_endian(Reversible& x) BOOST_NOEXCEPT
+  //  Effects: none if native endian order is big, otherwise reverse(x)
   {
 #   ifndef BOOST_BIG_ENDIAN
       reverse(x);
@@ -395,7 +406,7 @@ namespace endian
   //  Effects: none if native endian order is little, otherwise reverse(x)
   {
 #   ifndef BOOST_LITTLE_ENDIAN
-      x = reverse_value(x);
+      x = reverse(x);
 #   endif
   }
 
