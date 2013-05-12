@@ -14,7 +14,7 @@
 #  include <boost/cstdint.hpp>
 #endif
 
-#if (defined __GNUC__ || defined __clang__)
+#if ((defined __GNUC__ && !defined(__MINGW32__)) || defined __clang__)
     #include <byteswap.h>
     #define BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_2 bswap_16
     #define BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_4 bswap_32

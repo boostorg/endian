@@ -74,7 +74,7 @@ namespace
     ++v; // verify integer_cover_operators being applied to this type -
          // will fail to compile if no endian<> specialization is present
 
-    auto x = v+v;
+    Endian x = v+v;
     if ( x == x ) // silence warning
       return;
   }

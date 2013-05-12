@@ -13,10 +13,17 @@
 #include <boost/detail/lightweight_main.hpp>
 #include <boost/detail/lightweight_test.hpp>
 #include <iostream>
+#include <cstring>
 
 namespace be = boost::endian;
 using std::cout;
 using std::endl;
+using boost::int16_t;
+using boost::uint16_t;
+using boost::int32_t;
+using boost::uint32_t;
+using boost::int64_t;
+using boost::uint64_t;
 
 namespace
 {
