@@ -175,65 +175,65 @@ namespace
     big_value(big);
     little_value(little);
 
-    BOOST_TEST_EQ(be::reverse_bytes(big), little);
-    BOOST_TEST_EQ(be::reverse_bytes(little), big);
-    BOOST_TEST_EQ(be::reverse_bytes<T>(big), little);
-    BOOST_TEST_EQ(be::reverse_bytes<T>(little), big);
+    BOOST_TEST_EQ(be::reverse_value(big), little);
+    BOOST_TEST_EQ(be::reverse_value(little), big);
+    BOOST_TEST_EQ(be::detail::reverse_value<T>(big), little);
+    BOOST_TEST_EQ(be::detail::reverse_value<T>(little), big);
 
-    BOOST_TEST_EQ(be::big_endian(native), big);
-    BOOST_TEST_EQ(be::little_endian(native), little);
-    BOOST_TEST_EQ(be::big_endian(be::big_endian(native)), native);
-    BOOST_TEST_EQ(be::big_endian(be::big_endian(big)), big);
-    BOOST_TEST_EQ(be::big_endian(be::big_endian(little)), little);
-    BOOST_TEST_EQ(be::little_endian(be::little_endian(native)), native);
-    BOOST_TEST_EQ(be::little_endian(be::little_endian(big)), big);
-    BOOST_TEST_EQ(be::little_endian(be::little_endian(little)), little);
+    BOOST_TEST_EQ(be::big_endian_value(native), big);
+    BOOST_TEST_EQ(be::little_endian_value(native), little);
+    BOOST_TEST_EQ(be::big_endian_value(be::big_endian_value(native)), native);
+    BOOST_TEST_EQ(be::big_endian_value(be::big_endian_value(big)), big);
+    BOOST_TEST_EQ(be::big_endian_value(be::big_endian_value(little)), little);
+    BOOST_TEST_EQ(be::little_endian_value(be::little_endian_value(native)), native);
+    BOOST_TEST_EQ(be::little_endian_value(be::little_endian_value(big)), big);
+    BOOST_TEST_EQ(be::little_endian_value(be::little_endian_value(little)), little);
 
 # ifdef BOOST_BIG_ENDIAN
-    BOOST_TEST_EQ(be::reverse_bytes(native), little);
-    BOOST_TEST_EQ(be::reverse_bytes<T>(native), little);
-    BOOST_TEST_EQ(be::big_endian(big), big);
-    BOOST_TEST_EQ(be::big_endian<T>(big), big);
-    BOOST_TEST_EQ(be::big_endian(little), little);
-    BOOST_TEST_EQ(be::big_endian<T>(little), little);
-    BOOST_TEST_EQ(be::big_endian(native), little);
-    BOOST_TEST_EQ(be::big_endian<T>(native), little);
+    BOOST_TEST_EQ(be::reverse_value(native), little);
+    BOOST_TEST_EQ(be::detail::reverse_value<T>(native), little);
+    BOOST_TEST_EQ(be::big_endian_value(big), big);
+    BOOST_TEST_EQ(be::big_endian_value<T>(big), big);
+    BOOST_TEST_EQ(be::big_endian_value(little), little);
+    BOOST_TEST_EQ(be::big_endian_value<T>(little), little);
+    BOOST_TEST_EQ(be::big_endian_value(native), little);
+    BOOST_TEST_EQ(be::big_endian_value<T>(native), little);
 # else
-    BOOST_TEST_EQ(be::reverse_bytes(native), big);
-    BOOST_TEST_EQ(be::reverse_bytes<T>(native), big);
-    BOOST_TEST_EQ(be::big_endian(big), little);
-    BOOST_TEST_EQ(be::big_endian<T>(big), little);
-    BOOST_TEST_EQ(be::big_endian(little), big);
-    BOOST_TEST_EQ(be::big_endian<T>(little), big);
-    BOOST_TEST_EQ(be::big_endian(native), big);
-    BOOST_TEST_EQ(be::big_endian<T>(native), big);
+    BOOST_TEST_EQ(be::reverse_value(native), big);
+    BOOST_TEST_EQ(be::detail::reverse_value<T>(native), big);
+    BOOST_TEST_EQ(be::big_endian_value(big), little);
+    BOOST_TEST_EQ(be::big_endian_value<T>(big), little);
+    BOOST_TEST_EQ(be::big_endian_value(little), big);
+    BOOST_TEST_EQ(be::big_endian_value<T>(little), big);
+    BOOST_TEST_EQ(be::big_endian_value(native), big);
+    BOOST_TEST_EQ(be::big_endian_value<T>(native), big);
 # endif
 
     //  compile time order determination
 
-    BOOST_TEST_EQ((be::convert<be::order::big, be::order::big>(big)), big);
-    BOOST_TEST_EQ((be::convert<be::order::little, be::order::little>(little)), little);
-    BOOST_TEST_EQ((be::convert<be::order::native, be::order::native>(native)), native);
+    BOOST_TEST_EQ((be::convert_value<be::order::big, be::order::big>(big)), big);
+    BOOST_TEST_EQ((be::convert_value<be::order::little, be::order::little>(little)), little);
+    BOOST_TEST_EQ((be::convert_value<be::order::native, be::order::native>(native)), native);
 
-    BOOST_TEST_EQ((be::convert<be::order::big, be::order::little>(big)), little);
-    BOOST_TEST_EQ((be::convert<be::order::big, be::order::native>(big)), native);
-    BOOST_TEST_EQ((be::convert<be::order::little, be::order::big>(little)), big);
-    BOOST_TEST_EQ((be::convert<be::order::little, be::order::native>(little)), native);
-    BOOST_TEST_EQ((be::convert<be::order::native, be::order::big>(native)), big);
-    BOOST_TEST_EQ((be::convert<be::order::native, be::order::little>(native)), native);
+    BOOST_TEST_EQ((be::convert_value<be::order::big, be::order::little>(big)), little);
+    BOOST_TEST_EQ((be::convert_value<be::order::big, be::order::native>(big)), native);
+    BOOST_TEST_EQ((be::convert_value<be::order::little, be::order::big>(little)), big);
+    BOOST_TEST_EQ((be::convert_value<be::order::little, be::order::native>(little)), native);
+    BOOST_TEST_EQ((be::convert_value<be::order::native, be::order::big>(native)), big);
+    BOOST_TEST_EQ((be::convert_value<be::order::native, be::order::little>(native)), native);
 
     //  runtime order determination
 
-    BOOST_TEST_EQ((be::convert(big, be::order::big, be::order::big)), big);
-    BOOST_TEST_EQ((be::convert(little, be::order::little, be::order::little)), little);
-    BOOST_TEST_EQ((be::convert(native, be::order::native, be::order::native)), native);
+    BOOST_TEST_EQ((be::convert_value(big, be::order::big, be::order::big)), big);
+    BOOST_TEST_EQ((be::convert_value(little, be::order::little, be::order::little)), little);
+    BOOST_TEST_EQ((be::convert_value(native, be::order::native, be::order::native)), native);
 
-    BOOST_TEST_EQ((be::convert(big, be::order::big, be::order::little)), little);
-    BOOST_TEST_EQ((be::convert(big, be::order::big, be::order::native)), native);
-    BOOST_TEST_EQ((be::convert(little, be::order::little, be::order::big)), big);
-    BOOST_TEST_EQ((be::convert(little, be::order::little, be::order::native)), native);
-    BOOST_TEST_EQ((be::convert(native, be::order::native, be::order::big)), big);
-    BOOST_TEST_EQ((be::convert(native, be::order::native, be::order::little)), native);
+    BOOST_TEST_EQ((be::convert_value(big, be::order::big, be::order::little)), little);
+    BOOST_TEST_EQ((be::convert_value(big, be::order::big, be::order::native)), native);
+    BOOST_TEST_EQ((be::convert_value(little, be::order::little, be::order::big)), big);
+    BOOST_TEST_EQ((be::convert_value(little, be::order::little, be::order::native)), native);
+    BOOST_TEST_EQ((be::convert_value(native, be::order::native, be::order::big)), big);
+    BOOST_TEST_EQ((be::convert_value(native, be::order::native, be::order::little)), native);
  }
 }  // unnamed namespace
 
