@@ -211,29 +211,29 @@ namespace
 
     //  compile time order determination
 
-    BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::big>(big)), big);
-    BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::little>(little)), little);
-    BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::native>(native)), native);
+    BOOST_TEST_EQ((be::convert<be::order::big, be::order::big>(big)), big);
+    BOOST_TEST_EQ((be::convert<be::order::little, be::order::little>(little)), little);
+    BOOST_TEST_EQ((be::convert<be::order::native, be::order::native>(native)), native);
 
-    BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::little>(big)), little);
-    BOOST_TEST_EQ((be::convert_bytes<be::order::big, be::order::native>(big)), native);
-    BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::big>(little)), big);
-    BOOST_TEST_EQ((be::convert_bytes<be::order::little, be::order::native>(little)), native);
-    BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::big>(native)), big);
-    BOOST_TEST_EQ((be::convert_bytes<be::order::native, be::order::little>(native)), native);
+    BOOST_TEST_EQ((be::convert<be::order::big, be::order::little>(big)), little);
+    BOOST_TEST_EQ((be::convert<be::order::big, be::order::native>(big)), native);
+    BOOST_TEST_EQ((be::convert<be::order::little, be::order::big>(little)), big);
+    BOOST_TEST_EQ((be::convert<be::order::little, be::order::native>(little)), native);
+    BOOST_TEST_EQ((be::convert<be::order::native, be::order::big>(native)), big);
+    BOOST_TEST_EQ((be::convert<be::order::native, be::order::little>(native)), native);
 
     //  runtime order determination
 
-    BOOST_TEST_EQ((be::convert_bytes(big, be::order::big, be::order::big)), big);
-    BOOST_TEST_EQ((be::convert_bytes(little, be::order::little, be::order::little)), little);
-    BOOST_TEST_EQ((be::convert_bytes(native, be::order::native, be::order::native)), native);
+    BOOST_TEST_EQ((be::convert(big, be::order::big, be::order::big)), big);
+    BOOST_TEST_EQ((be::convert(little, be::order::little, be::order::little)), little);
+    BOOST_TEST_EQ((be::convert(native, be::order::native, be::order::native)), native);
 
-    BOOST_TEST_EQ((be::convert_bytes(big, be::order::big, be::order::little)), little);
-    BOOST_TEST_EQ((be::convert_bytes(big, be::order::big, be::order::native)), native);
-    BOOST_TEST_EQ((be::convert_bytes(little, be::order::little, be::order::big)), big);
-    BOOST_TEST_EQ((be::convert_bytes(little, be::order::little, be::order::native)), native);
-    BOOST_TEST_EQ((be::convert_bytes(native, be::order::native, be::order::big)), big);
-    BOOST_TEST_EQ((be::convert_bytes(native, be::order::native, be::order::little)), native);
+    BOOST_TEST_EQ((be::convert(big, be::order::big, be::order::little)), little);
+    BOOST_TEST_EQ((be::convert(big, be::order::big, be::order::native)), native);
+    BOOST_TEST_EQ((be::convert(little, be::order::little, be::order::big)), big);
+    BOOST_TEST_EQ((be::convert(little, be::order::little, be::order::native)), native);
+    BOOST_TEST_EQ((be::convert(native, be::order::native, be::order::big)), big);
+    BOOST_TEST_EQ((be::convert(native, be::order::native, be::order::little)), native);
  }
 }  // unnamed namespace
 
