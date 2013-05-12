@@ -180,33 +180,33 @@ namespace
     BOOST_TEST_EQ(be::reverse_bytes<T>(big), little);
     BOOST_TEST_EQ(be::reverse_bytes<T>(little), big);
 
-    BOOST_TEST_EQ(be::big(native), big);
-    BOOST_TEST_EQ(be::little(native), little);
-    BOOST_TEST_EQ(be::big(be::big(native)), native);
-    BOOST_TEST_EQ(be::big(be::big(big)), big);
-    BOOST_TEST_EQ(be::big(be::big(little)), little);
-    BOOST_TEST_EQ(be::little(be::little(native)), native);
-    BOOST_TEST_EQ(be::little(be::little(big)), big);
-    BOOST_TEST_EQ(be::little(be::little(little)), little);
+    BOOST_TEST_EQ(be::big_endian(native), big);
+    BOOST_TEST_EQ(be::little_endian(native), little);
+    BOOST_TEST_EQ(be::big_endian(be::big_endian(native)), native);
+    BOOST_TEST_EQ(be::big_endian(be::big_endian(big)), big);
+    BOOST_TEST_EQ(be::big_endian(be::big_endian(little)), little);
+    BOOST_TEST_EQ(be::little_endian(be::little_endian(native)), native);
+    BOOST_TEST_EQ(be::little_endian(be::little_endian(big)), big);
+    BOOST_TEST_EQ(be::little_endian(be::little_endian(little)), little);
 
 # ifdef BOOST_BIG_ENDIAN
     BOOST_TEST_EQ(be::reverse_bytes(native), little);
     BOOST_TEST_EQ(be::reverse_bytes<T>(native), little);
-    BOOST_TEST_EQ(be::big(big), big);
-    BOOST_TEST_EQ(be::big<T>(big), big);
-    BOOST_TEST_EQ(be::big(little), little);
-    BOOST_TEST_EQ(be::big<T>(little), little);
-    BOOST_TEST_EQ(be::big(native), little);
-    BOOST_TEST_EQ(be::big<T>(native), little);
+    BOOST_TEST_EQ(be::big_endian(big), big);
+    BOOST_TEST_EQ(be::big_endian<T>(big), big);
+    BOOST_TEST_EQ(be::big_endian(little), little);
+    BOOST_TEST_EQ(be::big_endian<T>(little), little);
+    BOOST_TEST_EQ(be::big_endian(native), little);
+    BOOST_TEST_EQ(be::big_endian<T>(native), little);
 # else
     BOOST_TEST_EQ(be::reverse_bytes(native), big);
     BOOST_TEST_EQ(be::reverse_bytes<T>(native), big);
-    BOOST_TEST_EQ(be::big(big), little);
-    BOOST_TEST_EQ(be::big<T>(big), little);
-    BOOST_TEST_EQ(be::big(little), big);
-    BOOST_TEST_EQ(be::big<T>(little), big);
-    BOOST_TEST_EQ(be::big(native), big);
-    BOOST_TEST_EQ(be::big<T>(native), big);
+    BOOST_TEST_EQ(be::big_endian(big), little);
+    BOOST_TEST_EQ(be::big_endian<T>(big), little);
+    BOOST_TEST_EQ(be::big_endian(little), big);
+    BOOST_TEST_EQ(be::big_endian<T>(little), big);
+    BOOST_TEST_EQ(be::big_endian(native), big);
+    BOOST_TEST_EQ(be::big_endian<T>(native), big);
 # endif
 
     //  compile time order determination
