@@ -16,16 +16,6 @@
 #include <boost/static_assert.hpp>
 #include <algorithm>
 
-/*
-
-  TODO:
-
-  * Reversible means reverse_value(x) well-formed in some places, reverse(x) well-formed
-    in other places.
-  * Inplace converts should should be implemented in terms of reverse(), not convert_value()
-
-*/
-
 //------------------------------------- synopsis ---------------------------------------//
 
 namespace boost
@@ -70,27 +60,27 @@ namespace endian
 
   //  reverse bytes unless native endianness is big
   //  possible names: reverse_unless_native_big, reverse_value_unless_big, reverse_unless_big
-  template <class Reversible>
-  inline Reversible big_endian_value(Reversible x) BOOST_NOEXCEPT;    
+  template <class ReversibleValue >
+  inline ReversibleValue  big_endian_value(ReversibleValue  x) BOOST_NOEXCEPT;    
     //  Return: x if native endian order is big, otherwise reverse_value(x)
 
   //  reverse bytes unless native endianness is little
   //  possible names: reverse_unless_native_little, reverse_value_unless_little, reverse_unless_little
-  template <class Reversible>
-  inline Reversible little_endian_value(Reversible x) BOOST_NOEXCEPT; 
+  template <class ReversibleValue >
+  inline ReversibleValue  little_endian_value(ReversibleValue  x) BOOST_NOEXCEPT; 
     //  Return: x if native endian order is little, otherwise reverse_value(x);
 
   //  compile-time generic byte order conversion
-  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class Reversible>
-  Reversible convert_value(Reversible from) BOOST_NOEXCEPT; 
+  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class ReversibleValue >
+  ReversibleValue  convert_value(ReversibleValue  from) BOOST_NOEXCEPT; 
 
   //  runtime actual byte-order determination
   inline BOOST_SCOPED_ENUM(order) actual_order(BOOST_SCOPED_ENUM(order) o) BOOST_NOEXCEPT;
     //  Return: o if o != native, otherwise big or little depending on native ordering
   
   //  runtime byte-order conversion
-  template <class Reversible>
-  Reversible convert_value(Reversible from, BOOST_SCOPED_ENUM(order) from_order,
+  template <class ReversibleValue >
+  ReversibleValue  convert_value(ReversibleValue  from, BOOST_SCOPED_ENUM(order) from_order,
             BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT;
 
 //--------------------------------------------------------------------------------------//
@@ -246,8 +236,8 @@ namespace endian
     }
   }
 
-  template <class Reversible>
-  inline Reversible big_endian_value(Reversible x) BOOST_NOEXCEPT
+  template <class ReversibleValue >
+  inline ReversibleValue  big_endian_value(ReversibleValue  x) BOOST_NOEXCEPT
   {
 #   ifdef BOOST_BIG_ENDIAN
       return x;
@@ -256,8 +246,8 @@ namespace endian
 #   endif
   }
 
-  template <class Reversible>
-  inline Reversible little_endian_value(Reversible x) BOOST_NOEXCEPT    
+  template <class ReversibleValue >
+  inline ReversibleValue  little_endian_value(ReversibleValue  x) BOOST_NOEXCEPT    
   {
 #   ifdef BOOST_LITTLE_ENDIAN
       return x;
@@ -365,8 +355,8 @@ namespace endian
     ;
   }
 
-  template <class Reversible>
-  Reversible convert_value(Reversible from, BOOST_SCOPED_ENUM(order) from_order,
+  template <class ReversibleValue >
+  ReversibleValue  convert_value(ReversibleValue  from, BOOST_SCOPED_ENUM(order) from_order,
             BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT
   {
     if (actual_order(from_order) == order::big)
@@ -411,13 +401,110 @@ namespace endian
   }
 
   //  compile-time generic byte order conversion
-  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class Reversible>
-  void convert(Reversible& x) BOOST_NOEXCEPT {x = convert_value<From, To, Reversible>(x);} 
+  template<> inline void convert<order::big, order::big>(int16_t&) BOOST_NOEXCEPT {} 
+  template<> inline void convert<order::little, order::little>(int16_t&) BOOST_NOEXCEPT {} 
+  template<> inline void convert<order::native, order::native>(int16_t&) BOOST_NOEXCEPT {}
+
+  template<> inline void convert<order::big, order::big>(uint16_t&) BOOST_NOEXCEPT {} 
+  template<> inline void convert<order::little, order::little>(uint16_t&) BOOST_NOEXCEPT {} 
+  template<> inline void convert<order::native, order::native>(uint16_t&) BOOST_NOEXCEPT {}
+
+  template<> inline void convert<order::big, order::big>(int32_t&) BOOST_NOEXCEPT {} 
+  template<> inline void convert<order::little, order::little>(int32_t&) BOOST_NOEXCEPT {} 
+  template<> inline void convert<order::native, order::native>(int32_t&) BOOST_NOEXCEPT {}
+
+  template<> inline void convert<order::big, order::big>(uint32_t&) BOOST_NOEXCEPT {} 
+  template<> inline void convert<order::little, order::little>(uint32_t&) BOOST_NOEXCEPT {} 
+  template<> inline void convert<order::native, order::native>(uint32_t&) BOOST_NOEXCEPT {} 
+
+  template<> inline void convert<order::big, order::big>(int64_t&) BOOST_NOEXCEPT {} 
+  template<> inline void convert<order::little, order::little>(int64_t&) BOOST_NOEXCEPT {} 
+  template<> inline void convert<order::native, order::native>(int64_t&) BOOST_NOEXCEPT {}
+
+  template<> inline void convert<order::big, order::big>(uint64_t&) BOOST_NOEXCEPT {} 
+  template<> inline void convert<order::little, order::little>(uint64_t&) BOOST_NOEXCEPT {} 
+  template<> inline void convert<order::native, order::native>(uint64_t&) BOOST_NOEXCEPT {} 
+
+  template<> inline void convert<order::big, order::big>(float&) BOOST_NOEXCEPT {} 
+  template<> inline void convert<order::little, order::little>(float&) BOOST_NOEXCEPT {} 
+  template<> inline void convert<order::native, order::native>(float&) BOOST_NOEXCEPT {} 
+
+  template<> inline void convert<order::big, order::big>(double&) BOOST_NOEXCEPT {} 
+  template<> inline void convert<order::little, order::little>(double&) BOOST_NOEXCEPT {} 
+  template<> inline void convert<order::native, order::native>(double&) BOOST_NOEXCEPT {} 
+
+  template<> inline void convert<order::big, order::little>(int16_t& x) BOOST_NOEXCEPT {reverse(x);}
+  template<> inline void convert<order::big, order::native>(int16_t& x) BOOST_NOEXCEPT {big_endian(x);}
+  template<> inline void convert<order::little, order::big>(int16_t& x) BOOST_NOEXCEPT {reverse(x);}
+  template<> inline void convert<order::little, order::native>(int16_t& x) BOOST_NOEXCEPT {little_endian(x);}
+  template<> inline void convert<order::native, order::big>(int16_t& x) BOOST_NOEXCEPT {big_endian(x);}
+  template<> inline void convert<order::native, order::little>(int16_t& x) BOOST_NOEXCEPT {little_endian(x);}
+
+  template<> inline void convert<order::big, order::little>(uint16_t& x) BOOST_NOEXCEPT {reverse(x);}
+  template<> inline void convert<order::big, order::native>(uint16_t& x) BOOST_NOEXCEPT {big_endian(x);}
+  template<> inline void convert<order::little, order::big>(uint16_t& x) BOOST_NOEXCEPT {reverse(x);}
+  template<> inline void convert<order::little, order::native>(uint16_t& x) BOOST_NOEXCEPT {little_endian(x);}
+  template<> inline void convert<order::native, order::big>(uint16_t& x) BOOST_NOEXCEPT {big_endian(x);}
+  template<> inline void convert<order::native, order::little>(uint16_t& x) BOOST_NOEXCEPT {little_endian(x);}
+
+  template<> inline void convert<order::big, order::little>(int32_t& x) BOOST_NOEXCEPT {reverse(x);}
+  template<> inline void convert<order::big, order::native>(int32_t& x) BOOST_NOEXCEPT {big_endian(x);}
+  template<> inline void convert<order::little, order::big>(int32_t& x) BOOST_NOEXCEPT {reverse(x);}
+  template<> inline void convert<order::little, order::native>(int32_t& x) BOOST_NOEXCEPT {little_endian(x);}
+  template<> inline void convert<order::native, order::big>(int32_t& x) BOOST_NOEXCEPT {big_endian(x);}
+  template<> inline void convert<order::native, order::little>(int32_t& x) BOOST_NOEXCEPT {little_endian(x);}
+
+  template<> inline void convert<order::big, order::little>(uint32_t& x) BOOST_NOEXCEPT {reverse(x);}
+  template<> inline void convert<order::big, order::native>(uint32_t& x) BOOST_NOEXCEPT {big_endian(x);}
+  template<> inline void convert<order::little, order::big>(uint32_t& x) BOOST_NOEXCEPT {reverse(x);}
+  template<> inline void convert<order::little, order::native>(uint32_t& x) BOOST_NOEXCEPT {little_endian(x);}
+  template<> inline void convert<order::native, order::big>(uint32_t& x) BOOST_NOEXCEPT {big_endian(x);}
+  template<> inline void convert<order::native, order::little>(uint32_t& x) BOOST_NOEXCEPT {little_endian(x);}
+
+  template<> inline void convert<order::big, order::little>(int64_t& x) BOOST_NOEXCEPT {reverse(x);}
+  template<> inline void convert<order::big, order::native>(int64_t& x) BOOST_NOEXCEPT {big_endian(x);}
+  template<> inline void convert<order::little, order::big>(int64_t& x) BOOST_NOEXCEPT {reverse(x);}
+  template<> inline void convert<order::little, order::native>(int64_t& x) BOOST_NOEXCEPT {little_endian(x);}
+  template<> inline void convert<order::native, order::big>(int64_t& x) BOOST_NOEXCEPT {big_endian(x);}
+  template<> inline void convert<order::native, order::little>(int64_t& x) BOOST_NOEXCEPT {little_endian(x);}
+
+  template<> inline void convert<order::big, order::little>(uint64_t& x) BOOST_NOEXCEPT {reverse(x);}
+  template<> inline void convert<order::big, order::native>(uint64_t& x) BOOST_NOEXCEPT {big_endian(x);}
+  template<> inline void convert<order::little, order::big>(uint64_t& x) BOOST_NOEXCEPT {reverse(x);}
+  template<> inline void convert<order::little, order::native>(uint64_t& x) BOOST_NOEXCEPT {little_endian(x);}
+  template<> inline void convert<order::native, order::big>(uint64_t& x) BOOST_NOEXCEPT {big_endian(x);}
+  template<> inline void convert<order::native, order::little>(uint64_t& x) BOOST_NOEXCEPT {little_endian(x);}
+
+  template<> inline void convert<order::big, order::little>(float& x) BOOST_NOEXCEPT {reverse(x);}
+  template<> inline void convert<order::big, order::native>(float& x) BOOST_NOEXCEPT {big_endian(x);}
+  template<> inline void convert<order::little, order::big>(float& x) BOOST_NOEXCEPT {reverse(x);}
+  template<> inline void convert<order::little, order::native>(float& x) BOOST_NOEXCEPT {little_endian(x);}
+  template<> inline void convert<order::native, order::big>(float& x) BOOST_NOEXCEPT {big_endian(x);}
+  template<> inline void convert<order::native, order::little>(float& x) BOOST_NOEXCEPT {little_endian(x);}
+
+  template<> inline void convert<order::big, order::little>(double& x) BOOST_NOEXCEPT {reverse(x);}
+  template<> inline void convert<order::big, order::native>(double& x) BOOST_NOEXCEPT {big_endian(x);}
+  template<> inline void convert<order::little, order::big>(double& x) BOOST_NOEXCEPT {reverse(x);}
+  template<> inline void convert<order::little, order::native>(double& x) BOOST_NOEXCEPT {little_endian(x);}
+  template<> inline void convert<order::native, order::big>(double& x) BOOST_NOEXCEPT {big_endian(x);}
+  template<> inline void convert<order::native, order::little>(double& x) BOOST_NOEXCEPT {little_endian(x);}
 
   //  runtime byte-order conversion
   template <class Reversible>
   void convert(Reversible& x, BOOST_SCOPED_ENUM(order) from_order,
-    BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT {x = convert_value(x, from_order, to_order);}
+            BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT
+  {
+    if (actual_order(from_order) == order::big)
+    {
+      if (actual_order(to_order) != order::big)
+        reverse(x);
+    }
+    else // actual from_order is little
+    {
+      if (actual_order(to_order) != order::little)
+        reverse(x);
+    }
+  }
 
 }  // namespace endian
 }  // namespace boost
