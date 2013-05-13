@@ -124,7 +124,9 @@ namespace
     BOOST_TEST_EQ(be::detail::reverse_value<T>(little), big);
 
     BOOST_TEST_EQ(be::big_endian_value(native), big);
+    BOOST_TEST_EQ(be::big_endian_value<T>(native), big);
     BOOST_TEST_EQ(be::little_endian_value(native), little);
+    BOOST_TEST_EQ(be::little_endian_value<T>(native), little);
     BOOST_TEST_EQ(be::big_endian_value(be::big_endian_value(native)), native);
     BOOST_TEST_EQ(be::big_endian_value(be::big_endian_value(big)), big);
     BOOST_TEST_EQ(be::big_endian_value(be::big_endian_value(little)), little);
@@ -139,8 +141,6 @@ namespace
     BOOST_TEST_EQ(be::big_endian_value<T>(big), big);
     BOOST_TEST_EQ(be::big_endian_value(little), little);
     BOOST_TEST_EQ(be::big_endian_value<T>(little), little);
-    BOOST_TEST_EQ(be::big_endian_value(native), little);
-    BOOST_TEST_EQ(be::big_endian_value<T>(native), little);
 # else
     BOOST_TEST_EQ(be::reverse_value(native), big);
     BOOST_TEST_EQ(be::detail::reverse_value<T>(native), big);
@@ -148,8 +148,6 @@ namespace
     BOOST_TEST_EQ(be::big_endian_value<T>(big), little);
     BOOST_TEST_EQ(be::big_endian_value(little), big);
     BOOST_TEST_EQ(be::big_endian_value<T>(little), big);
-    BOOST_TEST_EQ(be::big_endian_value(native), big);
-    BOOST_TEST_EQ(be::big_endian_value<T>(native), big);
 # endif
 
     //  compile time order determination
@@ -163,7 +161,7 @@ namespace
     BOOST_TEST_EQ((be::convert_value<be::order::little, be::order::big>(little)), big);
     BOOST_TEST_EQ((be::convert_value<be::order::little, be::order::native>(little)), native);
     BOOST_TEST_EQ((be::convert_value<be::order::native, be::order::big>(native)), big);
-    BOOST_TEST_EQ((be::convert_value<be::order::native, be::order::little>(native)), native);
+    BOOST_TEST_EQ((be::convert_value<be::order::native, be::order::little>(native)), little);
 
     //  runtime order determination
 
@@ -176,7 +174,7 @@ namespace
     BOOST_TEST_EQ((be::convert_value(little, be::order::little, be::order::big)), big);
     BOOST_TEST_EQ((be::convert_value(little, be::order::little, be::order::native)), native);
     BOOST_TEST_EQ((be::convert_value(native, be::order::native, be::order::big)), big);
-    BOOST_TEST_EQ((be::convert_value(native, be::order::native, be::order::little)), native);
+    BOOST_TEST_EQ((be::convert_value(native, be::order::native, be::order::little)), little);
  
     //  light test of modify-in-place functions
 
