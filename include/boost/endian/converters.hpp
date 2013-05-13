@@ -169,10 +169,10 @@ namespace endian
 # ifdef BOOST_ENDIAN_NO_INTRINSICS  
     uint64_t step32, step16;
     step32 = static_cast<uint64_t>(x) << 32 | static_cast<uint64_t>(x) >> 32;
-    step16 = (step32 & 0x0000FFFF0000FFFF) << 16
-           | (step32 & 0xFFFF0000FFFF0000) >> 16;
-    return static_cast<int64_t>((step16 & 0x00FF00FF00FF00FF) << 8
-           | (step16 & 0xFF00FF00FF00FF00) >> 8);
+    step16 = (step32 & 0x0000FFFF0000FFFFULL) << 16
+           | (step32 & 0xFFFF0000FFFF0000ULL) >> 16;
+    return static_cast<int64_t>((step16 & 0x00FF00FF00FF00FFULL) << 8
+           | (step16 & 0xFF00FF00FF00FF00ULL) >> 8);
 # else
     return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_8(static_cast<uint64_t>(x));
 # endif
@@ -206,10 +206,10 @@ namespace endian
 # ifdef BOOST_ENDIAN_NO_INTRINSICS  
     uint64_t step32, step16;
     step32 = x << 32 | x >> 32;
-    step16 = (step32 & 0x0000FFFF0000FFFF) << 16
-           | (step32 & 0xFFFF0000FFFF0000) >> 16;
-    return (step16 & 0x00FF00FF00FF00FF) << 8
-           | (step16 & 0xFF00FF00FF00FF00) >> 8;
+    step16 = (step32 & 0x0000FFFF0000FFFFULL) << 16
+           | (step32 & 0xFFFF0000FFFF0000ULL) >> 16;
+    return (step16 & 0x00FF00FF00FF00FFULL) << 8
+           | (step16 & 0xFF00FF00FF00FF00ULL) >> 8;
 # else
     return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_8(x);
 # endif
@@ -406,7 +406,7 @@ namespace endian
   //  Effects: none if native endian order is little, otherwise reverse(x)
   {
 #   ifndef BOOST_LITTLE_ENDIAN
-      x = reverse(x);
+      reverse(x);
 #   endif
   }
 
