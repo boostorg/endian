@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "benchmark", "benchmark\benc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "converter_test", "converter_test\converter_test.vcxproj", "{EAE18F4D-AAF2-4C19-86FB-1144B5BD5993}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pair_test", "pair_test\pair_test.vcxproj", "{5223CCD9-F1D4-4778-9BFD-242533DFE380}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -47,6 +49,10 @@ Global
 		{EAE18F4D-AAF2-4C19-86FB-1144B5BD5993}.Debug|Win32.Build.0 = Debug|Win32
 		{EAE18F4D-AAF2-4C19-86FB-1144B5BD5993}.Release|Win32.ActiveCfg = Release|Win32
 		{EAE18F4D-AAF2-4C19-86FB-1144B5BD5993}.Release|Win32.Build.0 = Release|Win32
+		{5223CCD9-F1D4-4778-9BFD-242533DFE380}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5223CCD9-F1D4-4778-9BFD-242533DFE380}.Debug|Win32.Build.0 = Debug|Win32
+		{5223CCD9-F1D4-4778-9BFD-242533DFE380}.Release|Win32.ActiveCfg = Release|Win32
+		{5223CCD9-F1D4-4778-9BFD-242533DFE380}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
