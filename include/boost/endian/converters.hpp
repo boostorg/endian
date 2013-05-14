@@ -80,7 +80,7 @@ namespace endian
   
   //  runtime byte-order conversion
   template <class ReversibleValue >
-  ReversibleValue  convert_value(ReversibleValue  from, BOOST_SCOPED_ENUM(order) from_order,
+  ReversibleValue  convert_value(ReversibleValue from, BOOST_SCOPED_ENUM(order) from_order,
             BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT;
 
 //--------------------------------------------------------------------------------------//
