@@ -76,6 +76,11 @@ int cpp_main(int, char * [])
   cout << "   big: " << y;
   cout << "little: " << z << endl;
 
+  cout << "   big: " << y;
+  convert<order::big, order::little>(y);
+  cout << "little: " << y << endl;
+  convert<order::little, order::big>(y);
+
   return ::boost::report_errors();
 }
 
