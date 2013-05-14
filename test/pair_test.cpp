@@ -51,7 +51,7 @@ namespace
 
 int cpp_main(int, char * [])
 {
-  cout << "pair_test" << endl;
+  cout << "pair_test" << endl << endl;
 
   MyPair x(0x0102, 0x01020304);
   MyPair y(big_endian_value(x));
@@ -74,7 +74,7 @@ int cpp_main(int, char * [])
   little_endian(z);
   cout << "native: " << x;
   cout << "   big: " << y;
-  cout << "little: " << z;
+  cout << "little: " << z << endl;
 
   return ::boost::report_errors();
 }
