@@ -7,19 +7,15 @@
 #ifndef BOOST_ENDIAN_INTRINSIC_HPP
 #define BOOST_ENDIAN_INTRINSIC_HPP
 
-#ifndef BOOST_DETAIL_ENDIAN_HPP
-#  include <boost/detail/endian.hpp>
-#endif
-#ifndef BOOST_CSTDINT_HPP
-#  include <boost/cstdint.hpp>
-#endif
-
 #if ((defined __GNUC__ && !defined(__MINGW32__)) || defined __clang__)
     #include <byteswap.h>
     #define BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_2 bswap_16
     #define BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_4 bswap_32
     #define BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_8 bswap_64
+
 #elif defined _MSC_VER
+//  Microsoft documents these as being compatible since Windows 95 and specificly
+//  lists runtime library support since Visual Studio 2003 (aka 7.1).
     #include <cstdlib>
     #define BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_2 _byteswap_ushort
     #define BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_4 _byteswap_ulong
