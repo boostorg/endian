@@ -200,6 +200,40 @@ namespace
     x = little; be::little_endian(x); BOOST_TEST_EQ(x, little);
 # endif
 
+    //  synonym test
+
+    x = big; x = be::bswap(x); BOOST_TEST_EQ(x, little);
+    x = big; be::mbswap(x); BOOST_TEST_EQ(x, little);
+
+# ifdef BOOST_BIG_ENDIAN
+    BOOST_TEST_EQ(be::htobe(native), little);
+    BOOST_TEST_EQ(be::htole(native), big);
+    BOOST_TEST_EQ(be::betoh(big), big);
+    BOOST_TEST_EQ(be::letoh(big), little);
+    BOOST_TEST_EQ(be::betoh(little), little);
+    BOOST_TEST_EQ(be::letoh(little), big);
+
+    x = native; be::mhtobe(x); BOOST_TEST_EQ(x, little);
+    x = native; be::mhtole(x); BOOST_TEST_EQ(x, big);
+    x = big; be::mbetoh(x); BOOST_TEST_EQ(x, big);
+    x = big; be::mletoh(x); BOOST_TEST_EQ(x, little);
+    x = little; be::mbetoh(x); BOOST_TEST_EQ(x, little);
+    x = little; be::mletoh(x); BOOST_TEST_EQ(x, big);
+# else
+    BOOST_TEST_EQ(be::htobe(native), big);
+    BOOST_TEST_EQ(be::htole(native), little);
+    BOOST_TEST_EQ(be::betoh(big), little);
+    BOOST_TEST_EQ(be::letoh(big), big);
+    BOOST_TEST_EQ(be::betoh(little), big);
+    BOOST_TEST_EQ(be::letoh(little), little);
+
+    x = native; be::mhtobe(x); BOOST_TEST_EQ(x, big);
+    x = native; be::mhtole(x); BOOST_TEST_EQ(x, little);
+    x = big; be::mbetoh(x); BOOST_TEST_EQ(x, little);
+    x = big; be::mletoh(x); BOOST_TEST_EQ(x, big);
+    x = little; be::mbetoh(x); BOOST_TEST_EQ(x, big);
+    x = little; be::mletoh(x); BOOST_TEST_EQ(x, little);
+# endif
   }
 }  // unnamed namespace
 
