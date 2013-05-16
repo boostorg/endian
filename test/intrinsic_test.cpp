@@ -3,10 +3,14 @@
 //  Distributed under the Boost Software License, Version 1.0.
 //  http://www.boost.org/LICENSE_1_0.txt
 
-#include "intrinsic.hpp"
+#include "test.hpp"
 #include <iostream>
 #include <cassert>
-#include <cstdint>
+//#include <cstdint>
+
+typedef unsigned short uint16_t;
+typedef unsigned int uint32_t;
+typedef unsigned long long uint64_t;
 
 int main()
 {
