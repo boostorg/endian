@@ -239,6 +239,8 @@ namespace
 
 int cpp_main(int, char * [])
 {
+  cout << "byte swap intrinsics: " BOOST_ENDIAN_INTRINSIC_MSG << endl;
+  
   //std::cerr << std::hex;
 
   cout << "int16_t" << endl;
