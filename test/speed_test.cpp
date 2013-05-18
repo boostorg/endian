@@ -7,6 +7,8 @@
 
 //--------------------------------------------------------------------------------------//
 
+//#define BOOST_ENDIAN_NO_INTRINSICS
+
 #include <boost/endian/detail/disable_warnings.hpp>
 
 #include <boost/endian/converters.hpp>
@@ -106,7 +108,7 @@ namespace
   template <class T, class EndianT>
   result_type test_rev_inc(T x)
   {
-    cout << "reverse, then ++ a value..." << endl;
+    cout << "reverse, then ++, then reverse a value..." << endl;
     result_type result;
     result.v = 0;
     T y(x);
@@ -152,24 +154,6 @@ namespace
     test_rev_inc<T, EndianT>(x);
     test_endian_inc<T, EndianT>(x);
   }
-
-
-  //result_type nop_test()
-  //{
-  //  result_type result;
-  //  result.v = 0;
-  //  boost::timer::auto_cpu_timer t(places);                  
-  //  for (uint64_t i = 0; i < n; ++i)
-  //  {
-  //    ++result.v;
-  //  }
-  //  t.stop();
-  //  boost::timer::cpu_times times = t.elapsed();
-  //  result.cpu_time = (times.system + times.user);
-  //  t.report();
-  //  return result;
-  //}
-
 
 }  // unnamed namespace
 
