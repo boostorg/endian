@@ -8,7 +8,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <cstdlib>
-#include <boost/endian/converters.hpp>
+#include <boost/endian/conversion.hpp>
 #include <boost/random.hpp>
 #include <boost/cstdint.hpp>
 #include <boost/timer/timer.hpp>

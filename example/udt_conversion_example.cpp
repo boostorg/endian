@@ -11,7 +11,7 @@
 
 #include <boost/endian/detail/disable_warnings.hpp>
 
-#include <boost/endian/converters.hpp>
+#include <boost/endian/conversion.hpp>
 #include <iostream>
 #include <cstring>
 

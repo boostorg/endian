@@ -1,4 +1,4 @@
-//  boost/endian/converters.hpp  -------------------------------------------------------//
+//  boost/endian/conversion.hpp  -------------------------------------------------------//
 
 //  Copyright Beman Dawes 2010, 2011
 
@@ -46,17 +46,6 @@ namespace endian
   //  TODO: Track progress of Floating-Point Typedefs Having Specified Widths proposal (N3626)
   inline float    reverse_value(float x) BOOST_NOEXCEPT;
   inline double   reverse_value(double x) BOOST_NOEXCEPT;   
-
-  namespace detail
-  // This function is unsafe for general use, so is placed in namespace detail.
-  // Think of what happens if you reverse_value a std::pair<int16_t, int_16_t>; the bytes
-  // from first end up in second and the bytes from second end up in first. Not good! 
-  {
-    //  general reverse_value function template to meet requests for UDT support by Vicente
-    //  Botet and others. 
-    template <class T>
-    inline T reverse_value(T x) BOOST_NOEXCEPT;  // convert little to big or visa versa
-  }
 
   //  reverse bytes unless native endianness is big
   //  possible names: reverse_unless_native_big, reverse_value_unless_big, reverse_unless_big
@@ -135,6 +124,16 @@ namespace endian
                BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT;
 
 //----------------------------------- end synopsis -------------------------------------//
+
+  namespace detail
+  // This function is unsafe for general use, so is placed in namespace detail.
+  // Think of what happens if you reverse_value a std::pair<int16_t, int_16_t>; the bytes
+  // from first end up in second and the bytes from second end up in first. Not good! 
+  {
+    //  general reverse_value function template useful in testing
+    template <class T>
+    inline T reverse_value(T x) BOOST_NOEXCEPT;  // convert little to big or visa versa
+  }
 
 //--------------------------------------------------------------------------------------//
 //                                                                                      //

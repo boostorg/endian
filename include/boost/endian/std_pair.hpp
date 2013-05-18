@@ -10,7 +10,7 @@
 #ifndef BOOST_ENDIAN_STD_PAIR_HPP
 #define BOOST_ENDIAN_STD_PAIR_HPP
 
-#include <boost/endian/converters.hpp>
+#include <boost/endian/conversion.hpp>
 #include <utility>
 
 namespace boost
