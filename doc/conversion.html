@@ -56,9 +56,9 @@
 <h2><a name="Introduction">Introduction</a></h2>
 
 <p>Header <a href="../../../boost/endian/conversion.hpp">boost/endian/conversion.hpp</a> 
-provides functions that convert built-in 
-integers between native byte ordering and <a href="index.html#definition">big or little endian</a> byte 
-ordering.</p>
+provides byte reverse and conversion functions that convert built-in 
+integers, <code>float</code>, and <code>double</code> between native byte ordering and <a href="index.html#definition">big or little endian</a> byte 
+ordering. User defined types are also supported.</p>
 
 <h2><a name="Reference">Reference</a></h2>
 
@@ -69,37 +69,92 @@ ordering.</p>
 {
 namespace endian
 {
-  // unconditional modifying (i.e. in-place) reverse byte order
+  enum class order {big, little, native};
 
-  inline void reorder(int16_t&amp; x);
-  inline void reorder(int32_t&amp; x);
-  inline void reorder(int64_t&amp; x);
-  inline void reorder(uint16_t&amp; x);
-  inline void reorder(uint32_t&amp; x);
-  inline void reorder(uint64_t&amp; x);
+  // reverse byte order (i.e. endianness)
+  //
+  inline int16_t  reverse_value(int16_t x) noexcept;
+  inline int32_t  reverse_value(int32_t x) noexcept;
+  inline int64_t  reverse_value(int64_t x) noexcept;
+  inline uint16_t reverse_value(uint16_t x) noexcept;
+  inline uint32_t reverse_value(uint32_t x) noexcept;
+  inline uint64_t reverse_value(uint64_t x) noexcept;
+  inline float    reverse_value(float x) noexcept;
+  inline double   reverse_value(double x) noexcept; 
 
-  // unconditional non-modifying reverse byte order copy
+  // reverse bytes unless native endianness is big
+  //
+  template &lt;class ReversibleValue &gt;
+  inline ReversibleValue big_endian_value(ReversibleValue x) noexcept; 
 
-  inline void reorder(int16_t source, int16_t&amp; target);
-  inline void reorder(int32_t source, int32_t&amp; target);
-  inline void reorder(int64_t source, int64_t&amp; target);
-  inline void reorder(uint16_t source, uint16_t&amp; target);
-  inline void reorder(uint32_t source, uint32_t&amp; target);
-  inline void reorder(uint64_t source, uint64_t&amp; target);
+  // reverse bytes unless native endianness is little
+  //
+  template &lt;class ReversibleValue &gt;
+  inline ReversibleValue little_endian_value(ReversibleValue x) noexcept; 
 
-  // conditional modifying (i.e. in-place) reverse byte order
+  // synonyms, based on names popularized by BSD (e.g. OS X, Linux)
+  // &quot;h&quot; stands for &quot;host&quot; (i.e. native), &quot;be&quot; for &quot;big endian&quot;, &quot;le&quot; for &quot;little endian&quot;
+  //
+  template &lt;class T&gt; T bswap(T x)      {return reverse_value(x);}
+  template &lt;class T&gt; T htobe(T host)   {return big_endian_value(host);}
+  template &lt;class T&gt; T htole(T host)   {return little_endian_value(host);}
+  template &lt;class T&gt; T betoh(T big)    {return big_endian_value(big);}
+  template &lt;class T&gt; T letoh(T little) {return little_endian_value(little);}
 
-  template &lt;class T&gt; void native_to_big(T&amp; x);
-  template &lt;class T&gt; void native_to_little(T&amp; x);
-  template &lt;class T&gt; void big_to_native(T&amp; x);
-  template &lt;class T&gt; void little_to_native(T&amp; x);
+  // compile-time generic byte order conversion
+  template &lt;order From, order To, class ReversibleValue&gt;
+    ReversibleValue convert_value(ReversibleValue from) noexcept;
 
-  // non-modifying conditional reverse byte order copy
+  // runtime actual byte-order determination
+  order actual_order(order o) noexcept;
 
-  template &lt;class T&gt; void native_to_big(T source, T&amp; target);
-  template &lt;class T&gt; void native_to_little(T source, T&amp; target);
-  template &lt;class T&gt; void big_to_native(T source, T&amp; target);
-  template &lt;class T&gt; void little_to_native(T source, T&amp; target);
+  // runtime byte-order conversion
+  template &lt;class ReversibleValue&gt;
+    ReversibleValue convert_value(ReversibleValue from,
+      order from_order, order to_order) noexcept;
+
+//--------------------------------------------------------------------------------------//
+// modify in place interface //
+//--------------------------------------------------------------------------------------//
+
+// reverse byte order (i.e. endianness)
+// 
+inline void reverse(int16_t&amp; x) noexcept;
+inline void reverse(int32_t&amp; x) noexcept;
+inline void reverse(int64_t&amp; x) noexcept;
+inline void reverse(uint16_t&amp; x) noexcept;
+inline void reverse(uint32_t&amp; x) noexcept;
+inline void reverse(uint64_t&amp; x) noexcept;
+inline void reverse(float&amp; x) noexcept;
+inline void reverse(double&amp; x) noexcept; 
+
+// reverse unless native endianness is big
+template &lt;class Reversible&gt;
+inline void big_endian(Reversible&amp; x) noexcept; 
+// Effects: none if native endian order is big, otherwise reverse(x)
+
+// reverse unless native endianness is little
+template &lt;class Reversible&gt;
+inline void little_endian(Reversible&amp; x) noexcept; 
+// Effects: none if native endian order is little, otherwise reverse(x);
+
+// synonyms based on names popularized by BSD, e.g. OS X, Linux.
+// &quot;h&quot; stands for &quot;host&quot; (i.e. native), &quot;be&quot; for &quot;big endian&quot;,
+// &quot;le&quot; for &quot;little endian&quot;, &quot;m&quot; for &quot;modify in place&quot;
+template &lt;class T&gt; void mbswap(T&amp; x) {reverse(x);}
+template &lt;class T&gt; void mhtobe(T&amp; host_) {big_endian(host_);}
+template &lt;class T&gt; void mhtole(T&amp; host_) {little_endian(host_);}
+template &lt;class T&gt; void mbetoh(T&amp; big_endian_) {big_endian(big_endian_);}
+template &lt;class T&gt; void mletoh(T&amp; little_endian_) {little_endian(little_endian_);}
+
+// compile-time generic byte order conversion
+template &lt;BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class Reversible&gt;
+void convert(Reversible&amp; x) noexcept; 
+
+// runtime byte-order conversion
+template &lt;class Reversible&gt;
+void convert(Reversible&amp; x, BOOST_SCOPED_ENUM(order) from_order,
+BOOST_SCOPED_ENUM(order) to_order) noexcept;
 
 } // namespace endian
 } // namespace boost</pre>
@@ -159,7 +214,7 @@ little_to_native(x, y); // if native ordering is big-endian, reorder(x, y),
 support endian conversion as separate from endian types.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->05 September, 2011<!--webbot bot="Timestamp" endspan i-checksum="39338" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->18 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13991" --></p>
 <p>© Copyright Beman Dawes, 2011</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
