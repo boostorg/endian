@@ -11,77 +11,164 @@
 
 #include <boost/endian/converters.hpp>
 #include <boost/endian/integers.hpp>
-#include <boost/chrono.hpp>
 #include <boost/cstdint.hpp>
+#include <boost/timer/timer.hpp>
 #include <iostream>
 #include <cstdlib>
 #include <boost/detail/lightweight_main.hpp>
 
+using namespace boost;
 using namespace boost::endian;
-using namespace boost::chrono;
 
 using std::cout;
 using std::endl;
-using boost::int16_t;
-using boost::uint16_t;
-using boost::int32_t;
-using boost::uint32_t;
-using boost::int64_t;
-using boost::uint64_t;
 
 namespace
 {
-  long default_length(1);
-  steady_clock::duration length = seconds(default_length);
+  typedef  boost::timer::nanosecond_type nanosecond_t;
+  std::string command_args;
+  uint64_t n;                 // number of test cases to run
+  int places = 3;             // decimal places for times
+  bool verbose (false);
 
-  template <class T, class Endian>
-  uint32_t test(T x)
+  struct result_type
   {
-    uint32_t count = 0;
-    T y = x;
-    steady_clock::time_point start = steady_clock::now();
-    steady_clock::time_point end = start + length; 
-    while (steady_clock::now() < end)
+    nanosecond_t cpu_time;   // system + user time
+    uint64_t v;              // value computed; returning this may prevent
+                             // optimizer from optimizing away the timing loop
+  };
+
+  void process_command_line(int argc, char * argv[])
+  {
+    for (int a = 0; a < argc; ++a)
     {
-      ++count;
+      command_args += argv[a];
+      if (a != argc-1)
+        command_args += ' ';
+    }
+
+    cout << command_args << '\n';;
+
+    if (argc >=2)
+#ifndef _MSC_VER
+      n = std::atoll(argv[1]);
+#else
+      n = _atoi64(argv[1]);
+#endif
+
+    for (; argc > 2; ++argv, --argc) 
+    {
+      if ( *(argv[2]+1) == 'p' )
+        places = atoi( argv[2]+2 );
+      else if ( *(argv[2]+1) == 'v' )
+        verbose = true;
+      else
+      {
+        cout << "Error - unknown option: " << argv[2] << "\n\n";
+        argc = -1;
+        break;
+      }
+    }
+
+    if (argc < 2) 
+    {
+      cout << "Usage: benchmark n [Options]\n"
+              "  The argument n specifies the number of test cases to run\n"
+              "  Options:\n"
+              "   -v       Verbose messages\n"
+              "   -p#      Decimal places for times; default -p" << places << "\n";
+      return std::exit(1);
+    }
+  }
+
+//--------------------------------------------------------------------------------------//
+
+  template <class T, class EndianT>
+  result_type test_inc(T x)
+  {
+    cout << "++ a value..." << endl;
+    result_type result;
+    result.v = 0;
+    T y(x);
+    boost::timer::auto_cpu_timer t(places);                  
+    for (uint64_t i = 0; i < n; ++i)
+    {
+      ++y;
+    }
+    t.stop();
+    result.v = static_cast<uint64_t>(y);
+    boost::timer::cpu_times times = t.elapsed();
+    result.cpu_time = (times.system + times.user);
+    t.report();
+    return result;
+  }
+
+  template <class T, class EndianT>
+  result_type test_rev_inc(T x)
+  {
+    cout << "reverse, then ++ a value..." << endl;
+    result_type result;
+    result.v = 0;
+    T y(x);
+    boost::timer::auto_cpu_timer t(places);                  
+    for (uint64_t i = 0; i < n; ++i)
+    {
       reverse(y);
       ++y;
       reverse(y);
     }
-
-    cout << "  loop executed " << count << " times" << endl;
-//    cout << "  x is 0x" << std::hex << x << std::dec << endl;
-
-    count = 0;
-    //Endian z(x);
-    Endian z;
-    start = steady_clock::now();
-    end = start + length; 
-    while (steady_clock::now() < end)
-    {
-      ++count;
-      ++z;
-    }
-
-    cout << "  loop executed " << count << " times" << endl;
-
-    return count;
+    t.stop();
+    result.v = static_cast<uint64_t>(y);
+    boost::timer::cpu_times times = t.elapsed();
+    result.cpu_time = (times.system + times.user);
+    t.report();
+    return result;
   }
 
-  uint32_t nop_test()
+  template <class T, class EndianT>
+  result_type test_endian_inc(T x)
   {
-    uint32_t count = 0;
-    steady_clock::time_point start = steady_clock::now();
-    steady_clock::time_point end = start + length; 
-    while (steady_clock::now() < end)
+    cout << "++ an endian value..." << endl;
+    result_type result;
+    result.v = 0;
+    EndianT y(x);
+    boost::timer::auto_cpu_timer t(places);                  
+    for (uint64_t i = 0; i < n; ++i)
     {
-      ++count;
+      ++y;
     }
-
-    cout << "  loop executed " << count << " times" << endl;
-
-    return count;
+    t.stop();
+    result.v = static_cast<uint64_t>(y);
+    boost::timer::cpu_times times = t.elapsed();
+    result.cpu_time = (times.system + times.user);
+    t.report();
+    return result;
   }
+
+  template <class T, class EndianT>
+  void test(T x)
+  {
+    test_inc<T, EndianT>(x);
+    test_rev_inc<T, EndianT>(x);
+    test_endian_inc<T, EndianT>(x);
+  }
+
+
+  //result_type nop_test()
+  //{
+  //  result_type result;
+  //  result.v = 0;
+  //  boost::timer::auto_cpu_timer t(places);                  
+  //  for (uint64_t i = 0; i < n; ++i)
+  //  {
+  //    ++result.v;
+  //  }
+  //  t.stop();
+  //  boost::timer::cpu_times times = t.elapsed();
+  //  result.cpu_time = (times.system + times.user);
+  //  t.report();
+  //  return result;
+  //}
 
 
 }  // unnamed namespace
@@ -90,40 +177,27 @@ namespace
 
 int cpp_main(int argc, char* argv[])
 {
-  if (argc > 1)
-    length = seconds(atol(argv[1]));
-  else
-  {
-    cout << "Invoke: speed_test [s]\n"
-      "  where s is the number of seconds each test will be run (default "
-      << default_length << (default_length <= 1 ? " second)" : " seconds)") << endl;
-  }
+  process_command_line(argc, argv);
   
-  cout << "\nbyte swap intrinsics used: " BOOST_ENDIAN_INTRINSIC_MSG << endl << endl;
-  
-  //std::cerr << std::hex;
+  cout << "\nbyte swap intrinsics used: " BOOST_ENDIAN_INTRINSIC_MSG << endl;
 
-  cout << "nop" << endl;
-  nop_test();
-
-
-  cout << "int16_t, big16_t" << endl;
+  cout << endl << "int16_t, big16_t" << endl;
   test<int16_t, big16_t>(0x1122);
 
-  cout << "uint16_t" << endl;
-  test<uint16_t, ubig16_t>(0x1122U);
+  cout << endl << "int16_t, little16_t" << endl;
+  test<int16_t, little16_t>(0x1122);
 
-  cout << "int32_t, big32_t" << endl;
+  cout << endl << "int32_t, big32_t" << endl;
   test<int32_t, big32_t>(0x11223344);
 
-  cout << "uint32_t, ubig32_t" << endl;
-  test<uint32_t, ubig32_t>(0x11223344UL);
+  cout << endl << "int32_t, little32_t" << endl;
+  test<int32_t, little32_t>(0x11223344);
 
-  cout << "int64_t, big64_t" << endl;
+  cout << endl << "int64_t, big64_t" << endl;
   test<int64_t, big64_t>(0x1122334455667788);
 
-  cout << "uint64_t, ubig64_t" << endl;
-  test<uint64_t, ubig64_t>(0x1122334455667788ULL);
+  cout << endl << "int64_t, little64_t" << endl;
+  test<int64_t, little64_t>(0x1122334455667788);
 
   //cout << "float" << endl;
   //test<float>(1.2345f);

@@ -35,9 +35,12 @@ namespace
 #endif
 
   typedef  boost::timer::nanosecond_type nanosecond_t;
+ 
+//--------------------------------------------------------------------------------------//
 
   nanosecond_t benchmark(timee_func timee, const char* msg,
-    nanosecond_t overhead = 0)              
+    nanosecond_t overhead = 0)
+  //  Returns: total cpu time (i.e. system time + user time)
   {                                               
     if (verbose)                                  
       cout << "\nRunning benchmark..." << endl;   
