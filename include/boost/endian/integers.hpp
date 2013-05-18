@@ -65,6 +65,8 @@
 
 namespace boost
 {
+namespace endian
+{
   namespace detail
   {
     // Unrolled loops for loading and storing streams of bytes.
@@ -152,9 +154,6 @@ namespace boost
     }
 
   } // namespace detail
-
-  namespace endian
-  {
 
 # ifdef BOOST_ENDIAN_LOG
     bool endian_log(true);
@@ -429,7 +428,7 @@ namespace boost
     typedef endian< order::little, uint64_t, 64, alignment::aligned >  aligned_ulittle64_t;
 # endif
 
-  } // namespace endian
+} // namespace endian
 } // namespace boost
 
 #if defined(__BORLANDC__) || defined( __CODEGEARC__)
