@@ -61,18 +61,18 @@ namespace endian
 
   //  synonyms based on names popularized by BSD, e.g. OS X, Linux
   //  "h" stands for "host" (i.e. native), "be" for "big endian", "le" for "little endian"
-  template <class T> T bswap(T x) {return reverse_value(x);}
-  template <class T> T htobe(T host_) {return big_endian_value(host_);}
-  template <class T> T htole(T host_) {return little_endian_value(host_);}
-  template <class T> T betoh(T big_endian_) {return big_endian_value(big_endian_);}
-  template <class T> T letoh(T little_endian_) {return little_endian_value(little_endian_);}
+  template <class T> inline T bswap(T x) BOOST_NOEXCEPT {return reverse_value(x);}
+  template <class T> inline T htobe(T host) BOOST_NOEXCEPT {return big_endian_value(host);}
+  template <class T> inline T htole(T host) BOOST_NOEXCEPT {return little_endian_value(host);}
+  template <class T> inline T betoh(T big) BOOST_NOEXCEPT {return big_endian_value(big);}
+  template <class T> inline T letoh(T little) BOOST_NOEXCEPT {return little_endian_value(little);}
 
   //  compile-time generic byte order conversion
   template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class ReversibleValue >
   ReversibleValue  convert_value(ReversibleValue  from) BOOST_NOEXCEPT;
 
   //  runtime actual byte-order determination
-  inline BOOST_SCOPED_ENUM(order) actual_order(BOOST_SCOPED_ENUM(order) o) BOOST_NOEXCEPT;
+  inline BOOST_SCOPED_ENUM(order) effective_order(BOOST_SCOPED_ENUM(order) o) BOOST_NOEXCEPT;
     //  Return: o if o != native, otherwise big or little depending on native ordering
   
   //  runtime byte-order conversion
@@ -108,11 +108,11 @@ namespace endian
   //  synonyms based on names popularized by BSD, e.g. OS X, Linux.
   //  "h" stands for "host" (i.e. native), "be" for "big endian",
   //  "le" for "little endian", "m" for "modify in place"
-  template <class T> void mbswap(T& x) {reverse(x);}
-  template <class T> void mhtobe(T& host_) {big_endian(host_);}
-  template <class T> void mhtole(T& host_) {little_endian(host_);}
-  template <class T> void mbetoh(T& big_endian_) {big_endian(big_endian_);}
-  template <class T> void mletoh(T& little_endian_) {little_endian(little_endian_);}
+  template <class T> inline void mbswap(T& x) BOOST_NOEXCEPT {reverse(x);}
+  template <class T> inline void mhtobe(T& host) BOOST_NOEXCEPT {big_endian(host);}
+  template <class T> inline void mhtole(T& host) BOOST_NOEXCEPT {little_endian(host);}
+  template <class T> inline void mbetoh(T& big) BOOST_NOEXCEPT {big_endian(big);}
+  template <class T> inline void mletoh(T& little) BOOST_NOEXCEPT {little_endian(little);}
 
   //  compile-time generic byte order conversion
   template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class Reversible>
@@ -296,7 +296,7 @@ namespace endian
 # endif
   }
 
-  //  compile-time generic convert_valuereturn by value
+  //  compile-time generic convert return by value
   template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class Reversible>
   Reversible convert_value(Reversible x) BOOST_NOEXCEPT
   {
@@ -307,7 +307,7 @@ namespace endian
     return tmp(x);
   }
 
-  inline BOOST_SCOPED_ENUM(order) actual_order(BOOST_SCOPED_ENUM(order) o) BOOST_NOEXCEPT
+  inline BOOST_SCOPED_ENUM(order) effective_order(BOOST_SCOPED_ENUM(order) o) BOOST_NOEXCEPT
   {
     return o != order::native ? o :
  #   ifdef BOOST_LITTLE_ENDIAN
@@ -322,10 +322,8 @@ namespace endian
   ReversibleValue  convert_value(ReversibleValue  from, BOOST_SCOPED_ENUM(order) from_order,
             BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT
   {
-    if (actual_order(from_order) == order::big)
-      return actual_order(to_order) == order::big ? from : reverse_value(from);
-    // actual from_order is little
-    return actual_order(to_order) == order::little ? from : reverse_value(from);
+    return effective_order(from_order) == effective_order(to_order)
+      ? from : reverse_value(from);
   }
 
 //--------------------------------------------------------------------------------------//
@@ -403,14 +401,14 @@ namespace endian
   void convert(Reversible& x, BOOST_SCOPED_ENUM(order) from_order,
             BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT
   {
-    if (actual_order(from_order) == order::big)
+    if (effective_order(from_order) == order::big)
     {
-      if (actual_order(to_order) != order::big)
+      if (effective_order(to_order) != order::big)
         reverse(x);
     }
     else // actual from_order is little
     {
-      if (actual_order(to_order) != order::little)
+      if (effective_order(to_order) != order::little)
         reverse(x);
     }
   }
