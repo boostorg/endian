@@ -143,7 +143,7 @@ namespace endian
 //       undefined behavior as suggested by Giovanni Piero Deretta, and a further       //
 //       refinement suggested by Pyry Jahkola.                                          //
 //    -- reverse_value intrinsic approach suggested by reviewers, and by David Stone,   //
-//       who provided his Boost licensed macro implementation (see detail/intrinsic.hpp //
+//       who provided his Boost licensed macro implementation (detail/intrinsic.hpp)    //
 //                                                                                      //
 //--------------------------------------------------------------------------------------//
                                                 

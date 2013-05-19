@@ -86,12 +86,12 @@ FILE * file = fopen(&quot;test&quot;, &quot;wb&quot;);   // MUST BE BINARY
 fwrite(&amp;i, sizeof(int16_t), 1, file);
 fclose(file);</pre>
 </blockquote>
-<p>On a modern Apple, Linux, or Windows computer with an Intel CPU, a hex dump 
+<p>On an Apple, Linux, or Windows computer with an Intel CPU, a hex dump 
 of the &quot;test&quot; output file produces:</p>
 <blockquote>
   <p><code>0201</code></p>
 </blockquote>
-<p>On a Oracle/Sun Solaris computer with a SPARC CPU, a hex dump of the &quot;test&quot; 
+<p>On an Apple or other computer with a PowerPC CPU, or an Oracle/Sun Solaris computer with a SPARC CPU, a hex dump of the &quot;test&quot; 
 output file produces:</p>
 <blockquote>
   <p><code>0102</code></p>
@@ -161,7 +161,7 @@ Tomas Puverle, Vincente Botet, and
 Yuval Ronen.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->04 September, 2011<!--webbot bot="Timestamp" endspan i-checksum="39336" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->19 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13993" --></p>
 <p>© Copyright Beman Dawes, 2011</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

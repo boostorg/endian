@@ -37,9 +37,12 @@
   <tr>
     <td width="100%" bgcolor="#E8F5FF">
       <a href="#Introduction">Introduction</a><br>
+      <a href="#FAQ">FAQ</a><br>
       <a href="#Reference">Reference</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#Synopsis">Synopsis</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Requirements">Requirements</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#Functions">Functions</a><br>
+      <a href="#Intrinsic">Intrinsic built-in support</a><br>
       <a href="#Acknowledgements">Acknowledgements</a></td>
   </tr>
   <tr>
@@ -55,71 +58,137 @@
 
 <h2><a name="Introduction">Introduction</a></h2>
 
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
+  <tr>
+    <td bgcolor="#FFFFCC">Please: If you haven't done so already, read
+    <a href="index.html#Introduction-to-endianness">Introduction to endianness</a>!</td>
+  </tr>
+</table>
+
 <p>Header <a href="../../../boost/endian/conversion.hpp">boost/endian/conversion.hpp</a> 
-provides byte reverse and conversion functions that convert built-in 
-integers, <code>float</code>, and <code>double</code> between native byte ordering and <a href="index.html#definition">big or little endian</a> byte 
+provides byte order reversal and conversion functions that convert objects of 
+the multi-byte built-in 
+integer types, and also types <code>float</code> and <code>double,</code> 
+between native, big, or little endian byte 
 ordering. User defined types are also supported.</p>
 
 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
   <tr>
-    <td bgcolor="#FFFFCC">Caution: Only big and little endianness are supported; 
+    <td bgcolor="#FFFFCC">Caution: Only big endianness and little endianness is supported; 
     middle endianness is not supported.</td>
   </tr>
 </table>
 
 <h2><a name="FAQ">FAQ</a></h2>
 
+<p><b>Is the implementation header only?</b></p>
+
+<blockquote>
+
+<p>Yes.</p>
+
+</blockquote>
+
+<p><b>Does the implementation use compiler intrinsic built-in byte swapping?</b></p>
+
+<blockquote>
+
+<p>Yes, if available. See <a href="#Intrinsic">Intrinsic built-in support</a> 
+below.</p>
+
+</blockquote>
+
 <p><b>Why are <code>reverse()</code> and <code>reverse_value()</code> templates 
-in a detail namespace?</b> They are unsafe for general use. Consider reversing 
-the bytes of a <b><code>std::pair</code></b> - the bytes from <b><code>first</code></b> 
-would end up in <b><code>second</code></b> and visa versa, and this is totally 
+in a detail namespace?</b></p>
+
+<blockquote>
+
+<p>They are unsafe for general use. Consider reversing 
+the bytes of a <code>std::pai<b>r</b></code> as a whole - the bytes from <code>first</code> 
+would end up in <code>second</code> and visa versa, and this is totally 
 wrong!</p>
+
+</blockquote>
+
+<p><b>Why are both value returning and modify_in_place functions provided?</b></p>
+
+<blockquote>
+
+<p>Value returning functions are the standard idiom for functions that compute a 
+value. Modification in place functions allow cleaner code in many real-world 
+endian use cases and are more efficient for user defined types that have many 
+members such as string data that do not need to be reversed. Thus both are 
+provided.</p>
+
+</blockquote>
+
+<p><b>What are the limitations of floating point support?</b></p>
+
+<blockquote>
+
+<p>The only supported types are four byte <code>float</code> and eight byte
+<code>double</code>. Even after endianness has been accounted for, floating 
+point values will not be portable between systems that use different floating 
+point formats.</p>
+
+</blockquote>
+
+<p><b>What are the limitations of integer support?</b></p>
+
+<blockquote>
+
+<p>Only 16-bit, 32-bit, and 64-bit integers are supported. No tests have been 
+performed on machines that use something other than two's complement arithmetic.</p>
+
+</blockquote>
 
 <h2><a name="Reference">Reference</a></h2>
 
-<p><code>noexcept</code> is not present for compilers that do not support it. 
-Boost scoped enum emulation is used for compilers that do not support scoped 
-enums. Actual functions are <code>inline</code> if appropriate.</p>
+<p>Functions are implemented <code>inline</code> if appropriate.<code> noexcept</code> is 
+elided for compilers that do not support it. 
+Boost scoped enum emulation is used so that the library still works for compilers that do not support scoped enums.  </p>
 
 <h3>
 <a name="Synopsis">Synopsis</a></h3>
 
-<pre>namespace boost
+<pre>#define BOOST_ENDIAN_INTRINSIC_MSG &quot;message describing presence or absence of intrinsics&quot;
+
+namespace boost
 {
 namespace endian
 {
-  enum class order {big, little, native};
+  enum class <a name="order">order</a> {big, little, native};
 
   // reverse byte order (i.e. endianness)
-  int16_t  reverse_value(int16_t x) noexcept;
-  int32_t  reverse_value(int32_t x) noexcept;
-  int64_t  reverse_value(int64_t x) noexcept;
-  uint16_t reverse_value(uint16_t x) noexcept;
-  uint32_t reverse_value(uint32_t x) noexcept;
-  uint64_t reverse_value(uint64_t x) noexcept;
-  float    reverse_value(float x) noexcept;
-  double   reverse_value(double x) noexcept;
+  int16_t  <a href="#reverse_value">reverse_value</a>(int16_t x) noexcept;
+  int32_t  <a href="#reverse_value">reverse_value</a>(int32_t x) noexcept;
+  int64_t  <a href="#reverse_value">reverse_value</a>(int64_t x) noexcept;
+  uint16_t <a href="#reverse_value">reverse_value</a>(uint16_t x) noexcept;
+  uint32_t <a href="#reverse_value">reverse_value</a>(uint32_t x) noexcept;
+  uint64_t <a href="#reverse_value">reverse_value</a>(uint64_t x) noexcept;
+  float    <a href="#reverse_value">reverse_value</a>(float x) noexcept;
+  double   <a href="#reverse_value">reverse_value</a>(double x) noexcept;
 
-  void     reverse(int16_t&amp; x) noexcept;
-  void     reverse(int32_t&amp; x) noexcept;
-  void     reverse(int64_t&amp; x) noexcept;
-  void     reverse(uint16_t&amp; x) noexcept;
-  void     reverse(uint32_t&amp; x) noexcept;
-  void     reverse(uint64_t&amp; x) noexcept;
-  void     reverse(float&amp; x) noexcept;
-  void     reverse(double&amp; x) noexcept; 
+  void     <a href="#reverse">reverse</a>(int16_t&amp; x) noexcept;
+  void     <a href="#reverse">reverse</a>(int32_t&amp; x) noexcept;
+  void     <a href="#reverse">reverse</a>(int64_t&amp; x) noexcept;
+  void     <a href="#reverse">reverse</a>(uint16_t&amp; x) noexcept;
+  void     <a href="#reverse">reverse</a>(uint32_t&amp; x) noexcept;
+  void     <a href="#reverse">reverse</a>(uint64_t&amp; x) noexcept;
+  void     <a href="#reverse">reverse</a>(float&amp; x) noexcept;
+  void     <a href="#reverse">reverse</a>(double&amp; x) noexcept; 
 
   // reverse byte order unless native endianness is big
   template &lt;class ReversibleValue &gt;
-    ReversibleValue big_endian_value(ReversibleValue x) noexcept; 
+    ReversibleValue <a href="#big_endian_value">big_endian_value</a>(ReversibleValue x) noexcept; 
   template &lt;class Reversible&gt;
-    void big_endian(Reversible&amp; x) noexcept; 
+    void <a href="#big_endian">big_endian</a>(Reversible&amp; x) noexcept; 
 
   // reverse byte order unless native endianness is little
   template &lt;class ReversibleValue &gt;
-    ReversibleValue little_endian_value(ReversibleValue x) noexcept; 
+    ReversibleValue <a href="#little_endian_value">little_endian_value</a>(ReversibleValue x) noexcept; 
   template &lt;class Reversible&gt;
-    void little_endian(Reversible&amp; x) noexcept; 
+    void <a href="#little_endian">little_endian</a>(Reversible&amp; x) noexcept; 
 
   // synonyms, based on names popularized by BSD (e.g. OS X, Linux)
   //  &quot;h&quot; for &quot;host&quot; (i.e. native), &quot;be&quot; for &quot;big endian&quot;,
@@ -136,30 +205,32 @@ namespace endian
   template &lt;class T&gt; void betohm(T&amp; big) noexcept    {big_endian(big);}
   template &lt;class T&gt; void letohm(T&amp; little) noexcept {little_endian(little);}
 
-  // compile-time generic byte order conversion
+  // generic byte order conversion
   template &lt;order From, order To, class ReversibleValue&gt;
-    ReversibleValue convert_value(ReversibleValue from) noexcept;
+    ReversibleValue <a href="#convert_value_generic">convert_value</a>(ReversibleValue from) noexcept;
   template &lt;order From, order To, class Reversible&gt;
-    void convert(Reversible&amp; x) noexcept; 
+    void <a href="#convert_generic">convert</a>(Reversible&amp; x) noexcept; 
 
   // runtime effective byte order determination
-  order effective_order(order x) noexcept;
+  order <a href="#effective_order">effective_order</a>(order x) noexcept;
 
   // runtime byte-order conversion
   template &lt;class ReversibleValue&gt;
-    ReversibleValue convert_value(ReversibleValue from,
+    ReversibleValue <a href="#convert_value_runtime">convert_value</a>(ReversibleValue from,
       order from_order, order to_order) noexcept;
   template &lt;class Reversible&gt;
-    void convert(Reversible&amp; x,
+    void <a href="#convert_runtime">convert</a>(Reversible&amp; x,
       order from_order, order to_order) noexcept;
 
 } // namespace endian
 } // namespace boost</pre>
 <h3><a name="Requirements">Requirements</a></h3>
-<p>The template definitions in this library refer to various named 
-requirements whose details are set out in this section. </p>
+<p>The template definitions in this header refer to named 
+requirements whose details are set out in this section. User defined types may 
+be used in the function templates in this header only if they meet the 
+function's template parameter requirements.</p>
 <h4><a name="ReversibleValue">ReversibleValue</a> requirements</h4>
-<p><code>ReversibleValue</code> is an object or reference type to be 
+<p><code>ReversibleValue</code> is an object type to be 
 supplied by a C++ program instantiating a template; <code>x</code> is a value of 
 type (possibly <code>const</code>) <code>ReversibleValue</code>.</p>
 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
@@ -179,7 +250,7 @@ type (possibly <code>const</code>) <code>ReversibleValue</code>.</p>
   </tr>
 </table>
 <h4><a name="Reversible">Reversible</a> requirements</h4>
-<p><code>Reversible</code> is an object or reference type to be 
+<p><code>Reversible</code> is an object  type to be 
 supplied by a C++ program instantiating a template; <code>x</code> is a 
 modifiable lvalue of type <code>Reversible</code>.</p>
 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
@@ -196,7 +267,7 @@ modifiable lvalue of type <code>Reversible</code>.</p>
   </tr>
 </table>
 <h3><a name="Functions">Functions</a></h3>
-<pre>int16_t  reverse_value(int16_t x) noexcept;
+<pre><a name="reverse_value"></a>int16_t  reverse_value(int16_t x) noexcept;
 int32_t  reverse_value(int32_t x) noexcept;
 int64_t  reverse_value(int64_t x) noexcept;
 uint16_t reverse_value(uint16_t x) noexcept;
@@ -208,7 +279,7 @@ double   reverse_value(double x) noexcept;</pre>
   <p><i>Returns:</i> <i><code>x</code></i>, with the order of its 
   constituent bytes reversed.</p>
 </blockquote>
-<pre>void reverse(int16_t&amp; x) noexcept;
+<pre><a name="reverse"></a>void reverse(int16_t&amp; x) noexcept;
 void reverse(int32_t&amp; x) noexcept;
 void reverse(int64_t&amp; x) noexcept;
 void reverse(uint16_t&amp; x) noexcept;
@@ -220,9 +291,9 @@ void reverse(double&amp; x) noexcept;</pre>
   <p><i>Postconditions:</i> The order of the constituent bytes of
   <code>x</code> are reversed.</p>
 </blockquote>
-<pre>template &lt;class ReversibleValue &gt;
+<pre><a name="big_endian_value"></a>template &lt;class ReversibleValue &gt;
   ReversibleValue big_endian_value(ReversibleValue x) noexcept; 
-template &lt;class Reversible&gt;
+<a name="big_endian"></a>template &lt;class Reversible&gt;
   void big_endian(Reversible&amp; x) noexcept;</pre>
 <blockquote>
   <p dir="ltr"><i>Returns (first form)</i>: <code>x</code> if the native byte order is big 
@@ -236,9 +307,9 @@ big_endian(x);  // reverses the byte order of x, unless
                 // the native byte order is big-endian</pre>
   </blockquote>
 </blockquote>
-<pre dir="ltr">template &lt;class ReversibleValue &gt;
+<pre dir="ltr"><a name="little_endian_value"></a>template &lt;class ReversibleValue &gt;
   ReversibleValue little_endian_value(ReversibleValue x) noexcept; 
-template &lt;class Reversible&gt;
+<a name="little_endian"></a>template &lt;class Reversible&gt;
   void little_endian(Reversible&amp; x) noexcept;</pre>
 <blockquote>
   <p dir="ltr"><i>Returns (first form)</i>: <code>x</code> if the native byte order is little 
@@ -253,9 +324,9 @@ int32_t y(little_endian(x));
 // the native byte order is little-endian.</pre>
   </blockquote>
 </blockquote>
-<pre dir="ltr">template &lt;order From, order To, class ReversibleValue&gt;
+<pre dir="ltr"><a name="convert_value_generic"></a>template &lt;order From, order To, class ReversibleValue&gt;
   ReversibleValue convert_value(ReversibleValue from) noexcept;
-template &lt;order From, order To, class Reversible&gt;
+<a name="convert_generic"></a>template &lt;order From, order To, class Reversible&gt;
   void convert(Reversible&amp; x) noexcept;
 </pre>
 <blockquote>
@@ -275,13 +346,13 @@ template &lt;order From, order To, class Reversible&gt;
 convert&lt;order::big, order::native&gt;(x);  // more generic equivalent of big_endian(x);</pre>
   </blockquote>
 </blockquote>
-<pre>order effective_order(order x) noexcept;<blockquote><p dir="ltr"><i>Returns:</i> <code>x</code> if <code>x != order::native</code>, otherwise the <code>order</code> constant for the actual native byte order.</p><p dir="ltr"><i>Example:</i></p><blockquote><pre dir="ltr">effective_order(order::big);     // returns order::big
+<pre><a name="effective_order"></a>order effective_order(order x) noexcept;<blockquote><p dir="ltr"><i>Returns:</i> <code>x</code> if <code>x != order::native</code>, otherwise the <code>order</code> constant for the actual native byte order.</p><p dir="ltr"><i>Example:</i></p><blockquote><pre dir="ltr">effective_order(order::big);     // returns order::big
 effective_order(order::little);  // returns order::little
 effective_order(order::native);  // returns order::big if the native order
-                                 // is big-endian, otherwise order::little</pre></blockquote></blockquote><pre dir="ltr">template &lt;class ReversibleValue&gt;
+                                 // is big-endian, otherwise order::little</pre></blockquote></blockquote><pre dir="ltr"><a name="convert_value_runtime"></a>template &lt;class ReversibleValue&gt;
   ReversibleValue convert_value(ReversibleValue from,
     order from_order, order to_order) noexcept;
-template &lt;class Reversible&gt;
+<a name="convert_runtime"></a>template &lt;class Reversible&gt;
   void convert(Reversible&amp; x,
     order from_order, order to_order) noexcept;</pre><blockquote><p dir="ltr"><i>Returns (first form)</i>: <code>from</code> if <code>effect_order(from_order) == effective_order(to_order)</code>, otherwise <code>reverse_value(from)</code>.</p>
   <p dir="ltr"><i>Effects (second form):</i> None if <code>effect_order(from_order) == effective_order(to_order)</code>, otherwise <code>reverse(x)</code>.</p>
@@ -291,10 +362,12 @@ template &lt;class Reversible&gt;
 <i>... read an external value of an endianness know only at runtime into x</i>
 convert(x, some_order, order::native);  // convert to native byte order if needed</pre>
   </blockquote>
-</blockquote><h2><a name="Acknowledgements">Acknowledgements</a></h2><p>Tomas Puverle was instrumental in identifying and articulating the need to 
-support endian conversion as separate from endian integer types. Phil Endecott suggested the form of the value returning signatures. Vicente Botet and other reviewers suggested supporting floating point types and user defined types. General reverse template implementation approach using std::reverse suggested by Mathias Gaunard. Portable implementation approach for 16, 32, and 64-bit integers suggested by tymofey, with avoidance of undefined behavior as suggested by Giovanni Piero Deretta, and a further refinement suggested by Pyry Jahkola. Intrinsic builtins implementation approach for 16, 32, and 64-bit integers suggested by several reviewers, and by David Stone, who provided his Boost licensed macro implementation that became the starting point for  <a href="../include/boost/endian/detail/intrinsic.hpp">boost/endian/detail/intrinsic.hpp</a>.</p>
+</blockquote><h2><a name="Intrinsic">Intrinsic</a> built-in support</h2>
+
+<p>Recent compilers, including GCC, Clang, and Microsoft, supply intrinsic built-in support for byte swapping. Such support is automatically detected and used since it results in smaller and much faster generated code for release builds.</p><p>Defining BOOST_ENDIAN_NO_INTRINSICS will suppress use of the intrinsics. Please try defining it if you get compiler errors, such as header byteswap.h not being found.</p><p>The macro BOOST_ENDIAN_INTRINSIC_MSG is defined as either <code>&quot;no byte swap intrinsics&quot;</code> or a string describing the particular set of intrinsics being used.</p><h2><a name="Acknowledgements">Acknowledgements</a></h2><p>Tomas Puverle was instrumental in identifying and articulating the need to 
+support endian conversion as separate from endian integer types. Phil Endecott suggested the form of the value returning signatures. Vicente Botet and other reviewers suggested supporting floating point types and user defined types. General reverse template implementation approach using std::reverse suggested by Mathias Gaunard. Portable implementation approach for 16, 32, and 64-bit integers suggested by tymofey, with avoidance of undefined behavior as suggested by Giovanni Piero Deretta, and a further refinement suggested by Pyry Jahkola. Intrinsic builtins implementation approach for 16, 32, and 64-bit integers suggested by several reviewers, and by David Stone, who provided his Boost licensed macro implementation that became the starting point for <a href="../include/boost/endian/detail/intrinsic.hpp">boost/endian/detail/intrinsic.hpp</a>.</p>
 <hr>
-<p>Last revised: <!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->18 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13991" --></p>
+<p>Last revised: <!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->19 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13993" --></p>
 <p>© Copyright Beman Dawes, 2011</p>
 <p>Distributed under the Boost Software License, Version 1.0. See <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
 
