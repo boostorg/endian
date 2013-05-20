@@ -26,7 +26,7 @@
     <td><b><a href="../../../index.htm">Boost Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="index.html">Endian Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="conversion.html">Conversion Functions</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="types.html">Integer Types</a>&nbsp;&nbsp;&nbsp;&nbsp; Tutorial</b></td>
+    <a href="types.html">Endian Types</a>&nbsp;&nbsp;&nbsp;&nbsp; Tutorial</b></td>
   </tr>
 </table>
 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" align="right">
@@ -53,7 +53,7 @@
 </table>
 <h2><a name="Abstract">Abstract</a></h2>
 
-<p>Boost.Endian provides facilities to manipulate the byte ordering of integers.</p>
+<p>Boost.Endian provides two facilities to manipulate the byte ordering of integers.</p>
 <ul>
   <li>The primary use case is binary I/O of integers for portable exchange with 
   other systems, via either file or network transmission.<br>
@@ -64,16 +64,7 @@
 &nbsp;</li>
   <li>Two distinct approaches to byte ordering are provided. Each approach has a 
   long history of successful use, and each approach has use cases where it is 
-  superior to the other approach.<br>
-&nbsp;<ul>
-    <li>The explicit approach provides <a href="conversion.html">conversion 
-    functions</a> to reorder bytes. All four combinations of non-modifying or 
-    modifying, and unconditional or conditional, functions are provided.<br>
-&nbsp;</li>
-    <li>The implicit approach provides <a href="types.html">integer types</a> 
-    that mimic the built-in integers, implicitly handling all byte reordering.</li>
-  </ul>
-  </li>
+  superior to the other approach.</li>
 </ul>
 
 <h2><a name="Introduction-to-endianness">Introduction to endianness</a></h2>
@@ -82,16 +73,16 @@
 
 <blockquote>
   <pre>int16_t i = 0x0102;
-FILE * file = fopen(&quot;test&quot;, &quot;wb&quot;);   // MUST BE BINARY
+FILE * file = fopen(&quot;test.bin&quot;, &quot;wb&quot;);   // MUST BE BINARY
 fwrite(&amp;i, sizeof(int16_t), 1, file);
 fclose(file);</pre>
 </blockquote>
-<p>On an Apple, Linux, or Windows computer with an Intel CPU, a hex dump 
-of the &quot;test&quot; output file produces:</p>
+<p>On OS X, Linux, or Windows systems with an Intel CPU, a hex dump 
+of the &quot;test.bin&quot; output file produces:</p>
 <blockquote>
   <p><code>0201</code></p>
 </blockquote>
-<p>On an Apple or other computer with a PowerPC CPU, or an Oracle/Sun Solaris computer with a SPARC CPU, a hex dump of the &quot;test&quot; 
+<p>On OS X systems with a PowerPC CPU, or Solaris systems with a SPARC CPU, a hex dump of the &quot;test.bin&quot; 
 output file produces:</p>
 <blockquote>
   <p><code>0102</code></p>
@@ -111,9 +102,10 @@ at different ends.</p>
 <p>See the Wikipedia's
 <a href="http://en.wikipedia.org/wiki/Endianness">Endianness</a> article for an 
 extensive discussion of endianness.</p>
-<p>Except for reading an occasional core dump, most programmers can ignore 
-endianness. But when exchanging binary integers with other computer systems, whether by 
-file transfers or over a network, programmers have to deal with endianness. </p>
+<p>Except for reading a core dump on little-endian systems, most programmers can 
+ignore endianness. But when exchanging binary integers and binary floating point 
+values between computer systems with differing endianness, whether by physical file transfer or over a network, programmers have to deal with endianness 
+in their code. </p>
 <h2><a name="Introduction">Introduction</a> to the Boost.Endian library</h2>
 
 <p>The Boost.Endian library provides two facilities for dealing with endianness.</p>
@@ -185,28 +177,47 @@ application.</p>
   </tr>
 </table>
 
+<h2>Overall <a name="FAQ">FAQ</a></h2>
+<p><b>Why bother with endianness? Does endianness have any uses outside of 
+portable binary file or network I/O formats?</b> </p>
+<blockquote>
+<p>Binary data portability is the primary use case, and that implies I/O.</p>
+<p>Using the 3, 5, 6, and 7 byte integer types to save internal or external 
+memory space is a minor secondary use case.</p>
+</blockquote>
+<p><b>Why bother with binary I/O? Why not just use C++ Standard Library stream 
+inserters and extractors?</b></p>
+<blockquote>
+<p>Binary arithmetic data is smaller and therefore I/O is faster and file sizes 
+are smaller. Transfer between systems is less expensive. Standard interchange 
+formats often specify binary arithmetic data.</p>
+<p>Furthermore, binary arithmetic data is of fixed size, and so fixed-size disk 
+records are possible without padding, easing sorting and allowing direct access. 
+Disadvantages, such as the inability to use text utilities on the resulting 
+files, limit usefulness to applications where the binary I/O advantages are 
+paramount.</p>
+</blockquote>
+
 <h2><a name="Acknowledgements">Acknowledgements</a></h2>
 <p>Comments and suggestions were 
 received from
-Benaka Moorthi,
+Adder, Benaka Moorthi,
 Christopher Kohlhoff,
-Cliff Green, 
-Gennaro Proto,
-Giovanni Piero Deretta, dizzy, Jeff Flinn,
-John Maddock,
+Cliff Green,Daniel James, Gennaro Proto,
+Giovanni Piero Deretta, Gordon Woodhull, dizzy, Hartmut Kaiser, Jeff Flinn,
+John Filo, John Maddock,
 Kim Barrett,
 Marsh Ray,
-Martin Bonner,
-Matias Capeletto,
-Neil Mayhew, Phil Endecott, Rene Rivera,
+Martin Bonner, Mathias Gaunard, Matias Capeletto,
+Neil Mayhew, Paul Bristow, Phil Endecott, Pyry Jahkola, Rene Rivera,
 Robert Stewart, Roland Schwarz, Scott McMurray, 
 Sebastian Redl, 
-Tomas Puverle, Vincente Botet, and
-Yuval Ronen.</p>
+Tim Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen 
+and Vitaly Budovski,.</p>
 <hr>
 <p>Last revised:
 <!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->20 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13976" --></p>
-<p>© Copyright Beman Dawes, 2011</p>
+<p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
 
