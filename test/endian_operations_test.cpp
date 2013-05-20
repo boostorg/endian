@@ -28,7 +28,7 @@
 # pragma warning( disable : 4389 )  // signed/unsigned mismatch
 #endif
 
-#include <boost/endian/integers.hpp>
+#include <boost/endian/types.hpp>
 #include <boost/detail/lightweight_main.hpp>
 #include <cassert>
 #include <iostream>
