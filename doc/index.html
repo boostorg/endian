@@ -116,30 +116,74 @@ endianness. But when exchanging binary integers with other computer systems, whe
 file transfers or over a network, programmers have to deal with endianness. </p>
 <h2><a name="Introduction">Introduction</a> to the Boost.Endian library</h2>
 
-<p>The Boost.Endian library provides facilities to deal with integer endianness.</p>
+<p>The Boost.Endian library provides two facilities for dealing with endianness.</p>
 
 <p>The library provides two approaches to dealing with integer endianness:</p>
 
 <blockquote>
 
-<p><b><a href="conversion.html">Endian conversions</a> for native integers -</b> The application uses the 
-built-in integer types, and calls the provided conversion functions to convert 
-byte ordering as needed. Both mutating and non-mutating conversions are supplied, and 
-each comes in unconditional and conditional variants. This approach is simple 
-and usually more efficient, but is less flexible in terms of size and alignment, can be 
-hard-to-manage and error-prone in code with many logical paths involving endianness transitions, 
-and can foster very hard to debug logic errors. </p>
+<p><b><a href="conversion.html">Endian conversions</a> -</b> The application 
+uses the built-in integer and floating point types, and calls the provided 
+conversion functions to convert byte ordering as needed. Both mutating and 
+non-mutating conversions are supplied, and each comes in unconditional and 
+conditional variants. Type <code>long double</code> is not currently supported.</p>
 
-<p><b><a href="integers.html">Endian integer types</a> -</b> The application uses the provided endian types 
+<p><b><a href="integers.html">Endian types</a> -</b> The application uses the provided endian types 
 which mimic the 
-built-in integer types. For example, <code>big32_t</code> or <code>little64_t</code>. 
-This approach is also simple, but can be less efficient. Types with lengths of 
-1-8 bytes are supported, rather than just 1, 2, 4, and 8 bytes. Strict alignment 
-requirements are avoided, and this may allow data to be packed more tightly.</p>
+built-in integer types. For example, <code>big32_t</code> or <code>little64_t</code>. Types with lengths of 
+1-8 bytes are supported, rather than just&nbsp; 2, 4, and 8 bytes. There are no alignment 
+requirements. Floating point types are not currently supported.</p>
 
 </blockquote>
 
 <p>Boost Endian is a header-only library.</p>
+
+<h2><a name="Choosing">Choosing</a> between endian types and endian 
+conversion functions</h2>
+
+<p>Which approach is best for dealing with endianness depends on the 
+application.</p>
+
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
+  <tr>
+    <th colspan="2">Advantages</th>
+  </tr>
+  <tr>
+    <th width="50%"><b><a href="integers.html">Endian types</a></b></th>
+    <th><b><a href="conversion.html">Endian conversion functions</a></b></th>
+  </tr>
+  <tr>
+    <td valign="top">
+    <ul>
+      <li>Mimic the built-in types. This can simplify use and eliminate logic 
+      errors since there is no need to reason about the current endianness of 
+      variables.<br>
+&nbsp;</li>
+      <li>1, 2, 3, 4, 5, 6, 7, and 8 byte integers are supported. Use of 3, 5, 
+      6, or 7 byte integers can reduce internal and external space usage and 
+      save I/O time.<br>
+&nbsp;</li>
+      <li>Alignment is not required. This can eliminate padding bytes in 
+      structures, reducing internal and external space usage and saving I/O 
+      time.</li>
+    </ul>
+    </td>
+    <td valign="top">
+    <ul>
+      <li>Already familiar to developers who have been using C conversion 
+      functions for years.<br>
+&nbsp;</li>
+      <li>Uses less CPU time, particularly if each variable is used many times 
+      relative to I/O of the variable.<br>
+&nbsp;</li>
+      <li>Easier to pass structures to third-party libraries expecting a 
+      specific structure format.<br>
+&nbsp;</li>
+      <li>Supports <code>float</code> and <code>double</code>.</li>
+    </ul>
+    </td>
+  </tr>
+</table>
 
 <h2><a name="Acknowledgements">Acknowledgements</a></h2>
 <p>Comments and suggestions were 
@@ -155,13 +199,13 @@ Marsh Ray,
 Martin Bonner,
 Matias Capeletto,
 Neil Mayhew, Phil Endecott, Rene Rivera,
-Roland Schwarz, Scott McMurray, 
+Robert Stewart, Roland Schwarz, Scott McMurray, 
 Sebastian Redl, 
 Tomas Puverle, Vincente Botet, and
 Yuval Ronen.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->19 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13993" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->20 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13976" --></p>
 <p>© Copyright Beman Dawes, 2011</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

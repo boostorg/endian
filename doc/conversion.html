@@ -37,7 +37,7 @@
   <tr>
     <td width="100%" bgcolor="#E8F5FF">
       <a href="#Introduction">Introduction</a><br>
-      <a href="#FAQ">FAQ</a><br>
+      <a href="#FAQ">conversion.hpp FAQ</a><br>
       <a href="#Reference">Reference</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#Synopsis">Synopsis</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#Requirements">Requirements</a><br>
@@ -79,7 +79,7 @@ ordering. User defined types are also supported.</p>
   </tr>
 </table>
 
-<h2><a name="FAQ">FAQ</a></h2>
+<h2>conversion.hpp <a name="FAQ">FAQ</a></h2>
 
 <p><b>Is the implementation header only?</b></p>
 
@@ -98,7 +98,7 @@ below.</p>
 
 </blockquote>
 
-<p><b>Why are <code>reverse()</code> and <code>reverse_value()</code> templates 
+<p><b>Why are the template versions of <code>reverse()</code> and <code>reverse_value()</code> 
 in a detail namespace?</b></p>
 
 <blockquote>
@@ -110,14 +110,14 @@ wrong!</p>
 
 </blockquote>
 
-<p><b>Why are both value returning and modify_in_place functions provided?</b></p>
+<p><b>Why are both value returning and modify-in-place functions provided?</b></p>
 
 <blockquote>
 
-<p>Value returning functions are the standard idiom for functions that compute a 
-value. Modification in place functions allow cleaner code in many real-world 
-endian use cases and are more efficient for user defined types that have many 
-members such as string data that do not need to be reversed. Thus both are 
+<p>Returning the result by value is the standard C and C++ idiom for functions that compute a 
+value from an argument. Modify-in-place functions allow cleaner code in many real-world 
+endian use cases and are more efficient for user defined types that have 
+members such as string data that do not need to be reversed. Thus both forms are 
 provided.</p>
 
 </blockquote>
@@ -138,7 +138,7 @@ point formats.</p>
 <blockquote>
 
 <p>Only 16-bit, 32-bit, and 64-bit integers are supported. No tests have been 
-performed on machines that use something other than two's complement arithmetic.</p>
+performed on machines that do not use two's complement arithmetic.</p>
 
 </blockquote>
 
