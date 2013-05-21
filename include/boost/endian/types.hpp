@@ -36,6 +36,7 @@
 
 #include <boost/config.hpp>
 #include <boost/detail/endian.hpp>
+#include <boost/endian/conversion.hpp>
 #define BOOST_MINIMAL_INTEGER_COVER_OPERATORS
 #define BOOST_NO_IO_COVER_OPERATORS
 #include <boost/endian/detail/cover_operators.hpp>
@@ -75,7 +76,7 @@ namespace endian
 #endif
   BOOST_SCOPED_ENUM_START(align) {no, yes}; BOOST_SCOPED_ENUM_END
 
-  template <BOOST_SCOPED_ENUM(order) E, typename T, std::size_t n_bits,
+  template <BOOST_SCOPED_ENUM(order) Order, typename T, std::size_t n_bits,
     BOOST_SCOPED_ENUM(align) A = align::no>
       class endian;
 
@@ -364,12 +365,11 @@ namespace endian
   	    char m_value[n_bits/8];
     };
 
-    //  align::yes specializations; only n_bits == 16/32/64 supported
+  //  align::yes specializations; only n_bits == 16/32/64 supported
 
-    //  aligned big endian specialization
-    template <typename T, std::size_t n_bits>
-    class endian< order::big, T, n_bits, align::yes  >
-      : cover_operators< endian< order::big, T, n_bits, align::yes >, T >
+    template <BOOST_SCOPED_ENUM(order) Order, typename T, std::size_t n_bits>
+    class endian<Order, T, n_bits, align::yes>
+      : cover_operators<endian<Order, T, n_bits, align::yes>, T>
     {
         BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
         BOOST_STATIC_ASSERT( sizeof(T) == n_bits/8 );
@@ -377,40 +377,19 @@ namespace endian
         typedef T value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        explicit endian(T val) : m_value(::boost::endian::big_endian_value(val)) {}
+        explicit endian(T val)
+          : m_value(::boost::endian::convert_value<order::native, Order>(val)) {}
 #     endif  
-        endian& operator=(T val)  {m_value = ::boost::endian::big_endian_value(val); return *this;}
-        operator T() const        {return ::boost::endian::big_endian_value(m_value);}
+        endian& operator=(T val)
+        {
+          m_value = ::boost::endian::convert_value<order::native, Order>(val);
+          return *this;
+        }
+        operator T() const
+        {
+          return ::boost::endian::convert_value<Order, order::native>(m_value);
+        }
         const char* data() const  {return reinterpret_cast<const char*>(&m_value);}
-      private:
-  	    T m_value;
-    };
-
-    //  aligned little endian specialization
-    template <typename T, std::size_t n_bits>
-    class endian< order::little, T, n_bits, align::yes  >
-      : cover_operators< endian< order::little, T, n_bits, align::yes >, T >
-    {
-        BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
-        BOOST_STATIC_ASSERT( sizeof(T) == n_bits/8 );
-      public:
-        typedef T value_type;
-#   ifndef BOOST_ENDIAN_NO_CTORS
-        endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-#     ifdef BOOST_LITTLE_ENDIAN
-        endian(T val) : m_value(val) { }
-#     else
-        explicit endian(T val)    { detail::store_little_endian<T, sizeof(T)>(&m_value, val); }
-#     endif
-#   endif
-#   ifdef BOOST_LITTLE_ENDIAN
-        endian & operator=(T val) { m_value = val; return *this; }
-        operator T() const        { return m_value; }
-    #else
-        endian & operator=(T val) { detail::store_little_endian<T, sizeof(T)>(&m_value, val); return *this; }
-        operator T() const        { return detail::load_little_endian<T, sizeof(T)>(&m_value); }
-    #endif
-        const char* data() const  { return reinterpret_cast<const char *>(&m_value); }
       private:
   	    T m_value;
     };
