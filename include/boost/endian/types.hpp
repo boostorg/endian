@@ -62,6 +62,110 @@
 #   define BOOST_ENDIAN_NO_CTORS
 # endif
 
+//----------------------------------  synopsis  ----------------------------------------//
+
+namespace boost
+{
+namespace endian
+{
+
+#ifndef BOOST_ENDIAN_ORDER_ENUM_DEFINED
+  BOOST_SCOPED_ENUM_START(order) {big, little, native}; BOOST_SCOPED_ENUM_END
+# define BOOST_ENDIAN_ORDER_ENUM_DEFINED
+#endif
+  BOOST_SCOPED_ENUM_START(align) {no, yes}; BOOST_SCOPED_ENUM_END
+
+  template <BOOST_SCOPED_ENUM(order) E, typename T, std::size_t n_bits,
+    BOOST_SCOPED_ENUM(align) A = align::no>
+      class endian;
+
+  // unaligned big endian signed integer types
+  typedef endian<order::big, int_least8_t, 8>        big_8_t;
+  typedef endian<order::big, int_least16_t, 16>      big_16_t;
+  typedef endian<order::big, int_least32_t, 24>      big_24_t;
+  typedef endian<order::big, int_least32_t, 32>      big_32_t;
+  typedef endian<order::big, int_least64_t, 40>      big_40_t;
+  typedef endian<order::big, int_least64_t, 48>      big_48_t;
+  typedef endian<order::big, int_least64_t, 56>      big_56_t;
+  typedef endian<order::big, int_least64_t, 64>      big_64_t;
+
+  // unaligned big endian unsigned integer types
+  typedef endian<order::big, uint_least8_t, 8>       big_u8_t;
+  typedef endian<order::big, uint_least16_t, 16>     big_u16_t;
+  typedef endian<order::big, uint_least32_t, 24>     big_u24_t;
+  typedef endian<order::big, uint_least32_t, 32>     big_u32_t;
+  typedef endian<order::big, uint_least64_t, 40>     big_u40_t;
+  typedef endian<order::big, uint_least64_t, 48>     big_u48_t;
+  typedef endian<order::big, uint_least64_t, 56>     big_u56_t;
+  typedef endian<order::big, uint_least64_t, 64>     big_u64_t;
+
+  // unaligned little endian signed integer types
+  typedef endian<order::little, int_least8_t, 8>     little_8_t;
+  typedef endian<order::little, int_least16_t, 16>   little_16_t;
+  typedef endian<order::little, int_least32_t, 24>   little_24_t;
+  typedef endian<order::little, int_least32_t, 32>   little_32_t;
+  typedef endian<order::little, int_least64_t, 40>   little_40_t;
+  typedef endian<order::little, int_least64_t, 48>   little_48_t;
+  typedef endian<order::little, int_least64_t, 56>   little_56_t;
+  typedef endian<order::little, int_least64_t, 64>   little_64_t;
+
+  // unaligned little endian unsigned integer types
+  typedef endian<order::little, uint_least8_t, 8>    little_u8_t;
+  typedef endian<order::little, uint_least16_t, 16>  little_u16_t;
+  typedef endian<order::little, uint_least32_t, 24>  little_u24_t;
+  typedef endian<order::little, uint_least32_t, 32>  little_u32_t;
+  typedef endian<order::little, uint_least64_t, 40>  little_u40_t;
+  typedef endian<order::little, uint_least64_t, 48>  little_u48_t;
+  typedef endian<order::little, uint_least64_t, 56>  little_u56_t;
+  typedef endian<order::little, uint_least64_t, 64>  little_u64_t;
+
+  // unaligned native endian signed integer types
+  typedef endian<order::native, int_least8_t, 8>     native_8_t;
+  typedef endian<order::native, int_least16_t, 16>   native_16_t;
+  typedef endian<order::native, int_least32_t, 24>   native_24_t;
+  typedef endian<order::native, int_least32_t, 32>   native_32_t;
+  typedef endian<order::native, int_least64_t, 40>   native_40_t;
+  typedef endian<order::native, int_least64_t, 48>   native_48_t;
+  typedef endian<order::native, int_least64_t, 56>   native_56_t;
+  typedef endian<order::native, int_least64_t, 64>   native_64_t;
+
+  // unaligned native endian unsigned integer types
+  typedef endian<order::native, uint_least8_t, 8>    native_u8_t;
+  typedef endian<order::native, uint_least16_t, 16>  native_u16_t;
+  typedef endian<order::native, uint_least32_t, 24>  native_u24_t;
+  typedef endian<order::native, uint_least32_t, 32>  native_u32_t;
+  typedef endian<order::native, uint_least64_t, 40>  native_u40_t;
+  typedef endian<order::native, uint_least64_t, 48>  native_u48_t;
+  typedef endian<order::native, uint_least64_t, 56>  native_u56_t;
+  typedef endian<order::native, uint_least64_t, 64>  native_u64_t;
+
+  // aligned big endian signed integer types
+  typedef endian<order::big, int16_t, 16, align::yes>      big_int16_t;
+  typedef endian<order::big, int32_t, 32, align::yes>      big_int32_t;
+  typedef endian<order::big, int64_t, 64, align::yes>      big_int64_t;
+
+  // aligned big endian unsigned integer types
+  typedef endian<order::big, uint16_t, 16, align::yes>     big_uint16_t;
+  typedef endian<order::big, uint32_t, 32, align::yes>     big_uint32_t;
+  typedef endian<order::big, uint64_t, 64, align::yes>     big_uint64_t;
+
+  // aligned little endian signed integer types
+  typedef endian<order::little, int16_t, 16, align::yes>   little_int16_t;
+  typedef endian<order::little, int32_t, 32, align::yes>   little_int32_t;
+  typedef endian<order::little, int64_t, 64, align::yes>   little_int64_t;
+
+  // aligned little endian unsigned integer types
+  typedef endian<order::little, uint16_t, 16, align::yes>  little_uint16_t;
+  typedef endian<order::little, uint32_t, 32, align::yes>  little_uint32_t;
+  typedef endian<order::little, uint64_t, 64, align::yes>  little_uint64_t;
+
+  // aligned native endian typedefs are not provided because
+  // <cstdint> types are superior for this use case
+
+}  // namespace boost
+}  // namespace endian
+
+//----------------------------------  end synopsis  ------------------------------------//
 
 namespace boost
 {
@@ -162,15 +266,6 @@ namespace endian
 
   //  endian class template and specializations  ---------------------------------------//
 
-#ifndef BOOST_ENDIAN_ORDER_ENUM_DEFINED
-  BOOST_SCOPED_ENUM_START(order) { big, little, native }; BOOST_SCOPED_ENUM_END
-# define BOOST_ENDIAN_ORDER_ENUM_DEFINED
-#endif
-  BOOST_SCOPED_ENUM_START(alignment) { unaligned, aligned }; BOOST_SCOPED_ENUM_END
-
-  template <BOOST_SCOPED_ENUM(order) E, typename T, std::size_t n_bits,
-    BOOST_SCOPED_ENUM(alignment) A = alignment::unaligned>
-    class endian;
 
     //  Specializations that represent unaligned bytes.
     //  Taking an integer type as a parameter provides a nice way to pass both
@@ -179,7 +274,7 @@ namespace endian
 
     //  unaligned big endian specialization
     template <typename T, std::size_t n_bits>
-    class endian< order::big, T, n_bits, alignment::unaligned >
+    class endian< order::big, T, n_bits, align::no >
       : cover_operators< endian< order::big, T, n_bits >, T >
     {
         BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
@@ -212,7 +307,7 @@ namespace endian
 
     //  unaligned little endian specialization
     template <typename T, std::size_t n_bits>
-    class endian< order::little, T, n_bits, alignment::unaligned >
+    class endian< order::little, T, n_bits, align::no >
       : cover_operators< endian< order::little, T, n_bits >, T >
     {
         BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
@@ -245,7 +340,7 @@ namespace endian
 
     //  unaligned native endian specialization
     template <typename T, std::size_t n_bits>
-    class endian< order::native, T, n_bits, alignment::unaligned >
+    class endian< order::native, T, n_bits, align::no >
       : cover_operators< endian< order::native, T, n_bits >, T >
     {
         BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
@@ -276,8 +371,8 @@ namespace endian
 
     //  aligned big endian specialization
     template <typename T, std::size_t n_bits>
-    class endian< order::big, T, n_bits, alignment::aligned  >
-      : cover_operators< endian< order::big, T, n_bits, alignment::aligned >, T >
+    class endian< order::big, T, n_bits, align::yes  >
+      : cover_operators< endian< order::big, T, n_bits, align::yes >, T >
     {
         BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
         BOOST_STATIC_ASSERT( sizeof(T) == n_bits/8 );
@@ -305,8 +400,8 @@ namespace endian
 
     //  aligned little endian specialization
     template <typename T, std::size_t n_bits>
-    class endian< order::little, T, n_bits, alignment::aligned  >
-      : cover_operators< endian< order::little, T, n_bits, alignment::aligned >, T >
+    class endian< order::little, T, n_bits, align::yes  >
+      : cover_operators< endian< order::little, T, n_bits, align::yes >, T >
     {
         BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
         BOOST_STATIC_ASSERT( sizeof(T) == n_bits/8 );
@@ -331,102 +426,6 @@ namespace endian
       private:
   	    T m_value;
     };
-
-  //  naming convention typedefs  ------------------------------------------------------//
-
-    // unaligned big endian signed integer types
-    typedef endian< order::big, int_least8_t, 8 >           big_8_t;
-    typedef endian< order::big, int_least16_t, 16 >         big_16_t;
-    typedef endian< order::big, int_least32_t, 24 >         big_24_t;
-    typedef endian< order::big, int_least32_t, 32 >         big_32_t;
-    typedef endian< order::big, int_least64_t, 40 >         big_40_t;
-    typedef endian< order::big, int_least64_t, 48 >         big_48_t;
-    typedef endian< order::big, int_least64_t, 56 >         big_56_t;
-    typedef endian< order::big, int_least64_t, 64 >         big_64_t;
-
-    // unaligned big endian unsigned integer types
-    typedef endian< order::big, uint_least8_t, 8 >          big_u8_t;
-    typedef endian< order::big, uint_least16_t, 16 >        big_u16_t;
-    typedef endian< order::big, uint_least32_t, 24 >        big_u24_t;
-    typedef endian< order::big, uint_least32_t, 32 >        big_u32_t;
-    typedef endian< order::big, uint_least64_t, 40 >        big_u40_t;
-    typedef endian< order::big, uint_least64_t, 48 >        big_u48_t;
-    typedef endian< order::big, uint_least64_t, 56 >        big_u56_t;
-    typedef endian< order::big, uint_least64_t, 64 >        big_u64_t;
-
-    // unaligned little endian signed integer types
-    typedef endian< order::little, int_least8_t, 8 >        little_8_t;
-    typedef endian< order::little, int_least16_t, 16 >      little_16_t;
-    typedef endian< order::little, int_least32_t, 24 >      little_24_t;
-    typedef endian< order::little, int_least32_t, 32 >      little_32_t;
-    typedef endian< order::little, int_least64_t, 40 >      little_40_t;
-    typedef endian< order::little, int_least64_t, 48 >      little_48_t;
-    typedef endian< order::little, int_least64_t, 56 >      little_56_t;
-    typedef endian< order::little, int_least64_t, 64 >      little_64_t;
-
-    // unaligned little endian unsigned integer types
-    typedef endian< order::little, uint_least8_t, 8 >       little_u8_t;
-    typedef endian< order::little, uint_least16_t, 16 >     little_u16_t;
-    typedef endian< order::little, uint_least32_t, 24 >     little_u24_t;
-    typedef endian< order::little, uint_least32_t, 32 >     little_u32_t;
-    typedef endian< order::little, uint_least64_t, 40 >     little_u40_t;
-    typedef endian< order::little, uint_least64_t, 48 >     little_u48_t;
-    typedef endian< order::little, uint_least64_t, 56 >     little_u56_t;
-    typedef endian< order::little, uint_least64_t, 64 >     little_u64_t;
-
-    // unaligned native endian signed integer types
-    typedef endian< order::native, int_least8_t, 8 >        native_8_t;
-    typedef endian< order::native, int_least16_t, 16 >      native_16_t;
-    typedef endian< order::native, int_least32_t, 24 >      native_24_t;
-    typedef endian< order::native, int_least32_t, 32 >      native_32_t;
-    typedef endian< order::native, int_least64_t, 40 >      native_40_t;
-    typedef endian< order::native, int_least64_t, 48 >      native_48_t;
-    typedef endian< order::native, int_least64_t, 56 >      native_56_t;
-    typedef endian< order::native, int_least64_t, 64 >      native_64_t;
-
-    // unaligned native endian unsigned integer types
-    typedef endian< order::native, uint_least8_t, 8 >       native_u8_t;
-    typedef endian< order::native, uint_least16_t, 16 >     native_u16_t;
-    typedef endian< order::native, uint_least32_t, 24 >     native_u24_t;
-    typedef endian< order::native, uint_least32_t, 32 >     native_u32_t;
-    typedef endian< order::native, uint_least64_t, 40 >     native_u40_t;
-    typedef endian< order::native, uint_least64_t, 48 >     native_u48_t;
-    typedef endian< order::native, uint_least64_t, 56 >     native_u56_t;
-    typedef endian< order::native, uint_least64_t, 64 >     native_u64_t;
-
-#define BOOST_HAS_INT16_T
-#define BOOST_HAS_INT32_T
-#define BOOST_HAS_INT64_T
-  
-  //  These types only present if platform has exact size integers:
-  //     aligned big endian signed integer types
-  //     aligned big endian unsigned integer types
-  //     aligned little endian signed integer types
-  //     aligned little endian unsigned integer types
-
-  //     aligned native endian typedefs are not provided because
-  //     <cstdint> types are superior for this use case
-
-# if defined(BOOST_HAS_INT16_T)
-    typedef endian< order::big, int16_t, 16, alignment::aligned >      big_int16_t;
-    typedef endian< order::big, uint16_t, 16, alignment::aligned >     big_uint16_t;
-    typedef endian< order::little, int16_t, 16, alignment::aligned >   little_int16_t;
-    typedef endian< order::little, uint16_t, 16, alignment::aligned >  little_uint16_t;
-# endif
-
-# if defined(BOOST_HAS_INT32_T)
-    typedef endian< order::big, int32_t, 32, alignment::aligned >      big_int32_t;
-    typedef endian< order::big, uint32_t, 32, alignment::aligned >     big_uint32_t;
-    typedef endian< order::little, int32_t, 32, alignment::aligned >   little_int32_t;
-    typedef endian< order::little, uint32_t, 32, alignment::aligned >  little_uint32_t;
-# endif
-
-# if defined(BOOST_HAS_INT64_T)
-    typedef endian< order::big, int64_t, 64, alignment::aligned >      big_int64_t;
-    typedef endian< order::big, uint64_t, 64, alignment::aligned >     big_uint64_t;
-    typedef endian< order::little, int64_t, 64, alignment::aligned >   little_int64_t;
-    typedef endian< order::little, uint64_t, 64, alignment::aligned >  little_uint64_t;
-# endif
 
 } // namespace endian
 } // namespace boost
