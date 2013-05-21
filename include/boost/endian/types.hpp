@@ -79,6 +79,29 @@ namespace endian
     BOOST_SCOPED_ENUM(align) A = align::no>
       class endian;
 
+  // aligned big endian signed integer types
+  typedef endian<order::big, int16_t, 16, align::yes>      big_int16_t;
+  typedef endian<order::big, int32_t, 32, align::yes>      big_int32_t;
+  typedef endian<order::big, int64_t, 64, align::yes>      big_int64_t;
+
+  // aligned big endian unsigned integer types
+  typedef endian<order::big, uint16_t, 16, align::yes>     big_uint16_t;
+  typedef endian<order::big, uint32_t, 32, align::yes>     big_uint32_t;
+  typedef endian<order::big, uint64_t, 64, align::yes>     big_uint64_t;
+
+  // aligned little endian signed integer types
+  typedef endian<order::little, int16_t, 16, align::yes>   little_int16_t;
+  typedef endian<order::little, int32_t, 32, align::yes>   little_int32_t;
+  typedef endian<order::little, int64_t, 64, align::yes>   little_int64_t;
+
+  // aligned little endian unsigned integer types
+  typedef endian<order::little, uint16_t, 16, align::yes>  little_uint16_t;
+  typedef endian<order::little, uint32_t, 32, align::yes>  little_uint32_t;
+  typedef endian<order::little, uint64_t, 64, align::yes>  little_uint64_t;
+
+  // aligned native endian typedefs are not provided because
+  // <cstdint> types are superior for this use case
+
   // unaligned big endian signed integer types
   typedef endian<order::big, int_least8_t, 8>        big_8_t;
   typedef endian<order::big, int_least16_t, 16>      big_16_t;
@@ -138,29 +161,6 @@ namespace endian
   typedef endian<order::native, uint_least64_t, 48>  native_u48_t;
   typedef endian<order::native, uint_least64_t, 56>  native_u56_t;
   typedef endian<order::native, uint_least64_t, 64>  native_u64_t;
-
-  // aligned big endian signed integer types
-  typedef endian<order::big, int16_t, 16, align::yes>      big_int16_t;
-  typedef endian<order::big, int32_t, 32, align::yes>      big_int32_t;
-  typedef endian<order::big, int64_t, 64, align::yes>      big_int64_t;
-
-  // aligned big endian unsigned integer types
-  typedef endian<order::big, uint16_t, 16, align::yes>     big_uint16_t;
-  typedef endian<order::big, uint32_t, 32, align::yes>     big_uint32_t;
-  typedef endian<order::big, uint64_t, 64, align::yes>     big_uint64_t;
-
-  // aligned little endian signed integer types
-  typedef endian<order::little, int16_t, 16, align::yes>   little_int16_t;
-  typedef endian<order::little, int32_t, 32, align::yes>   little_int32_t;
-  typedef endian<order::little, int64_t, 64, align::yes>   little_int64_t;
-
-  // aligned little endian unsigned integer types
-  typedef endian<order::little, uint16_t, 16, align::yes>  little_uint16_t;
-  typedef endian<order::little, uint32_t, 32, align::yes>  little_uint32_t;
-  typedef endian<order::little, uint64_t, 64, align::yes>  little_uint64_t;
-
-  // aligned native endian typedefs are not provided because
-  // <cstdint> types are superior for this use case
 
 }  // namespace boost
 }  // namespace endian
@@ -263,9 +263,7 @@ namespace endian
     bool endian_log(true);
 # endif
 
-
-  //  endian class template and specializations  ---------------------------------------//
-
+  //  endian class template specializations  -------------------------------------------//
 
     //  Specializations that represent unaligned bytes.
     //  Taking an integer type as a parameter provides a nice way to pass both
@@ -366,8 +364,7 @@ namespace endian
   	    char m_value[n_bits/8];
     };
 
-    //  Specializations that mimic built-in integer types.
-    //  These typically have the same alignment as the underlying types.
+    //  align::yes specializations; only n_bits == 16/32/64 supported
 
     //  aligned big endian specialization
     template <typename T, std::size_t n_bits>
@@ -378,22 +375,13 @@ namespace endian
         BOOST_STATIC_ASSERT( sizeof(T) == n_bits/8 );
       public:
         typedef T value_type;
-#   ifndef BOOST_ENDIAN_NO_CTORS
+#     ifndef BOOST_ENDIAN_NO_CTORS
         endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-#     ifdef BOOST_BIG_ENDIAN
-        endian(T val) : m_value(val) { }
-#     else
-        explicit endian(T val)    { detail::store_big_endian<T, sizeof(T)>(&m_value, val); }
-#     endif
-#   endif
-#   ifdef BOOST_BIG_ENDIAN  
-        endian & operator=(T val) { m_value = val; return *this; }
-        operator T() const        { return m_value; }
-#   else  
-        endian & operator=(T val) { detail::store_big_endian<T, sizeof(T)>(&m_value, val); return *this; }
-        operator T() const        { return detail::load_big_endian<T, sizeof(T)>(&m_value); }
-#   endif  
-        const char* data() const  { return reinterpret_cast<const char *>(&m_value); }
+        explicit endian(T val) : m_value(::boost::endian::big_endian_value(val)) {}
+#     endif  
+        endian& operator=(T val)  {m_value = ::boost::endian::big_endian_value(val); return *this;}
+        operator T() const        {return ::boost::endian::big_endian_value(m_value);}
+        const char* data() const  {return reinterpret_cast<const char*>(&m_value);}
       private:
   	    T m_value;
     };
