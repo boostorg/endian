@@ -191,7 +191,7 @@ namespace endian
   template &lt;class Reversible&gt;
     void <a href="#little_endian">little_endian</a>(Reversible&amp; x) noexcept; 
 
-  // synonyms, based on names popularized by BSD (e.g. OS X, Linux)
+  // synonyms, based on names popularized by BSD (e.g. OS X, Linux) endian.h
   //  &quot;h&quot; for &quot;host&quot; (i.e. native), &quot;be&quot; for &quot;big endian&quot;,
   //  &quot;le&quot; for &quot;little endian&quot;, &quot;m&quot; for &quot;modify&quot; in place
   template &lt;class T&gt; T bswap(T x) noexcept      {return reverse_value(x);}

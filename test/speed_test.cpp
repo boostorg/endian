@@ -165,23 +165,23 @@ int cpp_main(int argc, char* argv[])
   
   cout << "\nbyte swap intrinsics used: " BOOST_ENDIAN_INTRINSIC_MSG << endl;
 
-  cout << endl << "int16_t, big_int16_t" << endl;
-  test<int16_t, big_int16_t>(0x1122);
+  cout << endl << "int16_t, big_16_t" << endl;
+  test<int16_t, big_16_t>(0x1122);
 
-  cout << endl << "int16_t, little_int16_t" << endl;
-  test<int16_t, little_int16_t>(0x1122);
+  cout << endl << "int16_t, little_16_t" << endl;
+  test<int16_t, little_16_t>(0x1122);
 
-  cout << endl << "int32_t, big_int32_t" << endl;
-  test<int32_t, big_int32_t>(0x11223344);
+  cout << endl << "int32_t, big_32_t" << endl;
+  test<int32_t, big_32_t>(0x11223344);
 
-  cout << endl << "int32_t, little_int32_t" << endl;
-  test<int32_t, little_int32_t>(0x11223344);
+  cout << endl << "int32_t, little_32_t" << endl;
+  test<int32_t, little_32_t>(0x11223344);
 
-  cout << endl << "int64_t, big_int64_t" << endl;
-  test<int64_t, big_int64_t>(0x1122334455667788);
+  cout << endl << "int64_t, big_64_t" << endl;
+  test<int64_t, big_64_t>(0x1122334455667788);
 
-  cout << endl << "int64_t, little_int64_t" << endl;
-  test<int64_t, little_int64_t>(0x1122334455667788);
+  cout << endl << "int64_t, little_64_t" << endl;
+  test<int64_t, little_64_t>(0x1122334455667788);
 
   //cout << "float" << endl;
   //test<float>(1.2345f);
