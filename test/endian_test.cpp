@@ -58,7 +58,7 @@ namespace
     cout << "Error: verify size failed on line " << line << endl;
     cout << " A structure with an expected sizeof() " << expected
          << " had an actual sizeof() " << actual
-         << "\n This will cause common uses of <boost/endian.hpp> to fail\n";
+         << "\n This will cause uses of endian types to fail\n";
   } 
 
   template <class Endian, class Base>
@@ -470,6 +470,24 @@ namespace
       native_u64_t    v31;
     };
 
+    //  aligned test cases
+  
+    struct big_aligned_struct
+    {
+      big_int16_t    v0;
+      big_int32_t    v1;
+      char          v3;
+      big_int64_t    v4;
+    };
+  
+    struct little_aligned_struct
+    {
+      little_int16_t    v0;
+      little_int32_t    v1;
+      char          v3;
+      little_int64_t    v4;
+    };
+
     int saved_err_count = err_count;
 
     VERIFY_SIZE( sizeof(big_struct), 39 );
@@ -478,6 +496,8 @@ namespace
     VERIFY_SIZE( sizeof(little_u_struct), 39 );
     VERIFY_SIZE( sizeof(native_struct), 39 );
     VERIFY_SIZE( sizeof(native_u_struct), 39 );
+    VERIFY_SIZE( sizeof(big_aligned_struct), 24 );
+    VERIFY_SIZE( sizeof(little_aligned_struct), 24 );
 
     if ( saved_err_count == err_count )
     { 
