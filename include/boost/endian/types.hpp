@@ -182,17 +182,17 @@ namespace endian
     {
       typedef unrolled_byte_loops<T, n_bytes - 1, sign> next;
 
-      static T load_big(const unsigned char* bytes)
+      static T load_big(const unsigned char* bytes) BOOST_NOEXCEPT
         { return *(bytes - 1) | (next::load_big(bytes - 1) << 8); }
-      static T load_little(const unsigned char* bytes)
+      static T load_little(const unsigned char* bytes) BOOST_NOEXCEPT
         { return *bytes | (next::load_little(bytes + 1) << 8); }
 
-      static void store_big(char* bytes, T value)
+      static void store_big(char* bytes, T value) BOOST_NOEXCEPT
         {
           *(bytes - 1) = static_cast<char>(value);
           next::store_big(bytes - 1, value >> 8);
         }
-      static void store_little(char* bytes, T value)
+      static void store_little(char* bytes, T value) BOOST_NOEXCEPT
         {
           *bytes = static_cast<char>(value);
           next::store_little(bytes + 1, value >> 8);
@@ -202,13 +202,13 @@ namespace endian
     template <typename T>
     struct unrolled_byte_loops<T, 1, false>
     {
-      static T load_big(const unsigned char* bytes)
+      static T load_big(const unsigned char* bytes) BOOST_NOEXCEPT
         { return *(bytes - 1); }
-      static T load_little(const unsigned char* bytes)
+      static T load_little(const unsigned char* bytes) BOOST_NOEXCEPT
         { return *bytes; }
-      static void store_big(char* bytes, T value)
+      static void store_big(char* bytes, T value) BOOST_NOEXCEPT
         { *(bytes - 1) = static_cast<char>(value); }
-      static void store_little(char* bytes, T value)
+      static void store_little(char* bytes, T value) BOOST_NOEXCEPT
         { *bytes = static_cast<char>(value); }
 
     };
@@ -216,19 +216,19 @@ namespace endian
     template <typename T>
     struct unrolled_byte_loops<T, 1, true>
     {
-      static T load_big(const unsigned char* bytes)
+      static T load_big(const unsigned char* bytes) BOOST_NOEXCEPT
         { return *reinterpret_cast<const signed char*>(bytes - 1); }
-      static T load_little(const unsigned char* bytes)
+      static T load_little(const unsigned char* bytes) BOOST_NOEXCEPT
         { return *reinterpret_cast<const signed char*>(bytes); }
-      static void store_big(char* bytes, T value)
+      static void store_big(char* bytes, T value)  BOOST_NOEXCEPT
         { *(bytes - 1) = static_cast<char>(value); }
-      static void store_little(char* bytes, T value)
+      static void store_little(char* bytes, T value) BOOST_NOEXCEPT
         { *bytes = static_cast<char>(value); }
     };
 
     template <typename T, std::size_t n_bytes>
     inline
-    T load_big_endian(const void* bytes)
+    T load_big_endian(const void* bytes) BOOST_NOEXCEPT
     {
       return unrolled_byte_loops<T, n_bytes>::load_big
         (static_cast<const unsigned char*>(bytes) + n_bytes);
@@ -236,7 +236,7 @@ namespace endian
 
     template <typename T, std::size_t n_bytes>
     inline
-    T load_little_endian(const void* bytes)
+    T load_little_endian(const void* bytes) BOOST_NOEXCEPT
     {
       return unrolled_byte_loops<T, n_bytes>::load_little
         (static_cast<const unsigned char*>(bytes));
@@ -244,7 +244,7 @@ namespace endian
 
     template <typename T, std::size_t n_bytes>
     inline
-    void store_big_endian(void* bytes, T value)
+    void store_big_endian(void* bytes, T value) BOOST_NOEXCEPT
     {
       unrolled_byte_loops<T, n_bytes>::store_big
         (static_cast<char*>(bytes) + n_bytes, value);
@@ -252,7 +252,7 @@ namespace endian
 
     template <typename T, std::size_t n_bytes>
     inline
-    void store_little_endian(void* bytes, T value)
+    void store_little_endian(void* bytes, T value) BOOST_NOEXCEPT
     {
       unrolled_byte_loops<T, n_bytes>::store_little
         (static_cast<char*>(bytes), value);
@@ -281,7 +281,7 @@ namespace endian
         typedef T value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        explicit endian(T val)
+        explicit endian(T val) BOOST_NOEXCEPT
         { 
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
@@ -290,8 +290,9 @@ namespace endian
           detail::store_big_endian<T, n_bits/8>(m_value, val);
         }
 #     endif
-        endian & operator=(T val) { detail::store_big_endian<T, n_bits/8>(m_value, val); return *this; }
-        operator T() const
+        endian & operator=(T val) BOOST_NOEXCEPT
+          { detail::store_big_endian<T, n_bits/8>(m_value, val); return *this; }
+        operator T() const BOOST_NOEXCEPT
         { 
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
@@ -299,7 +300,7 @@ namespace endian
 #       endif
           return detail::load_big_endian<T, n_bits/8>(m_value);
         }
-        const char* data() const  { return m_value; }
+        const char* data() const BOOST_NOEXCEPT  { return m_value; }
       private:
   	    char m_value[n_bits/8];
     };
@@ -314,7 +315,7 @@ namespace endian
         typedef T value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        explicit endian(T val)
+        explicit endian(T val) BOOST_NOEXCEPT
         { 
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
@@ -323,8 +324,9 @@ namespace endian
           detail::store_little_endian<T, n_bits/8>(m_value, val);
         }
 #     endif
-        endian & operator=(T val) { detail::store_little_endian<T, n_bits/8>(m_value, val); return *this; }
-        operator T() const
+        endian & operator=(T val) BOOST_NOEXCEPT
+          { detail::store_little_endian<T, n_bits/8>(m_value, val); return *this; }
+        operator T() const BOOST_NOEXCEPT
         { 
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
@@ -332,7 +334,7 @@ namespace endian
 #       endif
           return detail::load_little_endian<T, n_bits/8>(m_value);
         }
-        const char* data() const  { return m_value; }
+        const char* data() const BOOST_NOEXCEPT  { return m_value; }
       private:
   	    char m_value[n_bits/8];
     };
@@ -348,19 +350,23 @@ namespace endian
 #   ifndef BOOST_ENDIAN_NO_CTORS
         endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
 #     ifdef BOOST_BIG_ENDIAN
-        explicit endian(T val)    { detail::store_big_endian<T, n_bits/8>(m_value, val); }
+        explicit endian(T val) BOOST_NOEXCEPT { detail::store_big_endian<T, n_bits/8>(m_value, val); }
 #     else
-        explicit endian(T val)    { detail::store_little_endian<T, n_bits/8>(m_value, val); }
+        explicit endian(T val) BOOST_NOEXCEPT { detail::store_little_endian<T, n_bits/8>(m_value, val); }
 #     endif
 #   endif
 #   ifdef BOOST_BIG_ENDIAN  
-        endian & operator=(T val) { detail::store_big_endian<T, n_bits/8>(m_value, val); return *this; }
-        operator T() const        { return detail::load_big_endian<T, n_bits/8>(m_value); }
+        endian & operator=(T val) BOOST_NOEXCEPT
+          { detail::store_big_endian<T, n_bits/8>(m_value, val); return *this; }
+        operator T() const BOOST_NOEXCEPT
+          { return detail::load_big_endian<T, n_bits/8>(m_value); }
 #   else
-        endian & operator=(T val) { detail::store_little_endian<T, n_bits/8>(m_value, val); return *this; }
-        operator T() const        { return detail::load_little_endian<T, n_bits/8>(m_value); }
+        endian & operator=(T val) BOOST_NOEXCEPT
+          { detail::store_little_endian<T, n_bits/8>(m_value, val); return *this; }
+        operator T() const BOOST_NOEXCEPT
+          { return detail::load_little_endian<T, n_bits/8>(m_value); }
 #   endif
-        const char* data() const  { return m_value; }
+        const char* data() const BOOST_NOEXCEPT  { return m_value; }
       private:
   	    char m_value[n_bits/8];
     };
@@ -378,7 +384,7 @@ namespace endian
         typedef T value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        explicit endian(T val)
+        explicit endian(T val) BOOST_NOEXCEPT
         {
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
@@ -388,12 +394,12 @@ namespace endian
         }
 
 #     endif  
-        endian& operator=(T val)
+        endian& operator=(T val) BOOST_NOEXCEPT
         {
           m_value = ::boost::endian::big_endian_value(val);
           return *this;
         }
-        operator T() const
+        operator T() const BOOST_NOEXCEPT
         {
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
@@ -401,7 +407,7 @@ namespace endian
 #       endif
           return ::boost::endian::big_endian_value(m_value);
         }
-        const char* data() const  {return reinterpret_cast<const char*>(&m_value);}
+        const char* data() const BOOST_NOEXCEPT  {return reinterpret_cast<const char*>(&m_value);}
       private:
   	    T m_value;
     };
@@ -417,7 +423,7 @@ namespace endian
         typedef T value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        explicit endian(T val)
+        explicit endian(T val) BOOST_NOEXCEPT
         {
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
@@ -427,12 +433,12 @@ namespace endian
         }
 
 #     endif  
-        endian& operator=(T val)
+        endian& operator=(T val) BOOST_NOEXCEPT
         {
           m_value = ::boost::endian::little_endian_value(val);
           return *this;
         }
-        operator T() const
+        operator T() const BOOST_NOEXCEPT
         {
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
@@ -440,7 +446,7 @@ namespace endian
 #       endif
           return ::boost::endian::little_endian_value(m_value);
         }
-        const char* data() const  {return reinterpret_cast<const char*>(&m_value);}
+        const char* data() const BOOST_NOEXCEPT  {return reinterpret_cast<const char*>(&m_value);}
       private:
   	    T m_value;
     };

@@ -22,7 +22,7 @@ using namespace boost::endian;
 
 namespace 
 {
-  //  This is an extract from a very widely used GIS file format. I have no idea
+  //  This is an extract from a very widely used GIS file format. Who knows
   //  why a designer would mix big and little endians in the same file - but
   //  this is a real-world format and users wishing to write low level code
   //  manipulating these files have to deal with the mixed endianness.
@@ -35,18 +35,18 @@ namespace
     little_int32_t  shape_type;
   };
 
-  const char * filename = "test.dat";
+  const char* filename = "test.dat";
 }
 
-int main(int, char * [])
+int main(int, char* [])
 {
-  BOOST_STATIC_ASSERT( sizeof( header ) == 16U );  // check requirement
+  BOOST_STATIC_ASSERT(sizeof(header) == 16U);  // reality check
   
   header h;
 
   h.file_code   = 0x01020304;
-  h.file_length = sizeof( header );
-  h.version     = -1;
+  h.file_length = sizeof(header);
+  h.version     = 1;
   h.shape_type  = 0x01020304;
 
   //  Low-level I/O such as POSIX read/write or <cstdio> fread/fwrite is sometimes
@@ -55,21 +55,21 @@ int main(int, char * [])
   //  point that endian integers are often used in fairly low-level code that
   //  does bulk I/O operations, <cstdio> fopen/fwrite is used for I/O in this example.
 
-  std::FILE * fi = std::fopen( filename, "wb" );  // MUST BE BINARY
+  std::FILE* fi = std::fopen(filename, "wb");  // MUST BE BINARY
   
-  if ( !fi )
+  if (!fi)
   {
     std::cout << "could not open " << filename << '\n';
     return 1;
   }
 
-  if ( std::fwrite( &h, sizeof( header ), 1, fi ) != 1 ) 
+  if (std::fwrite(&h, sizeof(header), 1, fi)!= 1)
   {
     std::cout << "write failure for " << filename << '\n';
     return 1;
   }
 
-  std::fclose( fi );
+  std::fclose(fi);
 
   std::cout << "created file " << filename << '\n';
 

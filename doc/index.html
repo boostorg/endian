@@ -178,11 +178,14 @@ application.</p>
 </table>
 
 <h2>Overall <a name="FAQ">FAQ</a></h2>
-<p><b>Why bother with endianness? Does endianness have any uses outside of 
-portable binary file or network I/O formats?</b> </p>
+<p><b>Why bother with endianness?</b></p>
 <blockquote>
-<p>Binary data portability is the primary use case, and that implies I/O.</p>
-<p>Using the 3, 5, 6, and 7 byte integer types to save internal or external 
+<p>Binary data portability is the primary use case.</p>
+</blockquote>
+<p><b>Does endianness have any uses outside of portable binary file or network 
+I/O formats?</b> </p>
+<blockquote>
+<p>Using the unaligned integer types to save internal or external 
 memory space is a minor secondary use case.</p>
 </blockquote>
 <p><b>Why bother with binary I/O? Why not just use C++ Standard Library stream 
@@ -196,6 +199,13 @@ records are possible without padding, easing sorting and allowing direct access.
 Disadvantages, such as the inability to use text utilities on the resulting 
 files, limit usefulness to applications where the binary I/O advantages are 
 paramount.</p>
+</blockquote>
+
+<p><b>Why is only big, little, and native endianness supported?</b></p>
+<blockquote>
+<p>These are the only endian schemes that have any practical value today. PDP-11 
+and the other middle endian approaches are interesting historical curiosities 
+but have no relevance to C++ developers.</p>
 </blockquote>
 
 <h2><a name="Acknowledgements">Acknowledgements</a></h2>
@@ -216,7 +226,7 @@ Tim Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen
 and Vitaly Budovski,.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->20 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13976" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->22 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13980" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

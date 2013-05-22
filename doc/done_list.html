@@ -1,0 +1,44 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>New Page 1</title>
+</head>
+
+<body>
+
+<h1>Endian changes since formal review</h1>
+<ul>
+  <li>Headers rename to endian/types.hpp and endian/conversion.hpp. 
+  Infrastructure file names changed accordingly.</li>
+  <li>The conversion.hpp conversion functions have been much revised, refactored, 
+  renamed and otherwise improved based on review comments.<ul>
+    <li>UDT's are supported.</li>
+    <li><code>float</code>(32-bits) and <code>double</code> (64-bits) are 
+    supported.</li>
+    <li>Both return-by-value and modify-in-place interfaces are provided.</li>
+    <li>Synonyms for the BSD byte swapping function names popularized by OS X 
+    and Linux are provided, so that that developers already used to these name 
+    can continue to use them if they wish.</li>
+    <li>In addition to the fixed endianness functions, functions that perform 
+    compile-time (via template) and run-time (via function argument) dispatch 
+    are now provided.</li>
+  </ul>
+  </li>
+  <li>Compiler (Clang, GCC, VisualC++, etc.) intrinsics and built-in functions 
+  are used in the implementation where appropriate.</li>
+  <li>For the aligned endian integer types, the implementation uses 
+  conversion.hpp conversion functions.</li>
+  <li>C++11 features such as <code>noexcept</code> are used, while still 
+  supporting C++03 compilers.</li>
+  <li>Acknowledgements have been updated.</li>
+  <li>Headers have been reorganized to make them easier to read, as requested, 
+  with a synopsis at the front and implementation following.</li>
+</ul>
+
+</body>
+
+</html>

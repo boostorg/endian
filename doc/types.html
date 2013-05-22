@@ -109,64 +109,69 @@ using namespace boost::endian;
 
 namespace 
 {
-  // This is an extract from a very widely used GIS file format. I have no idea
-  // why a designer would mix big and little endians in the same file - but
-  // this is a real-world format and users wishing to write low level code
-  // manipulating these files have to deal with the mixed endianness.
+  //  This is an extract from a very widely used GIS file format. Who knows
+  //  why a designer would mix big and little endians in the same file - but
+  //  this is a real-world format and users wishing to write low level code
+  //  manipulating these files have to deal with the mixed endianness.
 
   struct header
   {
-    big32_t     file_code;
-    big32_t     file_length;
-    little32_t  version;
-    little32_t  shape_type;
+    big_int32_t     file_code;
+    big_int32_t     file_length;
+    little_int32_t  version;
+    little_int32_t  shape_type;
   };
 
-  const char * filename = &quot;test.dat&quot;;
+  const char* filename = &quot;test.dat&quot;;
 }
 
-int main()
+int main(int, char* [])
 {
-  BOOST_STATIC_ASSERT( sizeof( header ) == 16U ); // check requirement
-
+  BOOST_STATIC_ASSERT(sizeof(header) == 16U);  // reality check
+  
   header h;
 
   h.file_code   = 0x01020304;
-  h.file_length = sizeof( header );
-  h.version     = -1;
+  h.file_length = sizeof(header);
+  h.version     = 1;
   h.shape_type  = 0x01020304;
 
-  // Low-level I/O such as POSIX read/write or &lt;cstdio&gt; fread/fwrite is sometimes
-  // used for binary file operations when ultimate efficiency is important.
-  // Such I/O is often performed in some C++ wrapper class, but to drive home the
-  // point that endian integers are often used in fairly low-level code that
-  // does bulk I/O operations, &lt;cstdio&gt; fopen/fwrite is used for I/O in this example.
+  //  Low-level I/O such as POSIX read/write or &lt;cstdio&gt; fread/fwrite is sometimes
+  //  used for binary file operations when ultimate efficiency is important.
+  //  Such I/O is often performed in some C++ wrapper class, but to drive home the
+  //  point that endian integers are often used in fairly low-level code that
+  //  does bulk I/O operations, &lt;cstdio&gt; fopen/fwrite is used for I/O in this example.
 
-  std::FILE * fi;
-
-  if ( !(fi = std::fopen( filename, &quot;wb&quot; )) )  // MUST BE BINARY
+  std::FILE* fi = std::fopen(filename, &quot;wb&quot;);  // MUST BE BINARY
+  
+  if (!fi)
   {
     std::cout &lt;&lt; &quot;could not open &quot; &lt;&lt; filename &lt;&lt; '\n';
     return 1;
   }
 
-  if ( std::fwrite( &amp;h, sizeof( header ), 1, fi ) != 1 ) 
+  if (std::fwrite(&amp;h, sizeof(header), 1, fi)!= 1)
   {
     std::cout &lt;&lt; &quot;write failure for &quot; &lt;&lt; filename &lt;&lt; '\n';
     return 1;
   }
 
-  std::fclose( fi );
+  std::fclose(fi);
 
   std::cout &lt;&lt; &quot;created file &quot; &lt;&lt; filename &lt;&lt; '\n';
+
   return 0;
-}</pre>
+}
+</pre>
 </blockquote>
 <p>After compiling and executing <a href="endian_example.cpp">endian_example.cpp</a>, 
 a hex dump of <code>test.dat</code> shows:</p>
 <blockquote>
-  <pre>0102 0304 0000 0010 ffff ffff 0403 0201</pre>
+  <pre>01020304 00000010 01000000 04030201</pre>
 </blockquote>
+<p>Notice that the first two 32-bit integers are big endian while the second two 
+are little endian, even though the machine this was compiled and run on was 
+little endian.</p>
 <h2><a name="Limitations">Limitations</a></h2>
 <p>Requires <code>&lt;climits&gt;</code> <code>CHAR_BIT == 8</code>. If <code>CHAR_BIT</code> 
 is some other value, compilation will result in an <code>#error</code>. This 
@@ -178,7 +183,7 @@ because it has constructors, private data members, and a base class. This means
 that common use cases are relying on unspecified behavior in that the C++ 
 Standard does not guarantee memory layout for non-POD types. This has not been a 
 problem in practice since all known C++ compilers do layout memory as if <code>
-endian</code> were a POD type. In C++11, it will be possible to specify the 
+endian</code> were a POD type. In C++11, it is possible to specify the 
 default constructor as trivial, and private data members and base classes will 
 no longer disqualify a type from being a POD. Thus under C++11, <code>endian</code> 
 will no longer be relying on unspecified behavior.</p>
@@ -190,15 +195,19 @@ will no longer be relying on unspecified behavior.</p>
   <li>1-8 byte (unaligned) | 2, 4, 8 byte (aligned)</li>
   <li>Choice of integer value type</li>
 </ul>
-<h2><a name="Types">Typedefs</a></h2>
+<h2>Enums and t<a name="Types">ypedefs</a></h2>
+<p>Two scoped enums are provided:</p>
+<blockquote>
+  <pre>enum class order {big, little, native};
+enum class align {no, yes}; </pre>
+</blockquote>
 <p>One class template is provided:</p>
 <blockquote>
-  <pre>template &lt;<a href="#endianness">endianness</a>::enum_t E, typename T, std::size_t n_bytes,
-  <a href="#alignment">alignment</a>::enum_t A = alignment::unaligned&gt;
-class endian;
+  <pre>template &lt;order Order, typename T, std::size_t n_bits, align A = align::no&gt;
+  class endian;
 </pre>
 </blockquote>
-<p>Sixty typedefs, such as <code>big32_t</code>, provide convenient naming 
+<p>Typedefs, such as <code>big_int32_t</code>, provide convenient naming 
 conventions for common use cases:</p>
 <blockquote>
 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="49%">
@@ -210,76 +219,76 @@ conventions for common use cases:</p>
     <td width="49%" align="center"><b><i>Alignment</i></b></td>
   </tr>
   <tr>
-    <td width="18%"><code>big</code><b><i>n</i></b><code>_t</code></td>
-    <td width="10%"><code>big</code></td>
-    <td width="10%">signed</td>
-    <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%"><code>unaligned</code></td>
-  </tr>
-  <tr>
-    <td width="18%"><code>ubig</code><i><b>n</b></i><code>_t</code></td>
-    <td width="10%"><code>big</code></td>
-    <td width="10%">unsigned</td>
-    <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%"><code>unaligned</code></td>
-  </tr>
-  <tr>
-    <td width="18%"><code>little</code><i><b>n</b></i><code>_t</code></td>
-    <td width="10%"><code>little</code></td>
-    <td width="10%">signed</td>
-    <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%"><code>unaligned</code></td>
-  </tr>
-  <tr>
-    <td width="18%"><code>ulittle</code><i><b>n</b></i><code>_t</code></td>
-    <td width="10%"><code>little</code></td>
-    <td width="10%">unsigned</td>
-    <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%"><code>unaligned</code></td>
-  </tr>
-  <tr>
-    <td width="18%"><code>native</code><i><b>n</b></i><code>_t</code></td>
-    <td width="10%"><code>native</code></td>
-    <td width="10%">signed</td>
-    <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%"><code>unaligned</code></td>
-  </tr>
-  <tr>
-    <td width="18%"><code>unative</code><i><b>n</b></i><code>_t</code></td>
-    <td width="10%"><code>native</code></td>
-    <td width="10%">unsigned</td>
-    <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%"><code>unaligned</code></td>
-  </tr>
-  <tr>
-    <td width="18%"><code>aligned_big</code><i><b>n</b></i><code>_t</code></td>
-    <td width="10%"><code>big</code></td>
-    <td width="10%">signed</td>
+    <td width="18%"><code>big_int</code><i><b>n</b></i><code>_t</code></td>
+    <td width="10%" align="center"><code>big</code></td>
+    <td width="10%" align="center">signed</td>
     <td width="15%">16,32,64</td>
-    <td width="49%"><code>aligned</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
   </tr>
   <tr>
-    <td width="18%"><code>aligned_ubig</code><i><b>n</b></i><code>_t</code></td>
-    <td width="10%"><code>big</code></td>
-    <td width="10%">unsigned</td>
+    <td width="18%"><code>big_uint</code><i><b>n</b></i><code>_t</code></td>
+    <td width="10%" align="center"><code>big</code></td>
+    <td width="10%" align="center">unsigned</td>
     <td width="15%">16,32,64</td>
-    <td width="49%"><code>aligned</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
   </tr>
   <tr>
-    <td width="18%"><code>aligned_little</code><i><b>n</b></i><code>_t</code></td>
-    <td width="10%"><code>little</code></td>
-    <td width="10%">signed</td>
+    <td width="18%"><code>little_int</code><i><b>n</b></i><code>_t</code></td>
+    <td width="10%" align="center"><code>little</code></td>
+    <td width="10%" align="center">signed</td>
     <td width="15%">16,32,64</td>
-    <td width="49%"><code>aligned</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
   </tr>
   <tr>
-    <td width="18%"><code>aligned_ulittle</code><i><b>n</b></i><code>_t</code></td>
-    <td width="10%"><code>little</code></td>
-    <td width="10%">unsigned</td>
+    <td width="18%"><code>little_uint</code><i><b>n</b></i><code>_t</code></td>
+    <td width="10%" align="center"><code>little</code></td>
+    <td width="10%" align="center">unsigned</td>
     <td width="15%">16,32,64</td>
-    <td width="49%"><code>aligned</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
   </tr>
-</table>
+  <tr>
+    <td width="18%"><code>big_</code><b><i>n</i></b><code>_t</code></td>
+    <td width="10%" align="center"><code>big</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">8,16,24,32,40,48,56,64</td>
+    <td width="49%" align="center"><code>no</code></td>
+  </tr>
+  <tr>
+    <td width="18%"><code>big_u</code><i><b>n</b></i><code>_t</code></td>
+    <td width="10%" align="center"><code>big</code></td>
+    <td width="10%" align="center">unsigned</td>
+    <td width="15%">8,16,24,32,40,48,56,64</td>
+    <td width="49%" align="center"><code>no</code></td>
+  </tr>
+  <tr>
+    <td width="18%"><code>little_</code><i><b>n</b></i><code>_t</code></td>
+    <td width="10%" align="center"><code>little</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">8,16,24,32,40,48,56,64</td>
+    <td width="49%" align="center"><code>no</code></td>
+  </tr>
+  <tr>
+    <td width="18%"><code>little_u</code><i><b>n</b></i><code>_t</code></td>
+    <td width="10%" align="center"><code>little</code></td>
+    <td width="10%" align="center">unsigned</td>
+    <td width="15%">8,16,24,32,40,48,56,64</td>
+    <td width="49%" align="center"><code>no</code></td>
+  </tr>
+  <tr>
+    <td width="18%"><code>native_</code><i><b>n</b></i><code>_t</code></td>
+    <td width="10%" align="center"><code>native</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">8,16,24,32,40,48,56,64</td>
+    <td width="49%" align="center"><code>no</code></td>
+  </tr>
+  <tr>
+    <td width="18%"><code>native_u</code><i><b>n</b></i><code>_t</code></td>
+    <td width="10%" align="center"><code>native</code></td>
+    <td width="10%" align="center">unsigned</td>
+    <td width="15%">8,16,24,32,40,48,56,64</td>
+    <td width="49%" align="center"><code>no</code></td>
+  </tr>
+  </table>
 </blockquote>
 <p>The unaligned types do not cause compilers to insert padding bytes in classes 
 and structs. This is an important characteristic that can be exploited to minimize wasted space in 
@@ -289,8 +298,9 @@ Code that uses a</span>ligned types is inherently non-portable because alignment
 requirements vary between hardware architectures and because alignment may be 
 affected by compiler switches or pragmas. Furthermore, aligned types 
 are only available on architectures with 16, 32, and 64-bit integer types.</p>
-<p><b><i>Note:</i></b> One-byte big-endian, little-endian, and native-endian types provide identical 
-functionality. All three names are provided to improve code readability and searchability.</p>
+<p><b><i>Note:</i></b> One-byte big-endian, little-endian, and native-endian types 
+have identical 
+functionality. They are provided to improve code readability and searchability.</p>
 <h3><a name="Comment-on-naming">Comment on naming</a></h3>
 <p>When first exposed to endian types, programmers often fit them into a mental model 
 based on the <code>&lt;cstdint&gt;</code> types. Using that model, it is natural to 
@@ -593,7 +603,7 @@ sign partial specialization to correctly extend the sign when cover integer size
 differs from endian representation size.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->21 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13978" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->22 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13980" --></p>
 <p>© Copyright Beman Dawes, 2006-2009</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
