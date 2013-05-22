@@ -8,6 +8,7 @@
 //--------------------------------------------------------------------------------------//
 
 //#define BOOST_ENDIAN_NO_INTRINSICS
+//#define BOOST_ENDIAN_LOG
 
 #include <boost/endian/detail/disable_warnings.hpp>
 
@@ -85,17 +86,57 @@ namespace
 
 //--------------------------------------------------------------------------------------//
 
-  template <class T, class EndianT>
-  result_type test_inc(T x)
+  template <class T>
+  result_type test_add_T_to_T(T x)
   {
-    cout << "++ a value..." << endl;
+    cout << "Add T to T ..." << endl;
     result_type result;
-    result.v = 0;
-    T y(x);
+    T y(0);
     boost::timer::auto_cpu_timer t(places);                  
     for (uint64_t i = 0; i < n; ++i)
     {
-      ++y;
+      y += x;
+    }
+    t.stop();
+    result.v = static_cast<uint64_t>(y);
+    boost::timer::cpu_times times = t.elapsed();
+    result.cpu_time = (times.system + times.user);
+    t.report();
+    return result;
+  }
+
+  struct big_tag {};
+  struct little_tag {};
+
+  template <class T>
+  result_type test_add_conditionally_reversed_T_to_T(T x, big_tag)
+  {
+    cout << "add_conditionally_reversed_T_to_T (big)..." << endl;
+    result_type result;
+    T y(0);
+    boost::timer::auto_cpu_timer t(places);                  
+    for (uint64_t i = 0; i < n; ++i)
+    {
+      y += ::boost::endian::big_endian_value(x);
+    }
+    t.stop();
+    result.v = static_cast<uint64_t>(y);
+    boost::timer::cpu_times times = t.elapsed();
+    result.cpu_time = (times.system + times.user);
+    t.report();
+    return result;
+  }
+
+  template <class T>
+  result_type test_add_conditionally_reversed_T_to_T(T x, little_tag)
+  {
+    cout << "add_conditionally_reversed_T_to_T (little)..." << endl;
+    result_type result;
+    T y(0);
+    boost::timer::auto_cpu_timer t(places);                  
+    for (uint64_t i = 0; i < n; ++i)
+    {
+      y += ::boost::endian::little_endian_value(x);
     }
     t.stop();
     result.v = static_cast<uint64_t>(y);
@@ -106,18 +147,15 @@ namespace
   }
 
   template <class T, class EndianT>
-  result_type test_rev_inc(T x)
+  result_type test_add_Endian_to_T(EndianT x)
   {
-    cout << "reverse, then ++, then reverse a value..." << endl;
+    cout << "add_Endian_to_T..." << endl;
     result_type result;
-    result.v = 0;
-    T y(x);
+    T y(0);
     boost::timer::auto_cpu_timer t(places);                  
     for (uint64_t i = 0; i < n; ++i)
     {
-      reverse(y);
-      ++y;
-      reverse(y);
+      y += x;
     }
     t.stop();
     result.v = static_cast<uint64_t>(y);
@@ -127,32 +165,15 @@ namespace
     return result;
   }
 
-  template <class T, class EndianT>
-  result_type test_endian_inc(T x)
-  {
-    cout << "++ an endian value..." << endl;
-    result_type result;
-    result.v = 0;
-    EndianT y(x);
-    boost::timer::auto_cpu_timer t(places);                  
-    for (uint64_t i = 0; i < n; ++i)
-    {
-      ++y;
-    }
-    t.stop();
-    result.v = static_cast<uint64_t>(y);
-    boost::timer::cpu_times times = t.elapsed();
-    result.cpu_time = (times.system + times.user);
-    t.report();
-    return result;
-  }
-
-  template <class T, class EndianT>
+  template <class T, BOOST_SCOPED_ENUM(order) Order, class EndianT>
   void test(T x)
   {
-    test_inc<T, EndianT>(x);
-    test_rev_inc<T, EndianT>(x);
-    test_endian_inc<T, EndianT>(x);
+    test_add_T_to_T<T>(x);
+    if (Order == order::big)
+      test_add_conditionally_reversed_T_to_T<T>(x, big_tag());
+    else
+      test_add_conditionally_reversed_T_to_T<T>(x, little_tag());
+    test_add_Endian_to_T<T, EndianT>(EndianT(x));
   }
 
 }  // unnamed namespace
@@ -165,23 +186,43 @@ int cpp_main(int argc, char* argv[])
   
   cout << "\nbyte swap intrinsics used: " BOOST_ENDIAN_INTRINSIC_MSG << endl;
 
+  cout << endl << "------------------------------------------------------" << endl;
+
   cout << endl << "int16_t, big_16_t" << endl;
-  test<int16_t, big_16_t>(0x1122);
+  test<int16_t, order::big, big_16_t>(0x1122);
+  cout << endl << "int16_t, big_int16_t" << endl;
+  test<int16_t, order::big, big_int16_t>(0x1122);
 
   cout << endl << "int16_t, little_16_t" << endl;
-  test<int16_t, little_16_t>(0x1122);
+  test<int16_t, order::little, little_16_t>(0x1122);
+  cout << endl << "int16_t, little_int16_t" << endl;
+  test<int16_t, order::little, little_int16_t>(0x1122);
+
+  cout << endl << "------------------------------------------------------" << endl;
 
   cout << endl << "int32_t, big_32_t" << endl;
-  test<int32_t, big_32_t>(0x11223344);
+  test<int32_t, order::big, big_32_t>(0x11223344);
+  cout << endl << "int32_t, big_int32_t" << endl;
+  test<int32_t, order::big, big_int32_t>(0x11223344);
 
   cout << endl << "int32_t, little_32_t" << endl;
-  test<int32_t, little_32_t>(0x11223344);
+  test<int32_t, order::little, little_32_t>(0x11223344);
+  cout << endl << "int32_t, little_int32_t" << endl;
+  test<int32_t, order::little, little_int32_t>(0x11223344);
+
+  cout << endl << "------------------------------------------------------" << endl;
 
   cout << endl << "int64_t, big_64_t" << endl;
-  test<int64_t, big_64_t>(0x1122334455667788);
+  test<int64_t, order::big, big_64_t>(0x1122334455667788);
+  cout << endl << "int64_t, big_int64_t" << endl;
+  test<int64_t, order::big, big_int64_t>(0x1122334455667788);
 
   cout << endl << "int64_t, little_64_t" << endl;
-  test<int64_t, little_64_t>(0x1122334455667788);
+  test<int64_t, order::little, little_64_t>(0x1122334455667788);
+  cout << endl << "int64_t, little_int64_t" << endl;
+  test<int64_t, order::little, little_int64_t>(0x1122334455667788);
+
+  cout << endl << "------------------------------------------------------" << endl;
 
   //cout << "float" << endl;
   //test<float>(1.2345f);

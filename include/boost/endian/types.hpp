@@ -285,7 +285,7 @@ namespace endian
         { 
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
-            std::clog << "big, unaligned, " << n_bits << "-bits, construct(" << val << ")\n";
+            std::cout << "big, unaligned, " << n_bits << "-bits, construct(" << val << ")\n";
 #       endif
           detail::store_big_endian<T, n_bits/8>(m_value, val);
         }
@@ -295,7 +295,7 @@ namespace endian
         { 
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
-            std::clog << "big, unaligned, " << n_bits << "-bits, convert(" << detail::load_big_endian<T, n_bits/8>(m_value) << ")\n";
+            std::cout << "big, unaligned, " << n_bits << "-bits, convert(" << detail::load_big_endian<T, n_bits/8>(m_value) << ")\n";
 #       endif
           return detail::load_big_endian<T, n_bits/8>(m_value);
         }
@@ -318,7 +318,7 @@ namespace endian
         { 
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
-            std::clog << "little, unaligned, " << n_bits << "-bits, construct(" << val << ")\n";
+            std::cout << "little, unaligned, " << n_bits << "-bits, construct(" << val << ")\n";
 #       endif
           detail::store_little_endian<T, n_bits/8>(m_value, val);
         }
@@ -328,7 +328,7 @@ namespace endian
         { 
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
-            std::clog << "little, unaligned, " << n_bits << "-bits, convert(" << detail::load_little_endian<T, n_bits/8>(m_value) << ")\n";
+            std::cout << "little, unaligned, " << n_bits << "-bits, convert(" << detail::load_little_endian<T, n_bits/8>(m_value) << ")\n";
 #       endif
           return detail::load_little_endian<T, n_bits/8>(m_value);
         }
@@ -367,9 +367,10 @@ namespace endian
 
   //  align::yes specializations; only n_bits == 16/32/64 supported
 
-    template <BOOST_SCOPED_ENUM(order) Order, typename T, std::size_t n_bits>
-    class endian<Order, T, n_bits, align::yes>
-      : cover_operators<endian<Order, T, n_bits, align::yes>, T>
+    //  aligned big endian specialization
+    template <typename T, std::size_t n_bits>
+    class endian<order::big, T, n_bits, align::yes>
+      : cover_operators<endian<order::big, T, n_bits, align::yes>, T>
     {
         BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
         BOOST_STATIC_ASSERT( sizeof(T) == n_bits/8 );
@@ -378,16 +379,66 @@ namespace endian
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
         explicit endian(T val)
-          : m_value(::boost::endian::convert_value<order::native, Order>(val)) {}
+        {
+#       ifdef BOOST_ENDIAN_LOG
+          if ( endian_log )
+            std::cout << "big, aligned, " << n_bits << "-bits, construct(" << val << ")\n";
+#       endif
+          m_value = ::boost::endian::big_endian_value(val);
+        }
+
 #     endif  
         endian& operator=(T val)
         {
-          m_value = ::boost::endian::convert_value<order::native, Order>(val);
+          m_value = ::boost::endian::big_endian_value(val);
           return *this;
         }
         operator T() const
         {
-          return ::boost::endian::convert_value<Order, order::native>(m_value);
+#       ifdef BOOST_ENDIAN_LOG
+          if ( endian_log )
+            std::cout << "big, aligned, " << n_bits << "-bits, convert(" << ::boost::endian::big_endian_value(m_value) << ")\n";
+#       endif
+          return ::boost::endian::big_endian_value(m_value);
+        }
+        const char* data() const  {return reinterpret_cast<const char*>(&m_value);}
+      private:
+  	    T m_value;
+    };
+
+    //  aligned little endian specialization
+    template <typename T, std::size_t n_bits>
+    class endian<order::little, T, n_bits, align::yes>
+      : cover_operators<endian<order::little, T, n_bits, align::yes>, T>
+    {
+        BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
+        BOOST_STATIC_ASSERT( sizeof(T) == n_bits/8 );
+      public:
+        typedef T value_type;
+#     ifndef BOOST_ENDIAN_NO_CTORS
+        endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
+        explicit endian(T val)
+        {
+#       ifdef BOOST_ENDIAN_LOG
+          if ( endian_log )
+            std::cout << "little, aligned, " << n_bits << "-bits, construct(" << val << ")\n";
+#       endif
+          m_value = ::boost::endian::little_endian_value(val);
+        }
+
+#     endif  
+        endian& operator=(T val)
+        {
+          m_value = ::boost::endian::little_endian_value(val);
+          return *this;
+        }
+        operator T() const
+        {
+#       ifdef BOOST_ENDIAN_LOG
+          if ( endian_log )
+            std::cout << "little, aligned, " << n_bits << "-bits, convert(" << ::boost::endian::little_endian_value(m_value) << ")\n";
+#       endif
+          return ::boost::endian::little_endian_value(m_value);
         }
         const char* data() const  {return reinterpret_cast<const char*>(&m_value);}
       private:
