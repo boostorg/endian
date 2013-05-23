@@ -97,6 +97,34 @@ namespace
     t.report();
   }
 
+  void test_big_int16()
+  {
+    cout << " no +\n ";
+    time<int16_t, big_int16_t>(user::return_x_big_int16);
+    cout << " + int16_t argument\n ";
+    time<int16_t, big_int16_t>(user::return_x_plus_y_big_int16);
+    cout << " + int16_t by value\n ";
+    time<int16_t, big_int16_t>(user::return_x_plus_y_value_big_int16);
+    cout << " + int16_t in place\n ";
+    time<int16_t, big_int16_t>(user::return_x_plus_y_in_place_big_int16);
+    cout << " + big_int16_t\n ";
+    time<int16_t, big_int16_t>(user::return_x_plus_z_big_int16);
+  }
+
+  void test_little_int16()
+  {
+    cout << " no +\n ";
+    time<int16_t, little_int16_t>(user::return_x_little_int16);
+    cout << " + int16_t argument\n ";
+    time<int16_t, little_int16_t>(user::return_x_plus_y_little_int16);
+    cout << " + int16_t by value\n ";
+    time<int16_t, little_int16_t>(user::return_x_plus_y_value_little_int16);
+    cout << " + int16_t in place\n ";
+    time<int16_t, little_int16_t>(user::return_x_plus_y_in_place_little_int16);
+    cout << " + little_int16_t\n ";
+    time<int16_t, little_int16_t>(user::return_x_plus_z_little_int16);
+  }
+
   void test_big_int32()
   {
     cout << " no +\n ";
@@ -125,6 +153,34 @@ namespace
     time<int32_t, little_int32_t>(user::return_x_plus_z_little_int32);
   }
 
+  void test_big_int64()
+  {
+    cout << " no +\n ";
+    time<int64_t, big_int64_t>(user::return_x_big_int64);
+    cout << " + int64_t argument\n ";
+    time<int64_t, big_int64_t>(user::return_x_plus_y_big_int64);
+    cout << " + int64_t by value\n ";
+    time<int64_t, big_int64_t>(user::return_x_plus_y_value_big_int64);
+    cout << " + int64_t in place\n ";
+    time<int64_t, big_int64_t>(user::return_x_plus_y_in_place_big_int64);
+    cout << " + big_int64_t\n ";
+    time<int64_t, big_int64_t>(user::return_x_plus_z_big_int64);
+  }
+
+  void test_little_int64()
+  {
+    cout << " no +\n ";
+    time<int64_t, little_int64_t>(user::return_x_little_int64);
+    cout << " + int64_t argument\n ";
+    time<int64_t, little_int64_t>(user::return_x_plus_y_little_int64);
+    cout << " + int64_t by value\n ";
+    time<int64_t, little_int64_t>(user::return_x_plus_y_value_little_int64);
+    cout << " + int64_t in place\n ";
+    time<int64_t, little_int64_t>(user::return_x_plus_y_in_place_little_int64);
+    cout << " + little_int64_t\n ";
+    time<int64_t, little_int64_t>(user::return_x_plus_z_little_int64);
+  }
+
 }  // unnamed namespace
 
 //--------------------------------------------------------------------------------------//
@@ -137,10 +193,24 @@ int cpp_main(int argc, char* argv[])
 
   cout << endl << "------------------------------------------------------" << endl;
 
+  cout << endl << "big, 16-bit..." << endl;
+  test_big_int16();
+  cout << endl << "little, 16-bit..." << endl;
+  test_little_int16();
+
+  cout << endl << "------------------------------------------------------" << endl;
+
   cout << endl << "big, 32-bit..." << endl;
   test_big_int32();
   cout << endl << "little, 32-bit..." << endl;
   test_little_int32();
+
+  cout << endl << "------------------------------------------------------" << endl;
+
+  cout << endl << "big, 64-bit..." << endl;
+  test_big_int64();
+  cout << endl << "little, 64-bit..." << endl;
+  test_little_int64();
 
   cout << endl << "------------------------------------------------------" << endl;
 
