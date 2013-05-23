@@ -10,7 +10,7 @@ project
 #      <toolset>msvc:<asynch-exceptions>on
     ;
 
-SOURCES = speed_test ;
+SOURCES = speed_test speed_test_functions ;
     
 
 exe "speed_test"
