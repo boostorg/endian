@@ -7,7 +7,7 @@
 
 //--------------------------------------------------------------------------------------//
 
-//#define BOOST_ENDIAN_NO_INTRINSICS
+#define BOOST_ENDIAN_NO_INTRINSICS
 //#define BOOST_ENDIAN_LOG
 
 #include <boost/endian/detail/disable_warnings.hpp>
@@ -32,7 +32,7 @@ namespace
   typedef  boost::timer::nanosecond_type nanosecond_t;
   std::string command_args;
   uint64_t n;                 // number of test cases to run
-  int places = 3;             // decimal places for times
+  int places = 2;             // decimal places for times
   bool verbose (false);
 
   void process_command_line(int argc, char * argv[])
@@ -44,7 +44,7 @@ namespace
         command_args += ' ';
     }
 
-    cout << command_args << '\n';;
+ //   cout << command_args << '\n';;
 
     if (argc >=2)
 #ifndef _MSC_VER
@@ -86,99 +86,79 @@ namespace
     T x(0);
     T y(0);
     EndianT z(0);
-    boost::timer::auto_cpu_timer t(places);                  
+    boost::timer::cpu_timer t;                  
     for (uint64_t i = 0; i < n; ++i)
     {
       f(x, y, z);
     }
     t.stop();
-    boost::timer::cpu_times times = t.elapsed();
-//    result.cpu_time = (times.system + times.user);
-    t.report();
+    cout << "<td>" << t.format(places, "%t") << " s</td>";
   }
 
   void test_big_int16()
   {
-    cout << " no +\n ";
+    cout << "<tr><td>16-bit aligned big endian</td>";
     time<int16_t, big_int16_t>(user::return_x_big_int16);
-    cout << " + int16_t argument\n ";
     time<int16_t, big_int16_t>(user::return_x_plus_y_big_int16);
-    cout << " + int16_t by value\n ";
     time<int16_t, big_int16_t>(user::return_x_plus_y_value_big_int16);
-    cout << " + int16_t in place\n ";
     time<int16_t, big_int16_t>(user::return_x_plus_y_in_place_big_int16);
-    cout << " + big_int16_t\n ";
     time<int16_t, big_int16_t>(user::return_x_plus_z_big_int16);
+    cout << "</tr>\n";
   }
 
   void test_little_int16()
   {
-    cout << " no +\n ";
+    cout << "<tr><td>16-bit aligned little endian</td>";
     time<int16_t, little_int16_t>(user::return_x_little_int16);
-    cout << " + int16_t argument\n ";
     time<int16_t, little_int16_t>(user::return_x_plus_y_little_int16);
-    cout << " + int16_t by value\n ";
     time<int16_t, little_int16_t>(user::return_x_plus_y_value_little_int16);
-    cout << " + int16_t in place\n ";
     time<int16_t, little_int16_t>(user::return_x_plus_y_in_place_little_int16);
-    cout << " + little_int16_t\n ";
     time<int16_t, little_int16_t>(user::return_x_plus_z_little_int16);
+    cout << "</tr>\n";
   }
 
   void test_big_int32()
   {
-    cout << " no +\n ";
+    cout << "<tr><td>32-bit aligned big endian</td>";
     time<int32_t, big_int32_t>(user::return_x_big_int32);
-    cout << " + int32_t argument\n ";
     time<int32_t, big_int32_t>(user::return_x_plus_y_big_int32);
-    cout << " + int32_t by value\n ";
     time<int32_t, big_int32_t>(user::return_x_plus_y_value_big_int32);
-    cout << " + int32_t in place\n ";
     time<int32_t, big_int32_t>(user::return_x_plus_y_in_place_big_int32);
-    cout << " + big_int32_t\n ";
     time<int32_t, big_int32_t>(user::return_x_plus_z_big_int32);
+    cout << "</tr>\n";
   }
 
   void test_little_int32()
   {
-    cout << " no +\n ";
+    cout << "<tr><td>32-bit aligned little endian</td>";
     time<int32_t, little_int32_t>(user::return_x_little_int32);
-    cout << " + int32_t argument\n ";
     time<int32_t, little_int32_t>(user::return_x_plus_y_little_int32);
-    cout << " + int32_t by value\n ";
     time<int32_t, little_int32_t>(user::return_x_plus_y_value_little_int32);
-    cout << " + int32_t in place\n ";
     time<int32_t, little_int32_t>(user::return_x_plus_y_in_place_little_int32);
-    cout << " + little_int32_t\n ";
     time<int32_t, little_int32_t>(user::return_x_plus_z_little_int32);
+    cout << "</tr>\n";
   }
 
   void test_big_int64()
   {
-    cout << " no +\n ";
+    cout << "<tr><td>64-bit aligned big endian</td>";
     time<int64_t, big_int64_t>(user::return_x_big_int64);
-    cout << " + int64_t argument\n ";
     time<int64_t, big_int64_t>(user::return_x_plus_y_big_int64);
-    cout << " + int64_t by value\n ";
     time<int64_t, big_int64_t>(user::return_x_plus_y_value_big_int64);
-    cout << " + int64_t in place\n ";
     time<int64_t, big_int64_t>(user::return_x_plus_y_in_place_big_int64);
-    cout << " + big_int64_t\n ";
     time<int64_t, big_int64_t>(user::return_x_plus_z_big_int64);
+    cout << "</tr>\n";
   }
 
   void test_little_int64()
   {
-    cout << " no +\n ";
+    cout << "<tr><td>64-bit aligned little endian</td>";
     time<int64_t, little_int64_t>(user::return_x_little_int64);
-    cout << " + int64_t argument\n ";
     time<int64_t, little_int64_t>(user::return_x_plus_y_little_int64);
-    cout << " + int64_t by value\n ";
     time<int64_t, little_int64_t>(user::return_x_plus_y_value_little_int64);
-    cout << " + int64_t in place\n ";
     time<int64_t, little_int64_t>(user::return_x_plus_y_in_place_little_int64);
-    cout << " + little_int64_t\n ";
     time<int64_t, little_int64_t>(user::return_x_plus_z_little_int64);
+    cout << "</tr>\n";
   }
 
 }  // unnamed namespace
@@ -189,36 +169,33 @@ int cpp_main(int argc, char* argv[])
 {
   process_command_line(argc, argv);
   
-  cout << "\nbyte swap intrinsics used: " BOOST_ENDIAN_INTRINSIC_MSG << endl;
+  cout
+    << "<html>\n<head>\n<title>Endian Speed Test</title>\n</head>\n<body>\n"
+    << "<table border=\"1\" cellpadding=\"5\" cellspacing=\"0\""
+    << "style=\"border-collapse: collapse\" bordercolor=\"#111111\">\n"
+    << "<tr><td colspan=\"6\" align=\"center\"><b>"
+    << BOOST_COMPILER << "</b></td></tr>\n"
+    << "<tr><td colspan=\"6\" align=\"center\"><b>"
+    << " Iterations: " << n
+    << ", Intrinsics: " BOOST_ENDIAN_INTRINSIC_MSG
+    << "</b></td></tr>\n"
+    << "<tr><td><b>Test Case</b></td>\n"
+       "<td><b>x</b></td>\n"
+       "<td><b>x+y</b></td>\n"
+       "<td><b>x+v(y)</b></td>\n"
+       "<td><b>x+in(y)</b></td>\n"
+       "<td><b>x+z</b></td>\n"
+       "</tr>\n"
+    ;
 
-  cout << endl << "------------------------------------------------------" << endl;
-
-  cout << endl << "big, 16-bit..." << endl;
   test_big_int16();
-  cout << endl << "little, 16-bit..." << endl;
   test_little_int16();
-
-  cout << endl << "------------------------------------------------------" << endl;
-
-  cout << endl << "big, 32-bit..." << endl;
   test_big_int32();
-  cout << endl << "little, 32-bit..." << endl;
   test_little_int32();
-
-  cout << endl << "------------------------------------------------------" << endl;
-
-  cout << endl << "big, 64-bit..." << endl;
   test_big_int64();
-  cout << endl << "little, 64-bit..." << endl;
   test_little_int64();
 
-  cout << endl << "------------------------------------------------------" << endl;
-
-  //cout << "float" << endl;
-  //test<float>(1.2345f);
-
-  //cout << "double" << endl;
-  //test<double>(1.23456789);
+  cout << "\n</table>\n</body>\n</html>\n";
 
   return 0;
 }
