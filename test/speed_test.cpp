@@ -7,7 +7,7 @@
 
 //--------------------------------------------------------------------------------------//
 
-//#define BOOST_ENDIAN_NO_INTRINSICS
+#define BOOST_ENDIAN_NO_INTRINSICS
 //#define BOOST_ENDIAN_LOG
 
 #include <boost/endian/detail/disable_warnings.hpp>
@@ -91,7 +91,7 @@ namespace
       f(x, y);
     }
     t.stop();
-    cout << "<td>" << t.format(places, "%t") << " s</td>";
+    cout << "<td align=\"right\">" << t.format(places, "%t") << " s</td>";
   }
 
   void test_big_int16()
@@ -173,10 +173,10 @@ int cpp_main(int argc, char* argv[])
     << ", Intrinsics: " BOOST_ENDIAN_INTRINSIC_MSG
     << "</b></td></tr>\n"
     << "<tr><td><b>Test Case</b></td>\n"
-    "<td><b>int<br>arg</b></td>\n"
-       "<td><b>int<br>value(arg)</b></td>\n"
-       "<td><b>int<br>in place(arg)</b></td>\n"
-       "<td><b>Endian<br>arg</b></td>\n"
+       "<td align=\"center\"><b>int<br>arg</b></td>\n"
+       "<td align=\"center\"><b>int<br>value(arg)</b></td>\n"
+       "<td align=\"center\"><b>int<br>in place(arg)</b></td>\n"
+       "<td align=\"center\"><b>Endian<br>arg</b></td>\n"
        "</tr>\n"
     ;
 

@@ -223,6 +223,17 @@ namespace
     little_uint32_t little_uint32 ;
     little_uint64_t little_uint64 ;
 
+    big_float32_t big_float32;
+    big_float64_t big_float64;
+    little_float32_t little_float32;
+    little_float64_t little_float64;
+    
+    VERIFY(big_float32.data() == reinterpret_cast<const char *>(&big_float32));
+    VERIFY(big_float64.data() == reinterpret_cast<const char *>(&big_float64));
+
+    VERIFY(little_float32.data() == reinterpret_cast<const char *>(&little_float32));
+    VERIFY(little_float64.data() == reinterpret_cast<const char *>(&little_float64));
+
     VERIFY(big_8.data() == reinterpret_cast<const char *>(&big_8));
     VERIFY(big_16.data() == reinterpret_cast<const char *>(&big_16));
     VERIFY(big_24.data() == reinterpret_cast<const char *>(&big_24));
@@ -301,6 +312,11 @@ namespace
   {
     VERIFY( numeric_limits<signed char>::digits == 7 );
     VERIFY( numeric_limits<unsigned char>::digits == 8 );
+
+    VERIFY_SIZE(sizeof( big_float32_t ), 4 );
+    VERIFY_SIZE(sizeof( big_float64_t ), 8 );
+    VERIFY_SIZE(sizeof( little_float32_t ), 4 );
+    VERIFY_SIZE(sizeof( little_float64_t ), 8 );
 
     VERIFY_SIZE( sizeof( big_8_t ), 1 );
     VERIFY_SIZE( sizeof( big_16_t ), 2 );
@@ -510,6 +526,39 @@ namespace
 
   void check_representation_and_range_and_ops()
   {
+    float big_float32_expected = std::numeric_limits<float>::max();
+    boost::endian::big_endian(big_float32_expected);
+    big_float32_t big_float32(std::numeric_limits<float>::max());
+    VERIFY(std::memcmp(big_float32.data(),
+      reinterpret_cast<const char*>(&big_float32_expected), sizeof(float)) == 0);
+
+    float little_float32_expected = std::numeric_limits<float>::max();
+    boost::endian::little_endian(little_float32_expected);
+    little_float32_t little_float32(std::numeric_limits<float>::max());
+    VERIFY(std::memcmp(little_float32.data(),
+      reinterpret_cast<const char*>(&little_float32_expected), sizeof(float)) == 0);
+
+    double big_float64_expected = std::numeric_limits<double>::max();
+    boost::endian::big_endian(big_float64_expected);
+    big_float64_t big_float64(std::numeric_limits<double>::max());
+    VERIFY(std::memcmp(big_float64.data(),
+      reinterpret_cast<const char*>(&big_float64_expected), sizeof(double)) == 0);
+
+    double little_float64_expected = std::numeric_limits<double>::max();
+    boost::endian::little_endian(little_float64_expected);
+    little_float64_t little_float64(std::numeric_limits<double>::max());
+    VERIFY(std::memcmp(little_float64.data(),
+      reinterpret_cast<const char*>(&little_float64_expected), sizeof(double)) == 0);
+
+    VERIFY_VALUE_AND_OPS( big_float32_t, float,  std::numeric_limits<float>::max() );
+    VERIFY_VALUE_AND_OPS( big_float32_t, float, std::numeric_limits<float>::min() );
+    VERIFY_VALUE_AND_OPS( big_float64_t, double,  std::numeric_limits<double>::max() );
+    VERIFY_VALUE_AND_OPS( big_float64_t, double, std::numeric_limits<double>::min() );
+
+    VERIFY_VALUE_AND_OPS( little_float32_t, float,  std::numeric_limits<float>::max() );
+    VERIFY_VALUE_AND_OPS( little_float32_t, float, std::numeric_limits<float>::min() );
+    VERIFY_VALUE_AND_OPS( little_float64_t, double,  std::numeric_limits<double>::max() );
+    VERIFY_VALUE_AND_OPS( little_float64_t, double, std::numeric_limits<double>::min() );
 
     VERIFY_BIG_REPRESENTATION( big_8_t );
     VERIFY_VALUE_AND_OPS( big_8_t, int_least8_t,  0x7f );

@@ -80,6 +80,14 @@ namespace endian
     BOOST_SCOPED_ENUM(align) A = align::no>
       class endian;
 
+  // aligned big endian floating point types
+  typedef boost::endian::endian<order::big, float, 32, align::yes> big_float32_t;
+  typedef boost::endian::endian<order::big, double, 64, align::yes> big_float64_t;
+
+  // aligned little endian floating point types
+  typedef boost::endian::endian<order::little, float, 32, align::yes>  little_float32_t;
+  typedef boost::endian::endian<order::little, double, 64, align::yes> little_float64_t;
+
   // aligned big endian signed integer types
   typedef endian<order::big, int16_t, 16, align::yes>      big_int16_t;
   typedef endian<order::big, int32_t, 32, align::yes>      big_int32_t;
