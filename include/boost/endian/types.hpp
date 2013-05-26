@@ -88,6 +88,14 @@ namespace endian
   typedef boost::endian::endian<order::little, float, 32, align::yes>  little_float32_t;
   typedef boost::endian::endian<order::little, double, 64, align::yes> little_float64_t;
 
+  // unaligned big endian floating point types
+  typedef boost::endian::endian<order::big, float, 32, align::no> big_float32un_t;
+  typedef boost::endian::endian<order::big, double, 64, align::no> big_float64un_t;
+
+  // unaligned little endian floating point types
+  typedef boost::endian::endian<order::little, float, 32, align::no>  little_float32un_t;
+  typedef boost::endian::endian<order::little, double, 64, align::no> little_float64un_t;
+
   // aligned big endian signed integer types
   typedef endian<order::big, int16_t, 16, align::yes>      big_int16_t;
   typedef endian<order::big, int32_t, 32, align::yes>      big_int32_t;
@@ -182,6 +190,7 @@ namespace endian
 {
   namespace detail
   {
+
     // Unrolled loops for loading and storing streams of bytes.
 
     template <typename T, std::size_t n_bytes,
@@ -311,6 +320,106 @@ namespace endian
         const char* data() const BOOST_NOEXCEPT  { return m_value; }
       private:
   	    char m_value[n_bits/8];
+    };
+ 
+    //  unaligned float big endian specialization
+    template <>
+    class endian< order::big, float, 32, align::no >
+      : cover_operators< endian< order::big, float, 32 >, float >
+    {
+      public:
+        typedef float value_type;
+#     ifndef BOOST_ENDIAN_NO_CTORS
+        endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
+        explicit endian(value_type val) BOOST_NOEXCEPT
+          { detail::big_reverse_copy(val, m_value); }
+#     endif
+        endian & operator=(value_type val) BOOST_NOEXCEPT
+          { detail::big_reverse_copy(val, m_value); return *this; }
+        operator value_type() const BOOST_NOEXCEPT
+        {
+          value_type tmp;
+          detail::big_reverse_copy(m_value, tmp);
+          return tmp;
+        }
+        const char* data() const BOOST_NOEXCEPT  { return m_value; }
+      private:
+  	    char m_value[sizeof(value_type)];
+    };
+
+    //  unaligned double big endian specialization
+    template <>
+    class endian< order::big, double, 64, align::no >
+      : cover_operators< endian< order::big, double, 64 >, double >
+    {
+      public:
+        typedef double value_type;
+#     ifndef BOOST_ENDIAN_NO_CTORS
+        endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
+        explicit endian(value_type val) BOOST_NOEXCEPT
+          { detail::big_reverse_copy(val, m_value); }
+#     endif
+        endian & operator=(value_type val) BOOST_NOEXCEPT
+          { detail::big_reverse_copy(val, m_value); return *this; }
+        operator value_type() const BOOST_NOEXCEPT
+        {
+          value_type tmp;
+          detail::big_reverse_copy(m_value, tmp);
+          return tmp;
+        }
+        const char* data() const BOOST_NOEXCEPT  { return m_value; }
+      private:
+  	    char m_value[sizeof(value_type)];
+    };
+ 
+    //  unaligned float little endian specialization
+    template <>
+    class endian< order::little, float, 32, align::no >
+      : cover_operators< endian< order::little, float, 32 >, float >
+    {
+      public:
+        typedef float value_type;
+#     ifndef BOOST_ENDIAN_NO_CTORS
+        endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
+        explicit endian(value_type val) BOOST_NOEXCEPT
+          { detail::little_reverse_copy(val, m_value); }
+#     endif
+        endian & operator=(value_type val) BOOST_NOEXCEPT
+          { detail::little_reverse_copy(val, m_value); return *this; }
+        operator value_type() const BOOST_NOEXCEPT
+        {
+          value_type tmp;
+          detail::little_reverse_copy(m_value, tmp);
+          return tmp;
+        }
+        const char* data() const BOOST_NOEXCEPT  { return m_value; }
+      private:
+  	    char m_value[sizeof(value_type)];
+    };
+
+    //  unaligned double little endian specialization
+    template <>
+    class endian< order::little, double, 64, align::no >
+      : cover_operators< endian< order::little, double, 64 >, double >
+    {
+      public:
+        typedef double value_type;
+#     ifndef BOOST_ENDIAN_NO_CTORS
+        endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
+        explicit endian(value_type val) BOOST_NOEXCEPT
+          { detail::little_reverse_copy(val, m_value); }
+#     endif
+        endian & operator=(value_type val) BOOST_NOEXCEPT
+          { detail::little_reverse_copy(val, m_value); return *this; }
+        operator value_type() const BOOST_NOEXCEPT
+        {
+          value_type tmp;
+          detail::little_reverse_copy(m_value, tmp);
+          return tmp;
+        }
+        const char* data() const BOOST_NOEXCEPT  { return m_value; }
+      private:
+  	    char m_value[sizeof(value_type)];
     };
 
     //  unaligned little endian specialization

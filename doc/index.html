@@ -133,12 +133,12 @@ requirements. Floating point types are not currently supported.</p>
 <h2><a name="Choosing">Choosing</a> between endian types and endian 
 conversion functions</h2>
 
-<p>Which approach is best for dealing with endianness depends on the 
-application.</p>
+<p>Which approach is best for dealing with endianness depends on  
+application concerns.</p>
 
 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
   <tr>
-    <th colspan="2">Advantages</th>
+    <th colspan="2">Needs that favor one approach over the other</th>
   </tr>
   <tr>
     <th width="50%"><b><a href="types.html">Endian types</a></b></th>
@@ -147,31 +147,37 @@ application.</p>
   <tr>
     <td valign="top">
     <ul>
-      <li>Mimic the built-in types. This can simplify use and eliminate logic 
-      errors since there is no need to reason about the current endianness of 
-      variables.<br>
+      <li>A need to simplify program logic and eliminate logic 
+      errors. Since the endian types mimic the built-in types, there is no need to reason about the current endianness of variables 
+      and that can simplify program logic and eliminate logic errors.<br>
 &nbsp;</li>
-      <li>1, 2, 3, 4, 5, 6, 7, and 8 byte integers are supported. Use of 3, 5, 
-      6, or 7 byte integers can reduce internal and external space usage and 
+      <li>A need to use unusual integer sizes (i.e. 3, 5, 
+      6, or 7 bytes) to reduce internal and external space usage and 
       save I/O time.<br>
 &nbsp;</li>
-      <li>Alignment is not required. This can eliminate padding bytes in 
+      <li>A need to use unaligned variables. Endian types can eliminate padding bytes in 
       structures, reducing internal and external space usage and saving I/O 
-      time.</li>
+      time. They can deals with structures defined like this:</li>
     </ul>
+    <blockquote>
+      <p><code>struct S {<br>
+      &nbsp; uint16_t a;<br>
+      &nbsp; uint32_t b;<br>
+      } __attribute__ ((packed));</code></p>
+    </blockquote>
     </td>
     <td valign="top">
     <ul>
-      <li>Already familiar to developers who have been using C conversion 
+      <li>A need to leverage knowledge of developers who have been using C byte 
+      swapping 
       functions for years.<br>
 &nbsp;</li>
-      <li>Uses less CPU time, particularly if each variable is used many times 
-      relative to I/O of the variable.<br>
+      <li>A need to save CPU time when a variable is used many times 
+      relative to its I/O.<br>
 &nbsp;</li>
-      <li>Easier to pass structures to third-party libraries expecting a 
+      <li>A need to pass structures to third-party libraries expecting a 
       specific structure format.<br>
 &nbsp;</li>
-      <li>Supports <code>float</code> and <code>double</code>.</li>
     </ul>
     </td>
   </tr>

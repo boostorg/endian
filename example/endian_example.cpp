@@ -10,6 +10,7 @@
 //----------------------------------------------------------------------------//
 
 #define _CRT_SECURE_NO_DEPRECATE  // quiet VC++ 8.0 foolishness
+#define _SCL_SECURE_NO_WARNINGS
 
 #include <boost/endian/detail/disable_warnings.hpp>
 

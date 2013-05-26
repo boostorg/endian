@@ -126,13 +126,23 @@ namespace endian
 //----------------------------------- end synopsis -------------------------------------//
 
   namespace detail
-  // This function is unsafe for general use, so is placed in namespace detail.
+  // These functions are unsafe for general use, so is placed in namespace detail.
   // Think of what happens if you reverse_value a std::pair<int16_t, int_16_t>; the bytes
   // from first end up in second and the bytes from second end up in first. Not good! 
   {
     //  general reverse_value function template useful in testing
     template <class T>
     inline T reverse_value(T x) BOOST_NOEXCEPT;  // convert little to big or visa versa
+
+    //  conditional unaligned reverse copy, patterned after std::reverse_copy
+    template <class T>
+      inline void big_reverse_copy(T from, char* to) BOOST_NOEXCEPT;
+    template <class T>
+      inline void big_reverse_copy(const char* from, T& to) BOOST_NOEXCEPT;
+    template <class T>
+      inline void little_reverse_copy(T from, char* to) BOOST_NOEXCEPT;
+    template <class T>
+      inline void little_reverse_copy(const char* from, T& to) BOOST_NOEXCEPT;
   }
 
 //--------------------------------------------------------------------------------------//
@@ -237,7 +247,7 @@ namespace endian
     return *(const double*)&tmp;
   }
 
-  namespace detail  // this function is unsafe for general use, so placed in namespace detail
+  namespace detail
   {
     //  general reverse_value function template implementation approach using std::reverse
     //  suggested by Mathias Gaunard
@@ -250,7 +260,45 @@ namespace endian
         reinterpret_cast<char*>(&tmp) + sizeof(T));
       return tmp;
     }
-  }
+    template <class T>
+      inline void big_reverse_copy(T from, char* to) BOOST_NOEXCEPT
+      {
+#     ifdef BOOST_BIG_ENDIAN
+        std::memcpy(to, reinterpret_cast<const char*>(&from), sizeof(T));
+#     else
+        std::reverse_copy(reinterpret_cast<const char*>(&from),
+          reinterpret_cast<const char*>(&from)+sizeof(T), to);
+#     endif
+      }
+    template <class T>
+      inline void big_reverse_copy(const char* from, T& to) BOOST_NOEXCEPT
+      {
+#     ifdef BOOST_BIG_ENDIAN
+        std::memcpy(reinterpret_cast<char*>(&to), from, sizeof(T));
+#     else
+        std::reverse_copy(from, from+sizeof(T), reinterpret_cast<char*>(&to));
+#     endif
+      }
+    template <class T>
+      inline void little_reverse_copy(T from, char* to) BOOST_NOEXCEPT
+      {
+#     ifdef BOOST_LITTLE_ENDIAN
+        std::memcpy(to, reinterpret_cast<const char*>(&from), sizeof(T));
+#     else
+        std::reverse_copy(reinterpret_cast<const char*>(&from),
+          reinterpret_cast<const char*>(&from)+sizeof(T), to);
+#     endif
+      }
+    template <class T>
+      inline void little_reverse_copy(const char* from, T& to) BOOST_NOEXCEPT
+       {
+#     ifdef BOOST_LITTLE_ENDIAN
+        std::memcpy(reinterpret_cast<char*>(&to), from, sizeof(T));
+#     else
+        std::reverse_copy(from, from+sizeof(T), reinterpret_cast<char*>(&to));
+#     endif
+      }
+ }
 
   template <class ReversibleValue >
   inline ReversibleValue  big_endian_value(ReversibleValue  x) BOOST_NOEXCEPT

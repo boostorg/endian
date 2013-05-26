@@ -13,6 +13,8 @@
 
 //--------------------------------------------------------------------------------------//
 
+#define _SCL_SECURE_NO_WARNINGS
+
 #include "speed_test_functions.hpp"
 
 namespace user
