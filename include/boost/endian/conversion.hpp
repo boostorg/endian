@@ -127,7 +127,7 @@ namespace endian
 
   namespace detail
   // These functions are unsafe for general use, so is placed in namespace detail.
-  // Think of what happens if you reverse_value a std::pair<int16_t, int_16_t>; the bytes
+  // Think of what happens if you reverse_value a std::pair<int16_t, int_int16un_t>; the bytes
   // from first end up in second and the bytes from second end up in first. Not good! 
   {
     //  general reverse_value function template useful in testing

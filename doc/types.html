@@ -192,8 +192,9 @@ will no longer be relying on unspecified behavior.</p>
   <li>Big endian| little endian | native endian byte ordering.</li>
   <li>Signed | unsigned</li>
   <li>Unaligned | aligned</li>
+  <li>Integer | floating point</li>
   <li>1-8 byte (unaligned) | 2, 4, 8 byte (aligned)</li>
-  <li>Choice of integer value type</li>
+  <li>Choice of  value type</li>
 </ul>
 <h2>Enums and t<a name="Types">ypedefs</a></h2>
 <p>Two scoped enums are provided:</p>
@@ -233,6 +234,13 @@ conventions for common use cases:</p>
     <td width="49%" align="center"><code>yes</code></td>
   </tr>
   <tr>
+    <td width="18%"><code>big_float</code><i><b>n</b></i><code>_t</code></td>
+    <td width="10%" align="center"><code>big</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">32,64</td>
+    <td width="49%" align="center"><code>yes</code></td>
+  </tr>
+  <tr>
     <td width="18%"><code>little_int</code><i><b>n</b></i><code>_t</code></td>
     <td width="10%" align="center"><code>little</code></td>
     <td width="10%" align="center">signed</td>
@@ -247,42 +255,63 @@ conventions for common use cases:</p>
     <td width="49%" align="center"><code>yes</code></td>
   </tr>
   <tr>
-    <td width="18%"><code>big_</code><b><i>n</i></b><code>_t</code></td>
+    <td width="18%"><code>little_float</code><i><b>n</b></i><code>_t</code></td>
+    <td width="10%" align="center"><code>little</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">32,64</td>
+    <td width="49%" align="center"><code>yes</code></td>
+  </tr>
+  <tr>
+    <td width="18%"><code>big_int</code><b><i>n</i></b><code>un_t</code></td>
     <td width="10%" align="center"><code>big</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">8,16,24,32,40,48,56,64</td>
     <td width="49%" align="center"><code>no</code></td>
   </tr>
   <tr>
-    <td width="18%"><code>big_u</code><i><b>n</b></i><code>_t</code></td>
+    <td width="18%"><code>big_uint</code><i><b>n</b></i><code>un_</code><code>t</code></td>
     <td width="10%" align="center"><code>big</code></td>
     <td width="10%" align="center">unsigned</td>
     <td width="15%">8,16,24,32,40,48,56,64</td>
     <td width="49%" align="center"><code>no</code></td>
   </tr>
   <tr>
-    <td width="18%"><code>little_</code><i><b>n</b></i><code>_t</code></td>
+    <td width="18%"><code>big_float</code><i><b>n</b></i><code>un_t</code></td>
+    <td width="10%" align="center"><code>big</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">32,64</td>
+    <td width="49%" align="center"><code>no</code></td>
+  </tr>
+  <tr>
+    <td width="18%"><code>little_int</code><i><b>n</b></i><code>un_</code><code>t</code></td>
     <td width="10%" align="center"><code>little</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">8,16,24,32,40,48,56,64</td>
     <td width="49%" align="center"><code>no</code></td>
   </tr>
   <tr>
-    <td width="18%"><code>little_u</code><i><b>n</b></i><code>_t</code></td>
+    <td width="18%"><code>little_uint</code><i><b>n</b></i><code>un_</code><code>t</code></td>
     <td width="10%" align="center"><code>little</code></td>
     <td width="10%" align="center">unsigned</td>
     <td width="15%">8,16,24,32,40,48,56,64</td>
     <td width="49%" align="center"><code>no</code></td>
   </tr>
   <tr>
-    <td width="18%"><code>native_</code><i><b>n</b></i><code>_t</code></td>
+    <td width="18%"><code>little_float</code><i><b>n</b></i><code>un_t</code></td>
+    <td width="10%" align="center"><code>little</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">32,64</td>
+    <td width="49%" align="center"><code>no</code></td>
+  </tr>
+  <tr>
+    <td width="18%"><code>native_int</code><i><b>n</b></i><code>un_</code><code>t</code></td>
     <td width="10%" align="center"><code>native</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">8,16,24,32,40,48,56,64</td>
     <td width="49%" align="center"><code>no</code></td>
   </tr>
   <tr>
-    <td width="18%"><code>native_u</code><i><b>n</b></i><code>_t</code></td>
+    <td width="18%"><code>native_uint</code><i><b>n</b></i><code>un_</code><code>t</code></td>
     <td width="10%" align="center"><code>native</code></td>
     <td width="10%" align="center">unsigned</td>
     <td width="15%">8,16,24,32,40,48,56,64</td>
@@ -294,27 +323,13 @@ conventions for common use cases:</p>
 and structs. This is an important characteristic that can be exploited to minimize wasted space in 
 memory, files, and network transmissions. </p>
 <p><font color="#FF0000"><b><i><span style="background-color: #FFFFFF">Warning:</span></i></b></font><span style="background-color: #FFFFFF"> 
-Code that uses a</span>ligned types is inherently non-portable because alignment 
+Code that uses a</span>ligned types is possibly non-portable because alignment 
 requirements vary between hardware architectures and because alignment may be 
 affected by compiler switches or pragmas. Furthermore, aligned types 
 are only available on architectures with 16, 32, and 64-bit integer types.</p>
-<p><b><i>Note:</i></b> One-byte big-endian, little-endian, and native-endian types 
+<p><b><i>Note:</i></b> One-byte types 
 have identical 
 functionality. They are provided to improve code readability and searchability.</p>
-<h3><a name="Comment-on-naming">Comment on naming</a></h3>
-<p>When first exposed to endian types, programmers often fit them into a mental model 
-based on the <code>&lt;cstdint&gt;</code> types. Using that model, it is natural to 
-expect a 56-bit big-endian signed integer to be named <code>int_big56_t</code> 
-rather than <code>big56_t</code>.</p>
-<p>As experience using these type grows, the realization creeps in that they are 
-lousy arithmetic integers - they are really byte holders that for convenience 
-support arithmetic operations - and  for use in internal interfaces or 
-anything more than trivial arithmetic computations it is far better to convert 
-values of these endian types to traditional integer types.</p>
-<p>That seems to lead to formation of a new mental model specific to endian byte-holder types. In that model, the endianness 
-is the key feature, and the integer aspect is downplayed. 
-Once that mental transition is made, a name like <code>big56_t</code> is a good 
-reflection of the mental model</p>
 <h2><a name="Class_template_endian">Class template <code>endian</code></a></h2>
 <p>An endian is an integer byte-holder with user-specified <a href="#endianness">
 endianness</a>, value type, size, and <a href="#alignment">alignment</a>. The 
@@ -364,88 +379,103 @@ usual operations on integers are supplied.</p>
       endian operator--(endian&amp; x, int) noexcept;
     };
 
+    typedef endian&lt;order::big, float, 32, align::yes&gt;        big_float32_t;
+    typedef endian&lt;order::big, double, 64, align::yes&gt;       big_float64_t;
+  
+    // aligned little endian floating point types
+    typedef endian&lt;order::little, float, 32, align::yes&gt;     little_float32_t;
+    typedef endian&lt;order::little, double, 64, align::yes&gt;    little_float64_t;
+  
+    // unaligned big endian floating point types
+    typedef endian&lt;order::big, float, 32, align::no&gt;         big_float32un_t;
+    typedef endian&lt;order::big, double, 64, align::no&gt;        big_float64un_t;
+  
+    // unaligned little endian floating point types
+    typedef endian&lt;order::little, float, 32, align::no&gt;      little_float32un_t;
+    typedef endian&lt;order::little, double, 64, align::no&gt;     little_float64un_t;
+  
     // aligned big endian signed integer types
-    typedef endian&lt;order::big, int16_t, 16, align::yes&gt; big_int16_t;
-    typedef endian&lt;order::big, int32_t, 32, align::yes&gt; big_int32_t;
-    typedef endian&lt;order::big, int64_t, 64, align::yes&gt; big_int64_t;
-
+    typedef endian&lt;order::big, int16_t, 16, align::yes&gt;      big_int16_t;
+    typedef endian&lt;order::big, int32_t, 32, align::yes&gt;      big_int32_t;
+    typedef endian&lt;order::big, int64_t, 64, align::yes&gt;      big_int64_t;
+  
     // aligned big endian unsigned integer types
-    typedef endian&lt;order::big, uint16_t, 16, align::yes&gt; big_uint16_t;
-    typedef endian&lt;order::big, uint32_t, 32, align::yes&gt; big_uint32_t;
-    typedef endian&lt;order::big, uint64_t, 64, align::yes&gt; big_uint64_t;
-
+    typedef endian&lt;order::big, uint16_t, 16, align::yes&gt;     big_uint16_t;
+    typedef endian&lt;order::big, uint32_t, 32, align::yes&gt;     big_uint32_t;
+    typedef endian&lt;order::big, uint64_t, 64, align::yes&gt;     big_uint64_t;
+  
     // aligned little endian signed integer types
-    typedef endian&lt;order::little, int16_t, 16, align::yes&gt; little_int16_t;
-    typedef endian&lt;order::little, int32_t, 32, align::yes&gt; little_int32_t;
-    typedef endian&lt;order::little, int64_t, 64, align::yes&gt; little_int64_t;
-
+    typedef endian&lt;order::little, int16_t, 16, align::yes&gt;   little_int16_t;
+    typedef endian&lt;order::little, int32_t, 32, align::yes&gt;   little_int32_t;
+    typedef endian&lt;order::little, int64_t, 64, align::yes&gt;   little_int64_t;
+  
     // aligned little endian unsigned integer types
-    typedef endian&lt;order::little, uint16_t, 16, align::yes&gt; little_uint16_t;
-    typedef endian&lt;order::little, uint32_t, 32, align::yes&gt; little_uint32_t;
-    typedef endian&lt;order::little, uint64_t, 64, align::yes&gt; little_uint64_t;
-
+    typedef endian&lt;order::little, uint16_t, 16, align::yes&gt;  little_uint16_t;
+    typedef endian&lt;order::little, uint32_t, 32, align::yes&gt;  little_uint32_t;
+    typedef endian&lt;order::little, uint64_t, 64, align::yes&gt;  little_uint64_t;
+  
     // aligned native endian typedefs are not provided because
     // &lt;cstdint&gt; types are superior for this use case
-
+  
     // unaligned big endian signed integer types
-    typedef endian&lt;order::big, int_least8_t, 8&gt;   big_8_t;
-    typedef endian&lt;order::big, int_least16_t, 16&gt; big_16_t;
-    typedef endian&lt;order::big, int_least32_t, 24&gt; big_24_t;
-    typedef endian&lt;order::big, int_least32_t, 32&gt; big_32_t;
-    typedef endian&lt;order::big, int_least64_t, 40&gt; big_40_t;
-    typedef endian&lt;order::big, int_least64_t, 48&gt; big_48_t;
-    typedef endian&lt;order::big, int_least64_t, 56&gt; big_56_t;
-    typedef endian&lt;order::big, int_least64_t, 64&gt; big_64_t;
-
+    typedef endian&lt;order::big, int_least8_t, 8&gt;        big_int8un_t;
+    typedef endian&lt;order::big, int_least16_t, 16&gt;      big_int16un_t;
+    typedef endian&lt;order::big, int_least32_t, 24&gt;      big_int24un_t;
+    typedef endian&lt;order::big, int_least32_t, 32&gt;      big_int32un_t;
+    typedef endian&lt;order::big, int_least64_t, 40&gt;      big_int40un_t;
+    typedef endian&lt;order::big, int_least64_t, 48&gt;      big_int48un_t;
+    typedef endian&lt;order::big, int_least64_t, 56&gt;      big_int56un_t;
+    typedef endian&lt;order::big, int_least64_t, 64&gt;      big_int64un_t;
+  
     // unaligned big endian unsigned integer types
-    typedef endian&lt;order::big, uint_least8_t, 8&gt;   big_u8_t;
-    typedef endian&lt;order::big, uint_least16_t, 16&gt; big_u16_t;
-    typedef endian&lt;order::big, uint_least32_t, 24&gt; big_u24_t;
-    typedef endian&lt;order::big, uint_least32_t, 32&gt; big_u32_t;
-    typedef endian&lt;order::big, uint_least64_t, 40&gt; big_u40_t;
-    typedef endian&lt;order::big, uint_least64_t, 48&gt; big_u48_t;
-    typedef endian&lt;order::big, uint_least64_t, 56&gt; big_u56_t;
-    typedef endian&lt;order::big, uint_least64_t, 64&gt; big_u64_t;
-
+    typedef endian&lt;order::big, uint_least8_t, 8&gt;       big_uint8un_t;
+    typedef endian&lt;order::big, uint_least16_t, 16&gt;     big_uint16un_t;
+    typedef endian&lt;order::big, uint_least32_t, 24&gt;     big_uint24un_t;
+    typedef endian&lt;order::big, uint_least32_t, 32&gt;     big_uint32un_t;
+    typedef endian&lt;order::big, uint_least64_t, 40&gt;     big_uint40un_t;
+    typedef endian&lt;order::big, uint_least64_t, 48&gt;     big_uint48un_t;
+    typedef endian&lt;order::big, uint_least64_t, 56&gt;     big_uint56un_t;
+    typedef endian&lt;order::big, uint_least64_t, 64&gt;     big_uint64un_t;
+  
     // unaligned little endian signed integer types
-    typedef endian&lt;order::little, int_least8_t, 8&gt;   little_8_t;
-    typedef endian&lt;order::little, int_least16_t, 16&gt; little_16_t;
-    typedef endian&lt;order::little, int_least32_t, 24&gt; little_24_t;
-    typedef endian&lt;order::little, int_least32_t, 32&gt; little_32_t;
-    typedef endian&lt;order::little, int_least64_t, 40&gt; little_40_t;
-    typedef endian&lt;order::little, int_least64_t, 48&gt; little_48_t;
-    typedef endian&lt;order::little, int_least64_t, 56&gt; little_56_t;
-    typedef endian&lt;order::little, int_least64_t, 64&gt; little_64_t;
-
+    typedef endian&lt;order::little, int_least8_t, 8&gt;     little_int8un_t;
+    typedef endian&lt;order::little, int_least16_t, 16&gt;   little_int16un_t;
+    typedef endian&lt;order::little, int_least32_t, 24&gt;   little_int24un_t;
+    typedef endian&lt;order::little, int_least32_t, 32&gt;   little_int32un_t;
+    typedef endian&lt;order::little, int_least64_t, 40&gt;   little_int40un_t;
+    typedef endian&lt;order::little, int_least64_t, 48&gt;   little_int48un_t;
+    typedef endian&lt;order::little, int_least64_t, 56&gt;   little_int56un_t;
+    typedef endian&lt;order::little, int_least64_t, 64&gt;   little_int64un_t;
+  
     // unaligned little endian unsigned integer types
-    typedef endian&lt;order::little, uint_least8_t, 8&gt;   little_u8_t;
-    typedef endian&lt;order::little, uint_least16_t, 16&gt; little_u16_t;
-    typedef endian&lt;order::little, uint_least32_t, 24&gt; little_u24_t;
-    typedef endian&lt;order::little, uint_least32_t, 32&gt; little_u32_t;
-    typedef endian&lt;order::little, uint_least64_t, 40&gt; little_u40_t;
-    typedef endian&lt;order::little, uint_least64_t, 48&gt; little_u48_t;
-    typedef endian&lt;order::little, uint_least64_t, 56&gt; little_u56_t;
-    typedef endian&lt;order::little, uint_least64_t, 64&gt; little_u64_t;
-
+    typedef endian&lt;order::little, uint_least8_t, 8&gt;    little_uint8un_t;
+    typedef endian&lt;order::little, uint_least16_t, 16&gt;  little_uint16un_t;
+    typedef endian&lt;order::little, uint_least32_t, 24&gt;  little_uint24un_t;
+    typedef endian&lt;order::little, uint_least32_t, 32&gt;  little_uint32un_t;
+    typedef endian&lt;order::little, uint_least64_t, 40&gt;  little_uint40un_t;
+    typedef endian&lt;order::little, uint_least64_t, 48&gt;  little_uint48un_t;
+    typedef endian&lt;order::little, uint_least64_t, 56&gt;  little_uint56un_t;
+    typedef endian&lt;order::little, uint_least64_t, 64&gt;  little_uint64un_t;
+  
     // unaligned native endian signed integer types
-    typedef endian&lt;order::native, int_least8_t, 8&gt;   native_8_t;
-    typedef endian&lt;order::native, int_least16_t, 16&gt; native_16_t;
-    typedef endian&lt;order::native, int_least32_t, 24&gt; native_24_t;
-    typedef endian&lt;order::native, int_least32_t, 32&gt; native_32_t;
-    typedef endian&lt;order::native, int_least64_t, 40&gt; native_40_t;
-    typedef endian&lt;order::native, int_least64_t, 48&gt; native_48_t;
-    typedef endian&lt;order::native, int_least64_t, 56&gt; native_56_t;
-    typedef endian&lt;order::native, int_least64_t, 64&gt; native_64_t;
-
+    typedef endian&lt;order::native, int_least8_t, 8&gt;     native_int8un_t;
+    typedef endian&lt;order::native, int_least16_t, 16&gt;   native_int16un_t;
+    typedef endian&lt;order::native, int_least32_t, 24&gt;   native_int24un_t;
+    typedef endian&lt;order::native, int_least32_t, 32&gt;   native_int32un_t;
+    typedef endian&lt;order::native, int_least64_t, 40&gt;   native_int40un_t;
+    typedef endian&lt;order::native, int_least64_t, 48&gt;   native_int48un_t;
+    typedef endian&lt;order::native, int_least64_t, 56&gt;   native_int56un_t;
+    typedef endian&lt;order::native, int_least64_t, 64&gt;   native_int64un_t;
+  
     // unaligned native endian unsigned integer types
-    typedef endian&lt;order::native, uint_least8_t, 8&gt;   native_u8_t;
-    typedef endian&lt;order::native, uint_least16_t, 16&gt; native_u16_t;
-    typedef endian&lt;order::native, uint_least32_t, 24&gt; native_u24_t;
-    typedef endian&lt;order::native, uint_least32_t, 32&gt; native_u32_t;
-    typedef endian&lt;order::native, uint_least64_t, 40&gt; native_u40_t;
-    typedef endian&lt;order::native, uint_least64_t, 48&gt; native_u48_t;
-    typedef endian&lt;order::native, uint_least64_t, 56&gt; native_u56_t;
-    typedef endian&lt;order::native, uint_least64_t, 64&gt; native_u64_t;
+    typedef endian&lt;order::native, uint_least8_t, 8&gt;    native_uint8un_t;
+    typedef endian&lt;order::native, uint_least16_t, 16&gt;  native_uint16un_t;
+    typedef endian&lt;order::native, uint_least32_t, 24&gt;  native_uint24un_t;
+    typedef endian&lt;order::native, uint_least32_t, 32&gt;  native_uint32un_t;
+    typedef endian&lt;order::native, uint_least64_t, 40&gt;  native_uint40un_t;
+    typedef endian&lt;order::native, uint_least64_t, 48&gt;  native_uint48un_t;
+    typedef endian&lt;order::native, uint_least64_t, 56&gt;  native_uint56un_t;
+    typedef endian&lt;order::native, uint_least64_t, 64&gt;  native_uint64un_t;
 
   } // namespace endian
 } // namespace boost</pre>
@@ -513,7 +543,7 @@ use of Boost.Endian with
 real compilers.</p>
 <p><b>Which is better, big-endian or little-endian?</b> Big-endian tends to be a 
 bit more of an industry standard, but little-endian may be preferred for 
-applications that run primarily on x86 (Intel/AMD) and other little-endian 
+applications that run primarily Intel/AMD on x86, x64, and other little-endian 
 CPU's. The <a href="http://en.wikipedia.org/wiki/Endian">Wikipedia</a> article 
 gives more pros and cons.</p>
 <p><b>What good is <i>native </i>endianness?</b> It  provides alignment and 
@@ -526,8 +556,8 @@ common CPU architectures, that optimization is only available for aligned types.
 That  allows I/O of maximally efficient types on an application's primary 
 platform, yet produces data files are portable to all platforms. The code, 
 however, is 
-likely to be more fragile and less portable than with the unaligned types.</p>
-<p><b>These types are really just byte-holders. Why provide the arithmetic 
+likely to be somewhat less portable than with the unaligned types.</p>
+<p><b>The endian types are really just byte-holders. Why provide the arithmetic 
 operations at all?</b> Providing a full set of operations reduces program 
 clutter and makes code both easier to write and to read. Consider 
 incrementing a variable in a record. It is very convenient to write:</p>
@@ -536,7 +566,7 @@ incrementing a variable in a record. It is very convenient to write:</p>
 <pre wrap>    int temp(record.foo);
     ++temp;
     record.foo = temp;</pre>
-<h2><a name="Design">Design</a> considerations for Boost.Endian integers</h2>
+<h2><a name="Design">Design</a> considerations for Boost.Endian types</h2>
 <ul>
   <li>Must be suitable for I/O - in other words, must be memcpyable.</li>
   <li>Must provide exactly the size and internal byte ordering specified.</li>
@@ -552,18 +582,17 @@ incrementing a variable in a record. It is very convenient to write:</p>
   <li>Unaligned types must not cause compilers to insert padding bytes.</li>
   <li>The implementation should supply optimizations only in very limited 
   circumstances. Experience has shown that optimizations of endian 
-  integers often become pessimizations. While this may be obvious when changing 
-  machines or compilers, it also happens when changing compiler switches, 
+  integers often become pessimizations when changing 
+  machines or compilers. Pessimizations can also happen when changing compiler switches, 
   compiler versions, or CPU models of the same architecture.</li>
   <li>It is better software engineering if the same implementation works regardless 
-  of the CPU endianness. In other words, #ifdefs should be avoided where 
-  possible.</li>
+  of the CPU endianness. In other words, #ifdefs should be avoided in user code.</li>
 </ul>
 <h2><a name="Experience">Experience</a></h2>
 <p>Classes with similar functionality have been independently developed by 
 several Boost programmers and used very successful in high-value, high-use 
 applications for many years. These independently developed endian libraries 
-often evolved from C libraries that were also widely used. Endian integers have proven widely useful across a wide 
+often evolved from C libraries that were also widely used. Endian types have proven widely useful across a wide 
 range of computer architectures and applications.</p>
 <h2><a name="Motivating-use-cases">Motivating use cases</a></h2>
 <p>Neil Mayhew writes: &quot;I can also provide a meaningful use-case for this 
@@ -603,8 +632,8 @@ sign partial specialization to correctly extend the sign when cover integer size
 differs from endian representation size.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->22 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13980" --></p>
-<p>© Copyright Beman Dawes, 2006-2009</p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->26 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13988" --></p>
+<p>Â© Copyright Beman Dawes, 2006-2009</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
 

@@ -155,59 +155,59 @@ namespace
 
   void check_data()
   {
-    big_8_t big_8;
-    big_16_t big_16;
-    big_24_t big_24;
-    big_32_t big_32;
-    big_40_t big_40;
-    big_48_t big_48;
-    big_56_t big_56;
-    big_64_t big_64;
+    big_int8un_t big_8;
+    big_int16un_t big_16;
+    big_int24un_t big_24;
+    big_int32un_t big_32;
+    big_int40un_t big_40;
+    big_int48un_t big_48;
+    big_int56un_t big_56;
+    big_int64un_t big_64;
 
-    big_u8_t big_u8;
-    big_u16_t big_u16;
-    big_u24_t big_u24;
-    big_u32_t big_u32;
-    big_u40_t big_u40;
-    big_u48_t big_u48;
-    big_u56_t big_u56;
-    big_u64_t big_u64;
+    big_uint8un_t big_u8;
+    big_uint16un_t big_u16;
+    big_uint24un_t big_u24;
+    big_uint32un_t big_u32;
+    big_uint40un_t big_u40;
+    big_uint48un_t big_u48;
+    big_uint56un_t big_u56;
+    big_uint64un_t big_u64;
 
-    little_8_t little_8;
-    little_16_t little_16;
-    little_24_t little_24;
-    little_32_t little_32;
-    little_40_t little_40;
-    little_48_t little_48;
-    little_56_t little_56;
-    little_64_t little_64;
+    little_int8un_t little_8;
+    little_int16un_t little_16;
+    little_int24un_t little_24;
+    little_int32un_t little_32;
+    little_int40un_t little_40;
+    little_int48un_t little_48;
+    little_int56un_t little_56;
+    little_int64un_t little_64;
 
-    little_u8_t little_u8;
-    little_u16_t little_u16;
-    little_u24_t little_u24;
-    little_u32_t little_u32;
-    little_u40_t little_u40;
-    little_u48_t little_u48;
-    little_u56_t little_u56;
-    little_u64_t little_u64;
+    little_uint8un_t little_u8;
+    little_uint16un_t little_u16;
+    little_uint24un_t little_u24;
+    little_uint32un_t little_u32;
+    little_uint40un_t little_u40;
+    little_uint48un_t little_u48;
+    little_uint56un_t little_u56;
+    little_uint64un_t little_u64;
 
-    native_8_t native_8;
-    native_16_t native_16;
-    native_24_t native_24;
-    native_32_t native_32;
-    native_40_t native_40;
-    native_48_t native_48;
-    native_56_t native_56;
-    native_64_t native_64;
+    native_int8un_t native_8;
+    native_int16un_t native_16;
+    native_int24un_t native_24;
+    native_int32un_t native_32;
+    native_int40un_t native_40;
+    native_int48un_t native_48;
+    native_int56un_t native_56;
+    native_int64un_t native_64;
 
-    native_u8_t native_u8;
-    native_u16_t native_u16;
-    native_u24_t native_u24;
-    native_u32_t native_u32;
-    native_u40_t native_u40;
-    native_u48_t native_u48;
-    native_u56_t native_u56;
-    native_u64_t native_u64;
+    native_uint8un_t native_u8;
+    native_uint16un_t native_u16;
+    native_uint24un_t native_u24;
+    native_uint32un_t native_u32;
+    native_uint40un_t native_u40;
+    native_uint48un_t native_u48;
+    native_uint56un_t native_u56;
+    native_uint64un_t native_u64;
 
     big_int16_t  big_int16;
     big_int32_t  big_int32;
@@ -336,59 +336,59 @@ namespace
     VERIFY_SIZE(sizeof( little_float32un_t ), 4 );
     VERIFY_SIZE(sizeof( little_float64un_t ), 8 );
 
-    VERIFY_SIZE( sizeof( big_8_t ), 1 );
-    VERIFY_SIZE( sizeof( big_16_t ), 2 );
-    VERIFY_SIZE( sizeof( big_24_t ), 3 );
-    VERIFY_SIZE( sizeof( big_32_t ), 4 );
-    VERIFY_SIZE( sizeof( big_40_t ), 5 );
-    VERIFY_SIZE( sizeof( big_48_t ), 6 );
-    VERIFY_SIZE( sizeof( big_56_t ), 7 );
-    VERIFY_SIZE( sizeof( big_64_t ), 8 );
+    VERIFY_SIZE( sizeof( big_int8un_t ), 1 );
+    VERIFY_SIZE( sizeof( big_int16un_t ), 2 );
+    VERIFY_SIZE( sizeof( big_int24un_t ), 3 );
+    VERIFY_SIZE( sizeof( big_int32un_t ), 4 );
+    VERIFY_SIZE( sizeof( big_int40un_t ), 5 );
+    VERIFY_SIZE( sizeof( big_int48un_t ), 6 );
+    VERIFY_SIZE( sizeof( big_int56un_t ), 7 );
+    VERIFY_SIZE( sizeof( big_int64un_t ), 8 );
 
-    VERIFY_SIZE( sizeof( big_u8_t ), 1 );
-    VERIFY_SIZE( sizeof( big_u16_t ), 2 );
-    VERIFY_SIZE( sizeof( big_u24_t ), 3 );
-    VERIFY_SIZE( sizeof( big_u32_t ), 4 );
-    VERIFY_SIZE( sizeof( big_u40_t ), 5 );
-    VERIFY_SIZE( sizeof( big_u48_t ), 6 );
-    VERIFY_SIZE( sizeof( big_u56_t ), 7 );
-    VERIFY_SIZE( sizeof( big_u64_t ), 8 );
+    VERIFY_SIZE( sizeof( big_uint8un_t ), 1 );
+    VERIFY_SIZE( sizeof( big_uint16un_t ), 2 );
+    VERIFY_SIZE( sizeof( big_uint24un_t ), 3 );
+    VERIFY_SIZE( sizeof( big_uint32un_t ), 4 );
+    VERIFY_SIZE( sizeof( big_uint40un_t ), 5 );
+    VERIFY_SIZE( sizeof( big_uint48un_t ), 6 );
+    VERIFY_SIZE( sizeof( big_uint56un_t ), 7 );
+    VERIFY_SIZE( sizeof( big_uint64un_t ), 8 );
 
-    VERIFY_SIZE( sizeof( little_8_t ), 1 );
-    VERIFY_SIZE( sizeof( little_16_t ), 2 );
-    VERIFY_SIZE( sizeof( little_24_t ), 3 );
-    VERIFY_SIZE( sizeof( little_32_t ), 4 );
-    VERIFY_SIZE( sizeof( little_40_t ), 5 );
-    VERIFY_SIZE( sizeof( little_48_t ), 6 );
-    VERIFY_SIZE( sizeof( little_56_t ), 7 );
-    VERIFY_SIZE( sizeof( little_64_t ), 8 );
+    VERIFY_SIZE( sizeof( little_int8un_t ), 1 );
+    VERIFY_SIZE( sizeof( little_int16un_t ), 2 );
+    VERIFY_SIZE( sizeof( little_int24un_t ), 3 );
+    VERIFY_SIZE( sizeof( little_int32un_t ), 4 );
+    VERIFY_SIZE( sizeof( little_int40un_t ), 5 );
+    VERIFY_SIZE( sizeof( little_int48un_t ), 6 );
+    VERIFY_SIZE( sizeof( little_int56un_t ), 7 );
+    VERIFY_SIZE( sizeof( little_int64un_t ), 8 );
 
-    VERIFY_SIZE( sizeof( little_u8_t ), 1 );
-    VERIFY_SIZE( sizeof( little_u16_t ), 2 );
-    VERIFY_SIZE( sizeof( little_u24_t ), 3 );
-    VERIFY_SIZE( sizeof( little_u32_t ), 4 );
-    VERIFY_SIZE( sizeof( little_u40_t ), 5 );
-    VERIFY_SIZE( sizeof( little_u48_t ), 6 );
-    VERIFY_SIZE( sizeof( little_u56_t ), 7 );
-    VERIFY_SIZE( sizeof( little_u64_t ), 8 );
+    VERIFY_SIZE( sizeof( little_uint8un_t ), 1 );
+    VERIFY_SIZE( sizeof( little_uint16un_t ), 2 );
+    VERIFY_SIZE( sizeof( little_uint24un_t ), 3 );
+    VERIFY_SIZE( sizeof( little_uint32un_t ), 4 );
+    VERIFY_SIZE( sizeof( little_uint40un_t ), 5 );
+    VERIFY_SIZE( sizeof( little_uint48un_t ), 6 );
+    VERIFY_SIZE( sizeof( little_uint56un_t ), 7 );
+    VERIFY_SIZE( sizeof( little_uint64un_t ), 8 );
 
-    VERIFY_SIZE( sizeof( native_8_t ), 1 );
-    VERIFY_SIZE( sizeof( native_16_t ), 2 );
-    VERIFY_SIZE( sizeof( native_24_t ), 3 );
-    VERIFY_SIZE( sizeof( native_32_t ), 4 );
-    VERIFY_SIZE( sizeof( native_40_t ), 5 );
-    VERIFY_SIZE( sizeof( native_48_t ), 6 );
-    VERIFY_SIZE( sizeof( native_56_t ), 7 );
-    VERIFY_SIZE( sizeof( native_64_t ), 8 );
+    VERIFY_SIZE( sizeof( native_int8un_t ), 1 );
+    VERIFY_SIZE( sizeof( native_int16un_t ), 2 );
+    VERIFY_SIZE( sizeof( native_int24un_t ), 3 );
+    VERIFY_SIZE( sizeof( native_int32un_t ), 4 );
+    VERIFY_SIZE( sizeof( native_int40un_t ), 5 );
+    VERIFY_SIZE( sizeof( native_int48un_t ), 6 );
+    VERIFY_SIZE( sizeof( native_int56un_t ), 7 );
+    VERIFY_SIZE( sizeof( native_int64un_t ), 8 );
 
-    VERIFY_SIZE( sizeof( native_u8_t ), 1 );
-    VERIFY_SIZE( sizeof( native_u16_t ), 2 );
-    VERIFY_SIZE( sizeof( native_u24_t ), 3 );
-    VERIFY_SIZE( sizeof( native_u32_t ), 4 );
-    VERIFY_SIZE( sizeof( native_u40_t ), 5 );
-    VERIFY_SIZE( sizeof( native_u48_t ), 6 );
-    VERIFY_SIZE( sizeof( native_u56_t ), 7 );
-    VERIFY_SIZE( sizeof( native_u64_t ), 8 );
+    VERIFY_SIZE( sizeof( native_uint8un_t ), 1 );
+    VERIFY_SIZE( sizeof( native_uint16un_t ), 2 );
+    VERIFY_SIZE( sizeof( native_uint24un_t ), 3 );
+    VERIFY_SIZE( sizeof( native_uint32un_t ), 4 );
+    VERIFY_SIZE( sizeof( native_uint40un_t ), 5 );
+    VERIFY_SIZE( sizeof( native_uint48un_t ), 6 );
+    VERIFY_SIZE( sizeof( native_uint56un_t ), 7 );
+    VERIFY_SIZE( sizeof( native_uint64un_t ), 8 );
 
     VERIFY_SIZE( sizeof( big_int16_t ), 2 );
     VERIFY_SIZE( sizeof( big_int32_t ), 4 );
@@ -416,92 +416,92 @@ namespace
 
     struct big_struct
     {
-      big_8_t    v0;
-      big_16_t    v1;
-      big_24_t    v3;
+      big_int8un_t    v0;
+      big_int16un_t    v1;
+      big_int24un_t    v3;
       char      v6;
-      big_32_t    v7;
-      big_40_t    v11;
+      big_int32un_t    v7;
+      big_int40un_t    v11;
       char      v16;
-      big_48_t    v17;
-      big_56_t    v23;
+      big_int48un_t    v17;
+      big_int56un_t    v23;
       char      v30;
-      big_64_t    v31;
+      big_int64un_t    v31;
     };
 
     struct big_u_struct
     {
-      big_u8_t    v0;
-      big_u16_t    v1;
-      big_u24_t    v3;
+      big_uint8un_t    v0;
+      big_uint16un_t    v1;
+      big_uint24un_t    v3;
       char       v6;
-      big_u32_t    v7;
-      big_u40_t    v11;
+      big_uint32un_t    v7;
+      big_uint40un_t    v11;
       char       v16;
-      big_u48_t    v17;
-      big_u56_t    v23;
+      big_uint48un_t    v17;
+      big_uint56un_t    v23;
       char       v30;
-      big_u64_t    v31;
+      big_uint64un_t    v31;
     };
 
     struct little_struct
     {
-      little_8_t    v0;
-      little_16_t    v1;
-      little_24_t    v3;
+      little_int8un_t    v0;
+      little_int16un_t    v1;
+      little_int24un_t    v3;
       char         v6;
-      little_32_t    v7;
-      little_40_t    v11;
+      little_int32un_t    v7;
+      little_int40un_t    v11;
       char         v16;
-      little_48_t    v17;
-      little_56_t    v23;
+      little_int48un_t    v17;
+      little_int56un_t    v23;
       char         v30;
-      little_64_t    v31;
+      little_int64un_t    v31;
     };
 
     struct little_u_struct
     {
-      little_u8_t    v0;
-      little_u16_t    v1;
-      little_u24_t    v3;
+      little_uint8un_t    v0;
+      little_uint16un_t    v1;
+      little_uint24un_t    v3;
       char          v6;
-      little_u32_t    v7;
-      little_u40_t    v11;
+      little_uint32un_t    v7;
+      little_uint40un_t    v11;
       char          v16;
-      little_u48_t    v17;
-      little_u56_t    v23;
+      little_uint48un_t    v17;
+      little_uint56un_t    v23;
       char          v30;
-      little_u64_t    v31;
+      little_uint64un_t    v31;
     };
 
     struct native_struct
     {
-      native_8_t    v0;
-      native_16_t    v1;
-      native_24_t    v3;
+      native_int8un_t    v0;
+      native_int16un_t    v1;
+      native_int24un_t    v3;
       char         v6;
-      native_32_t    v7;
-      native_40_t    v11;
+      native_int32un_t    v7;
+      native_int40un_t    v11;
       char         v16;
-      native_48_t    v17;
-      native_56_t    v23;
+      native_int48un_t    v17;
+      native_int56un_t    v23;
       char         v30;
-      native_64_t    v31;
+      native_int64un_t    v31;
     };
 
     struct native_u_struct
     {
-      native_u8_t    v0;
-      native_u16_t    v1;
-      native_u24_t    v3;
+      native_uint8un_t    v0;
+      native_uint16un_t    v1;
+      native_uint24un_t    v3;
       char          v6;
-      native_u32_t    v7;
-      native_u40_t    v11;
+      native_uint32un_t    v7;
+      native_uint40un_t    v11;
       char          v16;
-      native_u48_t    v17;
-      native_u56_t    v23;
+      native_uint48un_t    v17;
+      native_uint56un_t    v23;
       char          v30;
-      native_u64_t    v31;
+      native_uint64un_t    v31;
     };
 
     struct big_float_struct
@@ -639,173 +639,173 @@ namespace
     VERIFY(a==e);
 
     // unaligned integer types
-    VERIFY_BIG_REPRESENTATION( big_8_t );
-    VERIFY_VALUE_AND_OPS( big_8_t, int_least8_t,  0x7f );
-    VERIFY_VALUE_AND_OPS( big_8_t, int_least8_t, -0x80 );
+    VERIFY_BIG_REPRESENTATION( big_int8un_t );
+    VERIFY_VALUE_AND_OPS( big_int8un_t, int_least8_t,  0x7f );
+    VERIFY_VALUE_AND_OPS( big_int8un_t, int_least8_t, -0x80 );
 
-    VERIFY_BIG_REPRESENTATION( big_16_t );
-    VERIFY_VALUE_AND_OPS( big_16_t, int_least16_t,  0x7fff );
-    VERIFY_VALUE_AND_OPS( big_16_t, int_least16_t, -0x8000 );
+    VERIFY_BIG_REPRESENTATION( big_int16un_t );
+    VERIFY_VALUE_AND_OPS( big_int16un_t, int_least16_t,  0x7fff );
+    VERIFY_VALUE_AND_OPS( big_int16un_t, int_least16_t, -0x8000 );
 
-    VERIFY_BIG_REPRESENTATION( big_24_t );
-    VERIFY_VALUE_AND_OPS( big_24_t, int_least32_t,  0x7fffff );
-    VERIFY_VALUE_AND_OPS( big_24_t, int_least32_t, -0x800000 );
+    VERIFY_BIG_REPRESENTATION( big_int24un_t );
+    VERIFY_VALUE_AND_OPS( big_int24un_t, int_least32_t,  0x7fffff );
+    VERIFY_VALUE_AND_OPS( big_int24un_t, int_least32_t, -0x800000 );
 
-    VERIFY_BIG_REPRESENTATION( big_32_t );
-    VERIFY_VALUE_AND_OPS( big_32_t, int_least32_t,  0x7fffffff );
-    VERIFY_VALUE_AND_OPS( big_32_t, int_least32_t, -0x7fffffff-1 );
+    VERIFY_BIG_REPRESENTATION( big_int32un_t );
+    VERIFY_VALUE_AND_OPS( big_int32un_t, int_least32_t,  0x7fffffff );
+    VERIFY_VALUE_AND_OPS( big_int32un_t, int_least32_t, -0x7fffffff-1 );
 
-    VERIFY_BIG_REPRESENTATION( big_40_t );
-    VERIFY_VALUE_AND_OPS( big_40_t, int_least64_t,  0x7fffffffffLL );
-    VERIFY_VALUE_AND_OPS( big_40_t, int_least64_t, -0x8000000000LL );
+    VERIFY_BIG_REPRESENTATION( big_int40un_t );
+    VERIFY_VALUE_AND_OPS( big_int40un_t, int_least64_t,  0x7fffffffffLL );
+    VERIFY_VALUE_AND_OPS( big_int40un_t, int_least64_t, -0x8000000000LL );
 
-    VERIFY_BIG_REPRESENTATION( big_48_t );
-    VERIFY_VALUE_AND_OPS( big_48_t, int_least64_t,  0x7fffffffffffLL );
-    VERIFY_VALUE_AND_OPS( big_48_t, int_least64_t, -0x800000000000LL );
+    VERIFY_BIG_REPRESENTATION( big_int48un_t );
+    VERIFY_VALUE_AND_OPS( big_int48un_t, int_least64_t,  0x7fffffffffffLL );
+    VERIFY_VALUE_AND_OPS( big_int48un_t, int_least64_t, -0x800000000000LL );
 
-    VERIFY_BIG_REPRESENTATION( big_56_t );
-    VERIFY_VALUE_AND_OPS( big_56_t, int_least64_t,  0x7fffffffffffffLL );
-    VERIFY_VALUE_AND_OPS( big_56_t, int_least64_t, -0x80000000000000LL );
+    VERIFY_BIG_REPRESENTATION( big_int56un_t );
+    VERIFY_VALUE_AND_OPS( big_int56un_t, int_least64_t,  0x7fffffffffffffLL );
+    VERIFY_VALUE_AND_OPS( big_int56un_t, int_least64_t, -0x80000000000000LL );
 
-    VERIFY_BIG_REPRESENTATION( big_64_t );
-    VERIFY_VALUE_AND_OPS( big_64_t, int_least64_t,  0x7fffffffffffffffLL );
-    VERIFY_VALUE_AND_OPS( big_64_t, int_least64_t, -0x7fffffffffffffffLL-1 );
+    VERIFY_BIG_REPRESENTATION( big_int64un_t );
+    VERIFY_VALUE_AND_OPS( big_int64un_t, int_least64_t,  0x7fffffffffffffffLL );
+    VERIFY_VALUE_AND_OPS( big_int64un_t, int_least64_t, -0x7fffffffffffffffLL-1 );
 
-    VERIFY_BIG_REPRESENTATION( big_u8_t );
-    VERIFY_VALUE_AND_OPS( big_u8_t, uint_least8_t,  0xff );
+    VERIFY_BIG_REPRESENTATION( big_uint8un_t );
+    VERIFY_VALUE_AND_OPS( big_uint8un_t, uint_least8_t,  0xff );
 
-    VERIFY_BIG_REPRESENTATION( big_u16_t );
-    VERIFY_VALUE_AND_OPS( big_u16_t, uint_least16_t, 0xffff );
+    VERIFY_BIG_REPRESENTATION( big_uint16un_t );
+    VERIFY_VALUE_AND_OPS( big_uint16un_t, uint_least16_t, 0xffff );
 
-    VERIFY_BIG_REPRESENTATION( big_u24_t );
-    VERIFY_VALUE_AND_OPS( big_u24_t, uint_least32_t, 0xffffff );
+    VERIFY_BIG_REPRESENTATION( big_uint24un_t );
+    VERIFY_VALUE_AND_OPS( big_uint24un_t, uint_least32_t, 0xffffff );
 
-    VERIFY_BIG_REPRESENTATION( big_u32_t );
-    VERIFY_VALUE_AND_OPS( big_u32_t, uint_least32_t, 0xffffffff );
+    VERIFY_BIG_REPRESENTATION( big_uint32un_t );
+    VERIFY_VALUE_AND_OPS( big_uint32un_t, uint_least32_t, 0xffffffff );
 
-    VERIFY_BIG_REPRESENTATION( big_u40_t );
-    VERIFY_VALUE_AND_OPS( big_u40_t, uint_least64_t, 0xffffffffffLL );
+    VERIFY_BIG_REPRESENTATION( big_uint40un_t );
+    VERIFY_VALUE_AND_OPS( big_uint40un_t, uint_least64_t, 0xffffffffffLL );
 
-    VERIFY_BIG_REPRESENTATION( big_u48_t );
-    VERIFY_VALUE_AND_OPS( big_u48_t, uint_least64_t, 0xffffffffffffLL );
+    VERIFY_BIG_REPRESENTATION( big_uint48un_t );
+    VERIFY_VALUE_AND_OPS( big_uint48un_t, uint_least64_t, 0xffffffffffffLL );
 
-    VERIFY_BIG_REPRESENTATION( big_u56_t );
-    VERIFY_VALUE_AND_OPS( big_u56_t, uint_least64_t, 0xffffffffffffffLL );
+    VERIFY_BIG_REPRESENTATION( big_uint56un_t );
+    VERIFY_VALUE_AND_OPS( big_uint56un_t, uint_least64_t, 0xffffffffffffffLL );
 
-    VERIFY_BIG_REPRESENTATION( big_u64_t );
-    VERIFY_VALUE_AND_OPS( big_u64_t, uint_least64_t, 0xffffffffffffffffULL );
+    VERIFY_BIG_REPRESENTATION( big_uint64un_t );
+    VERIFY_VALUE_AND_OPS( big_uint64un_t, uint_least64_t, 0xffffffffffffffffULL );
 
-    VERIFY_LITTLE_REPRESENTATION( little_8_t );
-    VERIFY_VALUE_AND_OPS( little_8_t, int_least8_t,   0x7f );
-    VERIFY_VALUE_AND_OPS( little_8_t, int_least8_t,  -0x80 );
+    VERIFY_LITTLE_REPRESENTATION( little_int8un_t );
+    VERIFY_VALUE_AND_OPS( little_int8un_t, int_least8_t,   0x7f );
+    VERIFY_VALUE_AND_OPS( little_int8un_t, int_least8_t,  -0x80 );
 
-    VERIFY_LITTLE_REPRESENTATION( little_16_t );
-    VERIFY_VALUE_AND_OPS( little_16_t, int_least16_t,  0x7fff );
-    VERIFY_VALUE_AND_OPS( little_16_t, int_least16_t, -0x8000 );
+    VERIFY_LITTLE_REPRESENTATION( little_int16un_t );
+    VERIFY_VALUE_AND_OPS( little_int16un_t, int_least16_t,  0x7fff );
+    VERIFY_VALUE_AND_OPS( little_int16un_t, int_least16_t, -0x8000 );
 
-    VERIFY_LITTLE_REPRESENTATION( little_24_t );
-    VERIFY_VALUE_AND_OPS( little_24_t, int_least32_t,  0x7fffff );
-    VERIFY_VALUE_AND_OPS( little_24_t, int_least32_t, -0x800000 );
+    VERIFY_LITTLE_REPRESENTATION( little_int24un_t );
+    VERIFY_VALUE_AND_OPS( little_int24un_t, int_least32_t,  0x7fffff );
+    VERIFY_VALUE_AND_OPS( little_int24un_t, int_least32_t, -0x800000 );
 
-    VERIFY_LITTLE_REPRESENTATION( little_32_t );
-    VERIFY_VALUE_AND_OPS( little_32_t, int_least32_t,  0x7fffffff );
-    VERIFY_VALUE_AND_OPS( little_32_t, int_least32_t, -0x7fffffff-1 );
+    VERIFY_LITTLE_REPRESENTATION( little_int32un_t );
+    VERIFY_VALUE_AND_OPS( little_int32un_t, int_least32_t,  0x7fffffff );
+    VERIFY_VALUE_AND_OPS( little_int32un_t, int_least32_t, -0x7fffffff-1 );
 
-    VERIFY_LITTLE_REPRESENTATION( little_40_t );
-    VERIFY_VALUE_AND_OPS( little_40_t, int_least64_t,  0x7fffffffffLL );
-    VERIFY_VALUE_AND_OPS( little_40_t, int_least64_t, -0x8000000000LL );
+    VERIFY_LITTLE_REPRESENTATION( little_int40un_t );
+    VERIFY_VALUE_AND_OPS( little_int40un_t, int_least64_t,  0x7fffffffffLL );
+    VERIFY_VALUE_AND_OPS( little_int40un_t, int_least64_t, -0x8000000000LL );
 
-    VERIFY_LITTLE_REPRESENTATION( little_48_t );
-    VERIFY_VALUE_AND_OPS( little_48_t, int_least64_t,  0x7fffffffffffLL );
-    VERIFY_VALUE_AND_OPS( little_48_t, int_least64_t, -0x800000000000LL );
+    VERIFY_LITTLE_REPRESENTATION( little_int48un_t );
+    VERIFY_VALUE_AND_OPS( little_int48un_t, int_least64_t,  0x7fffffffffffLL );
+    VERIFY_VALUE_AND_OPS( little_int48un_t, int_least64_t, -0x800000000000LL );
 
-    VERIFY_LITTLE_REPRESENTATION( little_56_t );
-    VERIFY_VALUE_AND_OPS( little_56_t, int_least64_t,  0x7fffffffffffffLL );
-    VERIFY_VALUE_AND_OPS( little_56_t, int_least64_t, -0x80000000000000LL );
+    VERIFY_LITTLE_REPRESENTATION( little_int56un_t );
+    VERIFY_VALUE_AND_OPS( little_int56un_t, int_least64_t,  0x7fffffffffffffLL );
+    VERIFY_VALUE_AND_OPS( little_int56un_t, int_least64_t, -0x80000000000000LL );
 
-    VERIFY_LITTLE_REPRESENTATION( little_64_t );
-    VERIFY_VALUE_AND_OPS( little_64_t, int_least64_t,  0x7fffffffffffffffLL );
-    VERIFY_VALUE_AND_OPS( little_64_t, int_least64_t, -0x7fffffffffffffffLL-1 );
+    VERIFY_LITTLE_REPRESENTATION( little_int64un_t );
+    VERIFY_VALUE_AND_OPS( little_int64un_t, int_least64_t,  0x7fffffffffffffffLL );
+    VERIFY_VALUE_AND_OPS( little_int64un_t, int_least64_t, -0x7fffffffffffffffLL-1 );
 
-    VERIFY_LITTLE_REPRESENTATION( little_u8_t );
-    VERIFY_VALUE_AND_OPS( little_u8_t, uint_least8_t, 0xff );
+    VERIFY_LITTLE_REPRESENTATION( little_uint8un_t );
+    VERIFY_VALUE_AND_OPS( little_uint8un_t, uint_least8_t, 0xff );
 
-    VERIFY_LITTLE_REPRESENTATION( little_u16_t );
-    VERIFY_VALUE_AND_OPS( little_u16_t, uint_least16_t, 0xffff );
+    VERIFY_LITTLE_REPRESENTATION( little_uint16un_t );
+    VERIFY_VALUE_AND_OPS( little_uint16un_t, uint_least16_t, 0xffff );
 
-    VERIFY_LITTLE_REPRESENTATION( little_u24_t );
-    VERIFY_VALUE_AND_OPS( little_u24_t, uint_least32_t, 0xffffff );
+    VERIFY_LITTLE_REPRESENTATION( little_uint24un_t );
+    VERIFY_VALUE_AND_OPS( little_uint24un_t, uint_least32_t, 0xffffff );
 
-    VERIFY_LITTLE_REPRESENTATION( little_u32_t );
-    VERIFY_VALUE_AND_OPS( little_u32_t, uint_least32_t, 0xffffffff );
+    VERIFY_LITTLE_REPRESENTATION( little_uint32un_t );
+    VERIFY_VALUE_AND_OPS( little_uint32un_t, uint_least32_t, 0xffffffff );
 
-    VERIFY_LITTLE_REPRESENTATION( little_u40_t );
-    VERIFY_VALUE_AND_OPS( little_u40_t, uint_least64_t, 0xffffffffffLL );
+    VERIFY_LITTLE_REPRESENTATION( little_uint40un_t );
+    VERIFY_VALUE_AND_OPS( little_uint40un_t, uint_least64_t, 0xffffffffffLL );
 
-    VERIFY_LITTLE_REPRESENTATION( little_u48_t );
-    VERIFY_VALUE_AND_OPS( little_u48_t, uint_least64_t, 0xffffffffffffLL );
+    VERIFY_LITTLE_REPRESENTATION( little_uint48un_t );
+    VERIFY_VALUE_AND_OPS( little_uint48un_t, uint_least64_t, 0xffffffffffffLL );
 
-    VERIFY_LITTLE_REPRESENTATION( little_u56_t );
-    VERIFY_VALUE_AND_OPS( little_u56_t, uint_least64_t, 0xffffffffffffffLL );
+    VERIFY_LITTLE_REPRESENTATION( little_uint56un_t );
+    VERIFY_VALUE_AND_OPS( little_uint56un_t, uint_least64_t, 0xffffffffffffffLL );
 
-    VERIFY_LITTLE_REPRESENTATION( little_u64_t );
-    VERIFY_VALUE_AND_OPS( little_u64_t, uint_least64_t, 0xffffffffffffffffULL );
+    VERIFY_LITTLE_REPRESENTATION( little_uint64un_t );
+    VERIFY_VALUE_AND_OPS( little_uint64un_t, uint_least64_t, 0xffffffffffffffffULL );
 
-    VERIFY_NATIVE_REPRESENTATION( native_8_t );
-    VERIFY_VALUE_AND_OPS( native_8_t, int_least8_t,   0x7f );
-    VERIFY_VALUE_AND_OPS( native_8_t, int_least8_t,  -0x80 );
+    VERIFY_NATIVE_REPRESENTATION( native_int8un_t );
+    VERIFY_VALUE_AND_OPS( native_int8un_t, int_least8_t,   0x7f );
+    VERIFY_VALUE_AND_OPS( native_int8un_t, int_least8_t,  -0x80 );
 
-    VERIFY_NATIVE_REPRESENTATION( native_16_t );
-    VERIFY_VALUE_AND_OPS( native_16_t, int_least16_t,  0x7fff );
-    VERIFY_VALUE_AND_OPS( native_16_t, int_least16_t, -0x8000 );
+    VERIFY_NATIVE_REPRESENTATION( native_int16un_t );
+    VERIFY_VALUE_AND_OPS( native_int16un_t, int_least16_t,  0x7fff );
+    VERIFY_VALUE_AND_OPS( native_int16un_t, int_least16_t, -0x8000 );
 
-    VERIFY_NATIVE_REPRESENTATION( native_24_t );
-    VERIFY_VALUE_AND_OPS( native_24_t, int_least32_t,  0x7fffff );
-    VERIFY_VALUE_AND_OPS( native_24_t, int_least32_t, -0x800000 );
+    VERIFY_NATIVE_REPRESENTATION( native_int24un_t );
+    VERIFY_VALUE_AND_OPS( native_int24un_t, int_least32_t,  0x7fffff );
+    VERIFY_VALUE_AND_OPS( native_int24un_t, int_least32_t, -0x800000 );
 
-    VERIFY_NATIVE_REPRESENTATION( native_32_t );
-    VERIFY_VALUE_AND_OPS( native_32_t, int_least32_t,  0x7fffffff );
-    VERIFY_VALUE_AND_OPS( native_32_t, int_least32_t, -0x7fffffff-1 );
+    VERIFY_NATIVE_REPRESENTATION( native_int32un_t );
+    VERIFY_VALUE_AND_OPS( native_int32un_t, int_least32_t,  0x7fffffff );
+    VERIFY_VALUE_AND_OPS( native_int32un_t, int_least32_t, -0x7fffffff-1 );
 
-    VERIFY_NATIVE_REPRESENTATION( native_40_t );
-    VERIFY_VALUE_AND_OPS( native_40_t, int_least64_t,  0x7fffffffffLL );
-    VERIFY_VALUE_AND_OPS( native_40_t, int_least64_t, -0x8000000000LL );
+    VERIFY_NATIVE_REPRESENTATION( native_int40un_t );
+    VERIFY_VALUE_AND_OPS( native_int40un_t, int_least64_t,  0x7fffffffffLL );
+    VERIFY_VALUE_AND_OPS( native_int40un_t, int_least64_t, -0x8000000000LL );
 
-    VERIFY_NATIVE_REPRESENTATION( native_48_t );
-    VERIFY_VALUE_AND_OPS( native_48_t, int_least64_t,  0x7fffffffffffLL );
-    VERIFY_VALUE_AND_OPS( native_48_t, int_least64_t, -0x800000000000LL );
+    VERIFY_NATIVE_REPRESENTATION( native_int48un_t );
+    VERIFY_VALUE_AND_OPS( native_int48un_t, int_least64_t,  0x7fffffffffffLL );
+    VERIFY_VALUE_AND_OPS( native_int48un_t, int_least64_t, -0x800000000000LL );
 
-    VERIFY_NATIVE_REPRESENTATION( native_56_t );
-    VERIFY_VALUE_AND_OPS( native_56_t, int_least64_t,  0x7fffffffffffffLL );
-    VERIFY_VALUE_AND_OPS( native_56_t, int_least64_t, -0x80000000000000LL );
+    VERIFY_NATIVE_REPRESENTATION( native_int56un_t );
+    VERIFY_VALUE_AND_OPS( native_int56un_t, int_least64_t,  0x7fffffffffffffLL );
+    VERIFY_VALUE_AND_OPS( native_int56un_t, int_least64_t, -0x80000000000000LL );
 
-    VERIFY_NATIVE_REPRESENTATION( native_64_t );
-    VERIFY_VALUE_AND_OPS( native_64_t, int_least64_t,  0x7fffffffffffffffLL );
-    VERIFY_VALUE_AND_OPS( native_64_t, int_least64_t, -0x7fffffffffffffffLL-1 );
+    VERIFY_NATIVE_REPRESENTATION( native_int64un_t );
+    VERIFY_VALUE_AND_OPS( native_int64un_t, int_least64_t,  0x7fffffffffffffffLL );
+    VERIFY_VALUE_AND_OPS( native_int64un_t, int_least64_t, -0x7fffffffffffffffLL-1 );
 
-    VERIFY_NATIVE_REPRESENTATION( native_u8_t );
-    VERIFY_VALUE_AND_OPS( native_u8_t, uint_least8_t, 0xff );
+    VERIFY_NATIVE_REPRESENTATION( native_uint8un_t );
+    VERIFY_VALUE_AND_OPS( native_uint8un_t, uint_least8_t, 0xff );
 
-    VERIFY_NATIVE_REPRESENTATION( native_u16_t );
-    VERIFY_VALUE_AND_OPS( native_u16_t, uint_least16_t, 0xffff );
+    VERIFY_NATIVE_REPRESENTATION( native_uint16un_t );
+    VERIFY_VALUE_AND_OPS( native_uint16un_t, uint_least16_t, 0xffff );
 
-    VERIFY_NATIVE_REPRESENTATION( native_u24_t );
-    VERIFY_VALUE_AND_OPS( native_u24_t, uint_least32_t, 0xffffff );
+    VERIFY_NATIVE_REPRESENTATION( native_uint24un_t );
+    VERIFY_VALUE_AND_OPS( native_uint24un_t, uint_least32_t, 0xffffff );
 
-    VERIFY_NATIVE_REPRESENTATION( native_u32_t );
-    VERIFY_VALUE_AND_OPS( native_u32_t, uint_least32_t, 0xffffffff );
+    VERIFY_NATIVE_REPRESENTATION( native_uint32un_t );
+    VERIFY_VALUE_AND_OPS( native_uint32un_t, uint_least32_t, 0xffffffff );
 
-    VERIFY_NATIVE_REPRESENTATION( native_u40_t );
-    VERIFY_VALUE_AND_OPS( native_u40_t, uint_least64_t, 0xffffffffffLL );
+    VERIFY_NATIVE_REPRESENTATION( native_uint40un_t );
+    VERIFY_VALUE_AND_OPS( native_uint40un_t, uint_least64_t, 0xffffffffffLL );
 
-    VERIFY_NATIVE_REPRESENTATION( native_u48_t );
-    VERIFY_VALUE_AND_OPS( native_u48_t, uint_least64_t, 0xffffffffffffLL );
+    VERIFY_NATIVE_REPRESENTATION( native_uint48un_t );
+    VERIFY_VALUE_AND_OPS( native_uint48un_t, uint_least64_t, 0xffffffffffffLL );
 
-    VERIFY_NATIVE_REPRESENTATION( native_u56_t );
-    VERIFY_VALUE_AND_OPS( native_u56_t, uint_least64_t, 0xffffffffffffffLL );
+    VERIFY_NATIVE_REPRESENTATION( native_uint56un_t );
+    VERIFY_VALUE_AND_OPS( native_uint56un_t, uint_least64_t, 0xffffffffffffffLL );
 
-    VERIFY_NATIVE_REPRESENTATION( native_u64_t );
-    VERIFY_VALUE_AND_OPS( native_u64_t, uint_least64_t, 0xffffffffffffffffULL );
+    VERIFY_NATIVE_REPRESENTATION( native_uint64un_t );
+    VERIFY_VALUE_AND_OPS( native_uint64un_t, uint_least64_t, 0xffffffffffffffffULL );
 
     // aligned integer types
     VERIFY_BIG_REPRESENTATION( big_int16_t );
@@ -864,9 +864,9 @@ namespace
 
   void check_udt()
   {
-    typedef boost::endian::endian< order::big, MyInt, 32 >  mybig_32_t;
+    typedef boost::endian::endian< order::big, MyInt, 32 >  mybig_int32un_t;
 
-    mybig_32_t v(10);
+    mybig_int32un_t v(10);
     cout << "+v is " << +v << endl;
     v += 1;
     cout << "v is " << +v << endl;
@@ -922,9 +922,9 @@ int cpp_main( int argc, char * argv[] )
   check_data();
   check_udt();
 
-  //timing_test<big_32_t> ( "big_32_t" );
+  //timing_test<big_int32un_t> ( "big_int32un_t" );
   //timing_test<big_int32_t>( "big_int32_t" );
-  //timing_test<little_32_t> ( "little_32_t" );
+  //timing_test<little_int32un_t> ( "little_int32un_t" );
   //timing_test<little_int32_t>( "little_int32_t" );
 
   cout << "\n" << err_count << " errors detected\nTest "
