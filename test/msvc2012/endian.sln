@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "udt_conversion_example", "u
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "speed_test", "speed_test\speed_test.vcxproj", "{5407AF29-59E9-4DE2-9939-F067576F7868}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "loop_time_test", "loop_time_test\loop_time_test.vcxproj", "{541A2D06-B34E-4592-BE47-F87DF47E73D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -65,6 +67,10 @@ Global
 		{5407AF29-59E9-4DE2-9939-F067576F7868}.Debug|Win32.Build.0 = Debug|Win32
 		{5407AF29-59E9-4DE2-9939-F067576F7868}.Release|Win32.ActiveCfg = Release|Win32
 		{5407AF29-59E9-4DE2-9939-F067576F7868}.Release|Win32.Build.0 = Release|Win32
+		{541A2D06-B34E-4592-BE47-F87DF47E73D8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{541A2D06-B34E-4592-BE47-F87DF47E73D8}.Debug|Win32.Build.0 = Debug|Win32
+		{541A2D06-B34E-4592-BE47-F87DF47E73D8}.Release|Win32.ActiveCfg = Release|Win32
+		{541A2D06-B34E-4592-BE47-F87DF47E73D8}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
