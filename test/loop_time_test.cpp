@@ -140,12 +140,12 @@ namespace
     cout << "</tr>\n";
   }
 
-  void test_little_int32()
-  {
-    cout << "<tr><td>32-bit aligned little endian</td>";
-    time<int32_t, little_int32_t>();
-    cout << "</tr>\n";
-  }
+  //void test_little_int32()
+  //{
+  //  cout << "<tr><td>32-bit aligned little endian</td>";
+  //  time<int32_t, little_int32_t>();
+  //  cout << "</tr>\n";
+  //}
 
   //void test_big_int64()
   //{
@@ -196,7 +196,7 @@ int cpp_main(int argc, char* argv[])
   //test_big_int16();
   //test_little_int16();
   test_big_int32();
-  test_little_int32();
+  //test_little_int32();
   //test_big_int64();
   //test_little_int64();
 

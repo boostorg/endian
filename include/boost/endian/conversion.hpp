@@ -15,6 +15,7 @@
 #include <boost/detail/scoped_enum_emulation.hpp>
 #include <boost/static_assert.hpp>
 #include <algorithm>
+#include <cstring>  // for memcpy
 
 //------------------------------------- synopsis ---------------------------------------//
 

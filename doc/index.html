@@ -183,6 +183,96 @@ application concerns.</p>
   </tr>
 </table>
 
+<h2><a name="Performance">Performance</a></h2>
+
+<p>Consider this problem:</p>
+
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
+  <tr>
+    <td colspan="2"><b><i>Add 100 to a big endian value in a file, then write the 
+    result to a file</i> </b> </td>
+  </tr>
+  <tr>
+    <td><i><b>Endian type approach</b></i></td>
+    <td><i><b>Endian conversion approach</b></i></td>
+  </tr>
+  <tr>
+    <td valign="top">
+    <pre>
+big_int32_t x;
+
+... read into x from a file ...
+
+x += 100;
+
+... write x to a file ...
+</pre>
+    </td>
+    <td>
+    <pre>  
+int32_t x;
+
+... read into x from a file ...
+
+big_endian(x);
+x += 100;
+big_endian(x);
+
+... write x to a file ...
+</pre>
+    </td>
+  </tr>
+</table>
+
+<p>There will be no performance difference between the two approaches. Optimizing compilers will likely 
+generate exactly the same code for both.</p>
+
+<p>Now consider a slightly different problem:&nbsp; </p>
+
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
+  <tr>
+    <td colspan="2">Add a million values to a big endian value in a file, then write the 
+    result to a file </td>
+  </tr>
+  <tr>
+    <td><i><b>Endian type approach</b></i></td>
+    <td><i><b>Endian conversion approach</b></i></td>
+  </tr>
+  <tr>
+    <td valign="top">
+    <pre>
+big_int32_t x;
+
+... read into x from a file ...
+
+for (int32_t i = 0; i &lt; 1000000; ++i)
+  x += f(i);
+
+... write x to a file ...
+</pre>
+    </td>
+    <td>
+    <pre>
+int32_t x;
+
+... read into x from a file ...
+
+big_endian(x);
+
+for (int32_t i = 0; i &lt; 1000000; ++i)
+  x += f(i);
+
+big_endian(x);
+
+... write x to a file ...
+</pre>
+    </td>
+  </tr>
+</table>
+
+<p>There will be no performance difference. Optimizing compilers will likely 
+generate exactly the same code for both approaches.&nbsp; </p>
+
 <h2>Timing tests</h2>
 <p>These tests were run against release builds on a circa 2012 4-core little endian X64 Intel Core i5-3570K 
 CPU @ 3.40GHz under Windows 7.</p>
@@ -355,7 +445,7 @@ Tim Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen
 and Vitaly Budovski,.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->25 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13986" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->26 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13988" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
