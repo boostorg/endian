@@ -9,7 +9,7 @@
 
 #define _SCL_SECURE_NO_WARNINGS
 
-//#define BOOST_ENDIAN_NO_INTRINSICS
+#define BOOST_ENDIAN_NO_INTRINSICS
 //#define BOOST_ENDIAN_LOG
 
 #include <boost/endian/detail/disable_warnings.hpp>
@@ -84,8 +84,9 @@ namespace
   template <class T, class EndianT>
   void time()
   {
+    T total = 0;
     { 
-      cout << "*************Endian integer approach...\n";
+ //     cout << "*************Endian integer approach...\n";
       EndianT x(0);
       boost::timer::cpu_timer t;
       for (uint64_t i = 0; i < n; ++i)
@@ -93,11 +94,11 @@ namespace
         x += static_cast<T>(i);
       }
       t.stop();
-      cout << "x: " << x << endl;
+      total += x;
       cout << "<td align=\"right\">" << t.format(places, "%t") << " s</td>";
     }
     { 
-      cout << "***************Endian conversion approach...\n";
+//      cout << "***************Endian conversion approach...\n";
       T x(0);
       boost::timer::cpu_timer t;
       big_endian(x);
@@ -108,31 +109,41 @@ namespace
       big_endian(x);
       t.stop();
       big_endian(x);
-      cout << "x: " << x << endl;
+      if (x != total)
+        throw std::logic_error("integer approach total != conversion approach total");
       cout << "<td align=\"right\">" << t.format(places, "%t") << " s</td>";
     }
   }
 
-  //void test_big_int16()
-  //{
-  //  cout << "<tr><td>16-bit aligned big endian</td>";
-  //  time<int16_t, big_int16_t>(user::return_x_big_int16);
-  //  time<int16_t, big_int16_t>(user::return_x_value_big_int16);
-  //  time<int16_t, big_int16_t>(user::return_x_in_place_big_int16);
-  //  time<int16_t, big_int16_t>(user::return_x_big_int16);
-  //  cout << "</tr>\n";
-  //}
+ 
+  void test_big_int16()
+  {
+    cout << "<tr><td>16-bit aligned big endian</td>";
+    time<int16_t, big_int16_t>();
+    cout << "</tr>\n";
+  }
 
-  //void test_little_int16()
-  //{
-  //  cout << "<tr><td>16-bit aligned little endian</td>";
-  //  time<int16_t, little_int16_t>(user::return_x_little_int16);
-  //  time<int16_t, little_int16_t>(user::return_x_value_little_int16);
-  //  time<int16_t, little_int16_t>(user::return_x_in_place_little_int16);
-  //  time<int16_t, little_int16_t>(user::return_x_little_int16);
-  //  cout << "</tr>\n";
-  //}
+  void test_little_int16()
+  {
+    cout << "<tr><td>16-bit aligned little endian</td>";
+    time<int16_t, little_int16_t>();
+    cout << "</tr>\n";
+  }
 
+  void test_big_int16un()
+  {
+    cout << "<tr><td>16-bit unaligned big endian</td>";
+    time<int16_t, big_int16un_t>();
+    cout << "</tr>\n";
+  }
+
+  void test_little_int16un()
+  {
+    cout << "<tr><td>16-bit unaligned little endian</td>";
+    time<int16_t, little_int16un_t>();
+    cout << "</tr>\n";
+  }
+ 
   void test_big_int32()
   {
     cout << "<tr><td>32-bit aligned big endian</td>";
@@ -140,32 +151,54 @@ namespace
     cout << "</tr>\n";
   }
 
-  //void test_little_int32()
-  //{
-  //  cout << "<tr><td>32-bit aligned little endian</td>";
-  //  time<int32_t, little_int32_t>();
-  //  cout << "</tr>\n";
-  //}
+  void test_little_int32()
+  {
+    cout << "<tr><td>32-bit aligned little endian</td>";
+    time<int32_t, little_int32_t>();
+    cout << "</tr>\n";
+  }
 
-  //void test_big_int64()
-  //{
-  //  cout << "<tr><td>64-bit aligned big endian</td>";
-  //  time<int64_t, big_int64_t>(user::return_x_big_int64);
-  //  time<int64_t, big_int64_t>(user::return_x_value_big_int64);
-  //  time<int64_t, big_int64_t>(user::return_x_in_place_big_int64);
-  //  time<int64_t, big_int64_t>(user::return_x_big_int64);
-  //  cout << "</tr>\n";
-  //}
+  void test_big_int32un()
+  {
+    cout << "<tr><td>32-bit unaligned big endian</td>";
+    time<int32_t, big_int32un_t>();
+    cout << "</tr>\n";
+  }
 
-  //void test_little_int64()
-  //{
-  //  cout << "<tr><td>64-bit aligned little endian</td>";
-  //  time<int64_t, little_int64_t>(user::return_x_little_int64);
-  //  time<int64_t, little_int64_t>(user::return_x_value_little_int64);
-  //  time<int64_t, little_int64_t>(user::return_x_in_place_little_int64);
-  //  time<int64_t, little_int64_t>(user::return_x_little_int64);
-  //  cout << "</tr>\n";
-  //}
+  void test_little_int32un()
+  {
+    cout << "<tr><td>32-bit unaligned little endian</td>";
+    time<int32_t, little_int32un_t>();
+    cout << "</tr>\n";
+  }
+ 
+  void test_big_int64()
+  {
+    cout << "<tr><td>64-bit aligned big endian</td>";
+    time<int64_t, big_int64_t>();
+    cout << "</tr>\n";
+  }
+
+  void test_little_int64()
+  {
+    cout << "<tr><td>64-bit aligned little endian</td>";
+    time<int64_t, little_int64_t>();
+    cout << "</tr>\n";
+  }
+
+  void test_big_int64un()
+  {
+    cout << "<tr><td>64-bit unaligned big endian</td>";
+    time<int64_t, big_int64un_t>();
+    cout << "</tr>\n";
+  }
+
+  void test_little_int64un()
+  {
+    cout << "<tr><td>64-bit unaligned little endian</td>";
+    time<int64_t, little_int64un_t>();
+    cout << "</tr>\n";
+  }
 
 }  // unnamed namespace
 
@@ -176,7 +209,7 @@ int cpp_main(int argc, char* argv[])
   process_command_line(argc, argv);
   
   cout
-    << "<html>\n<head>\n<title>Endian Speed Test</title>\n</head>\n<body>\n"
+    << "<html>\n<head>\n<title>Endian Loop Time Test</title>\n</head>\n<body>\n"
     << "<table border=\"1\" cellpadding=\"5\" cellspacing=\"0\""
     << "style=\"border-collapse: collapse\" bordercolor=\"#111111\">\n"
     << "<tr><td colspan=\"6\" align=\"center\"><b>"
@@ -186,19 +219,25 @@ int cpp_main(int argc, char* argv[])
     << ", Intrinsics: " BOOST_ENDIAN_INTRINSIC_MSG
     << "</b></td></tr>\n"
     << "<tr><td><b>Test Case</b></td>\n"
-       "<td align=\"center\"><b>int<br>arg</b></td>\n"
-       "<td align=\"center\"><b>int<br>value(arg)</b></td>\n"
-       "<td align=\"center\"><b>int<br>in place(arg)</b></td>\n"
-       "<td align=\"center\"><b>Endian<br>arg</b></td>\n"
+       "<td align=\"center\"><b>Endian<br>type</b></td>\n"
+       "<td align=\"center\"><b>Endian<br>conversion<br>function</b></td>\n"
        "</tr>\n"
     ;
 
-  //test_big_int16();
-  //test_little_int16();
+  test_big_int16();
+  test_little_int16();
+  test_big_int16un();
+  test_little_int16un();
+
   test_big_int32();
-  //test_little_int32();
-  //test_big_int64();
-  //test_little_int64();
+  test_little_int32();
+  test_big_int32un();
+  test_little_int32un();
+
+  test_big_int64();
+  test_little_int64();
+  test_big_int64un();
+  test_little_int64un();
 
   cout << "\n</table>\n</body>\n</html>\n";
 

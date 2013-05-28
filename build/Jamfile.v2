@@ -12,9 +12,11 @@ project
 SOURCES = speed_test speed_test_functions ;
     
 exe "speed_test"
-       : $(SOURCES).cpp  ../../timer/build//boost_timer 
+       : $(SOURCES).cpp  ../../timer/build//boost_timer
+       : <toolset>gcc:<cxxflags>-march=native 
        ;
 
 exe "loop_time_test"
        : loop_time_test.cpp  ../../timer/build//boost_timer 
+       : <toolset>gcc:<cxxflags>-march=native 
        ;
