@@ -45,6 +45,7 @@
 &nbsp;&nbsp;&nbsp; <a href="#Timings">Timings</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#Conclusions">Conclusions</a><br>
       <a href="#FAQ">FAQ</a><br>
+      <a href="#Release-history">Release history</a><br>
       <a href="#Acknowledgements">Acknowledgements</a></td>
   </tr>
   <tr>
@@ -302,6 +303,11 @@ big_endian(x);
   </tr>
 </table>
 
+<p>With the Endian type approach, an implicit conversion from and then back to 
+big endian is done inside the loop. With the Endian conversion function 
+approach, the conversions are explicit, so only need to be done once, before and 
+after the loop.</p>
+
 <h3><a name="Timings">Timings</a> for Example 2 (conversion functions hoisted 
 out of loop)</h3>
 <p>These tests were run against release builds on a circa 2012 4-core little endian X64 Intel Core i5-3570K 
@@ -426,8 +432,8 @@ times while the Endian conversion approach only does the reversal once. But if
 the endianness is the same, there is no conversion with either approach and no 
 conversion code is generated for typical release builds.</p>
 
-<p><b>Whether or not compiler byte swap intrinsics are available has little 
-impact.</b> Byte swap intrinsics are not available on some older 
+<p><b>Whether or not compiler byte swap intrinsics are explicitly available has little 
+impact as tested.</b> Byte swap intrinsics are not available on some older 
 compilers and on some machine architectures, such as pre-486 X86 CPUs.</p>
 
 <p><b>Unaligned types are much slower that aligned types, regardless of 
@@ -514,6 +520,45 @@ endianness are not supported.</p>
 performed on machines that  use two's complement arithmetic.</p>
 
 </blockquote>
+
+<h2><a name="Release-history">Release history</a></h2>
+<h3>Changes since formal review</h3>
+<ul>
+  <li>Headers have been renamed to endian/types.hpp and endian/conversion.hpp. 
+  Infrastructure file names were changed accordingly.</li>
+  <li>The endian types and endian conversion functions now support 32-bit (<code>float)</code> and 
+  64-bit <code>(double)</code> floating point, as requested.</li>
+  <li>Both the endian types and endian conversion functions now support UDTs, as requested.</li>
+  <li>The endian type aliases have been renamed, 
+  using a naming pattern that is consistent for both integer and floating point, 
+  and that emphasizes that aligned types are usually preferred compared to 
+  unaligned types. Unaligned types are deliberately given slightly uglier names.</li>
+  <li>The conversion functions have been much revised, 
+  refactored, and otherwise improved based on review comments.<ul>
+    <li>Functions have been renamed to clarify their functionality.</li>
+    <li>Both return-by-value and modify-in-place interfaces are provided, as 
+    requested.</li>
+    <li>Synonyms for the BSD byte swapping function names popularized by OS X 
+    and Linux are provided, so that that developers already used to these name 
+    can continue to use them if they wish.</li>
+    <li>In addition to the named-endianness functions, functions that perform 
+    compile-time (via template) and run-time (via function argument) dispatch 
+    are now provided, as requested.</li>
+  </ul>
+  </li>
+  <li>Compiler (Clang, GCC, VisualC++, etc.) intrinsics and built-in functions 
+  are used in the implementation where appropriate, as requested.</li>
+  <li>For the endian  types, the implementation uses the endian conversion functions, 
+  and thus the intrinsics, 
+  as requested.</li>
+  <li>C++11 features such as <code>noexcept</code> are now used, while still 
+  supporting C++03 compilers.</li>
+  <li>Acknowledgements have been updated.</li>
+  <li>Headers have been reorganized to make them easier to read, 
+  with a synopsis at the front and implementation following, as requested.</li>
+  <li>Documentation has been revised to address most, but not all, concerns 
+  raised during formal review.</li>
+</ul>
 
 <h2><a name="Acknowledgements">Acknowledgements</a></h2>
 <p>Comments and suggestions were 
