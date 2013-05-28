@@ -39,6 +39,11 @@
       <a href="#Abstract">Abstract</a><br>
       <a href="#Introduction-to-endianness">Introduction to endianness</a><br>
       <a href="#Introduction">Introduction to the Boost.Endian library</a><br>
+      <a href="#Choosing">Choosing approaches</a><br>
+      <a href="#Performance">Performance</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Timings">Timings</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Conclusions">Conclusions</a><br>
+      <a href="#FAQ">FAQ</a><br>
       <a href="#Acknowledgements">Acknowledgements</a></td>
   </tr>
   <tr>
@@ -51,18 +56,19 @@
       <a href="../../../boost/endian/types.hpp">&lt;boost/endian/types.hpp&gt;</a></td>
   </tr>
 </table>
+
 <h2><a name="Abstract">Abstract</a></h2>
 
-<p>Boost.Endian provides two facilities to manipulate the byte ordering of integers.</p>
+<p>Boost.Endian provides facilities to manipulate the endianness of integers, 
+floating point, and user defined data.</p>
 <ul>
-  <li>The primary use case is binary I/O of integers for portable exchange with 
+  <li>The primary use case is binary I/O for portable data exchange with 
   other systems, via either file or network transmission.<br>
 &nbsp;</li>
-  <li>A secondary use case is minimizing storage size via integers of sizes 
-  and/or alignments not supported by the built-in types. Integers 1, 2, 3, 4, 5, 
-  6, 7, and 8 bytes in length are supported.<br>
+  <li>A secondary use case is minimizing storage size via sizes and/or 
+  alignments not supported by the built-in types.<br>
 &nbsp;</li>
-  <li>Two distinct approaches to byte ordering are provided. Each approach has a 
+  <li>Two distinct approaches to dealing with endianness are provided. Each approach has a 
   long history of successful use, and each approach has use cases where it is 
   superior to the other approach.</li>
 </ul>
@@ -87,9 +93,9 @@ output file produces:</p>
 <blockquote>
   <p><code>0102</code></p>
 </blockquote>
-<p>What's happening here is that Intel CPU's order the bytes of an integer with 
-the least-significant byte first, while SPARC CPU's place the most-significant 
-byte first. Some CPU's, such as the PowerPC, allow the operating system to 
+<p>What's happening here is that Intel CPUs order the bytes of an integer with 
+the least-significant byte first, while SPARC CPUs place the most-significant 
+byte first. Some CPUs, such as the PowerPC, allow the operating system to 
 choose which ordering applies.</p>
 <p><a name="definition"></a>Most-significant-byte-first ordering is traditionally called &quot;big endian&quot; 
 ordering and the least-significant-byte-first is traditionally called 
@@ -102,29 +108,33 @@ at different ends.</p>
 <p>See the Wikipedia's
 <a href="http://en.wikipedia.org/wiki/Endianness">Endianness</a> article for an 
 extensive discussion of endianness.</p>
-<p>Except for reading a core dump on little-endian systems, most programmers can 
-ignore endianness. But when exchanging binary integers and binary floating point 
-values between computer systems with differing endianness, whether by physical file transfer or over a network, programmers have to deal with endianness 
-in their code. </p>
+<p>Most programmers can ignore endianness, except perhaps for reading a core 
+dump on little-endian systems. Programmers have to deal with endianness in their 
+code when exchanging binary integers and binary floating point 
+values between computer systems with differing endianness, whether by physical file transfer or over a network, 
+. </p>
 <h2><a name="Introduction">Introduction</a> to the Boost.Endian library</h2>
 
-<p>The Boost.Endian library provides two facilities for dealing with endianness.</p>
+<p>The Boost.Endian library provides two different approaches to dealing with 
+integer endianness. Both approaches support integers, floating point types 
+except&nbsp; <code>long double</code>, and user defined types (UDTs).</p>
 
-<p>The library provides two approaches to dealing with integer endianness:</p>
+<p>Each approach has a long history of successful use, and each approach has use 
+cases where it is superior to the other approach.</p>
 
 <blockquote>
 
-<p><b><a href="conversion.html">Endian conversions</a> -</b> The application 
-uses the built-in integer and floating point types, and calls the provided 
-conversion functions to convert byte ordering as needed. Both mutating and 
-non-mutating conversions are supplied, and each comes in unconditional and 
-conditional variants. Type <code>long double</code> is not currently supported.</p>
-
 <p><b><a href="types.html">Endian types</a> -</b> The application uses the provided endian types 
 which mimic the 
-built-in integer types. For example, <code>big32_t</code> or <code>little64_t</code>. Types with lengths of 
-1-8 bytes are supported, rather than just&nbsp; 2, 4, and 8 bytes. There are no alignment 
-requirements. Floating point types are not currently supported.</p>
+built-in integer types. For example, <code>big_int32_t</code> or <code>little_float64_t</code>. 
+Integer types with lengths of 1 through 8 bytes are supported, rather than just 
+2, 4, and 8 byte integers. The types may be aligned or unaligned.</p>
+
+<p><b><a href="conversion.html">Endian conversion functions</a> -</b> The 
+application uses the built-in integer and floating point types, and calls the 
+provided conversion functions to convert byte ordering as needed. Both mutating 
+and non-mutating conversions are supplied, and each comes in unconditional and 
+conditional variants.</p>
 
 </blockquote>
 
@@ -133,16 +143,18 @@ requirements. Floating point types are not currently supported.</p>
 <h2><a name="Choosing">Choosing</a> between endian types and endian 
 conversion functions</h2>
 
-<p>Which approach is best for dealing with endianness depends on  
-application concerns.</p>
+<p>Which approach is better for dealing with endianness depends on  
+application needs.</p>
 
 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
   <tr>
     <th colspan="2">Needs that favor one approach over the other</th>
   </tr>
   <tr>
-    <th width="50%"><b><a href="types.html">Endian types</a></b></th>
-    <th><b><a href="conversion.html">Endian conversion functions</a></b></th>
+    <th width="50%"><b><a href="types.html">Endian types</a> are better with 
+    these needs</b></th>
+    <th><b><a href="conversion.html">Endian conversion functions</a> are better 
+    with these needs</b></th>
   </tr>
   <tr>
     <td valign="top">
@@ -189,6 +201,10 @@ application concerns.</p>
 
 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
   <tr>
+    <td colspan="2">
+    <p align="center"><i><b><a name="Example-1">Example 1</a></b></i></td>
+  </tr>
+  <tr>
     <td colspan="2"><b><i>Add 100 to a big endian value in a file, then write the 
     result to a file</i> </b> </td>
   </tr>
@@ -223,13 +239,18 @@ big_endian(x);
   </tr>
 </table>
 
-<p><b>There will be no performance difference between the two approaches, 
-regardless of the native endianness of the machine.</b> Optimizing compilers will likely 
-generate exactly the same code for both.</p>
+<p>There will be no performance difference between the two approaches, 
+regardless of the native endianness of the machine. Optimizing compilers will likely 
+generate exactly the same code for both. That conclusion was confirmed by 
+studying the generated assembly code.</p>
 
 <p>Now consider a slightly different problem:&nbsp; </p>
 
 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
+  <tr>
+    <td colspan="2">
+    <p align="center"><b><i><a name="Example-2">Example 2</a></i></b></td>
+  </tr>
   <tr>
     <td colspan="2"><i><b>Add a million values to a big endian value in a file, then write the 
     result to a file </b></i> </td>
@@ -268,24 +289,13 @@ big_endian(x);
   </tr>
 </table>
 
-<p><b>There may or may not be a considerable performance difference, depending 
-on the endianness of the machine. </b>If machine endianness differs from the 
-desired endianness, the Endian type approach must do the byte reversal a million 
-times while the Endian conversion approach only does the reversal once. But if 
-the endianness is the same, there is no conversion with either approach and no 
-conversion code is generated for typical release builds.</p>
-
-<p><b>If compiler byte swap intrinsics are not available, any timing differences 
-will be magnified.</b> Byte swap intrinsics are not available on some older 
-compilers and on some machine architectures, such as pre-486 X86 CPUs.</p>
-
-<p><b>Unaligned types are much slower that aligned types, regardless of 
-endianness considerations.</b> Instead of single instruction register loads and 
-stores, multiple instructions are required.</p>
-
-<h3>Timing tests</h3>
+<h3><a name="Timings">Timings</a> for Example 2 (conversion functions hoisted 
+out of loop)</h3>
 <p>These tests were run against release builds on a circa 2012 4-core little endian X64 Intel Core i5-3570K 
 CPU @ 3.40GHz under Windows 7.</p>
+
+<p><b>Caveat emptor: The Windows CPU timer has very high granularity. Repeated 
+runs of the same tests often yield considerably different results.</b></p>
 
 <p>See <a href="../test/loop_time_test.cpp">loop_time_test.cpp</a> and 
 <a href="../build/Jamfile.v2">Jamfile.v2</a> for the actual code and build 
@@ -374,6 +384,44 @@ setup.
 <tr><td>64-bit unaligned little endian</td><td align="right">8.42 s</td><td align="right">0.81 s</td></tr>
 
 </table>
+
+
+<h3><a name="Conclusions">Conclusions</a></h3>
+
+<p>When program logic dictates the same number of conversions for both Endian 
+integer approach and Endian conversion function approach (<a href="#Example-1">example 
+1</a>):</p>
+
+<blockquote>
+
+<p><b>There will be no performance difference between the two approaches, 
+regardless of the native endianness of the machine.</b> Optimizing compilers will likely 
+generate exactly the same code for both. This conclusion was confirmed by 
+studying the generated assembly code.</p>
+
+</blockquote>
+
+<p>When program logic dictates many more conversions for the Endian integer 
+approach than the Endian conversion function approach (<a href="#Example-2">example 
+2</a>):</p>
+
+<blockquote>
+
+<p><b>There may be a considerable performance difference. </b>If machine endianness differs from the 
+desired endianness, the Endian type approach must do the byte reversal many 
+times while the Endian conversion approach only does the reversal once. But if 
+the endianness is the same, there is no conversion with either approach and no 
+conversion code is generated for typical release builds.</p>
+
+<p><b>Whether or not compiler byte swap intrinsics are available has little 
+impact.</b> Byte swap intrinsics are not available on some older 
+compilers and on some machine architectures, such as pre-486 X86 CPUs.</p>
+
+<p><b>Unaligned types are much slower that aligned types, regardless of 
+endianness considerations.</b> Instead of single instruction register loads and 
+stores, multiple instructions are required.</p>
+
+</blockquote>
 
 
 <h2>Overall <a name="FAQ">FAQ</a></h2>

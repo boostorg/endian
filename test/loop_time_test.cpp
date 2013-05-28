@@ -9,7 +9,7 @@
 
 #define _SCL_SECURE_NO_WARNINGS
 
-#define BOOST_ENDIAN_NO_INTRINSICS
+//#define BOOST_ENDIAN_NO_INTRINSICS
 //#define BOOST_ENDIAN_LOG
 
 #include <boost/endian/detail/disable_warnings.hpp>
@@ -223,7 +223,7 @@ int cpp_main(int argc, char* argv[])
        "<td align=\"center\"><b>Endian<br>conversion<br>function</b></td>\n"
        "</tr>\n"
     ;
-
+  
   test_big_int16();
   test_little_int16();
   test_big_int16un();
