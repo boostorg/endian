@@ -1,0 +1,595 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Boost Endian Library</title>
+<style type="text/css">
+ ins {background-color:#CCFFCC}
+ del {background-color:#FFCACA}
+ body { font-family: sans-serif; width:8.0in; }
+ pre { background-color:#D7EEFF }
+</style>
+</head>
+
+<body>
+
+<table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%">
+  <tr>
+    <td>
+<a href="../../../index.html">
+<img src="../../../boost.png" alt="boost.png (6897 bytes)" align="middle" border="0" width="277" height="86"></a></td>
+    <td align="middle">
+    <font size="7">Endian Library</font></td>
+  </tr>
+</table>
+
+<table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" bgcolor="#D7EEFF" width="100%">
+  <tr>
+    <td><b><a href="../../../index.htm">Boost Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="index.html">Endian Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="conversion.html">Conversion Functions</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="types.html">Endian Types</a></b></td>
+  </tr>
+</table>
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" align="right">
+  <tr>
+    <td width="100%" bgcolor="#D7EEFF" align="center">
+      <i><b>Contents</b></i></td>
+  </tr>
+  <tr>
+    <td width="100%" bgcolor="#E8F5FF">
+      <a href="#Abstract">Abstract</a><br>
+      <a href="#Introduction-to-endianness">Introduction to endianness</a><br>
+      <a href="#Introduction">Introduction to the Boost.Endian library</a><br>
+      <a href="#Choosing">Choosing approaches</a><br>
+      <a href="#Intrinsic">Intrinsic built-in support</a><br>
+      <a href="#Performance">Performance</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Timings">Timings</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Conclusions">Conclusions</a><br>
+      <a href="#FAQ">FAQ</a><br>
+      <a href="#Release-history">Release history</a><br>
+      <a href="#Acknowledgements">Acknowledgements</a></td>
+  </tr>
+  <tr>
+    <td width="100%" bgcolor="#D7EEFF" align="center">
+      <b><i>Headers</i></b></td>
+  </tr>
+  <tr>
+    <td width="100%" bgcolor="#E8F5FF">
+      <a href="../../../boost/endian/conversion.hpp">&lt;boost/endian/conversion.hpp&gt;</a><br>
+      <a href="../../../boost/endian/types.hpp">&lt;boost/endian/types.hpp&gt;</a></td>
+  </tr>
+</table>
+
+<h2><a name="Abstract">Abstract</a></h2>
+
+<p>Boost.Endian provides facilities to manipulate the endianness of integers, 
+floating point, and user defined data.</p>
+<ul>
+  <li>The primary use case is binary I/O for portable data exchange with 
+  other systems, via either file or network transmission.<br>
+&nbsp;</li>
+  <li>A secondary use case is minimizing storage size via sizes and/or 
+  alignments not supported by the built-in types.<br>
+&nbsp;</li>
+  <li>Two distinct approaches to dealing with endianness are provided. Each approach has a 
+  long history of successful use, and each approach has use cases where it is 
+  superior to the other approach.</li>
+</ul>
+
+<h2><a name="Introduction-to-endianness">Introduction to endianness</a></h2>
+
+<p>Consider the following code:</p>
+
+<blockquote>
+  <pre>int16_t i = 0x0102;
+FILE * file = fopen(&quot;test.bin&quot;, &quot;wb&quot;);   // binary file!
+fwrite(&amp;i, sizeof(int16_t), 1, file);
+fclose(file);</pre>
+</blockquote>
+<p>On OS X, Linux, or Windows systems with an Intel CPU, a hex dump 
+of the &quot;test.bin&quot; output file produces:</p>
+<blockquote>
+  <p><code>0201</code></p>
+</blockquote>
+<p>On OS X systems with a PowerPC CPU, or Solaris systems with a SPARC CPU, a hex dump of the &quot;test.bin&quot; 
+output file produces:</p>
+<blockquote>
+  <p><code>0102</code></p>
+</blockquote>
+<p>What's happening here is that Intel CPUs order the bytes of an integer with 
+the least-significant byte first, while SPARC CPUs place the most-significant 
+byte first. Some CPUs, such as the PowerPC, allow the operating system to 
+choose which ordering applies.</p>
+<p><a name="definition"></a>Most-significant-byte-first ordering is traditionally called &quot;big endian&quot; 
+ordering and the least-significant-byte-first is traditionally called 
+&quot;little-endian&quot; ordering. The names are derived from
+<a href="http://en.wikipedia.org/wiki/Jonathan_Swift" title="Jonathan Swift">
+Jonathan Swift</a>'s satirical novel <i>
+<a href="http://en.wikipedia.org/wiki/Gulliver's_Travels" title="Gulliver's Travels">
+Gulliver’s Travels</a></i>, where rival kingdoms opened their soft-boiled eggs 
+at different ends.</p>
+<p>See the Wikipedia's
+<a href="http://en.wikipedia.org/wiki/Endianness">Endianness</a> article for an 
+extensive discussion of endianness.</p>
+<p>Most programmers can ignore endianness, except perhaps for reading a core 
+dump on little-endian systems. Programmers have to deal with endianness in their 
+code when exchanging binary integers and binary floating point 
+values between computer systems with differing endianness, whether by physical file transfer or over a network, 
+. </p>
+<h2><a name="Introduction">Introduction</a> to the Boost.Endian library</h2>
+
+<p>The Boost.Endian library provides two different approaches to dealing with 
+integer endianness. Both approaches support integers, floating point types 
+except&nbsp; <code>long double</code>, and user defined types (UDTs).</p>
+
+<p>Each approach has a long history of successful use, and each approach has use 
+cases where it is superior to the other approach.</p>
+
+<blockquote>
+
+<p><b><a href="types.html">Endian types</a> -</b> The application uses the provided endian types 
+which mimic the 
+built-in integer types. For example, <code>big_int32_t</code> or <code>little_float64_t</code>. 
+Integer types with lengths of 1 through 8 bytes are supported, rather than just 
+2, 4, and 8 byte integers. The types may be aligned or unaligned.</p>
+
+<p><b><a href="conversion.html">Endian conversion functions</a> -</b> The 
+application uses the built-in integer and floating point types, and calls the 
+provided conversion functions to convert byte ordering as needed. Both mutating 
+and non-mutating conversions are supplied, and each comes in unconditional and 
+conditional variants.</p>
+
+</blockquote>
+
+<p>Boost Endian is a header-only library.</p>
+
+<h2><a name="Choosing">Choosing</a> between endian types and endian 
+conversion functions</h2>
+
+<p>Which approach is better for dealing with endianness depends on  
+application needs.</p>
+
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
+  <tr>
+    <th colspan="2">Needs that favor one approach over the other</th>
+  </tr>
+  <tr>
+    <th width="50%"><b><a href="types.html">Endian types</a> are better with 
+    these needs</b></th>
+    <th><b><a href="conversion.html">Endian conversion functions</a> are better 
+    with these needs</b></th>
+  </tr>
+  <tr>
+    <td valign="top">
+    <ul>
+      <li>A need to simplify program logic and eliminate logic 
+      errors. Since the endian types mimic the built-in types, there is no need to reason about the current endianness of variables 
+      and that can simplify program logic and eliminate logic errors.<br>
+&nbsp;</li>
+      <li>A need to use unusual integer sizes (i.e. 3, 5, 
+      6, or 7 bytes) to reduce internal and external space usage and 
+      save I/O time.<br>
+&nbsp;</li>
+      <li>A need to use unaligned variables. Endian types can eliminate padding bytes in 
+      structures, reducing internal and external space usage and saving I/O 
+      time. They can deals with structures defined like this:</li>
+    </ul>
+    <blockquote>
+      <p><code>struct S {<br>
+      &nbsp; uint16_t a;<br>
+      &nbsp; uint32_t b;<br>
+      } __attribute__ ((packed));</code></p>
+    </blockquote>
+    </td>
+    <td valign="top">
+    <ul>
+      <li>A need to leverage knowledge of developers who have been using C byte 
+      swapping 
+      functions for years.<br>
+&nbsp;</li>
+      <li>A need to save CPU time when a variable is used many times 
+      relative to its I/O.<br>
+&nbsp;</li>
+      <li>A need to pass structures to third-party libraries expecting a 
+      specific structure format.<br>
+&nbsp;</li>
+    </ul>
+    </td>
+  </tr>
+</table>
+
+<h2><a name="Intrinsic">Intrinsic</a> built-in support</h2>
+<p>Recent compilers, including GCC, Clang, and Microsoft, supply intrinsic 
+built-in support for byte swapping. Such support is automatically detected and 
+used since it may in smaller and faster generated code, particularly for release 
+builds.</p>
+<p dir="ltr">Defining <code>BOOST_ENDIAN_NO_INTRINSICS</code> will suppress use 
+of the intrinsics. Please try defining it if you get compiler errors, such as 
+header byteswap.h not being found.</p>
+<p dir="ltr">The macro <code>BOOST_ENDIAN_INTRINSIC_MSG</code> is defined as 
+either <code>&quot;no byte swap intrinsics&quot;</code> or a string describing the 
+particular set of intrinsics being used.</p>
+
+<h2><a name="Performance">Performance</a></h2>
+
+<p>Consider this problem:</p>
+
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
+  <tr>
+    <td colspan="2">
+    <p align="center"><i><b><a name="Example-1">Example 1</a></b></i></td>
+  </tr>
+  <tr>
+    <td colspan="2"><b><i>Add 100 to a big endian value in a file, then write the 
+    result to a file</i> </b> </td>
+  </tr>
+  <tr>
+    <td><i><b>Endian type approach</b></i></td>
+    <td><i><b>Endian conversion approach</b></i></td>
+  </tr>
+  <tr>
+    <td valign="top">
+    <pre>big_int32_t x;
+
+... read into x from a file ...
+
+x += 100;
+
+... write x to a file ...
+</pre>
+    </td>
+    <td>
+    <pre>  
+int32_t x;
+
+... read into x from a file ...
+
+big_endian(x);
+x += 100;
+big_endian(x);
+
+... write x to a file ...
+</pre>
+    </td>
+  </tr>
+</table>
+
+<p>There will be no performance difference between the two approaches, 
+regardless of the native endianness of the machine. Optimizing compilers will likely 
+generate exactly the same code for both. That conclusion was confirmed by 
+studying the generated assembly code.</p>
+
+<p>Now consider a slightly different problem:&nbsp; </p>
+
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
+  <tr>
+    <td colspan="2">
+    <p align="center"><b><i><a name="Example-2">Example 2</a></i></b></td>
+  </tr>
+  <tr>
+    <td colspan="2"><i><b>Add a million values to a big endian value in a file, then write the 
+    result to a file </b></i> </td>
+  </tr>
+  <tr>
+    <td><i><b>Endian type approach</b></i></td>
+    <td><i><b>Endian conversion approach</b></i></td>
+  </tr>
+  <tr>
+    <td valign="top">
+    <pre>big_int32_t x;
+
+... read into x from a file ...
+
+for (int32_t i = 0; i &lt; 1000000; ++i)
+  x += i;
+
+... write x to a file ...
+</pre>
+    </td>
+    <td>
+    <pre>int32_t x;
+
+... read into x from a file ...
+
+big_endian(x);
+
+for (int32_t i = 0; i &lt; 1000000; ++i)
+  x += i;
+
+big_endian(x);
+
+... write x to a file ...
+</pre>
+    </td>
+  </tr>
+</table>
+
+<p>With the Endian type approach, an implicit conversion from and then back to 
+big endian is done inside the loop. With the Endian conversion function 
+approach, the conversions are explicit, so only need to be done once, before and 
+after the loop.</p>
+
+<h3><a name="Timings">Timings</a> for Example 2 (conversion functions hoisted 
+out of loop)</h3>
+<p>These tests were run against release builds on a circa 2012 4-core little endian X64 Intel Core i5-3570K 
+CPU @ 3.40GHz under Windows 7.</p>
+
+<p><b>Caveat emptor: The Windows CPU timer has very high granularity. Repeated 
+runs of the same tests often yield considerably different results.</b></p>
+
+<p>See <a href="../test/loop_time_test.cpp">loop_time_test.cpp</a> and 
+<a href="../build/Jamfile.v2">Jamfile.v2</a> for the actual code and build 
+setup. 
+(For GCC 4.7, there are no 16-bit intrinsics, so they are emulated by using 
+32-bit intrinsics.)</p>
+
+<table border="1" cellpadding="5" cellspacing="0"style="border-collapse: collapse" bordercolor="#111111">
+<tr><td colspan="6" align="center"><b>GNU C++ version 4.7.0</b></td></tr>
+<tr><td colspan="6" align="center"><b> Iterations: 1000000000, Intrinsics: __builtin_bswap16, etc.</b></td></tr>
+<tr><td><b>Test Case</b></td>
+<td align="center"><b>Endian<br>type</b></td>
+<td align="center"><b>Endian<br>conversion<br>function</b></td>
+</tr>
+<tr><td>16-bit aligned big endian</td><td align="right">1.37 s</td><td align="right">0.81 s</td></tr>
+<tr><td>16-bit aligned little endian</td><td align="right">0.83 s</td><td align="right">0.81 s</td></tr>
+<tr><td>16-bit unaligned big endian</td><td align="right">1.09 s</td><td align="right">0.83 s</td></tr>
+<tr><td>16-bit unaligned little endian</td><td align="right">1.09 s</td><td align="right">0.81 s</td></tr>
+<tr><td>32-bit aligned big endian</td><td align="right">0.98 s</td><td align="right">0.27 s</td></tr>
+<tr><td>32-bit aligned little endian</td><td align="right">0.28 s</td><td align="right">0.27 s</td></tr>
+<tr><td>32-bit unaligned big endian</td><td align="right">3.82 s</td><td align="right">0.27 s</td></tr>
+<tr><td>32-bit unaligned little endian</td><td align="right">3.82 s</td><td align="right">0.27 s</td></tr>
+<tr><td>64-bit aligned big endian</td><td align="right">1.65 s</td><td align="right">0.41 s</td></tr>
+<tr><td>64-bit aligned little endian</td><td align="right">0.41 s</td><td align="right">0.41 s</td></tr>
+<tr><td>64-bit unaligned big endian</td><td align="right">17.53 s</td><td align="right">0.41 s</td></tr>
+<tr><td>64-bit unaligned little endian</td><td align="right">17.52 s</td><td align="right">0.41 s</td></tr>
+
+<tr><td colspan="6" align="center"><b> Iterations: 1000000000, Intrinsics: no byte swap intrinsics</b></td></tr>
+<tr><td><b>Test Case</b></td>
+<td align="center"><b>Endian<br>type</b></td>
+<td align="center"><b>Endian<br>conversion<br>function</b></td>
+</tr>
+<tr><td>16-bit aligned big endian</td><td align="right">1.95 s</td><td align="right">0.81 s</td></tr>
+<tr><td>16-bit aligned little endian</td><td align="right">0.83 s</td><td align="right">0.81 s</td></tr>
+<tr><td>16-bit unaligned big endian</td><td align="right">1.19 s</td><td align="right">0.81 s</td></tr>
+<tr><td>16-bit unaligned little endian</td><td align="right">1.20 s</td><td align="right">0.81 s</td></tr>
+<tr><td>32-bit aligned big endian</td><td align="right">0.97 s</td><td align="right">0.28 s</td></tr>
+<tr><td>32-bit aligned little endian</td><td align="right">0.27 s</td><td align="right">0.28 s</td></tr>
+<tr><td>32-bit unaligned big endian</td><td align="right">4.10 s</td><td align="right">0.27 s</td></tr>
+<tr><td>32-bit unaligned little endian</td><td align="right">4.10 s</td><td align="right">0.27 s</td></tr>
+<tr><td>64-bit aligned big endian</td><td align="right">1.64 s</td><td align="right">0.42 s</td></tr>
+<tr><td>64-bit aligned little endian</td><td align="right">0.41 s</td><td align="right">0.41 s</td></tr>
+<tr><td>64-bit unaligned big endian</td><td align="right">17.52 s</td><td align="right">0.42 s</td></tr>
+<tr><td>64-bit unaligned little endian</td><td align="right">17.52 s</td><td align="right">0.41 s</td></tr>
+
+</table>
+
+<p></p>
+
+<table border="1" cellpadding="5" cellspacing="0"style="border-collapse: collapse" bordercolor="#111111">
+<tr><td colspan="6" align="center"><b>Microsoft Visual C++ version 11.0</b></td></tr>
+<tr><td colspan="6" align="center"><b> Iterations: 1000000000, Intrinsics: cstdlib _byteswap_ushort, etc.</b></td></tr>
+<tr><td><b>Test Case</b></td>
+<td align="center"><b>Endian<br>type</b></td>
+<td align="center"><b>Endian<br>conversion<br>function</b></td>
+</tr>
+<tr><td>16-bit aligned big endian</td><td align="right">2.18 s</td><td align="right">0.83 s</td></tr>
+<tr><td>16-bit aligned little endian</td><td align="right">0.81 s</td><td align="right">0.83 s</td></tr>
+<tr><td>16-bit unaligned big endian</td><td align="right">1.64 s</td><td align="right">0.83 s</td></tr>
+<tr><td>16-bit unaligned little endian</td><td align="right">1.64 s</td><td align="right">0.83 s</td></tr>
+<tr><td>32-bit aligned big endian</td><td align="right">0.83 s</td><td align="right">0.81 s</td></tr>
+<tr><td>32-bit aligned little endian</td><td align="right">0.83 s</td><td align="right">0.81 s</td></tr>
+<tr><td>32-bit unaligned big endian</td><td align="right">3.01 s</td><td align="right">0.83 s</td></tr>
+<tr><td>32-bit unaligned little endian</td><td align="right">3.01 s</td><td align="right">0.81 s</td></tr>
+<tr><td>64-bit aligned big endian</td><td align="right">1.09 s</td><td align="right">1.05 s</td></tr>
+<tr><td>64-bit aligned little endian</td><td align="right">0.83 s</td><td align="right">1.03 s</td></tr>
+<tr><td>64-bit unaligned big endian</td><td align="right">12.64 s</td><td align="right">1.01 s</td></tr>
+<tr><td>64-bit unaligned little endian</td><td align="right">8.41 s</td><td align="right">0.83 s</td></tr>
+
+<tr><td colspan="6" align="center"><b> Iterations: 1000000000, Intrinsics: no byte swap intrinsics</b></td></tr>
+<tr><td><b>Test Case</b></td>
+<td align="center"><b>Endian<br>type</b></td>
+<td align="center"><b>Endian<br>conversion<br>function</b></td>
+</tr>
+<tr><td>16-bit aligned big endian</td><td align="right">0.84 s</td><td align="right">0.81 s</td></tr>
+<tr><td>16-bit aligned little endian</td><td align="right">0.83 s</td><td align="right">0.81 s</td></tr>
+<tr><td>16-bit unaligned big endian</td><td align="right">1.65 s</td><td align="right">0.81 s</td></tr>
+<tr><td>16-bit unaligned little endian</td><td align="right">1.65 s</td><td align="right">0.83 s</td></tr>
+<tr><td>32-bit aligned big endian</td><td align="right">3.46 s</td><td align="right">0.83 s</td></tr>
+<tr><td>32-bit aligned little endian</td><td align="right">0.81 s</td><td align="right">0.83 s</td></tr>
+<tr><td>32-bit unaligned big endian</td><td align="right">3.01 s</td><td align="right">0.81 s</td></tr>
+<tr><td>32-bit unaligned little endian</td><td align="right">3.01 s</td><td align="right">0.81 s</td></tr>
+<tr><td>64-bit aligned big endian</td><td align="right">10.50 s</td><td align="right">0.83 s</td></tr>
+<tr><td>64-bit aligned little endian</td><td align="right">0.83 s</td><td align="right">0.97 s</td></tr>
+<tr><td>64-bit unaligned big endian</td><td align="right">12.62 s</td><td align="right">0.81 s</td></tr>
+<tr><td>64-bit unaligned little endian</td><td align="right">8.42 s</td><td align="right">0.81 s</td></tr>
+
+</table>
+
+
+<h3><a name="Conclusions">Conclusions</a></h3>
+
+<p>When program logic dictates the same number of conversions for both Endian 
+integer approach and Endian conversion function approach (<a href="#Example-1">example 
+1</a>):</p>
+
+<blockquote>
+
+<p><b>There will be no performance difference between the two approaches, 
+regardless of the native endianness of the machine.</b> Optimizing compilers will likely 
+generate exactly the same code for both. This conclusion was confirmed by 
+studying the generated assembly code.</p>
+
+</blockquote>
+
+<p>When program logic dictates many more conversions for the Endian integer 
+approach than the Endian conversion function approach (<a href="#Example-2">example 
+2</a>):</p>
+
+<blockquote>
+
+<p><b>There may be a considerable performance difference. </b>If machine endianness differs from the 
+desired endianness, the Endian type approach must do the byte reversal many 
+times while the Endian conversion approach only does the reversal once. But if 
+the endianness is the same, there is no conversion with either approach and no 
+conversion code is generated for typical release builds.</p>
+
+<p><b>Whether or not compiler byte swap intrinsics are explicitly available has little 
+impact as tested.</b> Byte swap intrinsics are not available on some older 
+compilers and on some machine architectures, such as pre-486 X86 CPUs.</p>
+
+<p><b>Unaligned types are much slower that aligned types, regardless of 
+endianness considerations.</b> Instead of single instruction register loads and 
+stores, multiple instructions are required.</p>
+
+</blockquote>
+
+
+<h2>Overall <a name="FAQ">FAQ</a></h2>
+
+<p><b>Is the implementation header only?</b></p>
+
+<blockquote>
+
+<p>Yes.</p>
+
+</blockquote>
+
+<p><b>Does the implementation use compiler intrinsic built-in byte swapping?</b></p>
+
+<blockquote>
+
+<p>Yes, if available. See <a href="#Intrinsic">Intrinsic built-in support</a>.</p>
+
+</blockquote>
+
+<p><b>Why bother with endianness?</b></p>
+<blockquote>
+<p>Binary data portability is the primary use case.</p>
+</blockquote>
+<p><b>Does endianness have any uses outside of portable binary file or network 
+I/O formats?</b> </p>
+<blockquote>
+<p>Using the unaligned integer types to save internal or external 
+memory space is a minor secondary use case.</p>
+</blockquote>
+<p><b>Why bother with binary I/O? Why not just use C++ Standard Library stream 
+inserters and extractors?</b></p>
+<blockquote>
+<p>Binary arithmetic data is smaller and therefore I/O is faster and file sizes 
+are smaller. Transfer between systems is less expensive. Standard interchange 
+formats often specify binary arithmetic data.</p>
+<p>Furthermore, binary arithmetic data is of fixed size, and so fixed-size disk 
+records are possible without padding, easing sorting and allowing direct access. 
+Disadvantages, such as the inability to use text utilities on the resulting 
+files, limit usefulness to applications where the binary I/O advantages are 
+paramount.</p>
+</blockquote>
+
+<p><b>Which is better, big-endian or little-endian?</b></p>
+<blockquote>
+<p>Big-endian tends to be a 
+bit more of an industry standard, but little-endian may be preferred for 
+applications that run primarily Intel/AMD on x86, x64, and other little-endian 
+CPU's. The <a href="http://en.wikipedia.org/wiki/Endian">Wikipedia</a> article 
+gives more pros and cons.</p>
+</blockquote>
+
+<p><b>Why is only big, little, and native endianness supported?</b></p>
+<blockquote>
+<p>These are the only endian schemes that have any practical value today. PDP-11 
+and the other middle endian approaches are interesting historical curiosities 
+but have no relevance to C++ developers.</p>
+</blockquote>
+
+<p><b>What are the limitations of floating point support?</b></p>
+
+<blockquote>
+
+<p>The only supported types are four byte <code>float</code> and eight byte
+<code>double</code>. Even after endianness has been accounted for, floating 
+point values will not be portable between systems that use different floating 
+point formats. Systems where the integer endianness differs from floating point 
+endianness are not supported.</p>
+
+</blockquote>
+
+<p><b>What are the limitations of integer support?</b></p>
+
+<blockquote>
+
+<p>Only 16-bit, 32-bit, and 64-bit integers are supported. Tests have only been 
+performed on machines that  use two's complement arithmetic.</p>
+
+</blockquote>
+
+<h2><a name="Release-history">Release history</a></h2>
+<h3>Changes since formal review</h3>
+<ul>
+  <li>Headers have been renamed to endian/types.hpp and endian/conversion.hpp. 
+  Infrastructure file names were changed accordingly.</li>
+  <li>The endian types and endian conversion functions now support 32-bit (<code>float)</code> and 
+  64-bit <code>(double)</code> floating point, as requested.</li>
+  <li>Both the endian types and endian conversion functions now support UDTs, as requested.</li>
+  <li>The endian type aliases have been renamed, 
+  using a naming pattern that is consistent for both integer and floating point, 
+  and that emphasizes that aligned types are usually preferred compared to 
+  unaligned types. Unaligned types are deliberately given slightly uglier names.</li>
+  <li>The conversion functions have been much revised, 
+  refactored, and otherwise improved based on review comments.<ul>
+    <li>Functions have been renamed to clarify their functionality.</li>
+    <li>Both return-by-value and modify-in-place interfaces are provided, as 
+    requested.</li>
+    <li>Synonyms for the BSD byte swapping function names popularized by OS X 
+    and Linux are provided, so that that developers already used to these name 
+    can continue to use them if they wish.</li>
+    <li>In addition to the named-endianness functions, functions that perform 
+    compile-time (via template) and run-time (via function argument) dispatch 
+    are now provided, as requested.</li>
+  </ul>
+  </li>
+  <li>Compiler (Clang, GCC, VisualC++, etc.) intrinsics and built-in functions 
+  are used in the implementation where appropriate, as requested.</li>
+  <li>For the endian  types, the implementation uses the endian conversion functions, 
+  and thus the intrinsics, 
+  as requested.</li>
+  <li>C++11 features such as <code>noexcept</code> are now used, while still 
+  supporting C++03 compilers.</li>
+  <li>Acknowledgements have been updated.</li>
+  <li>Headers have been reorganized to make them easier to read, 
+  with a synopsis at the front and implementation following, as requested.</li>
+  <li>Documentation has been revised to address most, but not all, concerns 
+  raised during formal review.</li>
+</ul>
+
+<h2><a name="Acknowledgements">Acknowledgements</a></h2>
+<p>Comments and suggestions were 
+received from
+Adder, Benaka Moorthi,
+Christopher Kohlhoff,
+Cliff Green, Daniel James, Gennaro Proto,
+Giovanni Piero Deretta, Gordon Woodhull, dizzy, Hartmut Kaiser, Jeff Flinn,
+John Filo, John Maddock,
+Kim Barrett,
+Marsh Ray,
+Martin Bonner, Mathias Gaunard, Matias Capeletto,
+Neil Mayhew, Paul Bristow, Phil Endecott, Pyry Jahkola, Rene Rivera,
+Robert Stewart, Roland Schwarz, Scott McMurray, 
+Sebastian Redl, 
+Tim Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen 
+and Vitaly Budovski,.</p>
+<hr>
+<p>Last revised:
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->28 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13992" --></p>
+<p>© Copyright Beman Dawes, 2011, 2013</p>
+<p>Distributed under the Boost Software License, Version 1.0. See
+<a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
+
+<p>&nbsp;</p>
+
+</body>
+
+</html>
