@@ -198,8 +198,7 @@ application concerns.</p>
   </tr>
   <tr>
     <td valign="top">
-    <pre>
-big_int32_t x;
+    <pre>big_int32_t x;
 
 ... read into x from a file ...
 
@@ -241,8 +240,7 @@ generate exactly the same code for both.</p>
   </tr>
   <tr>
     <td valign="top">
-    <pre>
-big_int32_t x;
+    <pre>big_int32_t x;
 
 ... read into x from a file ...
 
@@ -253,8 +251,7 @@ for (int32_t i = 0; i &lt; 1000000; ++i)
 </pre>
     </td>
     <td>
-    <pre>
-int32_t x;
+    <pre>int32_t x;
 
 ... read into x from a file ...
 
@@ -290,121 +287,91 @@ stores, multiple instructions are required.</p>
 <p>These tests were run against release builds on a circa 2012 4-core little endian X64 Intel Core i5-3570K 
 CPU @ 3.40GHz under Windows 7.</p>
 
-<p>See <a href="../test/speed_test.cpp">speed_test.cpp</a>, 
-<a href="../test/speed_test_functions.hpp">speed_test_functions.hpp</a>, 
-<a href="../test/speed_test_functions.cpp">speed_test_functions.cpp</a>, and 
-<a href="../build/Jamfile.v2">Jamfile.v2</a> for the actual code and build. The timed functions are in a separate 
-compilation unit to prevent being optimized away.</p>
-
-<p>Because the timings are anomalous, particularly for those high-lighted below 
-in yellow, the generated code from the GNU compiler was studied in detail. <b>
-Exactly the same code is being generated for by-value conversion functions, 
-in-place conversion functions, and the endian types. Exactly the same code is 
-being generated whether intrinsics are used or not for 32 and 64-bit tests.</b> 
+<p>See <a href="../test/loop_time_test.cpp">loop_time_test.cpp</a> and 
+<a href="../build/Jamfile.v2">Jamfile.v2</a> for the actual code and build 
+setup. 
 (For GCC 4.7, there are no 16-bit intrinsics, so they are emulated by using 
 32-bit intrinsics.)</p>
 
-<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
-  <tr>
-    <td bgcolor="#D7EEFF">
-    <p align="center"><b>Conclusions</b></p>
-    <p>The decision to use endian types or endian conversion functions should be 
-    made based on application use cases, not assumptions about generated code 
-    efficiency. Modern optimizers generate the same code for either approach, 
-    and whether or not intrinsics are available.&nbsp; </td>
-  </tr>
-</table>
-
 <table border="1" cellpadding="5" cellspacing="0"style="border-collapse: collapse" bordercolor="#111111">
-<tr><td colspan="6" align="center"><b>GNU g++ version 4.7.0</b></td></tr>
-<tr><td colspan="6" align="center"><b> Iterations: 1,000,000,000, Intrinsics: __builtin_bswap16, etc.</b></td></tr>
+<tr><td colspan="6" align="center"><b>GNU C++ version 4.7.0</b></td></tr>
+<tr><td colspan="6" align="center"><b> Iterations: 1000000000, Intrinsics: __builtin_bswap16, etc.</b></td></tr>
 <tr><td><b>Test Case</b></td>
-<td align="center"><b>int<br>arg</b></td>
-<td align="center"><b>int<br>value(arg)</b></td>
-<td align="center"><b>int<br>in place(arg)</b></td>
-<td align="center"><b>Endian<br>arg</b></td>
+<td align="center"><b>Endian<br>type</b></td>
+<td align="center"><b>Endian<br>conversion<br>function</b></td>
 </tr>
-<tr><td>16-bit aligned big endian</td><td align="right" bgcolor="#FFFFCC">2.71 s</td>
-  <td align="right">2.42 s</td><td align="right">2.42 s</td><td align="right">2.68 s</td></tr>
-<tr><td>16-bit aligned little endian</td><td align="right">2.42 s</td>
-  <td align="right">2.40 s</td><td align="right">2.68 s</td><td align="right">2.45 s</td></tr>
-<tr><td>32-bit aligned big endian</td><td align="right">2.68 s</td>
-  <td align="right">2.70 s</td><td align="right">2.70 s</td><td align="right">2.68 s</td></tr>
-<tr><td>32-bit aligned little endian</td><td align="right">2.68 s</td>
-  <td align="right">2.68 s</td><td align="right">2.65 s</td><td align="right">2.68 s</td></tr>
-<tr><td>64-bit aligned big endian</td><td align="right" bgcolor="#FFFFCC">2.96 s</td>
-  <td align="right" bgcolor="#FFFFCC">2.95 s</td>
-  <td align="right" bgcolor="#FFFFCC">2.95 s</td>
-  <td align="right" bgcolor="#FFFFCC">2.95 s</td></tr>
-<tr><td>64-bit aligned little endian</td><td align="right">2.42 s</td>
-  <td align="right">2.40 s</td><td align="right">2.70 s</td><td align="right">2.42 s</td></tr>
-<tr><td colspan="6" align="center"><b> Iterations: 1,000,000,000, Intrinsics: no byte swap intrinsics</b></td></tr>
+<tr><td>16-bit aligned big endian</td><td align="right">1.37 s</td><td align="right">0.81 s</td></tr>
+<tr><td>16-bit aligned little endian</td><td align="right">0.83 s</td><td align="right">0.81 s</td></tr>
+<tr><td>16-bit unaligned big endian</td><td align="right">1.09 s</td><td align="right">0.83 s</td></tr>
+<tr><td>16-bit unaligned little endian</td><td align="right">1.09 s</td><td align="right">0.81 s</td></tr>
+<tr><td>32-bit aligned big endian</td><td align="right">0.98 s</td><td align="right">0.27 s</td></tr>
+<tr><td>32-bit aligned little endian</td><td align="right">0.28 s</td><td align="right">0.27 s</td></tr>
+<tr><td>32-bit unaligned big endian</td><td align="right">3.82 s</td><td align="right">0.27 s</td></tr>
+<tr><td>32-bit unaligned little endian</td><td align="right">3.82 s</td><td align="right">0.27 s</td></tr>
+<tr><td>64-bit aligned big endian</td><td align="right">1.65 s</td><td align="right">0.41 s</td></tr>
+<tr><td>64-bit aligned little endian</td><td align="right">0.41 s</td><td align="right">0.41 s</td></tr>
+<tr><td>64-bit unaligned big endian</td><td align="right">17.53 s</td><td align="right">0.41 s</td></tr>
+<tr><td>64-bit unaligned little endian</td><td align="right">17.52 s</td><td align="right">0.41 s</td></tr>
+
+<tr><td colspan="6" align="center"><b> Iterations: 1000000000, Intrinsics: no byte swap intrinsics</b></td></tr>
 <tr><td><b>Test Case</b></td>
-<td align="center"><b>int<br>arg</b></td>
-<td align="center"><b>int<br>value(arg)</b></td>
-<td align="center"><b>int<br>in place(arg)</b></td>
-<td align="center"><b>Endian<br>arg</b></td>
+<td align="center"><b>Endian<br>type</b></td>
+<td align="center"><b>Endian<br>conversion<br>function</b></td>
 </tr>
-<tr><td>16-bit aligned big endian</td><td align="right" bgcolor="#FFFFCC">2.71 s</td>
-  <td align="right">2.42 s</td><td align="right">2.42 s</td><td align="right">2.68 s</td></tr>
-<tr><td>16-bit aligned little endian</td><td align="right">2.42 s</td>
-  <td align="right">2.40 s</td><td align="right">2.68 s</td><td align="right">2.42 s</td></tr>
-<tr><td>32-bit aligned big endian</td><td align="right">2.68 s</td>
-  <td align="right">2.70 s</td><td align="right">2.67 s</td><td align="right">2.70 s</td></tr>
-<tr><td>32-bit aligned little endian</td><td align="right">2.68 s</td>
-  <td align="right">2.67 s</td><td align="right">2.70 s</td><td align="right">2.67 s</td></tr>
-<tr><td>64-bit aligned big endian</td><td align="right" bgcolor="#FFFFCC">2.96 s</td>
-  <td align="right" bgcolor="#FFFFCC">2.95 s</td>
-  <td align="right" bgcolor="#FFFFCC">2.95 s</td>
-  <td align="right" bgcolor="#FFFFCC">2.93 s</td></tr>
-<tr><td>64-bit aligned little endian</td><td align="right">2.42 s</td>
-  <td align="right">2.42 s</td><td align="right">2.67 s</td><td align="right">2.40 s</td></tr>
+<tr><td>16-bit aligned big endian</td><td align="right">1.95 s</td><td align="right">0.81 s</td></tr>
+<tr><td>16-bit aligned little endian</td><td align="right">0.83 s</td><td align="right">0.81 s</td></tr>
+<tr><td>16-bit unaligned big endian</td><td align="right">1.19 s</td><td align="right">0.81 s</td></tr>
+<tr><td>16-bit unaligned little endian</td><td align="right">1.20 s</td><td align="right">0.81 s</td></tr>
+<tr><td>32-bit aligned big endian</td><td align="right">0.97 s</td><td align="right">0.28 s</td></tr>
+<tr><td>32-bit aligned little endian</td><td align="right">0.27 s</td><td align="right">0.28 s</td></tr>
+<tr><td>32-bit unaligned big endian</td><td align="right">4.10 s</td><td align="right">0.27 s</td></tr>
+<tr><td>32-bit unaligned little endian</td><td align="right">4.10 s</td><td align="right">0.27 s</td></tr>
+<tr><td>64-bit aligned big endian</td><td align="right">1.64 s</td><td align="right">0.42 s</td></tr>
+<tr><td>64-bit aligned little endian</td><td align="right">0.41 s</td><td align="right">0.41 s</td></tr>
+<tr><td>64-bit unaligned big endian</td><td align="right">17.52 s</td><td align="right">0.42 s</td></tr>
+<tr><td>64-bit unaligned little endian</td><td align="right">17.52 s</td><td align="right">0.41 s</td></tr>
 
 </table>
+
 <p></p>
 
 <table border="1" cellpadding="5" cellspacing="0"style="border-collapse: collapse" bordercolor="#111111">
 <tr><td colspan="6" align="center"><b>Microsoft Visual C++ version 11.0</b></td></tr>
-<tr><td colspan="6" align="center"><b> Iterations: 1,000,000,000, Intrinsics: cstdlib _byteswap_ushort, etc.</b></td></tr>
+<tr><td colspan="6" align="center"><b> Iterations: 1000000000, Intrinsics: cstdlib _byteswap_ushort, etc.</b></td></tr>
 <tr><td><b>Test Case</b></td>
-<td align="center"><b>int<br>arg</b></td>
-<td align="center"><b>int<br>value(arg)</b></td>
-<td align="center"><b>int<br>in place(arg)</b></td>
-<td align="center"><b>Endian<br>arg</b></td>
+<td align="center"><b>Endian<br>type</b></td>
+<td align="center"><b>Endian<br>conversion<br>function</b></td>
 </tr>
-<tr><td>16-bit aligned big endian</td><td align="right">1.90 s</td>
-  <td align="right">1.87 s</td><td align="right">1.89 s</td><td align="right">1.87 s</td></tr>
-<tr><td>16-bit aligned little endian</td><td align="right">1.89 s</td>
-  <td align="right">1.87 s</td><td align="right">1.89 s</td><td align="right">1.87 s</td></tr>
-<tr><td>32-bit aligned big endian</td><td align="right">1.89 s</td>
-  <td align="right">1.87 s</td><td align="right">1.89 s</td><td align="right">1.87 s</td></tr>
-<tr><td>32-bit aligned little endian</td><td align="right">1.89 s</td>
-  <td align="right">1.87 s</td><td align="right">1.87 s</td><td align="right">1.89 s</td></tr>
-<tr><td>64-bit aligned big endian</td><td align="right">1.87 s</td>
-  <td align="right">1.89 s</td><td align="right">1.87 s</td><td align="right">1.89 s</td></tr>
-<tr><td>64-bit aligned little endian</td><td align="right">1.87 s</td>
-  <td align="right">1.87 s</td><td align="right">1.87 s</td><td align="right">1.89 s</td></tr>
-<tr><td colspan="6" align="center"><b> Iterations: 1,000,000,000, Intrinsics: no byte swap intrinsics</b></td></tr>
+<tr><td>16-bit aligned big endian</td><td align="right">2.18 s</td><td align="right">0.83 s</td></tr>
+<tr><td>16-bit aligned little endian</td><td align="right">0.81 s</td><td align="right">0.83 s</td></tr>
+<tr><td>16-bit unaligned big endian</td><td align="right">1.64 s</td><td align="right">0.83 s</td></tr>
+<tr><td>16-bit unaligned little endian</td><td align="right">1.64 s</td><td align="right">0.83 s</td></tr>
+<tr><td>32-bit aligned big endian</td><td align="right">0.83 s</td><td align="right">0.81 s</td></tr>
+<tr><td>32-bit aligned little endian</td><td align="right">0.83 s</td><td align="right">0.81 s</td></tr>
+<tr><td>32-bit unaligned big endian</td><td align="right">3.01 s</td><td align="right">0.83 s</td></tr>
+<tr><td>32-bit unaligned little endian</td><td align="right">3.01 s</td><td align="right">0.81 s</td></tr>
+<tr><td>64-bit aligned big endian</td><td align="right">1.09 s</td><td align="right">1.05 s</td></tr>
+<tr><td>64-bit aligned little endian</td><td align="right">0.83 s</td><td align="right">1.03 s</td></tr>
+<tr><td>64-bit unaligned big endian</td><td align="right">12.64 s</td><td align="right">1.01 s</td></tr>
+<tr><td>64-bit unaligned little endian</td><td align="right">8.41 s</td><td align="right">0.83 s</td></tr>
+
+<tr><td colspan="6" align="center"><b> Iterations: 1000000000, Intrinsics: no byte swap intrinsics</b></td></tr>
 <tr><td><b>Test Case</b></td>
-<td align="center"><b>int<br>arg</b></td>
-<td align="center"><b>int<br>value(arg)</b></td>
-<td align="center"><b>int<br>in place(arg)</b></td>
-<td align="center"><b>Endian<br>arg</b></td>
+<td align="center"><b>Endian<br>type</b></td>
+<td align="center"><b>Endian<br>conversion<br>function</b></td>
 </tr>
-<tr><td>16-bit aligned big endian</td><td align="right">1.90 s</td>
-  <td align="right">1.89 s</td><td align="right">1.87 s</td><td align="right">1.87 s</td></tr>
-<tr><td>16-bit aligned little endian</td><td align="right">1.89 s</td>
-  <td align="right">1.87 s</td><td align="right">1.89 s</td><td align="right">1.87 s</td></tr>
-<tr><td>32-bit aligned big endian</td><td align="right">1.89 s</td>
-  <td align="right">1.87 s</td><td align="right">1.87 s</td><td align="right">1.89 s</td></tr>
-<tr><td>32-bit aligned little endian</td><td align="right">1.87 s</td>
-  <td align="right">1.89 s</td><td align="right">1.87 s</td><td align="right">1.89 s</td></tr>
-<tr><td>64-bit aligned big endian</td><td align="right" bgcolor="#FFFFCC">2.32 s</td>
-  <td align="right" bgcolor="#FFFFCC">2.46 s</td>
-  <td align="right" bgcolor="#FFFFCC">2.45 s</td>
-  <td align="right" bgcolor="#FFFFCC">2.34 s</td></tr>
-<tr><td>64-bit aligned little endian</td><td align="right">1.87 s</td>
-  <td align="right">1.87 s</td><td align="right">1.89 s</td><td align="right">1.87 s</td></tr>
+<tr><td>16-bit aligned big endian</td><td align="right">0.84 s</td><td align="right">0.81 s</td></tr>
+<tr><td>16-bit aligned little endian</td><td align="right">0.83 s</td><td align="right">0.81 s</td></tr>
+<tr><td>16-bit unaligned big endian</td><td align="right">1.65 s</td><td align="right">0.81 s</td></tr>
+<tr><td>16-bit unaligned little endian</td><td align="right">1.65 s</td><td align="right">0.83 s</td></tr>
+<tr><td>32-bit aligned big endian</td><td align="right">3.46 s</td><td align="right">0.83 s</td></tr>
+<tr><td>32-bit aligned little endian</td><td align="right">0.81 s</td><td align="right">0.83 s</td></tr>
+<tr><td>32-bit unaligned big endian</td><td align="right">3.01 s</td><td align="right">0.81 s</td></tr>
+<tr><td>32-bit unaligned little endian</td><td align="right">3.01 s</td><td align="right">0.81 s</td></tr>
+<tr><td>64-bit aligned big endian</td><td align="right">10.50 s</td><td align="right">0.83 s</td></tr>
+<tr><td>64-bit aligned little endian</td><td align="right">0.83 s</td><td align="right">0.97 s</td></tr>
+<tr><td>64-bit unaligned big endian</td><td align="right">12.62 s</td><td align="right">0.81 s</td></tr>
+<tr><td>64-bit unaligned little endian</td><td align="right">8.42 s</td><td align="right">0.81 s</td></tr>
 
 </table>
 
@@ -458,7 +425,7 @@ Tim Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen
 and Vitaly Budovski,.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->26 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13988" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->28 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13992" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
