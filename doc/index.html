@@ -3,7 +3,7 @@
 <head>
 <meta name="GENERATOR" content="Microsoft FrontPage 5.0">
 <meta name="ProgId" content="FrontPage.Editor.Document">
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 <title>Boost Endian Library</title>
 <link rel="stylesheet" type="text/css" href="../../../doc/src/minimal.css">
@@ -26,7 +26,7 @@
     <td><b><a href="../../../index.htm">Boost Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="index.html">Endian Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="conversion.html">Conversion Functions</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="types.html">Endian Types</a>&nbsp;&nbsp;&nbsp;&nbsp; Tutorial</b></td>
+    <a href="types.html">Endian Types</a></b></td>
   </tr>
 </table>
 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" align="right">
@@ -40,6 +40,7 @@
       <a href="#Introduction-to-endianness">Introduction to endianness</a><br>
       <a href="#Introduction">Introduction to the Boost.Endian library</a><br>
       <a href="#Choosing">Choosing approaches</a><br>
+      <a href="#Intrinsic">Intrinsic built-in support</a><br>
       <a href="#Performance">Performance</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#Timings">Timings</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#Conclusions">Conclusions</a><br>
@@ -79,7 +80,7 @@ floating point, and user defined data.</p>
 
 <blockquote>
   <pre>int16_t i = 0x0102;
-FILE * file = fopen(&quot;test.bin&quot;, &quot;wb&quot;);   // MUST BE BINARY
+FILE * file = fopen(&quot;test.bin&quot;, &quot;wb&quot;);   // binary file!
 fwrite(&amp;i, sizeof(int16_t), 1, file);
 fclose(file);</pre>
 </blockquote>
@@ -103,7 +104,7 @@ ordering and the least-significant-byte-first is traditionally called
 <a href="http://en.wikipedia.org/wiki/Jonathan_Swift" title="Jonathan Swift">
 Jonathan Swift</a>'s satirical novel <i>
 <a href="http://en.wikipedia.org/wiki/Gulliver's_Travels" title="Gulliver's Travels">
-Gulliver’s Travels</a></i>, where rival kingdoms opened their soft-boiled eggs 
+Gulliverâ€™s Travels</a></i>, where rival kingdoms opened their soft-boiled eggs 
 at different ends.</p>
 <p>See the Wikipedia's
 <a href="http://en.wikipedia.org/wiki/Endianness">Endianness</a> article for an 
@@ -194,6 +195,18 @@ application needs.</p>
     </td>
   </tr>
 </table>
+
+<h2><a name="Intrinsic">Intrinsic</a> built-in support</h2>
+<p>Recent compilers, including GCC, Clang, and Microsoft, supply intrinsic 
+built-in support for byte swapping. Such support is automatically detected and 
+used since it may in smaller and faster generated code, particularly for release 
+builds.</p>
+<p dir="ltr">Defining <code>BOOST_ENDIAN_NO_INTRINSICS</code> will suppress use 
+of the intrinsics. Please try defining it if you get compiler errors, such as 
+header byteswap.h not being found.</p>
+<p dir="ltr">The macro <code>BOOST_ENDIAN_INTRINSIC_MSG</code> is defined as 
+either <code>&quot;no byte swap intrinsics&quot;</code> or a string describing the 
+particular set of intrinsics being used.</p>
 
 <h2><a name="Performance">Performance</a></h2>
 
@@ -425,6 +438,23 @@ stores, multiple instructions are required.</p>
 
 
 <h2>Overall <a name="FAQ">FAQ</a></h2>
+
+<p><b>Is the implementation header only?</b></p>
+
+<blockquote>
+
+<p>Yes.</p>
+
+</blockquote>
+
+<p><b>Does the implementation use compiler intrinsic built-in byte swapping?</b></p>
+
+<blockquote>
+
+<p>Yes, if available. See <a href="#Intrinsic">Intrinsic built-in support</a>.</p>
+
+</blockquote>
+
 <p><b>Why bother with endianness?</b></p>
 <blockquote>
 <p>Binary data portability is the primary use case.</p>
@@ -448,6 +478,15 @@ files, limit usefulness to applications where the binary I/O advantages are
 paramount.</p>
 </blockquote>
 
+<p><b>Which is better, big-endian or little-endian?</b></p>
+<blockquote>
+<p>Big-endian tends to be a 
+bit more of an industry standard, but little-endian may be preferred for 
+applications that run primarily Intel/AMD on x86, x64, and other little-endian 
+CPU's. The <a href="http://en.wikipedia.org/wiki/Endian">Wikipedia</a> article 
+gives more pros and cons.</p>
+</blockquote>
+
 <p><b>Why is only big, little, and native endianness supported?</b></p>
 <blockquote>
 <p>These are the only endian schemes that have any practical value today. PDP-11 
@@ -455,12 +494,33 @@ and the other middle endian approaches are interesting historical curiosities
 but have no relevance to C++ developers.</p>
 </blockquote>
 
+<p><b>What are the limitations of floating point support?</b></p>
+
+<blockquote>
+
+<p>The only supported types are four byte <code>float</code> and eight byte
+<code>double</code>. Even after endianness has been accounted for, floating 
+point values will not be portable between systems that use different floating 
+point formats. Systems where the integer endianness differs from floating point 
+endianness are not supported.</p>
+
+</blockquote>
+
+<p><b>What are the limitations of integer support?</b></p>
+
+<blockquote>
+
+<p>Only 16-bit, 32-bit, and 64-bit integers are supported. Tests have only been 
+performed on machines that  use two's complement arithmetic.</p>
+
+</blockquote>
+
 <h2><a name="Acknowledgements">Acknowledgements</a></h2>
 <p>Comments and suggestions were 
 received from
 Adder, Benaka Moorthi,
 Christopher Kohlhoff,
-Cliff Green,Daniel James, Gennaro Proto,
+Cliff Green, Daniel James, Gennaro Proto,
 Giovanni Piero Deretta, Gordon Woodhull, dizzy, Hartmut Kaiser, Jeff Flinn,
 John Filo, John Maddock,
 Kim Barrett,
@@ -474,7 +534,7 @@ and Vitaly Budovski,.</p>
 <hr>
 <p>Last revised:
 <!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->28 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13992" --></p>
-<p>© Copyright Beman Dawes, 2011, 2013</p>
+<p>Â© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
 

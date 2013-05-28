@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Language" content="en-us">
 <meta name="GENERATOR" content="Microsoft FrontPage 5.0">
 <meta name="ProgId" content="FrontPage.Editor.Document">
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Boost Endian Integers</title>
 <link rel="stylesheet" type="text/css" href="../../../doc/src/minimal.css">
 </head>
@@ -28,7 +28,7 @@
     <td><b><a href="../../../index.htm">Boost Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="index.html">Endian Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="conversion.html">Conversion Functions</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="types.html">Endian Types</a>&nbsp;&nbsp;&nbsp;&nbsp; Tutorial</b></td>
+    <a href="types.html">Endian Types</a></b></td>
   </tr>
 </table>
 
@@ -510,29 +510,14 @@ in <code>*this</code>.</p>
 <p>Other operators on endian objects are forwarded to the equivalent 
 operator on <code>value_type</code>.</p>
 <h2><a name="FAQ">FAQ</a></h2>
-<p><b>Why bother with endian types?</b> External data portability and both speed 
-and space efficiency. Availability 
-of additional binary integer sizes and alignments is important in some 
-applications.</p>
+
+<p>See the <a href="index.html#FAQ">Endian home page</a> FAQ for a library-wide 
+FAQ.</p>
+
 <p><b>Why not just use Boost.Serialization?</b> Serialization involves a 
 conversion for every object involved in I/O. Endian integers require no 
 conversion or copying. They are already in the desired format for binary I/O. 
 Thus they can be read or written in bulk.</p>
-<p><b>Why bother with binary I/O? Why not just use C++ Standard Library stream 
-inserters and extractors?</b> Using binary rather than character representations 
-can be more space efficient, with a side benefit of faster I/O. CPU time is 
-minimized because conversions to and from string are eliminated. 
-Furthermore, binary integers are fixed size, and so fixed-size disk records 
-are possible, easing sorting and allowing direct access. Disadvantages, such as the inability to use 
-text utilities on the resulting files, limit usefulness to applications where 
-the 
-binary I/O advantages are paramount.</p>
-<p><b>Do these types have any uses outside of I/O?</b> Native endianness can be used for fine grained control over size and 
-alignment, so may be used to save memory in applications not related to I/O.</p>
-<p><b>Is there is a performance hit when doing arithmetic using these types?</b> Yes, for sure, 
-compared to arithmetic operations on native integer types. However, these types 
-are usually be faster, and sometimes much faster, for I/O compared to stream 
-inserters and extractors, or to serialization.</p>
 <p><b>Are endian types POD's?</b> Yes for C++11. No for C++03, although several
 <a href="#Compilation">macros</a> are available to force PODness in all cases.</p>
 <p><b>What are the implications endian integer types not being POD's with C++03 
@@ -541,24 +526,15 @@ can't be used in unions. Also, compilers aren't required to align or lay
 out storage in portable ways, although this potential problem hasn't prevented 
 use of Boost.Endian with 
 real compilers.</p>
-<p><b>Which is better, big-endian or little-endian?</b> Big-endian tends to be a 
-bit more of an industry standard, but little-endian may be preferred for 
-applications that run primarily Intel/AMD on x86, x64, and other little-endian 
-CPU's. The <a href="http://en.wikipedia.org/wiki/Endian">Wikipedia</a> article 
-gives more pros and cons.</p>
 <p><b>What good is <i>native </i>endianness?</b> It  provides alignment and 
 size guarantees not available from the built-in types. It eases generic 
 programming.</p>
 <p><b>Why bother with the aligned endian types?</b> Aligned integer operations 
-may be faster (20 times, in one measurement) if the endianness and alignment of 
-the type matches the endianness and alignment requirements of the machine. On 
-common CPU architectures, that optimization is only available for aligned types. 
-That  allows I/O of maximally efficient types on an application's primary 
-platform, yet produces data files are portable to all platforms. The code, 
+may be faster (as much as 10 to 20 times faster) if the endianness and alignment of 
+the type matches the endianness and alignment requirements of the machine. The code, 
 however, is 
 likely to be somewhat less portable than with the unaligned types.</p>
-<p><b>The endian types are really just byte-holders. Why provide the arithmetic 
-operations at all?</b> Providing a full set of operations reduces program 
+<p><b>Why provide the arithmetic operations?</b> Providing a full set of operations reduces program 
 clutter and makes code both easier to write and to read. Consider 
 incrementing a variable in a record. It is very convenient to write:</p>
 <pre wrap>    ++record.foo;</pre>
@@ -629,11 +605,12 @@ Borgerding. Four original class templates combined into a single <code>endian</c
 class template by Beman Dawes, who put the library together, provided 
 documentation,  added the typedefs, and also added the <code>unrolled_byte_loops</code> 
 sign partial specialization to correctly extend the sign when cover integer size 
-differs from endian representation size.</p>
+differs from endian representation size. Vicente Botet and other reviewers 
+suggested supporting floating point types.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->26 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13988" --></p>
-<p>© Copyright Beman Dawes, 2006-2009</p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->28 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13992" --></p>
+<p>© Copyright Beman Dawes, 2006-2009, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
 
