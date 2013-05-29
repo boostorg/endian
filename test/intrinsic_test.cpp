@@ -5,8 +5,7 @@
 
 #include "test.hpp"
 #include <iostream>
-#include <cassert>
-//#include <cstdint>
+#include <boost/assert.hpp>
 
 typedef unsigned short uint16_t;
 typedef unsigned int uint32_t;
@@ -18,11 +17,11 @@ int main()
 
 #ifndef BOOST_ENDIAN_NO_INTRINSICS
   uint16_t x2 = 0x1122U;
-  assert(BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_2(x2) == 0x2211U);
+  BOOST_ASSERT(BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_2(x2) == 0x2211U);
   uint32_t x4 = 0x11223344UL;
-  assert(BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_4(x4) == 0x44332211UL);
+  BOOST_ASSERT(BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_4(x4) == 0x44332211UL);
   uint64_t x8 = 0x1122334455667788U;
-  assert(BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_8(x8) == 0x8877665544332211ULL);
+  BOOST_ASSERT(BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_8(x8) == 0x8877665544332211ULL);
 #endif
   return 0;
 }

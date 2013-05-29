@@ -319,7 +319,7 @@ namespace endian
         }
         const char* data() const BOOST_NOEXCEPT  { return m_value; }
       private:
-  	    char m_value[n_bits/8];
+        char m_value[n_bits/8];
     };
  
     //  unaligned float big endian specialization
@@ -344,7 +344,7 @@ namespace endian
         }
         const char* data() const BOOST_NOEXCEPT  { return m_value; }
       private:
-  	    char m_value[sizeof(value_type)];
+        char m_value[sizeof(value_type)];
     };
 
     //  unaligned double big endian specialization
@@ -369,7 +369,7 @@ namespace endian
         }
         const char* data() const BOOST_NOEXCEPT  { return m_value; }
       private:
-  	    char m_value[sizeof(value_type)];
+        char m_value[sizeof(value_type)];
     };
  
     //  unaligned float little endian specialization
@@ -394,7 +394,7 @@ namespace endian
         }
         const char* data() const BOOST_NOEXCEPT  { return m_value; }
       private:
-  	    char m_value[sizeof(value_type)];
+        char m_value[sizeof(value_type)];
     };
 
     //  unaligned double little endian specialization
@@ -419,7 +419,7 @@ namespace endian
         }
         const char* data() const BOOST_NOEXCEPT  { return m_value; }
       private:
-  	    char m_value[sizeof(value_type)];
+        char m_value[sizeof(value_type)];
     };
 
     //  unaligned little endian specialization
@@ -453,7 +453,7 @@ namespace endian
         }
         const char* data() const BOOST_NOEXCEPT  { return m_value; }
       private:
-  	    char m_value[n_bits/8];
+        char m_value[n_bits/8];
     };
 
     //  unaligned native endian specialization
@@ -485,7 +485,7 @@ namespace endian
 #   endif
         const char* data() const BOOST_NOEXCEPT  { return m_value; }
       private:
-  	    char m_value[n_bits/8];
+        char m_value[n_bits/8];
     };
 
   //  align::yes specializations; only n_bits == 16/32/64 supported
@@ -526,7 +526,7 @@ namespace endian
         }
         const char* data() const BOOST_NOEXCEPT  {return reinterpret_cast<const char*>(&m_value);}
       private:
-  	    T m_value;
+        T m_value;
     };
 
     //  aligned little endian specialization
@@ -565,7 +565,7 @@ namespace endian
         }
         const char* data() const BOOST_NOEXCEPT  {return reinterpret_cast<const char*>(&m_value);}
       private:
-  	    T m_value;
+        T m_value;
     };
 
 } // namespace endian
