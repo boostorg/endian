@@ -197,6 +197,11 @@ modifiable lvalue of type <code>Reversible</code>.</p>
     reversed.</td>
   </tr>
 </table>
+<p dir="ltr">See <a href="../example/udt_conversion_example.cpp">
+udt_conversion_example.cpp</a> for an example of a UDT that can used in the
+<code><a href="#big_endian">big_endian</a></code>, <code>
+<a href="#little_endian">little_endian</a></code>, and <code>
+<a href="#convert_generic">convert</a></code> function templates.</p>
 <h3><a name="Functions">Functions</a></h3>
 <pre><a name="reverse_value"></a>int16_t  reverse_value(int16_t x) noexcept;
 int32_t  reverse_value(int32_t x) noexcept;
@@ -331,7 +336,7 @@ provided.</p>
 support endian conversion as separate from endian integer types. Phil Endecott suggested the form of the value returning signatures. Vicente Botet and other reviewers suggested supporting floating point types and user defined types. General reverse template implementation approach using std::reverse suggested by Mathias Gaunard. Portable implementation approach for 16, 32, and 64-bit integers suggested by tymofey, with avoidance of undefined behavior as suggested by Giovanni Piero Deretta, and a further refinement suggested by Pyry Jahkola. Intrinsic builtins implementation approach for 16, 32, and 64-bit integers suggested by several reviewers, and by David Stone, who provided his Boost licensed macro implementation that became the starting point for <a href="../include/boost/endian/detail/intrinsic.hpp">boost/endian/detail/intrinsic.hpp</a>.</p>
 <hr>
 <p>Last revised: 
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->28 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13992" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->29 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13994" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
 

@@ -59,13 +59,24 @@ int main(int, char* [])
   UDT x(1, 1.2345f, "Bingo!");
   cout << std::hex;
   cout << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
+
   reverse(x);
   cout << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
+
   reverse(x);
   cout << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
+
   big_endian(x);
   cout << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
 
+  little_endian(x);
+  cout << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
+
+  convert<order::little, order::big>(x);
+  cout << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
+
+  convert(x, order::big, order::little);
+  cout << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
 }
 
 #include <boost/endian/detail/disable_warnings_pop.hpp>
