@@ -71,13 +71,13 @@
   </tr>
   <tr>
     <td width="100%" bgcolor="#E8F5FF">
-      <a href="../../../boost/endian/conversion.hpp">&lt;boost/endian/conversion.hpp&gt;</a><br>
-      <a href="../../../boost/endian/types.hpp">&lt;boost/endian/types.hpp&gt;</a></td>
+      <a href="../include/boost/endian/conversion.hpp">&lt;boost/endian/conversion.hpp&gt;</a><br>
+      <a href="../include/boost/endian/types.hpp">&lt;boost/endian/types.hpp&gt;</a></td>
   </tr>
 </table>
 <h2><a name="Introduction">Introduction</a></h2>
-<p>Header <a href="file:///D:/endian/boost/endian/types.hpp">&lt;boost/endian/types.hpp&gt;</a> provides 
-integer-like byte-holder binary types with explicit control over 
+<p>Header <a href="../include/boost/endian/types.hpp">boost/endian/types.hpp</a> 
+provides integer and floating point binary types with explicit control over 
 byte order, value type, size, and alignment. Typedefs provide easy-to-use names 
 for common configurations.</p>
 <p>These types provide portable byte-holders for integer data, independent of 
@@ -102,7 +102,8 @@ arithmetic operators are <code>+</code>, <code>+=</code>, <code>-</code>, <code>
 <code>^</code>, <code>^=</code>, <code>&lt;&lt;</code>, <code>&lt;&lt;=</code>, <code>&gt;&gt;</code>,
 <code>&gt;&gt;=</code>. Binary relational operators are <code>==</code>, <code>!=</code>,
 <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>.</p>
-<p>Automatic conversion is provided to the underlying integer value type.</p>
+<p>Automatic implicit conversion to the underlying value type is provided. An 
+explicit conversion constructor from the underlying value type is provided. </p>
 <h2><a name="Example">Example</a></h2>
 <p>The <a href="../example/endian_example.cpp">endian_example.cpp</a> program writes a 
 binary file containing four byte big-endian and little-endian integers:</p>
