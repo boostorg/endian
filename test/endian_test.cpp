@@ -523,6 +523,7 @@ namespace
       big_int16_t    v0;
       big_int32_t    v1;
       char          v3;
+      // on a 32-bit system, the padding here may be 3 rather than 7 bytes
       big_int64_t    v4;
     };
   
@@ -531,6 +532,7 @@ namespace
       little_int16_t    v0;
       little_int32_t    v1;
       char          v3;
+      // on a 32-bit system, the padding here may be 3 rather than 7 bytes
       little_int64_t    v4;
     };
 
@@ -542,8 +544,8 @@ namespace
     VERIFY_SIZE( sizeof(little_u_struct), 39 );
     VERIFY_SIZE( sizeof(native_struct), 39 );
     VERIFY_SIZE( sizeof(native_u_struct), 39 );
-    VERIFY_SIZE( sizeof(big_aligned_struct), 24 );
-    VERIFY_SIZE( sizeof(little_aligned_struct), 24 );
+    VERIFY( sizeof(big_aligned_struct) <= 24 );
+    VERIFY( sizeof(little_aligned_struct) <= 24 );
     VERIFY_SIZE( sizeof(big_float_struct), 8 );
     VERIFY_SIZE( sizeof(big_unaligned_float_struct), 6 );
 
