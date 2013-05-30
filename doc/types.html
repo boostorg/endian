@@ -332,8 +332,9 @@ memory, files, and network transmissions. </p>
 <p><font color="#FF0000"><b><i><span style="background-color: #FFFFFF">Warning:</span></i></b></font><span style="background-color: #FFFFFF"> 
 Code that uses a</span>ligned types is possibly non-portable because alignment 
 requirements vary between hardware architectures and because alignment may be 
-affected by compiler switches or pragmas. Furthermore, aligned types 
-are only available on architectures with 16, 32, and 64-bit integer types.</p>
+affected by compiler switches or pragmas. For example, alignment of an 64-bit 
+integer may be to a 32-bit boundary on a 32-bit machine. Furthermore, aligned types 
+are only available on architectures with 16, 32, and 64-bit integer types. </p>
 <p><b><i>Note:</i></b> One-byte types 
 have identical 
 functionality. They are provided to improve code readability and searchability.</p>
@@ -616,7 +617,7 @@ differs from endian representation size. Vicente Botet and other reviewers
 suggested supporting floating point types.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->29 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13994" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->30 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13977" --></p>
 <p>© Copyright Beman Dawes, 2006-2009, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
