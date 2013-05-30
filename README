@@ -1,33 +1,45 @@
+Boost Endian library
+
+To experiment with the Endian library, various other boost libraries must be
+available. So you need to install a current version of Boost if you have not
+already done so.
+
+Boost.Endian is a header-only library, so there is no need to run a build
+for it, but these instructions run a bootstrap so that b2 is available.
+
+These instructions assume you want to use a fresh copy of boost. If you are
+going to use an existing copy, skip the svn export and bootstrap steps.
+
 Windows
--------
+=======
 
-Prerequisites
+    svn export --non-interactive --trust-server-cert ^
+      http://svn.boost.org/svn/boost/trunk boost-root
+    cd boost-root  
+    .\bootstrap
+    cd libs
+    git clone git://github.com/Beman/endian.git
+    cd ..\boost
+    mklink /d endian ..\libs\endian\include\boost\endian
+    cd ..\libs\endian\test
+    ..\..\..\b2
+  
+Others
+======
 
-BOOST_TRUNK environmental variable set to the path to a current Boost trunk checkout.
-Example:
-
-  setx BOOST_TRUNK=c:\boost\trunk
-
-Boost libraries available in %BOOST_TRUNK%\stage\lib. Example:
- 
-  cd %BOOST_TRUNK%
-  .\bootstrap
-  .\b2 --with-system --with-chrono --with-timer link=shared stage
-
-path environmental variable set to include %BOOST_TRUNK%\stage\lib. Example:
- 
-  path %path%;%BOOST_TRUNK%\stage\lib
-
-The provided Visual Studio solution (endian/test/msvc2012/endian.sln) has these Property
-setups:
-
-C/C++|General|Additional Include Directories: prefix ..\..\..\..\endian\include;$(BOOST_TRUNK);
-C/C++|Preprocessor: prefix BOOST_ALL_DYN_LINK; 
-Linker|General|Additional Library Directories: $(BOOST_TRUNK)\stage\lib
-
-IMPORTANT: If Preprocessor macros are supplied via a common property page,
-<inherit from parent or project defaults> must be set for each project!
-------------------------------------------------------------------------------------------
+    svn export --non-interactive --trust-server-cert \
+      http://svn.boost.org/svn/boost/trunk boost-root
+    cd boost-root  
+    ./bootstrap.sh
+    cd libs
+    git clone git://github.com/Beman/endian.git
+    cd ../boost
+    ln -s ../libs/endian/include/boost/endian endian
+    cd ../libs/endian/test
+    ../../../b2
+  
+---------------------------
 Copyright Beman Dawes, 2013
+
 Distributed under the Boost Software License, Version 1.0.
-See http://www.boost.org/LICENSE_1_0.txt
+http://www.boost.org/LICENSE_1_0.txt 

@@ -15,6 +15,18 @@
 //  See endian_test for tests of endianess correctness, size, and value.
 
 //----------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
+//
+//
+//  TODO: transition to BOOST_TEST; more testing can only help
+//
+//
+//----------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
 
 #define _SCL_SECURE_NO_WARNINGS
 
@@ -31,11 +43,34 @@
 #endif
 
 #include <boost/endian/types.hpp>
+#include <boost/type_traits/is_signed.hpp>
+#include <boost/detail/lightweight_test.hpp>
 #include <boost/detail/lightweight_main.hpp>
 #include <cassert>
 #include <iostream>
 
 namespace be = boost::endian;
+
+template <class T>
+struct value_type
+{
+  typedef typename T::value_type type;
+};
+
+template<> struct value_type<char>  { typedef char type; };
+template<> struct value_type<unsigned char>  { typedef unsigned char type; };
+template<> struct value_type<signed char>  { typedef signed char type; };
+template<> struct value_type<short>  { typedef short type; };
+template<> struct value_type<unsigned short>  { typedef unsigned short type; };
+template<> struct value_type<int>  { typedef int type; };
+template<> struct value_type<unsigned int>  { typedef unsigned int type; };
+template<> struct value_type<long>  { typedef long type; };
+template<> struct value_type<unsigned long>  { typedef unsigned long type; };
+template<> struct value_type<long long>  { typedef long long type; };
+template<> struct value_type<unsigned long long>  { typedef unsigned long long type; };
+template<> struct value_type<float>  { typedef float type; };
+template<> struct value_type<double>  { typedef double type; };
+template<> struct value_type<long double>  { typedef long double type; };
 
 template <class T1,  class T2>
 struct default_construct
@@ -83,19 +118,40 @@ struct assign
   }
 };
 
-template <class T1,  class T2>
-struct relational
+template <class T1,  class T2, bool SameSignedness>
+struct do_relational
 {
   static void test()
   {
     T1 o1(1);
     T2 o2(2);
-    if ( o1 == o2 ) return;
-    if ( o1 != o2 ) return;
-    if ( o1 < o2 ) return;
-    if ( o1 <= o2 ) return;
-    if ( o1 > o2 ) return;
-    if ( o1 >= o2 ) return;
+    BOOST_TEST( !(o1 == o2) );
+    BOOST_TEST( o1 != o2 );
+    BOOST_TEST( o1 < o2 );
+    BOOST_TEST( o1 <= o2 );
+    BOOST_TEST( !(o1 > o2) );
+    BOOST_TEST( !(o1 >= o2 ) );
+  }
+};
+
+template <class T1,  class T2>
+struct do_relational<T1, T2, false>
+{
+  static void test()
+  {
+  }
+};
+
+template <class T1,  class T2>
+struct relational
+{
+  static void test()
+  {
+    do_relational<T1, T2,
+      boost::is_signed<typename value_type<T1>::type>::value
+        == boost::is_signed<typename value_type<T2>::type>::value
+                 >::test();
+ //   do_relational<T1, T2, true>::test();
   }
 };
 
