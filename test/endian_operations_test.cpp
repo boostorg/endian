@@ -194,12 +194,6 @@ struct op_star
 template <template<class,  class> class Test,  class T1>
 void op_test_aux()
 {
-#ifdef BOOST_SHORT_ENDIAN_TEST
-  Test<T1, int>::test();
-  Test<T1, unsigned int>::test();
-  Test<T1, be::big_int16un_t>::test();
-  Test<T1, be::big_uint64un_t>::test();
-#else
   Test<T1, char>::test();
   Test<T1, unsigned char>::test();
   Test<T1, signed char>::test();
@@ -211,6 +205,18 @@ void op_test_aux()
   Test<T1, unsigned long>::test();
   Test<T1, long long>::test();
   Test<T1, unsigned long long>::test();
+  Test<T1, be::big_int16_t>::test();
+  Test<T1, be::big_int32_t>::test();
+  Test<T1, be::big_int64_t>::test();
+  Test<T1, be::big_uint16_t>::test();
+  Test<T1, be::big_uint32_t>::test();
+  Test<T1, be::big_uint64_t>::test();
+  Test<T1, be::little_int16_t>::test();
+  Test<T1, be::little_int32_t>::test();
+  Test<T1, be::little_int64_t>::test();
+  Test<T1, be::little_uint16_t>::test();
+  Test<T1, be::little_uint32_t>::test();
+  Test<T1, be::little_uint64_t>::test();
   Test<T1, be::big_int8un_t>::test();
   Test<T1, be::big_int16un_t>::test();
   Test<T1, be::big_int24un_t>::test();
@@ -224,54 +230,48 @@ void op_test_aux()
   Test<T1, be::big_uint24un_t>::test();
   Test<T1, be::big_uint32un_t>::test();
   Test<T1, be::big_uint40un_t>::test();
-  Test<T1, be::big_uint48un_t>::test();
-  Test<T1, be::big_uint56un_t>::test();
   Test<T1, be::big_uint64un_t>::test();
-  Test<T1, be::little_int8un_t>::test();
   Test<T1, be::little_int16un_t>::test();
   Test<T1, be::little_int24un_t>::test();
   Test<T1, be::little_int32un_t>::test();
-  Test<T1, be::little_int40un_t>::test();
-  Test<T1, be::little_int48un_t>::test();
-  Test<T1, be::little_int56un_t>::test();
   Test<T1, be::little_int64un_t>::test();
-  Test<T1, be::little_uint8un_t>::test();
   Test<T1, be::little_uint16un_t>::test();
-  Test<T1, be::little_uint24un_t>::test();
   Test<T1, be::little_uint32un_t>::test();
-  Test<T1, be::little_uint40un_t>::test();
-  Test<T1, be::little_uint48un_t>::test();
   Test<T1, be::little_uint56un_t>::test();
   Test<T1, be::little_uint64un_t>::test();
-  Test<T1, be::native_int8un_t>::test();
   Test<T1, be::native_int16un_t>::test();
   Test<T1, be::native_int24un_t>::test();
   Test<T1, be::native_int32un_t>::test();
-  Test<T1, be::native_int40un_t>::test();
-  Test<T1, be::native_int48un_t>::test();
-  Test<T1, be::native_int56un_t>::test();
   Test<T1, be::native_int64un_t>::test();
-  Test<T1, be::native_uint8un_t>::test();
+#ifdef BOOST_LONG_ENDIAN_TEST
   Test<T1, be::native_uint16un_t>::test();
   Test<T1, be::native_uint24un_t>::test();
   Test<T1, be::native_uint32un_t>::test();
-  Test<T1, be::native_uint40un_t>::test();
   Test<T1, be::native_uint48un_t>::test();
-  Test<T1, be::native_uint56un_t>::test();
   Test<T1, be::native_uint64un_t>::test();
+  Test<T1, be::big_uint48un_t>::test();
+  Test<T1, be::big_uint56un_t>::test();
+  Test<T1, be::little_int8un_t>::test();
+  Test<T1, be::little_int56un_t>::test();
+  Test<T1, be::little_int40un_t>::test();
+  Test<T1, be::little_int48un_t>::test();
+  Test<T1, be::little_uint8un_t>::test();
+  Test<T1, be::little_uint24un_t>::test();
+  Test<T1, be::little_uint40un_t>::test();
+  Test<T1, be::little_uint48un_t>::test();
+  Test<T1, be::native_int8un_t>::test();
+  Test<T1, be::native_int40un_t>::test();
+  Test<T1, be::native_int48un_t>::test();
+  Test<T1, be::native_int56un_t>::test();
+  Test<T1, be::native_uint8un_t>::test();
+  Test<T1, be::native_uint40un_t>::test();
+  Test<T1, be::native_uint56un_t>::test();
 #endif
 }
 
 template <template<class,  class> class Test>
 void op_test()
 {
-#ifdef BOOST_SHORT_ENDIAN_TEST
-  op_test_aux<Test, unsigned short>();
-  op_test_aux<Test, int>();
-  op_test_aux<Test, be::big_int32un_t>();
-  op_test_aux<Test, be::big_uint32un_t>();
-  op_test_aux<Test, be::little_int48un_t>();
-#else
   op_test_aux<Test, char>();
   op_test_aux<Test, unsigned char>();
   op_test_aux<Test, signed char>();
@@ -283,6 +283,13 @@ void op_test()
   op_test_aux<Test, unsigned long>();
   op_test_aux<Test, long long>();
   op_test_aux<Test, unsigned long long>();
+  op_test_aux<Test, be::big_int16_t>();
+  op_test_aux<Test, be::big_int32_t>();
+  op_test_aux<Test, be::big_int64_t>();
+  op_test_aux<Test, be::little_int16_t>();
+  op_test_aux<Test, be::little_int32_t>();
+  op_test_aux<Test, be::little_int64_t>();
+#ifdef BOOST_LONG_ENDIAN_TEST
   op_test_aux<Test, be::big_int8un_t>();
   op_test_aux<Test, be::big_int16un_t>();
   op_test_aux<Test, be::big_int24un_t>();
