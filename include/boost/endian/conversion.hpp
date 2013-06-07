@@ -236,16 +236,14 @@ namespace endian
   {
     BOOST_STATIC_ASSERT_MSG(sizeof(float) == sizeof(uint32_t),
       "boost::endian only supprts sizeof(float) == 4; please report error to boost mailing list");
-    uint32_t tmp = reverse_value(*(const uint32_t*)&x);
-    return *(const float*)&tmp;
+    return detail::reverse_value(x);
   }
 
   inline double reverse_value(double x) BOOST_NOEXCEPT
   {
     BOOST_STATIC_ASSERT_MSG(sizeof(double) == sizeof(uint64_t),
       "boost::endian only supprts sizeof(double) == 8; please report error to boost mailing list");
-    uint64_t tmp = reverse_value(*(const uint64_t*)&x);
-    return *(const double*)&tmp;
+    return detail::reverse_value(x);
   }
 
   namespace detail
