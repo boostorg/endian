@@ -81,103 +81,103 @@ namespace endian
       class endian;
 
   // aligned big endian floating point types
-  typedef endian<order::big, float, 32, align::yes>       big_float32_t;
-  typedef endian<order::big, double, 64, align::yes>      big_float64_t;
+  typedef endian<order::big, float, 32, align::yes>       big_align_float32_t;
+  typedef endian<order::big, double, 64, align::yes>      big_align_float64_t;
 
   // aligned little endian floating point types
-  typedef endian<order::little, float, 32, align::yes>    little_float32_t;
-  typedef endian<order::little, double, 64, align::yes>   little_float64_t;
+  typedef endian<order::little, float, 32, align::yes>    little_align_float32_t;
+  typedef endian<order::little, double, 64, align::yes>   little_align_float64_t;
 
   // unaligned big endian floating point types
-  typedef endian<order::big, float, 32, align::no>        big_float32un_t;
-  typedef endian<order::big, double, 64, align::no>       big_float64un_t;
+  typedef endian<order::big, float, 32, align::no>        big_float32_t;
+  typedef endian<order::big, double, 64, align::no>       big_float64_t;
 
   // unaligned little endian floating point types
-  typedef endian<order::little, float, 32, align::no>     little_float32un_t;
-  typedef endian<order::little, double, 64, align::no>    little_float64un_t;
+  typedef endian<order::little, float, 32, align::no>     little_float32_t;
+  typedef endian<order::little, double, 64, align::no>    little_float64_t;
 
   // aligned big endian signed integer types
-  typedef endian<order::big, int16_t, 16, align::yes>      big_int16_t;
-  typedef endian<order::big, int32_t, 32, align::yes>      big_int32_t;
-  typedef endian<order::big, int64_t, 64, align::yes>      big_int64_t;
+  typedef endian<order::big, int16_t, 16, align::yes>      big_align_int16_t;
+  typedef endian<order::big, int32_t, 32, align::yes>      big_align_int32_t;
+  typedef endian<order::big, int64_t, 64, align::yes>      big_align_int64_t;
 
   // aligned big endian unsigned integer types
-  typedef endian<order::big, uint16_t, 16, align::yes>     big_uint16_t;
-  typedef endian<order::big, uint32_t, 32, align::yes>     big_uint32_t;
-  typedef endian<order::big, uint64_t, 64, align::yes>     big_uint64_t;
+  typedef endian<order::big, uint16_t, 16, align::yes>     big_align_uint16_t;
+  typedef endian<order::big, uint32_t, 32, align::yes>     big_align_uint32_t;
+  typedef endian<order::big, uint64_t, 64, align::yes>     big_align_uint64_t;
 
   // aligned little endian signed integer types
-  typedef endian<order::little, int16_t, 16, align::yes>   little_int16_t;
-  typedef endian<order::little, int32_t, 32, align::yes>   little_int32_t;
-  typedef endian<order::little, int64_t, 64, align::yes>   little_int64_t;
+  typedef endian<order::little, int16_t, 16, align::yes>   little_align_int16_t;
+  typedef endian<order::little, int32_t, 32, align::yes>   little_align_int32_t;
+  typedef endian<order::little, int64_t, 64, align::yes>   little_align_int64_t;
 
   // aligned little endian unsigned integer types
-  typedef endian<order::little, uint16_t, 16, align::yes>  little_uint16_t;
-  typedef endian<order::little, uint32_t, 32, align::yes>  little_uint32_t;
-  typedef endian<order::little, uint64_t, 64, align::yes>  little_uint64_t;
+  typedef endian<order::little, uint16_t, 16, align::yes>  little_align_uint16_t;
+  typedef endian<order::little, uint32_t, 32, align::yes>  little_align_uint32_t;
+  typedef endian<order::little, uint64_t, 64, align::yes>  little_align_uint64_t;
 
   // aligned native endian typedefs are not provided because
   // <cstdint> types are superior for this use case
 
   // unaligned big endian signed integer types
-  typedef endian<order::big, int_least8_t, 8>        big_int8un_t;
-  typedef endian<order::big, int_least16_t, 16>      big_int16un_t;
-  typedef endian<order::big, int_least32_t, 24>      big_int24un_t;
-  typedef endian<order::big, int_least32_t, 32>      big_int32un_t;
-  typedef endian<order::big, int_least64_t, 40>      big_int40un_t;
-  typedef endian<order::big, int_least64_t, 48>      big_int48un_t;
-  typedef endian<order::big, int_least64_t, 56>      big_int56un_t;
-  typedef endian<order::big, int_least64_t, 64>      big_int64un_t;
+  typedef endian<order::big, int_least8_t, 8>        big_int8_t;
+  typedef endian<order::big, int_least16_t, 16>      big_int16_t;
+  typedef endian<order::big, int_least32_t, 24>      big_int24_t;
+  typedef endian<order::big, int_least32_t, 32>      big_int32_t;
+  typedef endian<order::big, int_least64_t, 40>      big_int40_t;
+  typedef endian<order::big, int_least64_t, 48>      big_int48_t;
+  typedef endian<order::big, int_least64_t, 56>      big_int56_t;
+  typedef endian<order::big, int_least64_t, 64>      big_int64_t;
 
   // unaligned big endian unsigned integer types
-  typedef endian<order::big, uint_least8_t, 8>       big_uint8un_t;
-  typedef endian<order::big, uint_least16_t, 16>     big_uint16un_t;
-  typedef endian<order::big, uint_least32_t, 24>     big_uint24un_t;
-  typedef endian<order::big, uint_least32_t, 32>     big_uint32un_t;
-  typedef endian<order::big, uint_least64_t, 40>     big_uint40un_t;
-  typedef endian<order::big, uint_least64_t, 48>     big_uint48un_t;
-  typedef endian<order::big, uint_least64_t, 56>     big_uint56un_t;
-  typedef endian<order::big, uint_least64_t, 64>     big_uint64un_t;
+  typedef endian<order::big, uint_least8_t, 8>       big_uint8_t;
+  typedef endian<order::big, uint_least16_t, 16>     big_uint16_t;
+  typedef endian<order::big, uint_least32_t, 24>     big_uint24_t;
+  typedef endian<order::big, uint_least32_t, 32>     big_uint32_t;
+  typedef endian<order::big, uint_least64_t, 40>     big_uint40_t;
+  typedef endian<order::big, uint_least64_t, 48>     big_uint48_t;
+  typedef endian<order::big, uint_least64_t, 56>     big_uint56_t;
+  typedef endian<order::big, uint_least64_t, 64>     big_uint64_t;
 
   // unaligned little endian signed integer types
-  typedef endian<order::little, int_least8_t, 8>     little_int8un_t;
-  typedef endian<order::little, int_least16_t, 16>   little_int16un_t;
-  typedef endian<order::little, int_least32_t, 24>   little_int24un_t;
-  typedef endian<order::little, int_least32_t, 32>   little_int32un_t;
-  typedef endian<order::little, int_least64_t, 40>   little_int40un_t;
-  typedef endian<order::little, int_least64_t, 48>   little_int48un_t;
-  typedef endian<order::little, int_least64_t, 56>   little_int56un_t;
-  typedef endian<order::little, int_least64_t, 64>   little_int64un_t;
+  typedef endian<order::little, int_least8_t, 8>     little_int8_t;
+  typedef endian<order::little, int_least16_t, 16>   little_int16_t;
+  typedef endian<order::little, int_least32_t, 24>   little_int24_t;
+  typedef endian<order::little, int_least32_t, 32>   little_int32_t;
+  typedef endian<order::little, int_least64_t, 40>   little_int40_t;
+  typedef endian<order::little, int_least64_t, 48>   little_int48_t;
+  typedef endian<order::little, int_least64_t, 56>   little_int56_t;
+  typedef endian<order::little, int_least64_t, 64>   little_int64_t;
 
   // unaligned little endian unsigned integer types
-  typedef endian<order::little, uint_least8_t, 8>    little_uint8un_t;
-  typedef endian<order::little, uint_least16_t, 16>  little_uint16un_t;
-  typedef endian<order::little, uint_least32_t, 24>  little_uint24un_t;
-  typedef endian<order::little, uint_least32_t, 32>  little_uint32un_t;
-  typedef endian<order::little, uint_least64_t, 40>  little_uint40un_t;
-  typedef endian<order::little, uint_least64_t, 48>  little_uint48un_t;
-  typedef endian<order::little, uint_least64_t, 56>  little_uint56un_t;
-  typedef endian<order::little, uint_least64_t, 64>  little_uint64un_t;
+  typedef endian<order::little, uint_least8_t, 8>    little_uint8_t;
+  typedef endian<order::little, uint_least16_t, 16>  little_uint16_t;
+  typedef endian<order::little, uint_least32_t, 24>  little_uint24_t;
+  typedef endian<order::little, uint_least32_t, 32>  little_uint32_t;
+  typedef endian<order::little, uint_least64_t, 40>  little_uint40_t;
+  typedef endian<order::little, uint_least64_t, 48>  little_uint48_t;
+  typedef endian<order::little, uint_least64_t, 56>  little_uint56_t;
+  typedef endian<order::little, uint_least64_t, 64>  little_uint64_t;
 
   // unaligned native endian signed integer types
-  typedef endian<order::native, int_least8_t, 8>     native_int8un_t;
-  typedef endian<order::native, int_least16_t, 16>   native_int16un_t;
-  typedef endian<order::native, int_least32_t, 24>   native_int24un_t;
-  typedef endian<order::native, int_least32_t, 32>   native_int32un_t;
-  typedef endian<order::native, int_least64_t, 40>   native_int40un_t;
-  typedef endian<order::native, int_least64_t, 48>   native_int48un_t;
-  typedef endian<order::native, int_least64_t, 56>   native_int56un_t;
-  typedef endian<order::native, int_least64_t, 64>   native_int64un_t;
+  typedef endian<order::native, int_least8_t, 8>     native_int8_t;
+  typedef endian<order::native, int_least16_t, 16>   native_int16_t;
+  typedef endian<order::native, int_least32_t, 24>   native_int24_t;
+  typedef endian<order::native, int_least32_t, 32>   native_int32_t;
+  typedef endian<order::native, int_least64_t, 40>   native_int40_t;
+  typedef endian<order::native, int_least64_t, 48>   native_int48_t;
+  typedef endian<order::native, int_least64_t, 56>   native_int56_t;
+  typedef endian<order::native, int_least64_t, 64>   native_int64_t;
 
   // unaligned native endian unsigned integer types
-  typedef endian<order::native, uint_least8_t, 8>    native_uint8un_t;
-  typedef endian<order::native, uint_least16_t, 16>  native_uint16un_t;
-  typedef endian<order::native, uint_least32_t, 24>  native_uint24un_t;
-  typedef endian<order::native, uint_least32_t, 32>  native_uint32un_t;
-  typedef endian<order::native, uint_least64_t, 40>  native_uint40un_t;
-  typedef endian<order::native, uint_least64_t, 48>  native_uint48un_t;
-  typedef endian<order::native, uint_least64_t, 56>  native_uint56un_t;
-  typedef endian<order::native, uint_least64_t, 64>  native_uint64un_t;
+  typedef endian<order::native, uint_least8_t, 8>    native_uint8_t;
+  typedef endian<order::native, uint_least16_t, 16>  native_uint16_t;
+  typedef endian<order::native, uint_least32_t, 24>  native_uint24_t;
+  typedef endian<order::native, uint_least32_t, 32>  native_uint32_t;
+  typedef endian<order::native, uint_least64_t, 40>  native_uint40_t;
+  typedef endian<order::native, uint_least64_t, 48>  native_uint48_t;
+  typedef endian<order::native, uint_least64_t, 56>  native_uint56_t;
+  typedef endian<order::native, uint_least64_t, 64>  native_uint64_t;
 
 }  // namespace boost
 }  // namespace endian
