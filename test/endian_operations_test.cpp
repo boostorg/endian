@@ -42,6 +42,8 @@
 # pragma warning( disable : 4389 )  // signed/unsigned mismatch
 #endif
 
+#define BOOST_ENDIAN_LOG
+
 #include <boost/endian/types.hpp>
 #include <boost/type_traits/is_signed.hpp>
 #include <boost/detail/lightweight_test.hpp>
@@ -341,6 +343,8 @@ void op_test()
 #endif
 }
 
+void f_big_int32_t(be::big_int32_t) {}
+
 //  main  ------------------------------------------------------------------------------//
 
 int cpp_main(int, char * [])
@@ -364,6 +368,13 @@ int cpp_main(int, char * [])
   be::little_uint16_t  little_u(10);
   be::big_int64_t      result;
 
+  // this is the use case that is so irritating that it caused the endian
+  // constructors to be made non-explicit
+  std::clog << "\nf(1234) where f(big_int32_t)\n";
+  f_big_int32_t(1234);
+
+  std::clog << "\nresult = big\n";
+  result = big;
 
   std::clog << "\nresult = +big\n";
   result = +big;
@@ -417,21 +428,26 @@ int cpp_main(int, char * [])
   result = 5 * 10;
   std::clog << "\n";
 
-  be::endian_log = false;
-
-  //  test from Roland Schwarz that detected ambiguities
+  //  test from Roland Schwarz that detected ambiguities; these ambiguities
+  //  were eliminated by BOOST_MINIMAL_INTEGER_COVER_OPERATORS
   unsigned u;
   be::little_uint32_t u1;
   be::little_uint32_t u2;
 
-  u = 1;
+  u = 9;
   u1 = 1;
+  std::clog << "\nu2 = u1 + u\n";
   u2 = u1 + u;
+  std::clog << "\n";
 
   //  one more wrinkle
   be::little_uint16_t u3(3);
   u3 = 3;
+  std::clog << "\nu2 = u1 + u3\n";
   u2 = u1 + u3;
+  std::clog << "\n";
+
+  be::endian_log = false;
     
   //  perform the indicated test on ~60*60 operand types
 

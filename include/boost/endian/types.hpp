@@ -63,6 +63,12 @@
 #   define BOOST_ENDIAN_NO_CTORS
 # endif
 
+# ifndef BOOST_ENDIAN_EXPLICIT_CTORS
+#   define BOOST_ENDIAN_EXPLICIT_OPT
+# else
+#   define BOOST_ENDIAN_EXPLICIT_OPT explicit
+# endif
+
 //----------------------------------  synopsis  ----------------------------------------//
 
 namespace boost
@@ -298,7 +304,7 @@ namespace endian
         typedef T value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        explicit endian(T val) BOOST_NOEXCEPT
+        BOOST_ENDIAN_EXPLICIT_OPT endian(T val) BOOST_NOEXCEPT
         { 
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
@@ -331,7 +337,7 @@ namespace endian
         typedef float value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        explicit endian(value_type val) BOOST_NOEXCEPT
+        BOOST_ENDIAN_EXPLICIT_OPT endian(value_type val) BOOST_NOEXCEPT
           { detail::big_reverse_copy(val, m_value); }
 #     endif
         endian & operator=(value_type val) BOOST_NOEXCEPT
@@ -356,7 +362,7 @@ namespace endian
         typedef double value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        explicit endian(value_type val) BOOST_NOEXCEPT
+        BOOST_ENDIAN_EXPLICIT_OPT endian(value_type val) BOOST_NOEXCEPT
           { detail::big_reverse_copy(val, m_value); }
 #     endif
         endian & operator=(value_type val) BOOST_NOEXCEPT
@@ -381,7 +387,7 @@ namespace endian
         typedef float value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        explicit endian(value_type val) BOOST_NOEXCEPT
+        BOOST_ENDIAN_EXPLICIT_OPT endian(value_type val) BOOST_NOEXCEPT
           { detail::little_reverse_copy(val, m_value); }
 #     endif
         endian & operator=(value_type val) BOOST_NOEXCEPT
@@ -406,7 +412,7 @@ namespace endian
         typedef double value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        explicit endian(value_type val) BOOST_NOEXCEPT
+        BOOST_ENDIAN_EXPLICIT_OPT endian(value_type val) BOOST_NOEXCEPT
           { detail::little_reverse_copy(val, m_value); }
 #     endif
         endian & operator=(value_type val) BOOST_NOEXCEPT
@@ -432,7 +438,7 @@ namespace endian
         typedef T value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        explicit endian(T val) BOOST_NOEXCEPT
+        BOOST_ENDIAN_EXPLICIT_OPT endian(T val) BOOST_NOEXCEPT
         { 
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
@@ -467,9 +473,9 @@ namespace endian
 #   ifndef BOOST_ENDIAN_NO_CTORS
         endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
 #     ifdef BOOST_BIG_ENDIAN
-        explicit endian(T val) BOOST_NOEXCEPT { detail::store_big_endian<T, n_bits/8>(m_value, val); }
+        BOOST_ENDIAN_EXPLICIT_OPT endian(T val) BOOST_NOEXCEPT { detail::store_big_endian<T, n_bits/8>(m_value, val); }
 #     else
-        explicit endian(T val) BOOST_NOEXCEPT { detail::store_little_endian<T, n_bits/8>(m_value, val); }
+        BOOST_ENDIAN_EXPLICIT_OPT endian(T val) BOOST_NOEXCEPT { detail::store_little_endian<T, n_bits/8>(m_value, val); }
 #     endif
 #   endif
 #   ifdef BOOST_BIG_ENDIAN  
@@ -501,7 +507,7 @@ namespace endian
         typedef T value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        explicit endian(T val) BOOST_NOEXCEPT
+        BOOST_ENDIAN_EXPLICIT_OPT endian(T val) BOOST_NOEXCEPT
         {
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
@@ -540,7 +546,7 @@ namespace endian
         typedef T value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        explicit endian(T val) BOOST_NOEXCEPT
+        BOOST_ENDIAN_EXPLICIT_OPT endian(T val) BOOST_NOEXCEPT
         {
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )

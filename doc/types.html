@@ -76,7 +76,7 @@
 </table>
 <h2><a name="Introduction">Introduction</a></h2>
 <p>Header <a href="../include/boost/endian/types.hpp">boost/endian/types.hpp</a> 
-provides integer and floating point binary types with explicit control over 
+provides integer and floating point binary types with control over 
 byte order, value type, size, and alignment. Typedefs provide easy-to-use names 
 for common configurations.</p>
 <p>These types provide portable byte-holders for integer data, independent of 
@@ -102,7 +102,7 @@ arithmetic operators are <code>+</code>, <code>+=</code>, <code>-</code>, <code>
 <code>&gt;&gt;=</code>. Binary relational operators are <code>==</code>, <code>!=</code>,
 <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>.</p>
 <p>Automatic implicit conversion to the underlying value type is provided. An 
-explicit conversion constructor from the underlying value type is provided. </p>
+conversion constructor from the underlying value type is provided. </p>
 <h2><a name="Example">Example</a></h2>
 <p>The <a href="../example/endian_example.cpp">endian_example.cpp</a> program writes a 
 binary file containing four byte big-endian and little-endian integers:</p>
@@ -361,13 +361,14 @@ usual operations on integers are supplied.</p>
       // if BOOST_ENDIAN_FORCE_PODNESS is defined &amp;&amp; C++11 POD's are not
       // available then these two constructors will not be present
       <a href="#endian">endian</a>() noexcept = default;
-      explicit <a href="#explicit-endian">endian</a>(T v) noexcept;
+      <a href="#explicit-endian">endian</a>(T v) noexcept;
 
       endian&amp; <a href="#operator-eq">operator=</a>(T v) noexcept;
       <a href="#operator-T">operator T</a>() const noexcept;
       const char* <a href="#data">data</a>() const noexcept;
 
-      // arithmetic operations; additional operators provided by value_type
+      // arithmetic operations
+      //   note that additional operations are provided by the value_type 
       value_type operator+(const endian&amp; x) noexcept;
       endian&amp; operator+=(endian&amp; x, value_type y) noexcept;
       endian&amp; operator-=(endian&amp; x, value_type y) noexcept;
@@ -387,43 +388,44 @@ usual operations on integers are supplied.</p>
       endian operator--(endian&amp; x, int) noexcept;
     };
 
-    typedef endian&lt;order::big, float, 32, align::yes&gt;      big_align_float32_t;
-    typedef endian&lt;order::big, double, 64, align::yes&gt;     big_align_float64_t;
+    // aligned big endian floating point types
+    typedef endian&lt;order::big, float, 32, align::yes&gt;       big_align_float32_t;
+    typedef endian&lt;order::big, double, 64, align::yes&gt;      big_align_float64_t;
 
-  // aligned little endian floating point types
-    typedef endian&lt;order::little, float, 32, align::yes&gt;   little_align_float32_t;
-    typedef endian&lt;order::little, double, 64, align::yes&gt;  little_align_float64_t;
+    // aligned little endian floating point types
+    typedef endian&lt;order::little, float, 32, align::yes&gt;    little_align_float32_t;
+    typedef endian&lt;order::little, double, 64, align::yes&gt;   little_align_float64_t;
 
-  // unaligned big endian floating point types
-    typedef endian&lt;order::big, float, 32, align::no&gt;       big_float32un_t;
-    typedef endian&lt;order::big, double, 64, align::no&gt;      big_float64un_t;
+    // unaligned big endian floating point types
+    typedef endian&lt;order::big, float, 32, align::no&gt;        big_float32un_t;
+    typedef endian&lt;order::big, double, 64, align::no&gt;       big_float64un_t;
   
     // unaligned little endian floating point types
-    typedef endian&lt;order::little, float, 32, align::no&gt;    little_float32un_t;
-    typedef endian&lt;order::little, double, 64, align::no&gt;   little_float64un_t;
+    typedef endian&lt;order::little, float, 32, align::no&gt;     little_float32un_t;
+    typedef endian&lt;order::little, double, 64, align::no&gt;    little_float64un_t;
   
     // aligned big endian signed integer types
-    typedef endian&lt;order::big, int16_t, 16, align::yes&gt;    big_align_int16_t;
-  typedef endian&lt;order::big, int32_t, 32, align::yes&gt;      big_align_int32_t;
-  typedef endian&lt;order::big, int64_t, 64, align::yes&gt;      big_align_int64_t;
+    typedef endian&lt;order::big, int16_t, 16, align::yes&gt;     big_align_int16_t;
+    typedef endian&lt;order::big, int32_t, 32, align::yes&gt;     big_align_int32_t;
+    typedef endian&lt;order::big, int64_t, 64, align::yes&gt;     big_align_int64_t;
 
-  // aligned big endian unsigned integer types
-  typedef endian&lt;order::big, uint16_t, 16, align::yes&gt;     big_align_uint16_t;
-  typedef endian&lt;order::big, uint32_t, 32, align::yes&gt;     big_align_uint32_t;
-  typedef endian&lt;order::big, uint64_t, 64, align::yes&gt;     big_align_uint64_t;
+    // aligned big endian unsigned integer types
+    typedef endian&lt;order::big, uint16_t, 16, align::yes&gt;    big_align_uint16_t;
+    typedef endian&lt;order::big, uint32_t, 32, align::yes&gt;    big_align_uint32_t;
+    typedef endian&lt;order::big, uint64_t, 64, align::yes&gt;    big_align_uint64_t;
 
-  // aligned little endian signed integer types
-  typedef endian&lt;order::little, int16_t, 16, align::yes&gt;   little_align_int16_t;
-  typedef endian&lt;order::little, int32_t, 32, align::yes&gt;   little_align_int32_t;
-  typedef endian&lt;order::little, int64_t, 64, align::yes&gt;   little_align_int64_t;
+    // aligned little endian signed integer types
+    typedef endian&lt;order::little, int16_t, 16, align::yes&gt;  little_align_int16_t;
+    typedef endian&lt;order::little, int32_t, 32, align::yes&gt;  little_align_int32_t;
+    typedef endian&lt;order::little, int64_t, 64, align::yes&gt;  little_align_int64_t;
 
-  // aligned little endian unsigned integer types
-  typedef endian&lt;order::little, uint16_t, 16, align::yes&gt;  little_align_uint16_t;
-  typedef endian&lt;order::little, uint32_t, 32, align::yes&gt;  little_align_uint32_t;
-  typedef endian&lt;order::little, uint64_t, 64, align::yes&gt;  little_align_uint64_t;
+    // aligned little endian unsigned integer types
+    typedef endian&lt;order::little, uint16_t, 16, align::yes&gt; little_align_uint16_t;
+    typedef endian&lt;order::little, uint32_t, 32, align::yes&gt; little_align_uint32_t;
+    typedef endian&lt;order::little, uint64_t, 64, align::yes&gt; little_align_uint64_t;
 
-  // aligned native endian typedefs are not provided because
-  // &lt;cstdint&gt; types are superior for this use case
+    // aligned native endian typedefs are not provided because
+    // &lt;cstdint&gt; types are superior for that use case
   
     // unaligned big endian signed integer types
     typedef endian&lt;order::big, int_least8_t, 8&gt;        big_int8_t;
@@ -488,28 +490,30 @@ usual operations on integers are supplied.</p>
   } // namespace endian
 } // namespace boost</pre>
 <h3><a name="Members">Members</a></h3>
-<p><code><a name="endian">endian</a>() = default;&nbsp; // C++03: endian(){}</code></p>
+<div dir="ltr">
+  <pre><code><a name="endian">endian</a>() = default;  // C++03: endian(){}</code></pre>
+</div>
 <blockquote>
 <p><i>Effects:</i> Constructs an object of type <code>endian&lt;E, T, n_bits, A&gt;</code>.</p>
 </blockquote>
-<p><code><a name="explicit-endian">explicit endian</a>(T v);</code></p>
+<pre><code><a name="explicit-endian">endian</a>(T v);</code></pre>
 <blockquote>
 <p><i>Effects:</i> Constructs an object of type <code>endian&lt;E, T, n_bits, A&gt;</code>.</p>
 <p><i>Postcondition:</i> <code>x == v,</code> where <code>x</code> is the 
 constructed object.</p>
 </blockquote>
-<p><code>endian&amp; <a name="operator-eq">operator=</a>(T v);</code></p>
+<pre><code>endian&amp; <a name="operator-eq">operator=</a>(T v);</code></pre>
 <blockquote>
   <p><i>Postcondition:</i> <code>x == v,</code> where <code>x</code> is the 
   constructed object.</p>
   <p><i>Returns:</i> <code>*this</code>.</p>
 </blockquote>
-<p><code><a name="operator-T">operator T</a>() const;</code></p>
+<pre><code><a name="operator-T">operator T</a>() const;</code></pre>
 <blockquote>
 <p><i>Returns:</i> The current value stored in <code>*this</code>, converted to
 <code>value_type</code>.</p>
 </blockquote>
-<p><code>const char* <a name="data">data</a>() const;</code></p>
+<pre><code>const char* <a name="data">data</a>() const;</code></pre>
 <blockquote>
 <p><i>Returns:</i> A pointer to the first byte of the endian binary value stored 
 in <code>*this</code>.</p>
@@ -617,7 +621,7 @@ differs from endian representation size. Vicente Botet and other reviewers
 suggested supporting floating point types.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->31 August, 2013<!--webbot bot="Timestamp" endspan i-checksum="34505" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->06 September, 2013<!--webbot bot="Timestamp" endspan i-checksum="39344" --></p>
 <p>© Copyright Beman Dawes, 2006-2009, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
