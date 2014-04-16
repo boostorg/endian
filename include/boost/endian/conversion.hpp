@@ -35,11 +35,11 @@ namespace endian
   
   // reverse byte order (i.e. endianness)
   //   
-  inline int8_t  reverse_value(int8_t x) BOOST_NOEXCEPT;
+  inline int8_t   reverse_value(int8_t x) BOOST_NOEXCEPT;
   inline int16_t  reverse_value(int16_t x) BOOST_NOEXCEPT;
   inline int32_t  reverse_value(int32_t x) BOOST_NOEXCEPT;
   inline int64_t  reverse_value(int64_t x) BOOST_NOEXCEPT;
-  inline uint8_t reverse_value(uint8_t x) BOOST_NOEXCEPT;
+  inline uint8_t  reverse_value(uint8_t x) BOOST_NOEXCEPT;
   inline uint16_t reverse_value(uint16_t x) BOOST_NOEXCEPT;
   inline uint32_t reverse_value(uint32_t x) BOOST_NOEXCEPT;
   inline uint64_t reverse_value(uint64_t x) BOOST_NOEXCEPT;

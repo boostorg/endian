@@ -18,6 +18,8 @@
 namespace be = boost::endian;
 using std::cout;
 using std::endl;
+using boost::int8_t;
+using boost::uint8_t;
 using boost::int16_t;
 using boost::uint16_t;
 using boost::int32_t;
@@ -28,6 +30,20 @@ using boost::uint64_t;
 namespace
 {
   //  values for tests
+
+  void native_value(int8_t& x) {x = static_cast<int8_t>(0xF0U);}
+  void native_value(uint8_t& x) {x = static_cast<uint8_t>(0xF0U);}
+# ifdef BOOST_BIG_ENDIAN
+  void big_value(int8_t& x) {x = static_cast<int8_t>(0xF0U);}
+  void big_value(uint8_t& x) {x = static_cast<uint8_t>(0xF0U);}
+  void little_value(int8_t& x) {x = static_cast<int8_t>(0xF0U);}
+  void little_value(uint8_t& x) {x = static_cast<uint8_t>(0xF0U);}
+# else
+  void big_value(int8_t& x) {x = static_cast<int8_t>(0xF0U);}
+  void big_value(uint8_t& x) {x = static_cast<uint8_t>(0xF0U);}
+  void little_value(int8_t& x) {x = static_cast<int8_t>(0xF0U);}
+  void little_value(uint8_t& x) {x = static_cast<uint8_t>(0xF0U);}
+# endif
 
   void native_value(int16_t& x) {x = static_cast<int16_t>(0xF102U);}
   void native_value(uint16_t& x) {x = static_cast<uint16_t>(0xF102U);}
@@ -243,6 +259,11 @@ int cpp_main(int, char * [])
   
   //std::cerr << std::hex;
 
+  cout << "int8_t" << endl;
+  test<int8_t>();
+  cout << "uint8_t" << endl;
+  test<uint8_t>();
+  cout << "int32_t" << endl;
   cout << "int16_t" << endl;
   test<int16_t>();
   cout << "uint16_t" << endl;

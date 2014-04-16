@@ -91,23 +91,19 @@ namespace endian
   enum class <a name="order">order</a> {big, little, native};
 
   // reverse byte order (i.e. endianness)
+  int8_t   <a href="#reverse_value">reverse_value</a>(int8_t x) noexcept;
   int16_t  <a href="#reverse_value">reverse_value</a>(int16_t x) noexcept;
   int32_t  <a href="#reverse_value">reverse_value</a>(int32_t x) noexcept;
   int64_t  <a href="#reverse_value">reverse_value</a>(int64_t x) noexcept;
+  uint8_t  <a href="#reverse_value">reverse_value</a>(uint8_t x) noexcept;
   uint16_t <a href="#reverse_value">reverse_value</a>(uint16_t x) noexcept;
   uint32_t <a href="#reverse_value">reverse_value</a>(uint32_t x) noexcept;
   uint64_t <a href="#reverse_value">reverse_value</a>(uint64_t x) noexcept;
   float    <a href="#reverse_value">reverse_value</a>(float x) noexcept;
   double   <a href="#reverse_value">reverse_value</a>(double x) noexcept;
 
-  void     <a href="#reverse">reverse</a>(int16_t&amp; x) noexcept;
-  void     <a href="#reverse">reverse</a>(int32_t&amp; x) noexcept;
-  void     <a href="#reverse">reverse</a>(int64_t&amp; x) noexcept;
-  void     <a href="#reverse">reverse</a>(uint16_t&amp; x) noexcept;
-  void     <a href="#reverse">reverse</a>(uint32_t&amp; x) noexcept;
-  void     <a href="#reverse">reverse</a>(uint64_t&amp; x) noexcept;
-  void     <a href="#reverse">reverse</a>(float&amp; x) noexcept;
-  void     <a href="#reverse">reverse</a>(double&amp; x) noexcept; 
+  template &lt;class Value&gt;
+  void     <a href="#reverse">reverse</a>(Value&amp; x) noexcept;
 
   // reverse byte order unless native endianness is big
   template &lt;class ReversibleValue &gt;
@@ -203,9 +199,11 @@ udt_conversion_example.cpp</a> for an example of a UDT that can used in the
 <a href="#little_endian">little_endian</a></code>, and <code>
 <a href="#convert_generic">convert</a></code> function templates.</p>
 <h3><a name="Functions">Functions</a></h3>
-<pre><a name="reverse_value"></a>int16_t  reverse_value(int16_t x) noexcept;
+<pre><a name="reverse_value"></a>int8_t  reverse_value(int8_t x) noexcept;
+int16_t  reverse_value(int16_t x) noexcept;
 int32_t  reverse_value(int32_t x) noexcept;
 int64_t  reverse_value(int64_t x) noexcept;
+uint8_t  reverse_value(uint8_t x) noexcept;
 uint16_t reverse_value(uint16_t x) noexcept;
 uint32_t reverse_value(uint32_t x) noexcept;
 uint64_t reverse_value(uint64_t x) noexcept;
@@ -215,14 +213,8 @@ double   reverse_value(double x) noexcept;</pre>
   <p><i>Returns:</i> <i><code>x</code></i>, with the order of its 
   constituent bytes reversed.</p>
 </blockquote>
-<pre><a name="reverse"></a>void reverse(int16_t&amp; x) noexcept;
-void reverse(int32_t&amp; x) noexcept;
-void reverse(int64_t&amp; x) noexcept;
-void reverse(uint16_t&amp; x) noexcept;
-void reverse(uint32_t&amp; x) noexcept;
-void reverse(uint64_t&amp; x) noexcept;
-void reverse(float&amp; x) noexcept;
-void reverse(double&amp; x) noexcept;</pre>
+<pre><a name="reverse"></a>template &lt;class Value&gt;
+  void     reverse(Value&amp; x) noexcept;</pre>
 <blockquote>
   <p><i>Postconditions:</i> The order of the constituent bytes of
   <code>x</code> are reversed.</p>
@@ -333,10 +325,12 @@ provided.</p>
 </blockquote>
 
 <h2><a name="Acknowledgements">Acknowledgements</a></h2><p>Tomas Puverle was instrumental in identifying and articulating the need to 
-support endian conversion as separate from endian integer types. Phil Endecott suggested the form of the value returning signatures. Vicente Botet and other reviewers suggested supporting floating point types and user defined types. General reverse template implementation approach using std::reverse suggested by Mathias Gaunard. Portable implementation approach for 16, 32, and 64-bit integers suggested by tymofey, with avoidance of undefined behavior as suggested by Giovanni Piero Deretta, and a further refinement suggested by Pyry Jahkola. Intrinsic builtins implementation approach for 16, 32, and 64-bit integers suggested by several reviewers, and by David Stone, who provided his Boost licensed macro implementation that became the starting point for <a href="../include/boost/endian/detail/intrinsic.hpp">boost/endian/detail/intrinsic.hpp</a>.</p>
+support endian conversion as separate from endian integer types. Phil Endecott suggested the form of the value returning signatures. Vicente Botet and other reviewers suggested supporting floating point types and user defined types. General reverse template implementation approach using std::reverse suggested by Mathias Gaunard. Portable implementation approach for 16, 32, and 64-bit integers suggested by tymofey, with avoidance of undefined behavior as suggested by Giovanni Piero Deretta, and a further refinement suggested by Pyry Jahkola. Intrinsic builtins implementation approach for 16, 32, and 64-bit integers suggested by several reviewers, and by David Stone, who provided his Boost licensed macro implementation that became the starting point for <a href="../include/boost/endian/detail/intrinsic.hpp">boost/endian/detail/intrinsic.hpp</a>. 
+Pierre Talbot provided the <code>int8_t reverse_value()</code> and templated
+<code>reverse()</code> implementations.</p>
 <hr>
 <p>Last revised: 
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->29 May, 2013<!--webbot bot="Timestamp" endspan i-checksum="13994" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->16 April, 2014<!--webbot bot="Timestamp" endspan i-checksum="29929" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
 
