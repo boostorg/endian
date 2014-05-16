@@ -5,7 +5,7 @@
 <meta name="GENERATOR" content="Microsoft FrontPage 5.0">
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-<title>New Page 1</title>
+<title>Endian since formal review</title>
 </head>
 
 <body>
@@ -15,14 +15,12 @@
   <li>Both the endian types and endian conversion functions now support 32-bit (<code>float)</code> and 
   64-bit <code>(double)</code> floating point, as requested.</li>
   <li>Both the endian types and endian conversion functions now support UDTs, as requested.</li>
-  <li>Both the endian types and endian conversion functions have been renamed, 
-  using a naming pattern that is consistent for both integer and floating point.</li>
   <li>The conversion functions have been much revised, 
   refactored, and otherwise improved based on review comments.<ul>
     <li>Both return-by-value and modify-in-place interfaces are provided, as 
     requested.</li>
     <li>Synonyms for the BSD byte swapping function names popularized by OS X 
-    and Linux are provided, so that that developers already used to these name 
+    and Linux are provided, so that that developers already used to these names 
     can continue to use them if they wish.</li>
     <li>In addition to the named-endianness functions, functions that perform 
     compile-time (via template) and run-time (via function argument) dispatch 
@@ -38,6 +36,7 @@
   Infrastructure file names changed accordingly.</li>
   <li>C++11 features such as <code>noexcept</code> are now used, while still 
   supporting C++03 compilers.</li>
+  <li>Documentation revised and expanded, as requested.</li>
   <li>Acknowledgements have been updated.</li>
   <li>Headers have been reorganized to make them easier to read, 
   with a synopsis at the front and implementation following, as requested.</li>
@@ -46,6 +45,8 @@
   <li>Overloads of <code>reverse()</code> have been replaced with a single <code>
   reverse()</code> template. (Pierre Talbot)</li>
 </ul>
+
+<p>&nbsp;</p>
 
 </body>
 
