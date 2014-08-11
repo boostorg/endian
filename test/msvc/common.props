@@ -2,12 +2,13 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir>$(TEMP)\$(SolutionName)\$(Configuration)\</OutDir>
-    <IntDir>$(TEMP)\$(SolutionName)\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionName)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionName)\$(ProjectName)\$(Configuration)\</IntDir>
+    <ExecutablePath>..\..\..\..\..\stage\lib;$(VC_ExecutablePath_x86);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\endian\include;$(BOOST_TRUNK);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <PreprocessorDefinitions>BOOST_ALL_DYN_LINK;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
@@ -16,7 +17,7 @@
       <Command>"$(TargetDir)\$(TargetName).exe"</Command>
     </PostBuildEvent>
     <Link>
-      <AdditionalLibraryDirectories>$(BOOST_TRUNK)\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../../../..\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
 </Project>
