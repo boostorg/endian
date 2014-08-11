@@ -77,7 +77,15 @@ namespace endian
 {
 
 #ifndef BOOST_ENDIAN_ORDER_ENUM_DEFINED
-  BOOST_SCOPED_ENUM_START(order) {big, little, native}; BOOST_SCOPED_ENUM_END
+  BOOST_SCOPED_ENUM_START(order)
+  {
+    big, little,
+# ifdef  BOOST_BIG_ENDIAN
+    native = big
+# else
+    native = little
+# endif
+  }; BOOST_SCOPED_ENUM_END
 # define BOOST_ENDIAN_ORDER_ENUM_DEFINED
 #endif
   BOOST_SCOPED_ENUM_START(align) {no, yes}; BOOST_SCOPED_ENUM_END

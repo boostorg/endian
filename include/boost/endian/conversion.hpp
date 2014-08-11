@@ -24,7 +24,15 @@ namespace boost
 namespace endian
 {
 #ifndef BOOST_ENDIAN_ORDER_ENUM_DEFINED
-  BOOST_SCOPED_ENUM_START(order) {big, little, native}; BOOST_SCOPED_ENUM_END
+  BOOST_SCOPED_ENUM_START(order)
+  {
+    big, little,
+# ifdef  BOOST_BIG_ENDIAN
+      native = big
+# else
+      native = little
+# endif
+  }; BOOST_SCOPED_ENUM_END
 # define BOOST_ENDIAN_ORDER_ENUM_DEFINED
 #endif
 
@@ -330,23 +338,22 @@ namespace endian
     //  Primary template and specializations to support convert_value(). See rationale in convert_value() below.
     template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class Reversible>
       class value_converter ;  // primary template
-    template <class T> class value_converter <order::native, order::native, T> {public: T operator()(T x) BOOST_NOEXCEPT {return x;}};
+//    template <class T> class value_converter <order::native, order::native, T> {public: T operator()(T x) BOOST_NOEXCEPT {return x;}};
     template <class T> class value_converter <order::big, order::big, T> {public: T operator()(T x) BOOST_NOEXCEPT {return x;}};
     template <class T> class value_converter <order::little, order::little, T> {public: T operator()(T x) BOOST_NOEXCEPT {return x;}};
-
     template <class T> class value_converter <order::big, order::little, T> {public: T operator()(T x) BOOST_NOEXCEPT {return reverse_value(x);}};
     template <class T> class value_converter <order::little, order::big, T> {public: T operator()(T x) BOOST_NOEXCEPT {return reverse_value(x);}};
-# ifdef BOOST_BIG_ENDIAN
-    template <class T> class value_converter <order::native, order::big, T> {public: T operator()(T x) BOOST_NOEXCEPT {return return x;}};
-    template <class T> class value_converter <order::native, order::little, T> {public: T operator()(T x) BOOST_NOEXCEPT {return reverse_value(x);}};
-    template <class T> class value_converter <order::big, order::native, T> {public: T operator()(T x) BOOST_NOEXCEPT {return x;};
-    template <class T> class value_converter <order::little, order::native, T> {public: T operator()(T x) BOOST_NOEXCEPT {return reverse_value(x);}};
-# else  // BOOST_LITTLE_ENDIAN
-    template <class T> class value_converter <order::native, order::big, T> {public: T operator()(T x) BOOST_NOEXCEPT {return reverse_value(x);}};
-    template <class T> class value_converter <order::native, order::little, T> {public: T operator()(T x) BOOST_NOEXCEPT {return x;}};
-    template <class T> class value_converter <order::big, order::native, T> {public: T operator()(T x) BOOST_NOEXCEPT {return reverse_value(x);}};
-    template <class T> class value_converter <order::little, order::native, T> {public: T operator()(T x) BOOST_NOEXCEPT {return x;}};
-# endif
+//# ifdef BOOST_BIG_ENDIAN
+//    template <class T> class value_converter <order::native, order::big, T> {public: T operator()(T x) BOOST_NOEXCEPT {return return x;}};
+//    template <class T> class value_converter <order::native, order::little, T> {public: T operator()(T x) BOOST_NOEXCEPT {return reverse_value(x);}};
+//    template <class T> class value_converter <order::big, order::native, T> {public: T operator()(T x) BOOST_NOEXCEPT {return x;};
+//    template <class T> class value_converter <order::little, order::native, T> {public: T operator()(T x) BOOST_NOEXCEPT {return reverse_value(x);}};
+//# else  // BOOST_LITTLE_ENDIAN
+//    template <class T> class value_converter <order::native, order::big, T> {public: T operator()(T x) BOOST_NOEXCEPT {return reverse_value(x);}};
+//    template <class T> class value_converter <order::native, order::little, T> {public: T operator()(T x) BOOST_NOEXCEPT {return x;}};
+//    template <class T> class value_converter <order::big, order::native, T> {public: T operator()(T x) BOOST_NOEXCEPT {return reverse_value(x);}};
+//    template <class T> class value_converter <order::little, order::native, T> {public: T operator()(T x) BOOST_NOEXCEPT {return x;}};
+//# endif
   }
 
   //  compile-time generic convert return by value
@@ -413,23 +420,22 @@ namespace endian
     //  Primary template and specializations to support convert(). See rationale in convert() below.
     template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class Reversible>
       class converter;  // primary template
-    template <class T> class converter<order::native, order::native, T> {public: void operator()(T&) BOOST_NOEXCEPT {/*no effect*/}};
+   // template <class T> class converter<order::native, order::native, T> {public: void operator()(T&) BOOST_NOEXCEPT {/*no effect*/}};
     template <class T> class converter<order::big, order::big, T> {public: void operator()(T&) BOOST_NOEXCEPT {/*no effect*/}};
     template <class T> class converter<order::little, order::little, T> {public: void operator()(T&) BOOST_NOEXCEPT {/*no effect*/}};
-
     template <class T> class converter<order::big, order::little, T> {public: void operator()(T& x) BOOST_NOEXCEPT {reverse(x);}};
     template <class T> class converter<order::little, order::big, T> {public: void operator()(T& x) BOOST_NOEXCEPT {reverse(x);}};
-# ifdef BOOST_BIG_ENDIAN
-    template <class T> class converter<order::native, order::big, T> {public: void operator()(T&) BOOST_NOEXCEPT {/*no effect*/}};
-    template <class T> class converter<order::native, order::little, T> {public: void operator()(T& x) BOOST_NOEXCEPT {reverse(x);}};
-    template <class T> class converter<order::big, order::native, T> {public: void operator()(T&) BOOST_NOEXCEPT {/*no effect*/}};
-    template <class T> class converter<order::little, order::native, T> {public: void operator()(T& x) BOOST_NOEXCEPT {reverse(x);}};
-# else  // BOOST_LITTLE_ENDIAN
-    template <class T> class converter<order::native, order::big, T> {public: void operator()(T& x) BOOST_NOEXCEPT {reverse(x);}};
-    template <class T> class converter<order::native, order::little, T> {public: void operator()(T&) BOOST_NOEXCEPT {/*no effect*/}};
-    template <class T> class converter<order::big, order::native, T> {public: void operator()(T& x) BOOST_NOEXCEPT {reverse(x);}};
-    template <class T> class converter<order::little, order::native, T> {public: void operator()(T&) BOOST_NOEXCEPT {/*no effect*/}};
-# endif
+//# ifdef BOOST_BIG_ENDIAN
+//    template <class T> class converter<order::native, order::big, T> {public: void operator()(T&) BOOST_NOEXCEPT {/*no effect*/}};
+//    template <class T> class converter<order::native, order::little, T> {public: void operator()(T& x) BOOST_NOEXCEPT {reverse(x);}};
+//    template <class T> class converter<order::big, order::native, T> {public: void operator()(T&) BOOST_NOEXCEPT {/*no effect*/}};
+//    template <class T> class converter<order::little, order::native, T> {public: void operator()(T& x) BOOST_NOEXCEPT {reverse(x);}};
+//# else  // BOOST_LITTLE_ENDIAN
+//    template <class T> class converter<order::native, order::big, T> {public: void operator()(T& x) BOOST_NOEXCEPT {reverse(x);}};
+//    template <class T> class converter<order::native, order::little, T> {public: void operator()(T&) BOOST_NOEXCEPT {/*no effect*/}};
+//    template <class T> class converter<order::big, order::native, T> {public: void operator()(T& x) BOOST_NOEXCEPT {reverse(x);}};
+//    template <class T> class converter<order::little, order::native, T> {public: void operator()(T&) BOOST_NOEXCEPT {/*no effect*/}};
+//# endif
   }
 
   //  compile-time generic byte-order convert in place
