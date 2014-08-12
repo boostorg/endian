@@ -492,38 +492,6 @@ namespace endian
         char m_value[n_bits/8];
     };
 
-//    //  unaligned native endian specialization
-//    template <typename T, std::size_t n_bits>
-//    class endian< order::native, T, n_bits, align::no >
-//      : cover_operators< endian< order::native, T, n_bits >, T >
-//    {
-//        BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
-//      public:
-//        typedef T value_type;
-//#   ifndef BOOST_ENDIAN_NO_CTORS
-//        endian() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-//#     ifdef BOOST_BIG_ENDIAN
-//        BOOST_ENDIAN_EXPLICIT_OPT endian(T val) BOOST_NOEXCEPT { detail::store_big_endian<T, n_bits/8>(m_value, val); }
-//#     else
-//        BOOST_ENDIAN_EXPLICIT_OPT endian(T val) BOOST_NOEXCEPT { detail::store_little_endian<T, n_bits/8>(m_value, val); }
-//#     endif
-//#   endif
-//#   ifdef BOOST_BIG_ENDIAN  
-//        endian & operator=(T val) BOOST_NOEXCEPT
-//          { detail::store_big_endian<T, n_bits/8>(m_value, val); return *this; }
-//        operator T() const BOOST_NOEXCEPT
-//          { return detail::load_big_endian<T, n_bits/8>(m_value); }
-//#   else
-//        endian & operator=(T val) BOOST_NOEXCEPT
-//          { detail::store_little_endian<T, n_bits/8>(m_value, val); return *this; }
-//        operator T() const BOOST_NOEXCEPT
-//          { return detail::load_little_endian<T, n_bits/8>(m_value); }
-//#   endif
-//        const char* data() const BOOST_NOEXCEPT  { return m_value; }
-//      private:
-//        char m_value[n_bits/8];
-//    };
-
   //  align::yes specializations; only n_bits == 16/32/64 supported
 
     //  aligned big endian specialization
