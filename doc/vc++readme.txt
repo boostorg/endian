@@ -3,30 +3,28 @@ Windows
 
 Prerequisites
 
-BOOST_TRUNK environmental variable set to the path to a current Boost trunk checkout.
-Example:
-
-  setx BOOST_TRUNK=c:\boost\trunk
-
-Boost libraries available in %BOOST_TRUNK%\stage\lib. Example:
+Boost libraries available in boost-root\stage\lib. Example:
  
-  cd %BOOST_TRUNK%
+  cd boost-root
   .\bootstrap
   .\b2 --with-system --with-chrono --with-timer link=shared stage
 
-path environmental variable set to include %BOOST_TRUNK%\stage\lib. Example:
+The provided Visual Studio solution (endian/test/msvc/endian.sln) has a property page
+(endian/test/msvc/common.prop) with these Common Properties set (do not include the
+double quotes):
+
+    VC++ Directores|Executable Directories: prefix default value with "..\..\..\..\..\stage\lib;"
+    (Click "Inherit from parent or project defaults" if not checked)
+
+    C/C++|General|Additional Include Directories: prefix default value with "..\..\..\..\..\stage\lib;"
  
-  path %path%;%BOOST_TRUNK%\stage\lib
+    Linker|General|Additional Library Directories: prefix default value with "..\..\..\..\..\stage\lib;"
 
-The provided Visual Studio solution (endian/test/msvc2012/endian.sln) has these Property
-setups:
-
-C/C++|General|Additional Include Directories: prefix ..\..\..\..\endian\include;$(BOOST_TRUNK);
-C/C++|Preprocessor: prefix BOOST_ALL_DYN_LINK; 
-Linker|General|Additional Library Directories: $(BOOST_TRUNK)\stage\lib
+    C/C++|Preprocessor: prefix default value with "BOOST_ALL_DYN_LINK;"
 
 IMPORTANT: If Preprocessor macros are supplied via a common property page,
 <inherit from parent or project defaults> must be set for each project!
+
 ------------------------------------------------------------------------------------------
 Copyright Beman Dawes, 2013
 Distributed under the Boost Software License, Version 1.0.

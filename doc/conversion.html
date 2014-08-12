@@ -88,7 +88,12 @@ namespace boost
 {
 namespace endian
 {
-  enum class <a name="order">order</a> {big, little, native};
+  enum class <a name="order">order</a>
+  {
+    big,                             // big-endian
+    little,                          // little-endian
+    native = <b><i>implementation-defined</i></b>  // same as order::big or order::little<b><i>
+  </i></b>};
 
   // reverse byte order (i.e. endianness)
   int8_t   <a href="#reverse_value">reverse_value</a>(int8_t x) noexcept;
@@ -151,6 +156,9 @@ namespace endian
 
 } // namespace endian
 } // namespace boost</pre>
+<p>The <i><b><code>implementation-defined</code></b></i> text above is either
+<code>big</code> or <code>little</code> according to the endianness of the 
+platform.</p>
 <h3><a name="Requirements">Requirements</a></h3>
 <p>The template definitions in this header refer to named 
 requirements whose details are set out in this section. User defined types may 
@@ -330,7 +338,7 @@ Pierre Talbot provided the <code>int8_t reverse_value()</code> and templated
 <code>reverse()</code> implementations.</p>
 <hr>
 <p>Last revised: 
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->16 April, 2014<!--webbot bot="Timestamp" endspan i-checksum="29929" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->12 August, 2014<!--webbot bot="Timestamp" endspan i-checksum="34569" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
 

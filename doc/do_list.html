@@ -11,6 +11,9 @@
 <body>
 
 <h1>Endian Library Do List</h1>
+
+<p><b>August 12, 2014: The many items that have been completed should be 
+removed, after verifying that they are in fact taken care of.</b></p>
 <h2>To Do</h2>
 <ul>
   <li>Re-read all messages, and extract Acknowledgements and revise TODO list.</li>
@@ -24,13 +27,6 @@
   <li>Apply mockups of the buffers to the example programs, to get a<br>
   firmer idea if the buffer idea actually seems to do be worthwhile in<br>
   practice.</li>
-  <li>Post work-in-progress for feedback.</li>
-  <li>boost-root/boost/detail/endian.hpp: Boost.Endian should provide identical 
-  functionality in a Boost license only header. That implies rewriting the 
-  portions covered by the original SGI copyright. The boost-root/boost/detail/endian.hpp 
-  header should be changed to forward to the Boost.Endian header to preserve 
-  existing code, and the SGI copyright thus eliminated.</li>
-  <li>Finalize and hold mini-review.</li>
 </ul>
 <h2>Format Review Comments</h2>
 <h3 dir="ltr">Votes</h3>
@@ -115,7 +111,6 @@
 <h3>Docs</h3>
 <ul>
   <li>Document use of endian integers with stream inserters and extractors.</li>
-  <li>Either add tutorial or remove from menu bar.</li>
   <li>Conversion in note mention similarity to htonl() , etc.</li>
   <li>Conversion: add discussion of alignment, packing, etc. Bottom line; use at 
   your own risk. Use Phil's example:<br>
@@ -180,9 +175,6 @@
   <li><span style="background-color: #FFCCFF">Beman: TODO</span><span style="background-color: #FFCCFF">:
   </span><span style="background-color: #FFCCFF">Google</span><span style="background-color: #FFCCFF"> 
   &quot;unaligned integer&quot;, look at various entries. For example, http://</span><span style="background-color: #FFCCFF">infocenter.arm.com</span><span style="background-color: #FFCCFF">/help/</span><span style="background-color: #FFCCFF">index.jsp?topic</span><span style="background-color: #FFCCFF">=/</span><span style="background-color: #FFCCFF">com.arm.doc.faqs</span><span style="background-color: #FFCCFF">/ka3544.html</span></li>
-  <li>Merge conversion2 into conversion.hpp</li>
-  <li>Use builtins where applicable (GCC, possibly others)</li>
-  <li>Endian integer types should use the conversion functions where applicable.</li>
   <li>Beman: Some platforms (compiler/processor taken together) don't require 
   alignment for the conversion functions if code is inlined, although speed may 
   suffer. (test to verify this assertion). On those platforms, conversion 
@@ -203,25 +195,6 @@
   <li>Test use of endian integers with stream inserters and extractors.</li>
   <li>Continue work on benchmarks and timings. Consider using use-case example 
   programs as benchmarks.</li>
-  <li>
-  <div class="im">
-    &gt; The reorder fuction should provide both reorder in place and returned.</div>
-  <p>Interesting, but providing two ways of doing something is often<br>
-  considered the not best design practice. And the tests I've run so far<br>
-  don't indicate any efficiency concern. Once all other aspects of the<br>
-  interface and implementation are settled, let's revisit that question.<br>
-&nbsp;</li>
-  <li>&gt; The endianness scoped enum native should be replaced so it is defined<br>
-  &gt; depending on the endianess of the platform.<br>
-  &gt;<br>
-  &gt; &nbsp;BOOST_SCOPED_ENUM_START(<wbr />endianness) { big, little, native=(big or 
-  little)<br>
-  &gt; }; BOOST_SCOPED_ENUM_END<br>
-  &gt;<br>
-  &gt; This will have the advantage to reduce of 1/3 the number of specializations.<br>
-  <br>
-  Does this work?<br>
-&nbsp;</li>
   <li dir="ltr">
   <div class="im">
     &gt; The library should provide in addition endian conversion functions that 
@@ -233,9 +206,6 @@
 </ul>
 <h3>Infrastructure</h3>
 <ul>
-  <li>Remove scoped_enum_emulation_test stuff.</li>
-  <li>Remove timer stuff.</li>
-  <li>Use Boost.Timer.</li>
   <li>
   <div class="im">
     &gt; endian_operations_test.cpp and endian_in_union_test.cpp ... maybe rename 
@@ -249,24 +219,8 @@
   <p>Will do.</li>
   <li>Make the bin() functionality available</li>
 </ul>
-<h3>Performance</h3>
-<p>&nbsp;</p>
-<h3>Acknowledge</h3>
-<p>Gordon Woodhull, Hartmut Kaiser, Phil Endecott, tymofey, Giovanni Piero Deretta, Pyry Jahkola, 
-John Filo, Vitaly Budovski, Tomas Puverle, Vicente J. Botet Escriba, Tim 
-Blechmann, Daniel James, Mathias Gaunard, Adder, Tim Moore</p>
 
-<p>Paul Bristow docs help </p>
-
-<h2>Floating Point Support</h2>
-
-<p>* Because FP formats vary, just dealing with endianness doesn't ensure<br>
-portability.<br>
-* The endianness of FP and integer values differs on some platforms,<br>
-so we will have to build up a config file with separate entries for<br>
-each platform, and that will take time to mature.<br>
-* Ditto FP sizes.<br>
-* I'm only willing to provide conversion.hpp FP support. Providing<br>
+<p>* I'm only willing to provide conversion.hpp FP support. Providing<br>
 types that mimic FP types is far beyond my knowledge of how to deal<br>
 with floating point's notorious arithmetic issues.</p>
 <p>Support IEEE754 format (32 bit, 64 bit) only.</p>

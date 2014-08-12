@@ -207,6 +207,7 @@ will no longer be relying on unspecified behavior.</p>
 <p>Two scoped enums are provided:</p>
 <blockquote>
   <pre>enum class order {big, little, native};
+
 enum class align {no, yes}; </pre>
 </blockquote>
 <p>One class template is provided:</p>
@@ -349,7 +350,13 @@ usual operations on integers are supplied.</p>
   {
     //  C++11 features emulated if not available
    
-    enum class <a name="endianness">order</a> {big, little, native};
+    enum class <a name="order">order</a>
+    {
+      big,                             // big-endian
+      little,                          // little-endian
+      native = <b><i>implementation-defined</i></b>  // same as order::big or order::little<b><i>
+    </i></b>};
+
     enum class <a name="alignment">align</a> {no, yes};            
 
     template &lt;order Order, typename T, std::size_t n_bits, align A = align::no&gt;
@@ -467,28 +474,31 @@ usual operations on integers are supplied.</p>
     typedef endian&lt;order::little, uint_least64_t, 56&gt;  little_uint56_t;
     typedef endian&lt;order::little, uint_least64_t, 64&gt;  little_uint64_t;
   
-    // unaligned native endian signed integer types
-    typedef endian&lt;order::native, int_least8_t, 8&gt;     native_int8_t;
-    typedef endian&lt;order::native, int_least16_t, 16&gt;   native_int16_t;
-    typedef endian&lt;order::native, int_least32_t, 24&gt;   native_int24_t;
-    typedef endian&lt;order::native, int_least32_t, 32&gt;   native_int32_t;
-    typedef endian&lt;order::native, int_least64_t, 40&gt;   native_int40_t;
-    typedef endian&lt;order::native, int_least64_t, 48&gt;   native_int48_t;
-    typedef endian&lt;order::native, int_least64_t, 56&gt;   native_int56_t;
-    typedef endian&lt;order::native, int_least64_t, 64&gt;   native_int64_t;
-  
-    // unaligned native endian unsigned integer types
-    typedef endian&lt;order::native, uint_least8_t, 8&gt;    native_uint8_t;
-    typedef endian&lt;order::native, uint_least16_t, 16&gt;  native_uint16_t;
-    typedef endian&lt;order::native, uint_least32_t, 24&gt;  native_uint24_t;
-    typedef endian&lt;order::native, uint_least32_t, 32&gt;  native_uint32_t;
-    typedef endian&lt;order::native, uint_least64_t, 40&gt;  native_uint40_t;
-    typedef endian&lt;order::native, uint_least64_t, 48&gt;  native_uint48_t;
-    typedef endian&lt;order::native, uint_least64_t, 56&gt;  native_uint56_t;
-    typedef endian&lt;order::native, uint_least64_t, 64&gt;  native_uint64_t;
+  // unaligned native endian signed integer types
+    typedef <b><i>implementation-defined</i></b>_int8_t   native_int8_t;
+    typedef <b><i>implementation-defined</i></b>_int16_t  native_int16_t;
+    typedef <b><i>implementation-defined</i></b>_int24_t  native_int24_t;
+    typedef <b><i>implementation-defined</i></b>_int32_t  native_int32_t;
+    typedef <b><i>implementation-defined</i></b>_int40_t  native_int40_t;
+    typedef <b><i>implementation-defined</i></b>_int48_t  native_int48_t;
+    typedef <b><i>implementation-defined</i></b>_int56_t  native_int56_t;
+    typedef <b><i>implementation-defined</i></b>_int64_t  native_int64_t;
+
+  // unaligned native endian unsigned integer types
+    typedef <b><i>implementation-defined</i></b>_uint8_t   native_uint8_t;
+    typedef <b><i>implementation-defined</i></b>_uint16_t  native_uint16_t;
+    typedef <b><i>implementation-defined</i></b>_uint24_t  native_uint24_t;
+    typedef <b><i>implementation-defined</i></b>_uint32_t  native_uint32_t;
+    typedef <b><i>implementation-defined</i></b>_uint40_t  native_uint40_t;
+    typedef <b><i>implementation-defined</i></b>_uint48_t  native_uint48_t;
+    typedef <b><i>implementation-defined</i></b>_uint56_t  native_uint56_t;
+    typedef <b><i>implementation-defined</i></b>_uint64_t  native_uint64_t;
 
   } // namespace endian
 } // namespace boost</pre>
+<p>The <i><b><code>implementation-defined</code></b></i> text above is either
+<code>big</code> or <code>little</code> according to the endianness of the 
+platform.</p>
 <h3><a name="Members">Members</a></h3>
 <div dir="ltr">
   <pre><code><a name="endian">endian</a>() = default;  // C++03: endian(){}</code></pre>
@@ -568,13 +578,10 @@ incrementing a variable in a record. It is very convenient to write:</p>
   representation) regardless of whether a compiler treats char as signed or 
   unsigned.</li>
   <li>Unaligned types must not cause compilers to insert padding bytes.</li>
-  <li>The implementation should supply optimizations only in very limited 
-  circumstances. Experience has shown that optimizations of endian 
+  <li>The implementation should supply optimizations with great care. Experience has shown that optimizations of endian 
   integers often become pessimizations when changing 
   machines or compilers. Pessimizations can also happen when changing compiler switches, 
   compiler versions, or CPU models of the same architecture.</li>
-  <li>It is better software engineering if the same implementation works regardless 
-  of the CPU endianness. In other words, #ifdefs should be avoided in user code.</li>
 </ul>
 <h2><a name="Experience">Experience</a></h2>
 <p>Classes with similar functionality have been independently developed by 
@@ -621,7 +628,7 @@ differs from endian representation size. Vicente Botet and other reviewers
 suggested supporting floating point types.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->06 September, 2013<!--webbot bot="Timestamp" endspan i-checksum="39344" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->12 August, 2014<!--webbot bot="Timestamp" endspan i-checksum="34569" --></p>
 <p>© Copyright Beman Dawes, 2006-2009, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
