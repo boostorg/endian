@@ -229,23 +229,33 @@ namespace
     big_align_float64_t big_align_float64;
     little_align_float32_t little_align_float32;
     little_align_float64_t little_align_float64;
-    
+    native_align_float32_t native_align_float32;
+    native_align_float64_t native_align_float64;
+
     VERIFY(big_align_float32.data() == reinterpret_cast<const char *>(&big_align_float32));
     VERIFY(big_align_float64.data() == reinterpret_cast<const char *>(&big_align_float64));
 
     VERIFY(little_align_float32.data() == reinterpret_cast<const char *>(&little_align_float32));
     VERIFY(little_align_float64.data() == reinterpret_cast<const char *>(&little_align_float64));
 
+    VERIFY(native_align_float32.data() == reinterpret_cast<const char *>(&native_align_float32));
+    VERIFY(native_align_float64.data() == reinterpret_cast<const char *>(&native_align_float64));
+
     big_float32_t big_float32;
     big_float64_t big_float64;
     little_float32_t little_float32;
     little_float64_t little_float64;
-    
+    native_float32_t native_float32;
+    native_float64_t native_float64;
+
     VERIFY(big_float32.data() == reinterpret_cast<const char *>(&big_float32));
     VERIFY(big_float64.data() == reinterpret_cast<const char *>(&big_float64));
 
     VERIFY(little_float32.data() == reinterpret_cast<const char *>(&little_float32));
     VERIFY(little_float64.data() == reinterpret_cast<const char *>(&little_float64));
+
+    VERIFY(native_float32.data() == reinterpret_cast<const char *>(&native_float32));
+    VERIFY(native_float64.data() == reinterpret_cast<const char *>(&native_float64));
 
     VERIFY(big_8.data() == reinterpret_cast<const char *>(&big_8));
     VERIFY(big_16.data() == reinterpret_cast<const char *>(&big_16));
@@ -328,13 +338,17 @@ namespace
 
     VERIFY_SIZE(sizeof( big_align_float32_t ), 4 );
     VERIFY_SIZE(sizeof( big_align_float64_t ), 8 );
-    VERIFY_SIZE(sizeof( little_align_float32_t ), 4 );
-    VERIFY_SIZE(sizeof( little_align_float64_t ), 8 );
+    VERIFY_SIZE(sizeof(little_align_float32_t), 4);
+    VERIFY_SIZE(sizeof(little_align_float64_t), 8);
+    VERIFY_SIZE(sizeof(native_align_float32_t), 4);
+    VERIFY_SIZE(sizeof(native_align_float64_t), 8);
 
     VERIFY_SIZE(sizeof( big_float32_t ), 4 );
     VERIFY_SIZE(sizeof( big_float64_t ), 8 );
-    VERIFY_SIZE(sizeof( little_float32_t ), 4 );
-    VERIFY_SIZE(sizeof( little_float64_t ), 8 );
+    VERIFY_SIZE(sizeof(little_float32_t), 4);
+    VERIFY_SIZE(sizeof(little_float64_t), 8);
+    VERIFY_SIZE(sizeof(native_float32_t), 4);
+    VERIFY_SIZE(sizeof(native_float64_t), 8);
 
     VERIFY_SIZE( sizeof( big_int8_t ), 1 );
     VERIFY_SIZE( sizeof( big_int16_t ), 2 );
@@ -516,6 +530,30 @@ namespace
       big_float32_t v1;
     };
 
+    struct little_float_struct
+    {
+      int16_t v0;
+      little_align_float32_t v1;
+    };
+
+    struct little_unaligned_float_struct
+    {
+      int16_t v0;
+      little_float32_t v1;
+    };
+
+    struct native_float_struct
+    {
+      int16_t v0;
+      native_align_float32_t v1;
+    };
+
+    struct native_unaligned_float_struct
+    {
+      int16_t v0;
+      native_float32_t v1;
+    };
+
     //  aligned test cases
   
     struct big_aligned_struct
@@ -546,8 +584,12 @@ namespace
     VERIFY_SIZE( sizeof(native_u_struct), 39 );
     VERIFY( sizeof(big_aligned_struct) <= 24 );
     VERIFY( sizeof(little_aligned_struct) <= 24 );
-    VERIFY_SIZE( sizeof(big_float_struct), 8 );
-    VERIFY_SIZE( sizeof(big_unaligned_float_struct), 6 );
+    VERIFY_SIZE(sizeof(big_float_struct), 8);
+    VERIFY_SIZE(sizeof(big_unaligned_float_struct), 6);
+    VERIFY_SIZE(sizeof(little_float_struct), 8);
+    VERIFY_SIZE(sizeof(little_unaligned_float_struct), 6);
+    VERIFY_SIZE(sizeof(native_float_struct), 8);
+    VERIFY_SIZE(sizeof(native_unaligned_float_struct), 6);
 
     if ( saved_err_count == err_count )
     { 
