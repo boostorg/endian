@@ -194,9 +194,11 @@ namespace endian
   typedef big_uint56_t  native_uint56_t;
   typedef big_uint64_t  native_uint64_t;
 
-  // unaligned native endian floating point types
+  // native endian floating point types
   typedef big_float32_t native_float32_t;
   typedef big_float64_t native_float64_t;
+  typedef big_align_float32_t native_align_float32_t;
+  typedef big_align_float64_t native_align_float64_t;
 # else
   // unaligned native endian signed integer types
   typedef little_int8_t   native_int8_t;
@@ -218,9 +220,11 @@ namespace endian
   typedef little_uint56_t  native_uint56_t;
   typedef little_uint64_t  native_uint64_t;
 
-  // unaligned native endian floating point types
+  // native endian floating point types
   typedef little_float32_t native_float32_t;
   typedef little_float64_t native_float64_t;
+  typedef little_align_float32_t native_align_float32_t;
+  typedef little_align_float64_t native_align_float64_t;
 # endif
 }  // namespace boost
 }  // namespace endian

@@ -223,108 +223,122 @@ conventions for common use cases:</p>
   <tr>
     <td width="18%" align="center"><b><i>Name</i></b></td>
     <td width="10%" align="center"><b><i>Endianness</i></b></td>
+    <td width="49%" align="center"><b><i>Alignment</i></b></td>
     <td width="10%" align="center"><b><i>Sign</i></b></td>
     <td width="15%" align="center"><b><i>Sizes in bits (n)</i></b></td>
-    <td width="49%" align="center"><b><i>Alignment</i></b></td>
   </tr>
   <tr>
     <td width="18%"><code>big_align_int</code><i><b>n</b></i><code>_t</code></td>
     <td width="10%" align="center"><code>big</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">16,32,64</td>
-    <td width="49%" align="center"><code>yes</code></td>
   </tr>
   <tr>
     <td width="18%"><code>big_align_uint</code><i><b>n</b></i><code>_t</code></td>
     <td width="10%" align="center"><code>big</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
     <td width="10%" align="center">unsigned</td>
     <td width="15%">16,32,64</td>
-    <td width="49%" align="center"><code>yes</code></td>
   </tr>
   <tr>
     <td width="18%"><code>big_align_float</code><i><b>n</b></i><code>_t</code></td>
     <td width="10%" align="center"><code>big</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">32,64</td>
-    <td width="49%" align="center"><code>yes</code></td>
-  </tr>
-  <tr>
-    <td width="18%"><code>little_align_int</code><i><b>n</b></i><code>_t</code></td>
-    <td width="10%" align="center"><code>little</code></td>
-    <td width="10%" align="center">signed</td>
-    <td width="15%">16,32,64</td>
-    <td width="49%" align="center"><code>yes</code></td>
-  </tr>
-  <tr>
-    <td width="18%"><code>little_align_uint</code><i><b>n</b></i><code>_t</code></td>
-    <td width="10%" align="center"><code>little</code></td>
-    <td width="10%" align="center">unsigned</td>
-    <td width="15%">16,32,64</td>
-    <td width="49%" align="center"><code>yes</code></td>
-  </tr>
-  <tr>
-    <td width="18%"><code>little_align_float</code><i><b>n</b></i><code>_t</code></td>
-    <td width="10%" align="center"><code>little</code></td>
-    <td width="10%" align="center">signed</td>
-    <td width="15%">32,64</td>
-    <td width="49%" align="center"><code>yes</code></td>
   </tr>
   <tr>
     <td width="18%"><code>big_int</code><b><i>n</i></b><code>_t</code></td>
     <td width="10%" align="center"><code>big</code></td>
+    <td width="49%" align="center"><code>no</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%" align="center"><code>no</code></td>
-  </tr>
+    </tr>
   <tr>
-    <td width="18%"><code>big_uint</code><i><b>n</b></i><code>_</code><code>t</code></td>
+    <td width="18%"><code>big_uint</code><i><b>n</b></i><code>_t</code></td>
     <td width="10%" align="center"><code>big</code></td>
+    <td width="49%" align="center"><code>no</code></td>
     <td width="10%" align="center">unsigned</td>
     <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%" align="center"><code>no</code></td>
-  </tr>
+    </tr>
   <tr>
     <td width="18%"><code>big_float</code><i><b>n</b></i><code>_t</code></td>
     <td width="10%" align="center"><code>big</code></td>
+    <td width="49%" align="center"><code>no</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">32,64</td>
-    <td width="49%" align="center"><code>no</code></td>
+    </tr>
+  <tr>
+    <td width="18%"><code>little_align_int</code><i><b>n</b></i><code>_t</code></td>
+    <td width="10%" align="center"><code>little</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">16,32,64</td>
+  </tr>
+  <tr>
+    <td width="18%"><code>little_align_uint</code><i><b>n</b></i><code>_t</code></td>
+    <td width="10%" align="center"><code>little</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
+    <td width="10%" align="center">unsigned</td>
+    <td width="15%">16,32,64</td>
+  </tr>
+  <tr>
+    <td width="18%"><code>little_align_float</code><i><b>n</b></i><code>_t</code></td>
+    <td width="10%" align="center"><code>little</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">32,64</td>
   </tr>
   <tr>
     <td width="18%"><code>little_int</code><i><b>n</b></i><code>_</code><code>t</code></td>
     <td width="10%" align="center"><code>little</code></td>
+    <td width="49%" align="center"><code>no</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%" align="center"><code>no</code></td>
   </tr>
   <tr>
     <td width="18%"><code>little_uint</code><i><b>n</b></i><code>_</code><code>t</code></td>
     <td width="10%" align="center"><code>little</code></td>
+    <td width="49%" align="center"><code>no</code></td>
     <td width="10%" align="center">unsigned</td>
     <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%" align="center"><code>no</code></td>
   </tr>
   <tr>
     <td width="18%"><code>little_float</code><i><b>n</b></i><code>_t</code></td>
     <td width="10%" align="center"><code>little</code></td>
+    <td width="49%" align="center"><code>no</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">32,64</td>
-    <td width="49%" align="center"><code>no</code></td>
   </tr>
+  <tr>
+    <td width="18%"><code>native_align_float</code><i><b>n</b></i><code>_t</code></td>
+    <td width="10%" align="center"><code>native</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">32,64</td>
+    </tr>
   <tr>
     <td width="18%"><code>native_int</code><i><b>n</b></i><code>_</code><code>t</code></td>
     <td width="10%" align="center"><code>native</code></td>
+    <td width="49%" align="center"><code>no</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%" align="center"><code>no</code></td>
   </tr>
   <tr>
     <td width="18%"><code>native_uint</code><i><b>n</b></i><code>_</code><code>t</code></td>
     <td width="10%" align="center"><code>native</code></td>
+    <td width="49%" align="center"><code>no</code></td>
     <td width="10%" align="center">unsigned</td>
     <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%" align="center"><code>no</code></td>
   </tr>
+  <tr>
+    <td width="18%"><code>native_float</code><i><b>n</b></i><code>_t</code></td>
+    <td width="10%" align="center"><code>native</code></td>
+    <td width="49%" align="center"><code>no</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">32,64</td>
+    </tr>
   </table>
 </blockquote>
 <p>The unaligned types do not cause compilers to insert padding bytes in classes 
@@ -628,7 +642,7 @@ differs from endian representation size. Vicente Botet and other reviewers
 suggested supporting floating point types.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->12 August, 2014<!--webbot bot="Timestamp" endspan i-checksum="34569" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->13 August, 2014<!--webbot bot="Timestamp" endspan i-checksum="34571" --></p>
 <p>© Copyright Beman Dawes, 2006-2009, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
