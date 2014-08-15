@@ -222,15 +222,15 @@ namespace
     x = big; be::mbswap(x); BOOST_TEST_EQ(x, little);
 
 # ifdef BOOST_BIG_ENDIAN
-    BOOST_TEST_EQ(be::htobe(native), little);
-    BOOST_TEST_EQ(be::htole(native), big);
+    BOOST_TEST_EQ(be::htobe(native), big);  
+    BOOST_TEST_EQ(be::htole(native), little);
     BOOST_TEST_EQ(be::betoh(big), big);
     BOOST_TEST_EQ(be::letoh(big), little);
     BOOST_TEST_EQ(be::betoh(little), little);
     BOOST_TEST_EQ(be::letoh(little), big);
 
-    x = native; be::mhtobe(x); BOOST_TEST_EQ(x, little);
-    x = native; be::mhtole(x); BOOST_TEST_EQ(x, big);
+    x = native; be::mhtobe(x); BOOST_TEST_EQ(x, big);
+    x = native; be::mhtole(x); BOOST_TEST_EQ(x, little);
     x = big; be::mbetoh(x); BOOST_TEST_EQ(x, big);
     x = big; be::mletoh(x); BOOST_TEST_EQ(x, little);
     x = little; be::mbetoh(x); BOOST_TEST_EQ(x, little);
@@ -263,19 +263,22 @@ int cpp_main(int, char * [])
   test<int8_t>();
   cout << "uint8_t" << endl;
   test<uint8_t>();
-  cout << "int32_t" << endl;
+
   cout << "int16_t" << endl;
   test<int16_t>();
   cout << "uint16_t" << endl;
   test<uint16_t>();
+
   cout << "int32_t" << endl;
   test<int32_t>();
   cout << "uint32_t" << endl;
   test<uint32_t>();
+
   cout << "int64_t" << endl;
   test<int64_t>();
   cout << "uint64_t" << endl;
   test<uint64_t>();
+
   cout << "float" << endl;
   test<float>();
   cout << "double" << endl;
