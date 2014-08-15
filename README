@@ -1,33 +1,22 @@
 Boost Endian library
 
 To experiment with the Endian library, various other boost libraries must be
-available. So you need to clone or install a current version of Boost if you
-have notalready done so.
+available. So you need to clone a current version of boost if you
+have not already done so.
 
 Boost.Endian is a header-only library, so there is no need to run a build
-for it. These instructions do assume bootstrap has been run so that b2 is
-in your path environmental variable.
+for it, although you may need to do a "b2 headers".
 
-Windows
-=======
+If your clone of boost is already in place, please remember to:
 
-    cd boost-root\libs
-    git clone git://github.com/Beman/endian.git
-    cd ..\boost
-    mklink /d endian ..\libs\endian\include\boost\endian
-    cd ..\libs\endian\test
-    b2
+  cd modular-boost
+  git pull
+  git submodule update --init
+  git submodule update
+  ./b2 headers
   
-Others
-======
+On Windows, change the "./" is omitted.  
 
-    cd boost-root/libs  
-    git clone git://github.com/Beman/endian.git
-    cd ../boost
-    ln -s ../libs/endian/include/boost/endian endian
-    cd ../libs/endian/test
-    b2
-  
 ---------------------------
 Copyright Beman Dawes, 2013
 
