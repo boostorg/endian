@@ -35,7 +35,7 @@
 #endif
 
 #include <boost/config.hpp>
-#include <boost/detail/endian.hpp>
+#include <boost/predef/detail/endian_compat.h>
 #include <boost/endian/conversion.hpp>
 #define BOOST_MINIMAL_INTEGER_COVER_OPERATORS
 #define BOOST_NO_IO_COVER_OPERATORS
