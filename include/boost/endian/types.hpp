@@ -53,13 +53,13 @@
 #   error Platforms with CHAR_BIT != 8 are not supported
 # endif
 
-# ifdef BOOST_NO_DEFAULTED_FUNCTIONS
+# ifdef BOOST_NO_CXX11_DEFAULTED_FUNCTIONS
 #   define BOOST_ENDIAN_DEFAULT_CONSTRUCT {}          // C++03
 # else
 #   define BOOST_ENDIAN_DEFAULT_CONSTRUCT = default;  // C++0x
 # endif
 
-# if defined(BOOST_NO_DEFAULTED_FUNCTIONS) && defined(BOOST_ENDIAN_FORCE_PODNESS)
+# if defined(BOOST_NO_CXX11_DEFAULTED_FUNCTIONS) && defined(BOOST_ENDIAN_FORCE_PODNESS)
 #   define BOOST_ENDIAN_NO_CTORS
 # endif
 
