@@ -384,24 +384,22 @@ namespace endian
   inline void reverse(Value& x) BOOST_NOEXCEPT {x = reverse_value(x);}
 
   //  reverse unless native endianness is big
-  template <class Reversible>
-  inline void big_endian(Reversible& x) BOOST_NOEXCEPT
-  //  Effects: none if native endian order is big, otherwise reverse(x)
-  {
-#   ifndef BOOST_BIG_ENDIAN
-      reverse(x);
+  //    Effects: none if native endian order is big, otherwise reverse(x)
+ template <class Reversible>
+#   ifdef BOOST_BIG_ENDIAN
+  inline void big_endian(Reversible&) BOOST_NOEXCEPT {}
+#   else
+  inline void big_endian(Reversible& x) BOOST_NOEXCEPT {reverse(x);}
 #   endif
-  }
 
   //  reverse bytes unless native endianness is little
+  //    Effects: none if native endian order is little, otherwise reverse(x)
   template <class Reversible>
-  inline void little_endian(Reversible& x) BOOST_NOEXCEPT    
-  //  Effects: none if native endian order is little, otherwise reverse(x)
-  {
-#   ifndef BOOST_LITTLE_ENDIAN
-      reverse(x);
+#   ifdef BOOST_LITTLE_ENDIAN
+  inline void little_endian(Reversible&) BOOST_NOEXCEPT {}
+#   else
+  inline void little_endian(Reversible& x) BOOST_NOEXCEPT {reverse(x);}
 #   endif
-  }
 
   namespace detail
   {
