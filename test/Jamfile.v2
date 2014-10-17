@@ -24,3 +24,16 @@ project
          [ run endian_in_union_test.cpp ]
          [ run converter_test.cpp ]
        ;
+
+exe speed_test
+       : speed_test.cpp speed_test_functions.cpp  ../../timer/build//boost_timer
+       : <toolset>gcc:<cxxflags>-march=native
+       ;
+explicit speed_test ;
+
+exe loop_time_test
+       : loop_time_test.cpp  ../../timer/build//boost_timer
+       : <toolset>gcc:<cxxflags>-march=native
+       ;
+
+explicit loop_time_test ;
