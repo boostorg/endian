@@ -1,0 +1,107 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Here is what needs to be done to get the library ready for a mini</title>
+<style type="text/css">
+ ins {background-color:#CCFFCC}
+ del {background-color:#FFCACA}
+ body { font-family: sans-serif; width:8.0in; }
+ pre { background-color:#D7EEFF }
+</style>
+</head>
+
+<body>
+
+<p>Here is what needs to be done to get the library ready for a mini-review:
+
+
+
+</p>
+
+  <p><b>Common use case scenarios should be developed.</b></p>
+  <blockquote>
+
+  <p>&nbsp;</p>
+  </blockquote>
+  <p><b>Example programs should be developed for the common use case scenarios.</b></p>
+  <blockquote>
+  <p>&nbsp;</p>
+  </blockquote>
+  <p><b>Documentation should illuminate the differences between endian 
+integer/float type and endian conversion approaches to the common use 
+case scenarios, and provide guidelines for choosing the most appropriate 
+approach in user's applications.</b></p>
+  <blockquote>
+  <p>&nbsp;</p>
+  </blockquote>
+  <p><b>Conversion functions supplying results via return should be provided.</b></p>
+  <blockquote>
+  <p>Done. See <a href="conversion.html">conversion docs</a>.</p>
+  </blockquote>
+  <p><b>Platform specific performance enhancements such as use of compiler intrinsics or relaxed alignment requirements should be supported.</b></p>
+  <blockquote>
+  <p>Done. Compiler (Clang, GCC, VisualC++, etc.) intrinsics and built-in 
+  functions are used in the implementation where appropriate, as requested. See
+  <a href="index.html#Intrinsic">Built-in support for Intrinsics</a>. See
+  <a href="index.html#Timings">Timings for Example 2</a> to gauge the impact of 
+  intrinsics.</p>
+  </blockquote>
+  <p><b>Endian integer (and floating) types should be implemented via the 
+conversion functions. If that can't be done efficiently, consideration 
+should be given to expanding the conversion function signatures to 
+resolve the inefficiencies.</b></p>
+  <blockquote>
+  <p>Done. For the endian types, the implementation uses the endian conversion 
+  functions, and thus the intrinsics, as requested.</p>
+  </blockquote>
+  <p><b>Benchmarks that measure performance should be provided. It should be 
+possible to compare platform specific performance enhancements against 
+portable base implementations, and to compare endian integer approaches 
+against endian conversion approaches for the common use case scenarios.</b></p>
+  <blockquote>
+  <p>Done. See <a href="index.html#Timings">Timings for Example 2</a>. Also note 
+  that the <code>endian/test</code> directory contains a number of additional 
+  benchmark and speed test programs.</p>
+  </blockquote>
+  <p><b>Float (32-bits) and double (64-bits) should be supported. IEEE 754 is 
+the primary use case.</b></p>
+  <blockquote>
+  <p>Done. The <a href="types.html">endian types</a> and
+  <a href="conversion.html">endian conversion</a> functions now support 32-bit (<code>float)</code> 
+  and 64-bit <code>(double)</code> floating point, as requested.</p>
+  </blockquote>
+  <p><b>Support for user defined types (UDTs) is desirable, and should be 
+provided where there would be no conflict with the other concerns.</b></p>
+  <blockquote>
+  <p>&nbsp;</p>
+  </blockquote>
+  <p><b>There is some concern that endian integer/float arithmetic operations 
+might used inadvertently or inappropriately. The impact of adding an endian_buffer 
+  class without arithmetic operations should be investigated.</b></p>
+  <blockquote>
+  <p>&nbsp;</p>
+  </blockquote>
+  <p><b>Stream insertion and extraction of the endian integer/float types should 
+  be documented and included in the test coverage.</b></p>
+  <p>&nbsp;</p>
+  <p><b>Binary I/O support that was investigated during development of the Endian 
+  library should be put up for mini-review for inclusion in the Boost I/O 
+  library.</b></p>
+  
+<blockquote>
+  <p>&nbsp;</p>
+  
+</blockquote>
+<hr>
+<p>Last revised:
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->11 November, 2014<!--webbot bot="Timestamp" endspan i-checksum="39483" --></p>
+<p>© Copyright Beman Dawes, 2014</p>
+<p>Distributed under the Boost Software License, Version 1.0. See
+<a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
+  
+</body>
+
+</html>
