@@ -90,7 +90,7 @@ namespace endian
 #endif
   BOOST_SCOPED_ENUM_START(align) {no, yes}; BOOST_SCOPED_ENUM_END
 
-  template <BOOST_SCOPED_ENUM(order) Order, classname T, std::size_t n_bits,
+  template <BOOST_SCOPED_ENUM(order) Order, class T, std::size_t n_bits,
     BOOST_SCOPED_ENUM(align) A = align::no>
       class endian;
 

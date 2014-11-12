@@ -5,12 +5,8 @@
 <meta name="GENERATOR" content="Microsoft FrontPage 5.0">
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Boost Endian Integers</title>
-<style type="text/css">
- ins {background-color:#CCFFCC}
- del {background-color:#FFCACA}
- body { font-family: sans-serif; width:8.0in; }
- pre { background-color:#D7EEFF }
+<title>Endian Integers</title>
+<link href="styles.css" rel="stylesheet">
 </style>
 </head>
 
@@ -119,10 +115,10 @@ using namespace boost::endian;
 
 namespace 
 {
-  //  This is an extract from a very widely used GIS file format. Who knows
-  //  why a designer would mix big and little endians in the same file - but
-  //  this is a real-world format and users wishing to write low level code
-  //  manipulating these files have to deal with the mixed endianness.
+  //  This is an extract from a very widely used GIS file format. It seems odd
+  //  to mix big and little endians in the same file - but this is a real-world
+  //  format and users wishing to write low level code manipulating these files
+  //  must deal with the mixed endianness.
 
   struct header
   {
@@ -147,10 +143,10 @@ int main(int, char* [])
   h.shape_type  = 0x01020304;
 
   //  Low-level I/O such as POSIX read/write or &lt;cstdio&gt; fread/fwrite is sometimes
-  //  used for binary file operations when ultimate efficiency is important.
-  //  Such I/O is often performed in some C++ wrapper class, but to drive home the
-  //  point that endian integers are often used in fairly low-level code that
-  //  does bulk I/O operations, &lt;cstdio&gt; fopen/fwrite is used for I/O in this example.
+  //  used for binary file operations when ultimate efficiency is important. Such
+  //  I/O is often performed in some C++ wrapper class, but to drive home the
+  //  point that endian integers are often used in fairly low-level code that does
+  //  bulk I/O operations, &lt;cstdio&gt; fopen/fwrite is used for I/O in this example.
 
   std::FILE* fi = std::fopen(filename, &quot;wb&quot;);  // MUST BE BINARY
   
@@ -680,7 +676,7 @@ differs from endian representation size. Vicente Botet and other reviewers
 suggested supporting floating point types.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->11 November, 2014<!--webbot bot="Timestamp" endspan i-checksum="39483" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->12 November, 2014<!--webbot bot="Timestamp" endspan i-checksum="39485" --></p>
 <p>© Copyright Beman Dawes, 2006-2009, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
