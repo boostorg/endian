@@ -38,9 +38,9 @@
 #include <boost/predef/detail/endian_compat.h>
 #include <boost/endian/conversion.hpp>
 #define BOOST_MINIMAL_INTEGER_COVER_OPERATORS
-#define BOOST_NO_IO_COVER_OPERATORS
+//#define BOOST_NO_IO_COVER_OPERATORS
 #include <boost/endian/detail/cover_operators.hpp>
-#undef  BOOST_NO_IO_COVER_OPERATORS
+//#undef  BOOST_NO_IO_COVER_OPERATORS
 #undef  BOOST_MINIMAL_INTEGER_COVER_OPERATORS
 #include <boost/type_traits/is_signed.hpp>
 #include <boost/cstdint.hpp>
@@ -90,7 +90,7 @@ namespace endian
 #endif
   BOOST_SCOPED_ENUM_START(align) {no, yes}; BOOST_SCOPED_ENUM_END
 
-  template <BOOST_SCOPED_ENUM(order) Order, typename T, std::size_t n_bits,
+  template <BOOST_SCOPED_ENUM(order) Order, classname T, std::size_t n_bits,
     BOOST_SCOPED_ENUM(align) A = align::no>
       class endian;
 

@@ -55,6 +55,8 @@
       &nbsp;&nbsp;&nbsp;
       <a href="#Synopsis">Synopsis</a><br>
       &nbsp;&nbsp;&nbsp; <a href="#Members">Members</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Stream-inserter">Stream inserter</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Stream-extractor">Stream extractor</a><br>
       <a href="#FAQ">FAQ</a><br>
       <a href="#Design">Design</a><br>
       <a href="#Experience">Experience</a><br>
@@ -374,11 +376,11 @@ usual operations on integers are supplied.</p>
 
     enum class <a name="alignment">align</a> {no, yes};            
 
-    template &lt;order Order, typename T, std::size_t n_bits, align A = align::no&gt;
+    template &lt;order Order, class T, std::size_t n_bits, align A = align::no&gt;
     class endian
     {
     public:
-          typedef T value_type;
+      typedef T value_type;
 
       // if BOOST_ENDIAN_FORCE_PODNESS is defined &amp;&amp; C++11 POD's are not
       // available then these two constructors will not be present
@@ -408,7 +410,19 @@ usual operations on integers are supplied.</p>
       endian&amp; operator--(endian&amp; x) noexcept;
       endian operator++(endian&amp; x, int) noexcept;
       endian operator--(endian&amp; x, int) noexcept;
+
+      // Stream inserter
+      template &lt;class charT, class traits&gt;
+      friend std::basic_ostream&lt;charT, traits&gt;&amp;
+        operator&lt;&lt;(std::basic_ostream&lt;charT, traits&gt;&amp; os, const T&amp; x);
+
+      // Stream extractor 
+      template &lt;class charT, class traits&gt;
+      friend std::basic_istream&lt;charT, traits&gt;&amp;
+        operator&gt;&gt;(std::basic_istream&lt;charT, traits&gt;&amp; is, T&amp; x);
     };
+
+    // typedefs  
 
     // aligned big endian floating point types
     typedef endian&lt;order::big, float, 32, align::yes&gt;       big_align_float32_t;
@@ -546,6 +560,29 @@ in <code>*this</code>.</p>
 <h3>Other operators</h3>
 <p>Other operators on endian objects are forwarded to the equivalent 
 operator on <code>value_type</code>.</p>
+<h3><a name="Stream-inserter">Stream inserter</a></h3>
+<pre>template &lt;class charT, class traits&gt;
+friend std::basic_ostream&lt;charT, traits&gt;&amp;
+  operator&lt;&lt;(std::basic_ostream&lt;charT, traits&gt;&amp; os, const T&amp; x);
+</pre>
+<blockquote>
+<p><i>Returns:</i> <code>os &lt;&lt; +x</code>.</p>
+</blockquote>
+<h3><a name="Stream-extractor">Stream extractor</a></h3>
+<pre>template &lt;class charT, class traits&gt;
+friend std::basic_istream&lt;charT, traits&gt;&amp;
+  operator&gt;&gt;(std::basic_istream&lt;charT, traits&gt;&amp; is, T&amp; x);
+</pre>
+<blockquote>
+<p><i>Effects: </i>As if:</p>
+  <blockquote>
+    <pre>T i;
+if (is &gt;&gt; i)
+  x = i;
+</pre>
+  </blockquote>
+  <p><i>Returns: </i><code>is</code><i>.</i></p>
+</blockquote>
 <h2><a name="FAQ">FAQ</a></h2>
 
 <p>See the <a href="index.html#FAQ">Endian home page</a> FAQ for a library-wide 
@@ -557,7 +594,7 @@ conversion or copying. They are already in the desired format for binary I/O.
 Thus they can be read or written in bulk.</p>
 <p><b>Are endian types POD's?</b> Yes for C++11. No for C++03, although several
 <a href="#Compilation">macros</a> are available to force PODness in all cases.</p>
-<p><b>What are the implications endian integer types not being POD's with C++03 
+<p><b>What are the implications of endian integer types not being POD's with C++03 
 compilers?</b> They 
 can't be used in unions. Also, compilers aren't required to align or lay 
 out storage in portable ways, although this potential problem hasn't prevented 
@@ -643,7 +680,7 @@ differs from endian representation size. Vicente Botet and other reviewers
 suggested supporting floating point types.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->15 August, 2014<!--webbot bot="Timestamp" endspan i-checksum="34575" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->11 November, 2014<!--webbot bot="Timestamp" endspan i-checksum="39483" --></p>
 <p>© Copyright Beman Dawes, 2006-2009, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

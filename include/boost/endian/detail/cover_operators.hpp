@@ -96,19 +96,25 @@ namespace boost
 #   endif
 
 #   ifndef BOOST_NO_IO_COVER_OPERATORS
-  // TODO: stream I/O needs to be templatized on the stream type, so will
-  // work with wide streams, etc.
 
-      // Stream input and output.
-      friend std::ostream& operator<<(std::ostream& s, const T& x)
-        { return s << +x; }
-      friend std::istream& operator>>(std::istream& s, T& x)
-        {
-          IntegerType i;
-          if (s >> i)
-            x = i;
-          return s;
-        }
+      // Stream inserter
+      template <class charT, class traits>
+      friend std::basic_ostream<charT, traits>&
+        operator<<(std::basic_ostream<charT, traits>& os, const T& x)
+      {
+        return os << +x; 
+      }
+
+      // Stream extractor 
+      template <class charT, class traits>
+      friend std::basic_istream<charT, traits>&
+        operator>>(std::basic_istream<charT, traits>& is, T& x)
+      {
+        IntegerType i;
+        if (is >> i)
+          x = i;
+        return is;
+      }
 #   endif
     };
   } // namespace endian

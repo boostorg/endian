@@ -46,10 +46,11 @@
 
 #include <boost/endian/types.hpp>
 #include <boost/type_traits/is_signed.hpp>
-#include <boost/detail/lightweight_test.hpp>
+#include <boost/core/lightweight_test.hpp>
 #include <boost/detail/lightweight_main.hpp>
 #include <cassert>
 #include <iostream>
+#include <sstream>
 
 namespace be = boost::endian;
 
@@ -343,6 +344,44 @@ void op_test()
 #endif
 }
 
+//  test_inserter_and_extractor  -----------------------------------------------------//
+
+void test_inserter_and_extractor()
+{
+  std::cout << "test inserter and extractor..." << std::endl;
+
+  be::big_uint64_t bu64(0x010203040506070ULL);
+  be::little_uint64_t lu64(0x010203040506070ULL);
+
+  uint64_t x;
+
+  std::stringstream ss;
+
+  ss << bu64;
+  ss >> x;
+  BOOST_TEST_EQ(x, 0x010203040506070ULL);
+
+  ss.clear();
+  ss << lu64;
+  ss >> x;
+  BOOST_TEST_EQ(x, 0x010203040506070ULL);
+
+  ss.clear();
+  ss << 0x010203040506070ULL;
+  be::big_uint64_t bu64z(0);
+  ss >> bu64z;
+  BOOST_TEST_EQ(bu64z, bu64);
+
+  ss.clear();
+  ss << 0x010203040506070ULL;
+  be::little_uint64_t lu64z(0);
+  ss >> lu64z;
+  BOOST_TEST_EQ(lu64z, lu64);
+
+  std::cout << "test inserter and extractor complete" << std::endl;
+
+}
+
 void f_big_int32_t(be::big_int32_t) {}
 
 //  main  ------------------------------------------------------------------------------//
@@ -448,6 +487,8 @@ int cpp_main(int, char * [])
   std::clog << "\n";
 
   be::endian_log = false;
+
+  test_inserter_and_extractor();
     
   //  perform the indicated test on ~60*60 operand types
 
@@ -459,5 +500,5 @@ int cpp_main(int, char * [])
   op_test<op_plus>();
   op_test<op_star>();
 
-  return 0;
+  return boost::report_errors();
 }
