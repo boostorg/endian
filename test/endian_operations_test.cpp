@@ -479,6 +479,22 @@ int cpp_main(int, char * [])
   u2 = u1 + u;
   std::clog << "\n";
 
+  // variations to detect ambiguities
+
+  u1 + 5;
+  u1 + 5u;
+
+  if (u1 == 5)
+    {}
+  if (u1 == 5u)
+    {}
+
+  u1 += 5;
+  u1 += 5u;
+
+  u2 = u1 + 5;
+  u2 = u1 + 5u;
+
   //  one more wrinkle
   be::little_uint16_t u3(3);
   u3 = 3;
