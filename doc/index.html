@@ -163,41 +163,62 @@ application needs.</p>
   <tr>
     <td valign="top">
     <ul>
+      <li><p>A need to save overall time when I/O time is more important than 
+      numeric variable CPU time.</p></li>
       <li><p>A need to simplify program logic and eliminate logic 
       errors. Since the endian types mimic the built-in types, there is no need to reason about the current endianness of variables 
       and that can simplify program logic and eliminate logic errors.</p></li>
       <li><p>A need to use unusual integer sizes (i.e. 3, 5, 
       6, or 7 bytes) to reduce internal and external space usage and 
       save I/O time.</li>
-      <li><p>A need to use unaligned variables. Endian types can eliminate padding bytes in 
-      structures, reducing internal and external space usage and saving I/O 
-      time. They can deals with structures defined like this:
+      <li><p>A need to portably use unaligned variables or eliminate padding bytes in 
+      structures, either to save I/O time by reducing internal and external space usage, 
+      or to conform to a data layout over which you have no control. For 
+      example, the structure below relies on a compiler extension, so is 
+      non-portable, and operations on S::b will fail on hardware platforms that 
+      require 32-bit alignment.
     <blockquote>
       <p><code>struct S {<br>
       &nbsp; uint16_t a;<br>
       &nbsp; uint32_t b;<br>
       } __attribute__ ((packed));</code>
-    </blockquote></p></li>
+    </p></blockquote>
+    <p>These problems are eliminated by defining S like this:</p>
+    <blockquote>
+      <p><code>struct S {<br>
+      &nbsp; big_uint16_t a;<br>
+      &nbsp; big_uint32_t b;<br>
+      };</code>
+    </p></blockquote>
+      </li>
     <li>
     <p>Programmer preference.</p></li>
     </ul>
     </td>
     <td valign="top">
     <ul>
-      <li><p>A need to leverage knowledge of developers who have been using C byte 
-      swapping 
-      functions for years.</p></li>
-      <li>A need to save CPU time when a variable is used many times 
-      relative to its I/O.</li>
+      <li>A need to save overall time when numeric variable CPU use time is more 
+      important that I/O time.</li>
       <li>
       <p>A need to pass structures to third-party libraries expecting a 
       specific structure format.</li>
+      <li>
+      <p>A need to leverage knowledge of developers who have been using C byte 
+      swapping 
+      functions for years.</li>
       <li>
       <p>Programmer preference.</li>
     </ul>
     </td>
   </tr>
 </table>
+
+<p><b>Warning:</b> Endian conversion functions are dangerous unless the current 
+endianness of a variable is always known. For example, if an exception is thrown 
+and there is no way in a catch block to know a variable&#39;s current endianness, 
+then any use of that variable including I/O is inherently unsafe. This danger is 
+not limited to exceptions; all uses of a variable whose endianness is unknown 
+are unsafe, period.</p>
 
 <h2>Built-in support for <a name="Intrinsic">Intrinsic</a>s</h2>
 <p>Recent compilers, including GCC, Clang, and Microsoft, supply  built-in support for byte swapping 
