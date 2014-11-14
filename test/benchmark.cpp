@@ -24,7 +24,7 @@ using std::vector;
 namespace
 {
   std::string command_args;
-  long long n;
+  long long n_cases;
   int places = 2;
   bool verbose (false);
 
@@ -49,7 +49,7 @@ namespace
     nanosecond_t cpu_time;
     boost::timer::auto_cpu_timer t(places);                  
                                                 
-    for (long long i = n; i; --i)                 
+    for (long long i = n_cases; i; --i)                 
     {                                             
 #   ifndef BOOST_TWO_ARG
       sum += timee(static_cast<int32_t>(i)) ;                              
@@ -89,9 +89,9 @@ namespace
 
     if (argc >=2)
 #ifndef _MSC_VER
-      n = std::atoll(argv[1]);
+      n_cases = std::atoll(argv[1]);
 #else
-      n = _atoi64(argv[1]);
+      n_cases = _atoi64(argv[1]);
 #endif
 
     for (; argc > 2; ++argv, --argc) 
