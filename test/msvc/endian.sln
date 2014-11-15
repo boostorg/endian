@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "endian_test", "endian_test\endian_test.vcxproj", "{74C201F3-8308-40BE-BC0F-24974DEAF405}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "endian_in_union_test", "endian_in_union_test\endian_in_union_test.vcxproj", "{3926C6DC-9D1E-4227-BEF5-81F5EC621A75}"
@@ -22,6 +24,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "speed_test", "speed_test\speed_test.vcxproj", "{5407AF29-59E9-4DE2-9939-F067576F7868}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "loop_time_test", "loop_time_test\loop_time_test.vcxproj", "{541A2D06-B34E-4592-BE47-F87DF47E73D8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "buffer_test", "buffer_test\buffer_test.vcxproj", "{BFB68CF4-EB92-4E5C-9694-A939496C5CDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,6 +119,12 @@ Global
 		{541A2D06-B34E-4592-BE47-F87DF47E73D8}.Release|Win32.Build.0 = Release|Win32
 		{541A2D06-B34E-4592-BE47-F87DF47E73D8}.Release|x64.ActiveCfg = Release|x64
 		{541A2D06-B34E-4592-BE47-F87DF47E73D8}.Release|x64.Build.0 = Release|x64
+		{BFB68CF4-EB92-4E5C-9694-A939496C5CDE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BFB68CF4-EB92-4E5C-9694-A939496C5CDE}.Debug|Win32.Build.0 = Debug|Win32
+		{BFB68CF4-EB92-4E5C-9694-A939496C5CDE}.Debug|x64.ActiveCfg = Debug|Win32
+		{BFB68CF4-EB92-4E5C-9694-A939496C5CDE}.Release|Win32.ActiveCfg = Release|Win32
+		{BFB68CF4-EB92-4E5C-9694-A939496C5CDE}.Release|Win32.Build.0 = Release|Win32
+		{BFB68CF4-EB92-4E5C-9694-A939496C5CDE}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
