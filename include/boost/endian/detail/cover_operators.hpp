@@ -6,25 +6,15 @@
 //  Distributed under the Boost Software License, Version 1.0. (See accompanying
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-//----------------------------------------------------------------------------//
-
-//  If the class being covered has a non-explicit conversion to an integer type
-//  then a smaller number of cover operations are needed. Define the macro
-//  BOOST_MINIMAL_INTEGER_COVER_OPERATORS to indicate this.
-
-//  Define BOOST_NO_IO_COVER_OPERATORS if I/O cover operations are not desired.
-
-//----------------------------------------------------------------------------//
-
-#ifndef BOOST_INTEGER_COVER_OPERATORS_HPP
-#define BOOST_INTEGER_COVER_OPERATORS_HPP
+#ifndef BOOST_ENDIAN_COVER_OPERATORS_HPP
+#define BOOST_ENDIAN_COVER_OPERATORS_HPP
 
 #if defined(_MSC_VER)  
 # pragma warning(push)  
 # pragma warning(disable:4365)  // conversion ... signed/unsigned mismatch
 #endif
 
-# ifndef BOOST_MINIMAL_INTEGER_COVER_OPERATORS
+# ifndef BOOST_ENDIAN_MINIMAL_COVER_OPERATORS
 #   include <boost/operators.hpp>
 # endif
 
@@ -36,60 +26,72 @@ namespace boost
   namespace endian
   {
 
-  // A class that adds integer operators to an integer cover class
+//--------------------------------------------------------------------------------------//
 
-    template <typename T, typename IntegerType>
+//  A class that adds arithmetic operators to an arithmetic cover class
+//
+//  Uses the curiously recurring template pattern (CRTP).
+//
+//  If the class being covered has a non-explicit conversion to an integer type
+//  then a smaller number of cover operations are needed. Define the macro
+//  BOOST_ENDIAN_MINIMAL_COVER_OPERATORS to indicate this.
+//
+//  Define BOOST_NO_IO_COVER_OPERATORS if I/O cover operations are not desired.
+
+//--------------------------------------------------------------------------------------//
+    template <class D,   // D is the CRTP derived type, i.e. the cover class
+              class ArithmeticT>
     class cover_operators
-#    ifndef BOOST_MINIMAL_INTEGER_COVER_OPERATORS
-      : boost::operators<T>
+#    ifndef BOOST_ENDIAN_MINIMAL_COVER_OPERATORS
+      : boost::operators<D>
 #    endif
     {
       // The other operations take advantage of the type conversion that's
       // built into unary +.
 
       // Unary operations.
-      friend IntegerType operator+(const T& x) BOOST_NOEXCEPT { return x; }
-#   ifndef BOOST_MINIMAL_INTEGER_COVER_OPERATORS
-      friend IntegerType operator-(const T& x) BOOST_NOEXCEPT { return -+x; }
-      friend IntegerType operator~(const T& x) BOOST_NOEXCEPT { return ~+x; }
-      friend IntegerType operator!(const T& x) BOOST_NOEXCEPT { return !+x; }
+      friend ArithmeticT operator+(const D& x) BOOST_NOEXCEPT { return x; }
+#   ifndef BOOST_ENDIAN_MINIMAL_COVER_OPERATORS
+      friend ArithmeticT operator-(const D& x) BOOST_NOEXCEPT { return -+x; }
+      friend ArithmeticT operator~(const D& x) BOOST_NOEXCEPT { return ~+x; }
+      friend ArithmeticT operator!(const D& x) BOOST_NOEXCEPT { return !+x; }
 
       // The basic ordering operations.
-      friend bool operator==(const T& x, IntegerType y) BOOST_NOEXCEPT { return +x == y; }
-      friend bool operator<(const T& x, IntegerType y) BOOST_NOEXCEPT { return +x < y; }
+      friend bool operator==(const D& x, ArithmeticT y) BOOST_NOEXCEPT { return +x == y; }
+      friend bool operator<(const D& x, ArithmeticT y) BOOST_NOEXCEPT { return +x < y; }
 #   endif
       
       // The basic arithmetic operations.
-      friend T& operator+=(T& x, IntegerType y) BOOST_NOEXCEPT { return x = +x + y; }
-      friend T& operator-=(T& x, IntegerType y) BOOST_NOEXCEPT { return x = +x - y; }
-      friend T& operator*=(T& x, IntegerType y) BOOST_NOEXCEPT { return x = +x * y; }
-      friend T& operator/=(T& x, IntegerType y) BOOST_NOEXCEPT { return x = +x / y; }
-      friend T& operator%=(T& x, IntegerType y) BOOST_NOEXCEPT { return x = +x % y; }
-      friend T& operator&=(T& x, IntegerType y) BOOST_NOEXCEPT { return x = +x & y; }
-      friend T& operator|=(T& x, IntegerType y) BOOST_NOEXCEPT { return x = +x | y; }
-      friend T& operator^=(T& x, IntegerType y) BOOST_NOEXCEPT { return x = +x ^ y; }
-      friend T& operator<<=(T& x, IntegerType y) BOOST_NOEXCEPT { return x = +x << y; }
-      friend T& operator>>=(T& x, IntegerType y) BOOST_NOEXCEPT { return x = +x >> y; }
+      friend D& operator+=(D& x, ArithmeticT y) BOOST_NOEXCEPT { return x = +x + y; }
+      friend D& operator-=(D& x, ArithmeticT y) BOOST_NOEXCEPT { return x = +x - y; }
+      friend D& operator*=(D& x, ArithmeticT y) BOOST_NOEXCEPT { return x = +x * y; }
+      friend D& operator/=(D& x, ArithmeticT y) BOOST_NOEXCEPT { return x = +x / y; }
+      friend D& operator%=(D& x, ArithmeticT y) BOOST_NOEXCEPT { return x = +x % y; }
+      friend D& operator&=(D& x, ArithmeticT y) BOOST_NOEXCEPT { return x = +x & y; }
+      friend D& operator|=(D& x, ArithmeticT y) BOOST_NOEXCEPT { return x = +x | y; }
+      friend D& operator^=(D& x, ArithmeticT y) BOOST_NOEXCEPT { return x = +x ^ y; }
+      friend D& operator<<=(D& x, ArithmeticT y) BOOST_NOEXCEPT { return x = +x << y; }
+      friend D& operator>>=(D& x, ArithmeticT y) BOOST_NOEXCEPT { return x = +x >> y; }
       
       // A few binary arithmetic operations not covered by operators base class.
-      friend IntegerType operator<<(const T& x, IntegerType y) BOOST_NOEXCEPT { return +x << y; }
-      friend IntegerType operator>>(const T& x, IntegerType y) BOOST_NOEXCEPT { return +x >> y; }
+      friend ArithmeticT operator<<(const D& x, ArithmeticT y) BOOST_NOEXCEPT { return +x << y; }
+      friend ArithmeticT operator>>(const D& x, ArithmeticT y) BOOST_NOEXCEPT { return +x >> y; }
       
       // Auto-increment and auto-decrement can be defined in terms of the
       // arithmetic operations.
-      friend T& operator++(T& x) BOOST_NOEXCEPT { return x += 1; }
-      friend T& operator--(T& x) BOOST_NOEXCEPT { return x -= 1; }
+      friend D& operator++(D& x) BOOST_NOEXCEPT { return x += 1; }
+      friend D& operator--(D& x) BOOST_NOEXCEPT { return x -= 1; }
 
-#   ifdef BOOST_MINIMAL_INTEGER_COVER_OPERATORS
-      friend T operator++(T& x, int) BOOST_NOEXCEPT
+#   ifdef BOOST_ENDIAN_MINIMAL_COVER_OPERATORS
+      friend D operator++(D& x, int) BOOST_NOEXCEPT
       { 
-        T tmp(x);
+        D tmp(x);
         x += 1;
         return tmp;
       }
-      friend T operator--(T& x, int) BOOST_NOEXCEPT
+      friend D operator--(D& x, int) BOOST_NOEXCEPT
       { 
-        T tmp(x);
+        D tmp(x);
         x -= 1;
         return tmp;
       }
@@ -100,7 +102,7 @@ namespace boost
       // Stream inserter
       template <class charT, class traits>
       friend std::basic_ostream<charT, traits>&
-        operator<<(std::basic_ostream<charT, traits>& os, const T& x)
+        operator<<(std::basic_ostream<charT, traits>& os, const D& x)
       {
         return os << +x; 
       }
@@ -108,9 +110,9 @@ namespace boost
       // Stream extractor 
       template <class charT, class traits>
       friend std::basic_istream<charT, traits>&
-        operator>>(std::basic_istream<charT, traits>& is, T& x)
+        operator>>(std::basic_istream<charT, traits>& is, D& x)
       {
-        IntegerType i;
+        ArithmeticT i;
         if (is >> i)
           x = i;
         return is;
@@ -124,4 +126,4 @@ namespace boost
 # pragma warning(pop)  
 #endif 
 
-#endif // BOOST_INTEGER_COVER_OPERATORS_HPP
+#endif // BOOST_ENDIAN_COVER_OPERATORS_HPP

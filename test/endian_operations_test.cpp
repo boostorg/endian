@@ -1,4 +1,4 @@
-//  endian_operations_test.cpp  ----------------------------------------------//
+//  endian_operations_test.cpp  --------------------------------------------------------//
 
 //  Copyright Beman Dawes 2008
 
@@ -7,7 +7,7 @@
 
 //  See library home page at http://www.boost.org/libs/endian
 
-//----------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------//
 
 //  This test probes operator overloading, including interaction between
 //  operand types.
@@ -468,7 +468,7 @@ int cpp_main(int, char * [])
   std::clog << "\n";
 
   //  test from Roland Schwarz that detected ambiguities; these ambiguities
-  //  were eliminated by BOOST_MINIMAL_INTEGER_COVER_OPERATORS
+  //  were eliminated by BOOST_ENDIAN_MINIMAL_COVER_OPERATORS
   unsigned u;
   be::little_uint32_t u1;
   be::little_uint32_t u2;

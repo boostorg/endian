@@ -311,7 +311,7 @@ namespace endian
         std::reverse_copy(from, from+sizeof(T), reinterpret_cast<char*>(&to));
 #     endif
       }
- }
+  }  // namespace detail
 
   template <class ReversibleValue >
   inline ReversibleValue  big_endian_value(ReversibleValue  x) BOOST_NOEXCEPT

@@ -1,7 +1,7 @@
-//  boost/endian/types.hpp  ------------------------------------------------------------//
+//  boost/endian/buffers.hpp  ----------------------------------------------------------//
 
 //  (C) Copyright Darin Adler 2000
-//  (C) Copyright Beman Dawes 2006, 2009
+//  (C) Copyright Beman Dawes 2006, 2009, 2014
 
 //  Distributed under the Boost Software License, Version 1.0.
 //  See http://www.boost.org/LICENSE_1_0.txt
@@ -37,9 +37,9 @@
 #include <boost/config.hpp>
 #include <boost/predef/detail/endian_compat.h>
 #include <boost/endian/conversion.hpp>
-#define BOOST_MINIMAL_INTEGER_COVER_OPERATORS
+#define BOOST_ENDIAN_MINIMAL_COVER_OPERATORS
 #include <boost/endian/detail/cover_operators.hpp>
-#undef  BOOST_MINIMAL_INTEGER_COVER_OPERATORS
+#undef  BOOST_ENDIAN_MINIMAL_COVER_OPERATORS
 #include <boost/type_traits/is_signed.hpp>
 #include <boost/cstdint.hpp>
 #include <boost/static_assert.hpp>
@@ -371,7 +371,7 @@ namespace endian
           return detail::load_big_endian<T, n_bits/8>(m_value);
         }
         const char* data() const BOOST_NOEXCEPT  { return m_value; }
-      private:
+      protected:
         char m_value[n_bits/8];
     };
  
@@ -395,7 +395,7 @@ namespace endian
           return tmp;
         }
         const char* data() const BOOST_NOEXCEPT  { return m_value; }
-      private:
+      protected:
         char m_value[sizeof(value_type)];
     };
 
@@ -419,7 +419,7 @@ namespace endian
           return tmp;
         }
         const char* data() const BOOST_NOEXCEPT  { return m_value; }
-      private:
+      protected:
         char m_value[sizeof(value_type)];
     };
  
@@ -443,7 +443,7 @@ namespace endian
           return tmp;
         }
         const char* data() const BOOST_NOEXCEPT  { return m_value; }
-      private:
+      protected:
         char m_value[sizeof(value_type)];
     };
 
@@ -467,7 +467,7 @@ namespace endian
           return tmp;
         }
         const char* data() const BOOST_NOEXCEPT  { return m_value; }
-      private:
+      protected:
         char m_value[sizeof(value_type)];
     };
 
@@ -502,7 +502,7 @@ namespace endian
           return detail::load_little_endian<T, n_bits/8>(m_value);
         }
         const char* data() const BOOST_NOEXCEPT  { return m_value; }
-      private:
+      protected:
         char m_value[n_bits/8];
     };
 
@@ -525,13 +525,13 @@ namespace endian
             std::cout << "big, aligned, " << n_bits
               << "-bits, construct(" << val << ")\n";
 #       endif
-          m_value = ::boost::endian_buffer::big_endian_value(val);
+          m_value = ::boost::endian::big_endian_value(val);
         }
 
 #     endif  
         endian_buffer& operator=(T val) BOOST_NOEXCEPT
         {
-          m_value = ::boost::endian_buffer::big_endian_value(val);
+          m_value = ::boost::endian::big_endian_value(val);
           return *this;
         }
         operator T() const BOOST_NOEXCEPT
@@ -539,12 +539,13 @@ namespace endian
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
             std::cout << "big, aligned, " << n_bits << "-bits, convert("
-              << ::boost::endian_buffer::big_endian_value(m_value) << ")\n";
+              << ::boost::endian::big_endian_value(m_value) << ")\n";
 #       endif
-          return ::boost::endian_buffer::big_endian_value(m_value);
+          return ::boost::endian::big_endian_value(m_value);
         }
-        const char* data() const BOOST_NOEXCEPT  {return reinterpret_cast<const char*>(&m_value);}
-      private:
+        const char* data() const BOOST_NOEXCEPT
+          {return reinterpret_cast<const char*>(&m_value);}
+      protected:
         T m_value;
     };
 
@@ -565,13 +566,13 @@ namespace endian
             std::cout << "little, aligned, " << n_bits
               << "-bits, construct(" << val << ")\n";
 #       endif
-          m_value = ::boost::endian_buffer::little_endian_value(val);
+          m_value = ::boost::endian::little_endian_value(val);
         }
 
 #     endif  
         endian_buffer& operator=(T val) BOOST_NOEXCEPT
         {
-          m_value = ::boost::endian_buffer::little_endian_value(val);
+          m_value = ::boost::endian::little_endian_value(val);
           return *this;
         }
         operator T() const BOOST_NOEXCEPT
@@ -579,12 +580,13 @@ namespace endian
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
             std::cout << "little, aligned, " << n_bits << "-bits, convert("
-              << ::boost::endian_buffer::little_endian_value(m_value) << ")\n";
+              << ::boost::endian::little_endian_value(m_value) << ")\n";
 #       endif
-          return ::boost::endian_buffer::little_endian_value(m_value);
+          return ::boost::endian::little_endian_value(m_value);
         }
-        const char* data() const BOOST_NOEXCEPT  {return reinterpret_cast<const char*>(&m_value);}
-      private:
+        const char* data() const BOOST_NOEXCEPT
+          {return reinterpret_cast<const char*>(&m_value);}
+      protected:
         T m_value;
     };
 

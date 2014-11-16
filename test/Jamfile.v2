@@ -14,12 +14,13 @@ project
    
    test-suite "endian"
        :
-         [ run endian_test.cpp # sources
+         [ run buffer_test.cpp # sources
            : # command line
            : # input files
            : # requirements
            : # target name
          ]
+         [ run endian_test.cpp ]
          [ run endian_operations_test.cpp ]
          [ run endian_in_union_test.cpp ]
          [ run converter_test.cpp ]
