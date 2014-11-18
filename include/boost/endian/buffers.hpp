@@ -37,9 +37,6 @@
 #include <boost/config.hpp>
 #include <boost/predef/detail/endian_compat.h>
 #include <boost/endian/conversion.hpp>
-#define BOOST_ENDIAN_MINIMAL_COVER_OPERATORS
-#include <boost/endian/detail/cover_operators.hpp>
-#undef  BOOST_ENDIAN_MINIMAL_COVER_OPERATORS
 #include <boost/type_traits/is_signed.hpp>
 #include <boost/cstdint.hpp>
 #include <boost/static_assert.hpp>
@@ -59,12 +56,6 @@
 
 # if defined(BOOST_NO_CXX11_DEFAULTED_FUNCTIONS) && defined(BOOST_ENDIAN_FORCE_PODNESS)
 #   define BOOST_ENDIAN_NO_CTORS
-# endif
-
-# ifndef BOOST_ENDIAN_EXPLICIT_CTORS
-#   define BOOST_ENDIAN_EXPLICIT_OPT
-# else
-#   define BOOST_ENDIAN_EXPLICIT_OPT explicit
 # endif
 
 //----------------------------------  synopsis  ----------------------------------------//
@@ -342,7 +333,7 @@ namespace endian
         typedef T value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian_buffer() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        BOOST_ENDIAN_EXPLICIT_OPT endian_buffer(T val) BOOST_NOEXCEPT
+        explicit endian_buffer(T val) BOOST_NOEXCEPT
         { 
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
@@ -361,7 +352,7 @@ namespace endian
           detail::store_big_endian<T, n_bits/8>(m_value, val);
           return *this;
         }
-        operator T() const BOOST_NOEXCEPT
+        value_type value() const BOOST_NOEXCEPT
         { 
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
@@ -383,12 +374,12 @@ namespace endian
         typedef float value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian_buffer() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        BOOST_ENDIAN_EXPLICIT_OPT endian_buffer(value_type val) BOOST_NOEXCEPT
+        explicit endian_buffer(value_type val) BOOST_NOEXCEPT
           { detail::big_reverse_copy(val, m_value); }
 #     endif
         endian_buffer & operator=(value_type val) BOOST_NOEXCEPT
           { detail::big_reverse_copy(val, m_value); return *this; }
-        operator value_type() const BOOST_NOEXCEPT
+        value_type value() const BOOST_NOEXCEPT
         {
           value_type tmp;
           detail::big_reverse_copy(m_value, tmp);
@@ -407,12 +398,12 @@ namespace endian
         typedef double value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian_buffer() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        BOOST_ENDIAN_EXPLICIT_OPT endian_buffer(value_type val) BOOST_NOEXCEPT
+        explicit endian_buffer(value_type val) BOOST_NOEXCEPT
           { detail::big_reverse_copy(val, m_value); }
 #     endif
         endian_buffer & operator=(value_type val) BOOST_NOEXCEPT
           { detail::big_reverse_copy(val, m_value); return *this; }
-        operator value_type() const BOOST_NOEXCEPT
+        value_type value() const BOOST_NOEXCEPT
         {
           value_type tmp;
           detail::big_reverse_copy(m_value, tmp);
@@ -431,12 +422,12 @@ namespace endian
         typedef float value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian_buffer() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        BOOST_ENDIAN_EXPLICIT_OPT endian_buffer(value_type val) BOOST_NOEXCEPT
+        explicit endian_buffer(value_type val) BOOST_NOEXCEPT
           { detail::little_reverse_copy(val, m_value); }
 #     endif
         endian_buffer & operator=(value_type val) BOOST_NOEXCEPT
           { detail::little_reverse_copy(val, m_value); return *this; }
-        operator value_type() const BOOST_NOEXCEPT
+        value_type value() const BOOST_NOEXCEPT
         {
           value_type tmp;
           detail::little_reverse_copy(m_value, tmp);
@@ -455,12 +446,12 @@ namespace endian
         typedef double value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian_buffer() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        BOOST_ENDIAN_EXPLICIT_OPT endian_buffer(value_type val) BOOST_NOEXCEPT
+        explicit endian_buffer(value_type val) BOOST_NOEXCEPT
           { detail::little_reverse_copy(val, m_value); }
 #     endif
         endian_buffer & operator=(value_type val) BOOST_NOEXCEPT
           { detail::little_reverse_copy(val, m_value); return *this; }
-        operator value_type() const BOOST_NOEXCEPT
+        value_type value() const BOOST_NOEXCEPT
         {
           value_type tmp;
           detail::little_reverse_copy(m_value, tmp);
@@ -480,7 +471,7 @@ namespace endian
         typedef T value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian_buffer() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        BOOST_ENDIAN_EXPLICIT_OPT endian_buffer(T val) BOOST_NOEXCEPT
+        explicit endian_buffer(T val) BOOST_NOEXCEPT
         { 
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
@@ -492,7 +483,7 @@ namespace endian
 #     endif
         endian_buffer & operator=(T val) BOOST_NOEXCEPT
           { detail::store_little_endian<T, n_bits/8>(m_value, val); return *this; }
-        operator T() const BOOST_NOEXCEPT
+        value_type value() const BOOST_NOEXCEPT
         { 
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
@@ -518,7 +509,7 @@ namespace endian
         typedef T value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian_buffer() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        BOOST_ENDIAN_EXPLICIT_OPT endian_buffer(T val) BOOST_NOEXCEPT
+        explicit endian_buffer(T val) BOOST_NOEXCEPT
         {
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
@@ -534,7 +525,7 @@ namespace endian
           m_value = ::boost::endian::big_endian_value(val);
           return *this;
         }
-        operator T() const BOOST_NOEXCEPT
+        value_type value() const BOOST_NOEXCEPT
         {
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
@@ -559,7 +550,7 @@ namespace endian
         typedef T value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian_buffer() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        BOOST_ENDIAN_EXPLICIT_OPT endian_buffer(T val) BOOST_NOEXCEPT
+        explicit endian_buffer(T val) BOOST_NOEXCEPT
         {
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
@@ -575,7 +566,7 @@ namespace endian
           m_value = ::boost::endian::little_endian_value(val);
           return *this;
         }
-        operator T() const BOOST_NOEXCEPT
+        value_type value() const BOOST_NOEXCEPT
         {
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )

@@ -35,7 +35,7 @@ int cpp_main(int, char *[])
   x = 1234567890;
 
   cout << "  operator==(buffer, built-in)" << endl;
-  bool b1(x == 1234567890);
+//  bool b1(x == 1234567890);
 
  // BOOST_TEST(x == 1234567890);
   cout << "  done" << endl;

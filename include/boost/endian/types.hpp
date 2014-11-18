@@ -37,8 +37,8 @@
 #include <boost/config.hpp>
 #include <boost/predef/detail/endian_compat.h>
 #include <boost/endian/conversion.hpp>
-#define  BOOST_ENDIAN_MINIMAL_COVER_OPERATORS
 #include <boost/endian/buffers.hpp>
+#define  BOOST_ENDIAN_MINIMAL_COVER_OPERATORS
 #include <boost/endian/detail/cover_operators.hpp>
 #undef   BOOST_ENDIAN_MINIMAL_COVER_OPERATORS
 #include <boost/type_traits/is_signed.hpp>
@@ -263,6 +263,7 @@ namespace endian
 #     endif
         endian & operator=(T val) BOOST_NOEXCEPT
           { detail::store_big_endian<T, n_bits/8>(this->m_value, val); return *this; }
+        operator value_type() const BOOST_NOEXCEPT { return this->value(); }
     };
  
     //  unaligned float big endian specialization
@@ -280,6 +281,7 @@ namespace endian
 #     endif
         endian & operator=(value_type val) BOOST_NOEXCEPT
           { detail::big_reverse_copy(val, this->m_value); return *this; }
+        operator value_type() const BOOST_NOEXCEPT { return this->value(); }
     };
 
     //  unaligned double big endian specialization
@@ -297,6 +299,7 @@ namespace endian
 #     endif
         endian & operator=(value_type val) BOOST_NOEXCEPT
           { detail::big_reverse_copy(val, this->m_value); return *this; }
+        operator value_type() const BOOST_NOEXCEPT { return this->value(); }
     };
  
     //  unaligned float little endian specialization
@@ -314,6 +317,7 @@ namespace endian
 #     endif
         endian & operator=(value_type val) BOOST_NOEXCEPT
           { detail::little_reverse_copy(val, this->m_value); return *this; }
+        operator value_type() const BOOST_NOEXCEPT { return this->value(); }
     };
 
     //  unaligned double little endian specialization
@@ -331,6 +335,7 @@ namespace endian
 #     endif
         endian & operator=(value_type val) BOOST_NOEXCEPT
           { detail::little_reverse_copy(val, this->m_value); return *this; }
+        operator value_type() const BOOST_NOEXCEPT { return this->value(); }
     };
 
     //  unaligned little endian specialization
@@ -355,6 +360,7 @@ namespace endian
 #     endif
         endian & operator=(T val) BOOST_NOEXCEPT
           { detail::store_little_endian<T, n_bits/8>(this->m_value, val); return *this; }
+        operator value_type() const BOOST_NOEXCEPT { return this->value(); }
     };
 
   //  align::yes specializations; only n_bits == 16/32/64 supported
@@ -386,6 +392,7 @@ namespace endian
           this->m_value = ::boost::endian::big_endian_value(val);
           return *this;
         }
+        operator value_type() const BOOST_NOEXCEPT { return this->value(); }
     };
 
     //  aligned little endian specialization
@@ -414,6 +421,7 @@ namespace endian
           this->m_value = ::boost::endian::little_endian_value(val);
           return *this;
         }
+        operator value_type() const BOOST_NOEXCEPT { return this->value(); }
     };
 
 } // namespace endian
