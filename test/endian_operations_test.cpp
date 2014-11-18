@@ -481,8 +481,8 @@ int cpp_main(int, char * [])
 
   // variations to detect ambiguities
 
-  u1 + 5;
-  u1 + 5u;
+  be::little_uint32_t u3 = u1 + 5;
+  u3 = u1 + 5u;
 
   if (u1 == 5)
     {}
@@ -496,10 +496,10 @@ int cpp_main(int, char * [])
   u2 = u1 + 5u;
 
   //  one more wrinkle
-  be::little_uint16_t u3(3);
-  u3 = 3;
-  std::clog << "\nu2 = u1 + u3\n";
-  u2 = u1 + u3;
+  be::little_uint16_t u4(3);
+  u4 = 3;
+  std::clog << "\nu2 = u1 + u4\n";
+  u2 = u1 + u4;
   std::clog << "\n";
 
   be::endian_log = false;

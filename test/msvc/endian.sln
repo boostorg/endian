@@ -27,6 +27,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "loop_time_test", "loop_time
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "buffer_test", "buffer_test\buffer_test.vcxproj", "{BFB68CF4-EB92-4E5C-9694-A939496C5CDE}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "uses_cases", "uses_cases\uses_cases.vcxproj", "{36BF451A-EAEF-4140-92E4-6EA461A26107}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -125,6 +127,12 @@ Global
 		{BFB68CF4-EB92-4E5C-9694-A939496C5CDE}.Release|Win32.ActiveCfg = Release|Win32
 		{BFB68CF4-EB92-4E5C-9694-A939496C5CDE}.Release|Win32.Build.0 = Release|Win32
 		{BFB68CF4-EB92-4E5C-9694-A939496C5CDE}.Release|x64.ActiveCfg = Release|Win32
+		{36BF451A-EAEF-4140-92E4-6EA461A26107}.Debug|Win32.ActiveCfg = Debug|Win32
+		{36BF451A-EAEF-4140-92E4-6EA461A26107}.Debug|Win32.Build.0 = Debug|Win32
+		{36BF451A-EAEF-4140-92E4-6EA461A26107}.Debug|x64.ActiveCfg = Debug|Win32
+		{36BF451A-EAEF-4140-92E4-6EA461A26107}.Release|Win32.ActiveCfg = Release|Win32
+		{36BF451A-EAEF-4140-92E4-6EA461A26107}.Release|Win32.Build.0 = Release|Win32
+		{36BF451A-EAEF-4140-92E4-6EA461A26107}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
