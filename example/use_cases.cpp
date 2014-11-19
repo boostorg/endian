@@ -12,7 +12,7 @@
 #include <boost/endian/detail/disable_warnings.hpp>
 
 #define BOOST_ENDIAN_LOG
-#include <boost/endian/types.hpp>
+#include <boost/endian/arithmetic.hpp>
 #include <boost/endian/buffers.hpp>
 #include <boost/detail/lightweight_main.hpp>
 #include <boost/detail/lightweight_test.hpp>

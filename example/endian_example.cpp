@@ -16,7 +16,7 @@
 
 #include <iostream>
 #include <cstdio>
-#include <boost/endian/types.hpp>
+#include <boost/endian/arithmetic.hpp>
 #include <boost/static_assert.hpp>
 
 using namespace boost::endian;
