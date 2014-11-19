@@ -13,11 +13,12 @@
 
 <table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%">
   <tr>
-    <td>
+    <td width="339">
 <a href="../../../index.html">
 <img src="../../../boost.png" alt="boost.png (6897 bytes)" align="middle" border="0" width="277" height="86"></a></td>
-    <td align="middle">
-    <font size="7">Endian Library</font></td>
+    <td align="middle" width="1253">
+    <b>
+    <font size="6">Endian Library</font></b></td>
   </tr>
 </table>
 
@@ -26,7 +27,8 @@
     <td><b><a href="../../../index.htm">Boost Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="index.html">Endian Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="conversion.html">Conversion Functions</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="types.html">Endian Types</a></b></td>
+    <a href="arithmetic.html">Arithmetic Types</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="buffers.html">Buffer Types</a></b></td>
   </tr>
 </table>
 <p></p>
@@ -56,7 +58,7 @@
   <tr>
     <td width="100%" bgcolor="#E8F5FF">
       <a href="../include/boost/endian/conversion.hpp">&lt;boost/endian/conversion.hpp&gt;</a><br>
-      <a href="../include/boost/endian/types.hpp">&lt;boost/endian/types.hpp&gt;</a></td>
+      <a href="../include/boost/endian/arithmetic.hpp">&lt;boost/endian/arithmetic.hpp&gt;</a></td>
   </tr>
 </table>
 
@@ -68,12 +70,12 @@ floating point, and user defined data.</p>
   <li>The primary use case is binary I/O for portable data exchange with 
   other systems, via either external media or network transmission.<br>
 &nbsp;</li>
-  <li>A second use case is minimizing storage size via sizes and/or 
+  <li>An additional use case is minimizing storage size via sizes and/or 
   alignments not supported by the built-in types.<br>
 &nbsp;</li>
-  <li>Two distinct approaches to dealing with endianness are provided. Each approach has a 
+  <li>Three distinct approaches to dealing with endianness are provided. Each approach has a 
   long history of successful use, and each approach has use cases where it is 
-  superior to the other approach.</li>
+  preferred over the other approaches.</li>
 </ul>
 
 <h2><a name="Introduction-to-endianness">Introduction to endianness</a></h2>
@@ -111,27 +113,22 @@ at different ends.</p>
 <p>See the Wikipedia's
 <a href="http://en.wikipedia.org/wiki/Endianness">Endianness</a> article for an 
 extensive discussion of endianness.</p>
-<p>Most programmers can ignore endianness, except perhaps for reading a core 
-dump on little-endian systems. Programmers have to deal with endianness in their 
-code when exchanging binary integers and binary floating point 
-values between computer systems with differing endianness, whether by physical file transfer or over a network, 
-. </p>
+<p>Programmers can usually ignore endianness, except perhaps for reading a core 
+dump on little-endian systems. But programmers will have to deal with endianness  when exchanging binary integers and binary floating point 
+values between computer systems with differing endianness, whether by physical file transfer or over a network. 
+And programmers may want to use the library if minimizing either internal or 
+external data sizes is advantagous.</p>
 <h2><a name="Introduction">Introduction</a> to the Boost.Endian library</h2>
 
-<p>The Boost.Endian library provides two different approaches to dealing with 
-integer endianness. Both approaches support integers, floating point types 
+<p>The Boost.Endian library provides three different approaches to dealing with 
+ 
+endianness. All three approaches support integers, floating point types 
 except&nbsp; <code>long double</code>, and user defined types (UDTs).</p>
 
 <p>Each approach has a long history of successful use, and each approach has use 
-cases where it is superior to the other approach.</p>
+cases where it is preferred to the other approaches.</p>
 
 <blockquote>
-
-<p><b><a href="types.html">Endian types</a> -</b> The application uses the provided endian types 
-which mimic the 
-built-in integer types. For example, <code>big_int32_t</code> or <code>little_float64_t</code>. 
-Integer types with lengths of 1 through 8 bytes are supported, rather than just 
-2, 4, and 8 byte integers. The types may be aligned or unaligned.</p>
 
 <p><b><a href="conversion.html">Endian conversion functions</a> -</b> The 
 application uses the built-in integer and floating point types, and calls the 
@@ -139,14 +136,30 @@ provided conversion functions to convert byte ordering as needed. Both mutating
 and non-mutating conversions are supplied, and each comes in unconditional and 
 conditional variants.</p>
 
+<p><b><a href="buffers.html">Endian buffer types</a> -</b> The application uses the provided endian 
+buffer types 
+which mimic the 
+built-in integer types. For example, <code>big_buf32_t</code> or <code>little_floatbuf64_t</code>. 
+Buffer types with lengths of 1 through 8 bytes are supported, rather than just 
+2, 4, and 8 bytes. The types may be aligned (name suffix <code>_t</code>) or unaligned 
+(name suffix <code>_ut</code>).</p>
+
+<p><b><a href="arithmetic.html">Endian arithmetic types</a> -</b> The application uses the provided endian 
+arithmetic types 
+which mimic the 
+built-in arithmetic types. For example, <code>big_int32_t</code> or <code>little_float64_t</code>. 
+Arithmetic integer types with lengths of 1 through 8 bytes are supported, rather than just 
+2, 4, and 8 byte integers. The types may be aligned (name suffix <code>_t</code>) or unaligned 
+(name suffix <code>_ut</code>).</p>
+
 </blockquote>
 
 <p>Boost Endian is a header-only library.</p>
 
-<h2><a name="Choosing">Choosing</a> between endian types and endian 
-conversion functions</h2>
+<h2><a name="Choosing">Choosing</a> between conversion functions, buffers types, 
+and arithmetic types</h2>
 
-<p>Which approach is better for dealing with endianness depends on  
+<p>Which endianness approach is best depends on  
 application needs.</p>
 
 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
@@ -688,7 +701,7 @@ Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen and
 Vitaly Budovski,.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->12 November, 2014<!--webbot bot="Timestamp" endspan i-checksum="39485" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->19 November, 2014<!--webbot bot="Timestamp" endspan i-checksum="39499" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
