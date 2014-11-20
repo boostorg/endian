@@ -41,91 +41,85 @@ namespace endian
 //                             suggested by Phil Endecott                               //
 //--------------------------------------------------------------------------------------//
   
-  // reverse byte order (i.e. endianness)
-  //   
-  inline int8_t   reverse_value(int8_t x) BOOST_NOEXCEPT;
-  inline int16_t  reverse_value(int16_t x) BOOST_NOEXCEPT;
-  inline int32_t  reverse_value(int32_t x) BOOST_NOEXCEPT;
-  inline int64_t  reverse_value(int64_t x) BOOST_NOEXCEPT;
-  inline uint8_t  reverse_value(uint8_t x) BOOST_NOEXCEPT;
-  inline uint16_t reverse_value(uint16_t x) BOOST_NOEXCEPT;
-  inline uint32_t reverse_value(uint32_t x) BOOST_NOEXCEPT;
-  inline uint64_t reverse_value(uint64_t x) BOOST_NOEXCEPT;
-
-  //  reverse_value overloads for floating point types as requested by Vicente
-  //  Botet and others.
+  //  reverse byte order (i.e. endianness)
+   
+  inline int8_t   reverse(int8_t x) BOOST_NOEXCEPT;
+  inline int16_t  reverse(int16_t x) BOOST_NOEXCEPT;
+  inline int32_t  reverse(int32_t x) BOOST_NOEXCEPT;
+  inline int64_t  reverse(int64_t x) BOOST_NOEXCEPT;
+  inline uint8_t  reverse(uint8_t x) BOOST_NOEXCEPT;
+  inline uint16_t reverse(uint16_t x) BOOST_NOEXCEPT;
+  inline uint32_t reverse(uint32_t x) BOOST_NOEXCEPT;
+  inline uint64_t reverse(uint64_t x) BOOST_NOEXCEPT;
   //  TODO: Track progress of Floating-Point Typedefs Having Specified Widths proposal (N3626)
-  inline float    reverse_value(float x) BOOST_NOEXCEPT;
-  inline double   reverse_value(double x) BOOST_NOEXCEPT;   
+  inline float    reverse(float x) BOOST_NOEXCEPT;
+  inline double   reverse(double x) BOOST_NOEXCEPT;
 
-  //  reverse bytes unless native endianness is big
-  //  possible names: reverse_unless_native_big, reverse_value_unless_big, reverse_unless_big
+  //  The conversion function templates, both value returning and in-place, are specified
+  //  and implemented by calling the preceding overloads of reverse(). As a consequence, 
+  //  there is no need for explicit overloads in addition to the generic templates.
+
+  //  generic byte order reverse
+  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To,
+            class ReversibleValue >
+    ReversibleValue  reverse(ReversibleValue from) BOOST_NOEXCEPT;
+
+  //  reverse byte order unless native endianness is big
+
   template <class ReversibleValue >
-  inline ReversibleValue  big_endian_value(ReversibleValue  x) BOOST_NOEXCEPT;    
-    //  Return: x if native endian order is big, otherwise reverse_value(x)
+  inline ReversibleValue  big(ReversibleValue  x) BOOST_NOEXCEPT;    
+  //  Returns: x if native endian order is big, otherwise reverse(x)
 
-  //  reverse bytes unless native endianness is little
-  //  possible names: reverse_unless_native_little, reverse_value_unless_little, reverse_unless_little
+  //  reverse byte order unless native endianness is little
+
   template <class ReversibleValue >
-  inline ReversibleValue  little_endian_value(ReversibleValue  x) BOOST_NOEXCEPT; 
-    //  Return: x if native endian order is little, otherwise reverse_value(x);
+  inline ReversibleValue  little(ReversibleValue  x) BOOST_NOEXCEPT;
+  //  Returns: x if native endian order is little, otherwise reverse(x)
 
-  //  synonyms based on names popularized by BSD, e.g. OS X, Linux
-  //  "h" stands for "host" (i.e. native), "be" for "big endian", "le" for "little endian"
-  template <class T> inline T bswap(T x) BOOST_NOEXCEPT {return reverse_value(x);}
-  template <class T> inline T htobe(T host) BOOST_NOEXCEPT {return big_endian_value(host);}
-  template <class T> inline T htole(T host) BOOST_NOEXCEPT {return little_endian_value(host);}
-  template <class T> inline T betoh(T big) BOOST_NOEXCEPT {return big_endian_value(big);}
-  template <class T> inline T letoh(T little) BOOST_NOEXCEPT {return little_endian_value(little);}
+  //  runtime byte order determination
 
-  //  compile-time generic byte order conversion
-  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class ReversibleValue >
-  ReversibleValue  convert_value(ReversibleValue  from) BOOST_NOEXCEPT;
-
-  //  runtime actual byte-order determination
   inline BOOST_SCOPED_ENUM(order) effective_order(BOOST_SCOPED_ENUM(order) o) BOOST_NOEXCEPT;
-    //  Return: o if o != native, otherwise big or little depending on native ordering
+  //  Return: o if o != native, otherwise big or little depending on native ordering
   
-  //  runtime byte-order conversion
+  //  runtime byte order reverse
+
   template <class ReversibleValue >
-  ReversibleValue  convert_value(ReversibleValue from, BOOST_SCOPED_ENUM(order) from_order,
-            BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT;
+  ReversibleValue  reverse(ReversibleValue from, BOOST_SCOPED_ENUM(order) from_order,
+    BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT;
+
+  //  Q: What happended to bswap, htobe, and the other synonym functions based on names
+  //     popularized by BSD, OS X, and Linux?
+  //  A: Turned out these may be implemented as macros on some systems. Ditto POSIX names
+  //     for such functionality. Since macros would cause endless problems with these
+  //     function names, and these functions are just synonyms anyhow, they have been
+  //     removed.
 
 //--------------------------------------------------------------------------------------//
-//                             modify in place interface                                //
+//                                 in place interface                                   //
 //--------------------------------------------------------------------------------------//
   
-  // reverse byte order (i.e. endianness)
+  //  reverse byte order (i.e. endianness)
   //   
   template <class Value>
-  inline void reverse(Value& x) BOOST_NOEXCEPT;
+  inline void reverse_in_place(Value& x) BOOST_NOEXCEPT;
 
   //  reverse unless native endianness is big
   template <class Reversible>
-  inline void big_endian(Reversible& x) BOOST_NOEXCEPT;    
+  inline void big_in_place(Reversible& x) BOOST_NOEXCEPT;
     //  Effects: none if native endian order is big, otherwise reverse(x)
 
   //  reverse unless native endianness is little
   template <class Reversible>
-  inline void little_endian(Reversible& x) BOOST_NOEXCEPT; 
+  inline void little_in_place(Reversible& x) BOOST_NOEXCEPT;
     //  Effects: none if native endian order is little, otherwise reverse(x);
 
-  //  synonyms based on names popularized by BSD, e.g. OS X, Linux.
-  //  "h" stands for "host" (i.e. native), "be" for "big endian",
-  //  "le" for "little endian", "m" for "modify in place"
-  template <class T> inline void mbswap(T& x) BOOST_NOEXCEPT {reverse(x);}
-  template <class T> inline void mhtobe(T& host) BOOST_NOEXCEPT {big_endian(host);}
-  template <class T> inline void mhtole(T& host) BOOST_NOEXCEPT {little_endian(host);}
-  template <class T> inline void mbetoh(T& big) BOOST_NOEXCEPT {big_endian(big);}
-  template <class T> inline void mletoh(T& little) BOOST_NOEXCEPT {little_endian(little);}
-
-  //  compile-time generic byte order conversion
+  //  generic byte order conversion
   template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class Reversible>
-  void convert(Reversible& x) BOOST_NOEXCEPT; 
+  void reverse_in_place(Reversible& x) BOOST_NOEXCEPT; 
 
-  //  runtime byte-order conversion
+  //  runtime byte-order reverse
   template <class Reversible>
-  void convert(Reversible& x, BOOST_SCOPED_ENUM(order) from_order,
+  void reverse_in_place(Reversible& x, BOOST_SCOPED_ENUM(order) from_order,
                BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT;
 
 //----------------------------------- end synopsis -------------------------------------//
