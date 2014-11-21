@@ -84,136 +84,136 @@ namespace endian
       class endian_buffer;
 
   // aligned big endian floating point types
-  typedef endian_buffer<order::big, float, 32, align::yes>      big_floatbuf32_t;
-  typedef endian_buffer<order::big, double, 64, align::yes>     big_floatbuf64_t;
+  typedef endian_buffer<order::big, float, 32, align::yes>      big_float32_buf_t;
+  typedef endian_buffer<order::big, double, 64, align::yes>     big_float64_buf_t;
 
   // aligned little endian floating point types
-  typedef endian_buffer<order::little, float, 32, align::yes>   little_floatbuf32_t;
-  typedef endian_buffer<order::little, double, 64, align::yes>  little_floatbuf64_t;
+  typedef endian_buffer<order::little, float, 32, align::yes>   little_float32_buf_t;
+  typedef endian_buffer<order::little, double, 64, align::yes>  little_float64_buf_t;
 
   // unaligned big endian floating point types
-  typedef endian_buffer<order::big, float, 32, align::no>       big_floatbuf32_ut;
-  typedef endian_buffer<order::big, double, 64, align::no>      big_floatbuf64_ut;
+  typedef endian_buffer<order::big, float, 32, align::no>       big_float32_buf_ut;
+  typedef endian_buffer<order::big, double, 64, align::no>      big_float64_buf_ut;
 
   // unaligned little endian floating point types
-  typedef endian_buffer<order::little, float, 32, align::no>    little_floatbuf32_ut;
-  typedef endian_buffer<order::little, double, 64, align::no>   little_floatbuf64_ut;
+  typedef endian_buffer<order::little, float, 32, align::no>    little_float32_buf_ut;
+  typedef endian_buffer<order::little, double, 64, align::no>   little_float64_buf_ut;
 
   // aligned big endian signed integer types
-  typedef endian_buffer<order::big, int16_t, 16, align::yes>     big_buf16_t;
-  typedef endian_buffer<order::big, int32_t, 32, align::yes>     big_buf32_t;
-  typedef endian_buffer<order::big, int64_t, 64, align::yes>     big_buf64_t;
+  typedef endian_buffer<order::big, int16_t, 16, align::yes>     big_int16_buf_t;
+  typedef endian_buffer<order::big, int32_t, 32, align::yes>     big_int32_buf_t;
+  typedef endian_buffer<order::big, int64_t, 64, align::yes>     big_int64_buf_t;
 
   // aligned big endian unsigned integer types
-  typedef endian_buffer<order::big, uint16_t, 16, align::yes>    big_ubuf16_t;
-  typedef endian_buffer<order::big, uint32_t, 32, align::yes>    big_ubuf32_t;
-  typedef endian_buffer<order::big, uint64_t, 64, align::yes>    big_ubuf64_t;
+  typedef endian_buffer<order::big, uint16_t, 16, align::yes>    big_uint16_buf_t;
+  typedef endian_buffer<order::big, uint32_t, 32, align::yes>    big_uint32_buf_t;
+  typedef endian_buffer<order::big, uint64_t, 64, align::yes>    big_uint64_buf_t;
 
   // aligned little endian signed integer types
-  typedef endian_buffer<order::little, int16_t, 16, align::yes>  little_buf16_t;
-  typedef endian_buffer<order::little, int32_t, 32, align::yes>  little_buf32_t;
-  typedef endian_buffer<order::little, int64_t, 64, align::yes>  little_buf64_t;
+  typedef endian_buffer<order::little, int16_t, 16, align::yes>  little_int16_buf_t;
+  typedef endian_buffer<order::little, int32_t, 32, align::yes>  little_int32_buf_t;
+  typedef endian_buffer<order::little, int64_t, 64, align::yes>  little_int64_buf_t;
 
   // aligned little endian unsigned integer types
-  typedef endian_buffer<order::little, uint16_t, 16, align::yes> little_ubuf16_t;
-  typedef endian_buffer<order::little, uint32_t, 32, align::yes> little_ubuf32_t;
-  typedef endian_buffer<order::little, uint64_t, 64, align::yes> little_ubuf64_t;
+  typedef endian_buffer<order::little, uint16_t, 16, align::yes> little_uint16_buf_t;
+  typedef endian_buffer<order::little, uint32_t, 32, align::yes> little_uint32_buf_t;
+  typedef endian_buffer<order::little, uint64_t, 64, align::yes> little_uint64_buf_t;
 
   // aligned native endian typedefs are not provided because
   // <cstdint> types are superior for this use case
 
   // unaligned big endian signed integer types
-  typedef endian_buffer<order::big, int_least8_t, 8>        big_buf8_ut;
-  typedef endian_buffer<order::big, int_least16_t, 16>      big_buf16_ut;
-  typedef endian_buffer<order::big, int_least32_t, 24>      big_buf24_ut;
-  typedef endian_buffer<order::big, int_least32_t, 32>      big_buf32_ut;
-  typedef endian_buffer<order::big, int_least64_t, 40>      big_buf40_ut;
-  typedef endian_buffer<order::big, int_least64_t, 48>      big_buf48_ut;
-  typedef endian_buffer<order::big, int_least64_t, 56>      big_buf56_ut;
-  typedef endian_buffer<order::big, int_least64_t, 64>      big_buf64_ut;
+  typedef endian_buffer<order::big, int_least8_t, 8>        big_int8_buf_ut;
+  typedef endian_buffer<order::big, int_least16_t, 16>      big_int16_buf_ut;
+  typedef endian_buffer<order::big, int_least32_t, 24>      big_int24_buf_ut;
+  typedef endian_buffer<order::big, int_least32_t, 32>      big_int32_buf_ut;
+  typedef endian_buffer<order::big, int_least64_t, 40>      big_int40_buf_ut;
+  typedef endian_buffer<order::big, int_least64_t, 48>      big_int48_buf_ut;
+  typedef endian_buffer<order::big, int_least64_t, 56>      big_int56_buf_ut;
+  typedef endian_buffer<order::big, int_least64_t, 64>      big_int64_buf_ut;
 
   // unaligned big endian unsigned integer types
-  typedef endian_buffer<order::big, uint_least8_t, 8>       big_ubuf8_ut;
-  typedef endian_buffer<order::big, uint_least16_t, 16>     big_ubuf16_ut;
-  typedef endian_buffer<order::big, uint_least32_t, 24>     big_ubuf24_ut;
-  typedef endian_buffer<order::big, uint_least32_t, 32>     big_ubuf32_ut;
-  typedef endian_buffer<order::big, uint_least64_t, 40>     big_ubuf40_ut;
-  typedef endian_buffer<order::big, uint_least64_t, 48>     big_ubuf48_ut;
-  typedef endian_buffer<order::big, uint_least64_t, 56>     big_ubuf56_ut;
-  typedef endian_buffer<order::big, uint_least64_t, 64>     big_ubuf64_ut;
+  typedef endian_buffer<order::big, uint_least8_t, 8>       big_uint8_buf_ut;
+  typedef endian_buffer<order::big, uint_least16_t, 16>     big_uint16_buf_ut;
+  typedef endian_buffer<order::big, uint_least32_t, 24>     big_uint24_buf_ut;
+  typedef endian_buffer<order::big, uint_least32_t, 32>     big_uint32_buf_ut;
+  typedef endian_buffer<order::big, uint_least64_t, 40>     big_uint40_buf_ut;
+  typedef endian_buffer<order::big, uint_least64_t, 48>     big_uint48_buf_ut;
+  typedef endian_buffer<order::big, uint_least64_t, 56>     big_uint56_buf_ut;
+  typedef endian_buffer<order::big, uint_least64_t, 64>     big_uint64_buf_ut;
 
   // unaligned little endian signed integer types
-  typedef endian_buffer<order::little, int_least8_t, 8>     little_buf8_ut;
-  typedef endian_buffer<order::little, int_least16_t, 16>   little_buf16_ut;
-  typedef endian_buffer<order::little, int_least32_t, 24>   little_buf24_ut;
-  typedef endian_buffer<order::little, int_least32_t, 32>   little_buf32_ut;
-  typedef endian_buffer<order::little, int_least64_t, 40>   little_buf40_ut;
-  typedef endian_buffer<order::little, int_least64_t, 48>   little_buf48_ut;
-  typedef endian_buffer<order::little, int_least64_t, 56>   little_buf56_ut;
-  typedef endian_buffer<order::little, int_least64_t, 64>   little_buf64_ut;
+  typedef endian_buffer<order::little, int_least8_t, 8>     little_int8_buf_ut;
+  typedef endian_buffer<order::little, int_least16_t, 16>   little_int16_buf_ut;
+  typedef endian_buffer<order::little, int_least32_t, 24>   little_int24_buf_ut;
+  typedef endian_buffer<order::little, int_least32_t, 32>   little_int32_buf_ut;
+  typedef endian_buffer<order::little, int_least64_t, 40>   little_int40_buf_ut;
+  typedef endian_buffer<order::little, int_least64_t, 48>   little_int48_buf_ut;
+  typedef endian_buffer<order::little, int_least64_t, 56>   little_int56_buf_ut;
+  typedef endian_buffer<order::little, int_least64_t, 64>   little_int64_buf_ut;
 
   // unaligned little endian unsigned integer types
-  typedef endian_buffer<order::little, uint_least8_t, 8>    little_ubuf8_ut;
-  typedef endian_buffer<order::little, uint_least16_t, 16>  little_ubuf16_ut;
-  typedef endian_buffer<order::little, uint_least32_t, 24>  little_ubuf24_ut;
-  typedef endian_buffer<order::little, uint_least32_t, 32>  little_ubuf32_ut;
-  typedef endian_buffer<order::little, uint_least64_t, 40>  little_ubuf40_ut;
-  typedef endian_buffer<order::little, uint_least64_t, 48>  little_ubuf48_ut;
-  typedef endian_buffer<order::little, uint_least64_t, 56>  little_ubuf56_ut;
-  typedef endian_buffer<order::little, uint_least64_t, 64>  little_ubuf64_ut;
+  typedef endian_buffer<order::little, uint_least8_t, 8>    little_uint8_buf_ut;
+  typedef endian_buffer<order::little, uint_least16_t, 16>  little_uint16_buf_ut;
+  typedef endian_buffer<order::little, uint_least32_t, 24>  little_uint24_buf_ut;
+  typedef endian_buffer<order::little, uint_least32_t, 32>  little_uint32_buf_ut;
+  typedef endian_buffer<order::little, uint_least64_t, 40>  little_uint40_buf_ut;
+  typedef endian_buffer<order::little, uint_least64_t, 48>  little_uint48_buf_ut;
+  typedef endian_buffer<order::little, uint_least64_t, 56>  little_uint56_buf_ut;
+  typedef endian_buffer<order::little, uint_least64_t, 64>  little_uint64_buf_ut;
 
 # ifdef BOOST_BIG_ENDIAN
   // unaligned native endian signed integer types
-  typedef big_buf8_ut   native_buf8_ut;
-  typedef big_buf16_ut  native_buf16_ut;
-  typedef big_buf24_ut  native_buf24_ut;
-  typedef big_buf32_ut  native_buf32_ut;
-  typedef big_buf40_ut  native_buf40_ut;
-  typedef big_buf48_ut  native_buf48_ut;
-  typedef big_buf56_ut  native_buf56_ut;
-  typedef big_buf64_ut  native_buf64_ut;
+  typedef big_int8_buf_ut   native_int8_buf_ut;
+  typedef big_int16_buf_ut  native_int16_buf_ut;
+  typedef big_int24_buf_ut  native_int24_buf_ut;
+  typedef big_int32_buf_ut  native_int32_buf_ut;
+  typedef big_int40_buf_ut  native_int40_buf_ut;
+  typedef big_int48_buf_ut  native_int48_buf_ut;
+  typedef big_int56_buf_ut  native_int56_buf_ut;
+  typedef big_int64_buf_ut  native_int64_buf_ut;
 
   // unaligned native endian unsigned integer types
-  typedef big_ubuf8_ut   native_ubuf8_ut;
-  typedef big_ubuf16_ut  native_ubuf16_ut;
-  typedef big_ubuf24_ut  native_ubuf24_ut;
-  typedef big_ubuf32_ut  native_ubuf32_ut;
-  typedef big_ubuf40_ut  native_ubuf40_ut;
-  typedef big_ubuf48_ut  native_ubuf48_ut;
-  typedef big_ubuf56_ut  native_ubuf56_ut;
-  typedef big_ubuf64_ut  native_ubuf64_ut;
+  typedef big_uint8_buf_ut   native_uint8_buf_ut;
+  typedef big_uint16_buf_ut  native_uint16_buf_ut;
+  typedef big_uint24_buf_ut  native_uint24_buf_ut;
+  typedef big_uint32_buf_ut  native_uint32_buf_ut;
+  typedef big_uint40_buf_ut  native_uint40_buf_ut;
+  typedef big_uint48_buf_ut  native_uint48_buf_ut;
+  typedef big_uint56_buf_ut  native_uint56_buf_ut;
+  typedef big_uint64_buf_ut  native_uint64_buf_ut;
 
   // native endian floating point types
-  typedef big_floatbuf32_ut native_floatbuf32_ut;
-  typedef big_floatbuf64_ut native_floatbuf64_ut;
-  typedef big_floatbuf32_t native_floatbuf32_t;
-  typedef big_floatbuf64_t native_floatbuf64_t;
+  typedef big_float32_buf_ut native_float32_buf_ut;
+  typedef big_float64_buf_ut native_float64_buf_ut;
+  typedef big_float32_buf_t native_float32_buf_t;
+  typedef big_float64_buf_t native_float64_buf_t;
 # else
   // unaligned native endian signed integer types
-  typedef little_buf8_ut   native_buf8_ut;
-  typedef little_buf16_ut  native_buf16_ut;
-  typedef little_buf24_ut  native_buf24_ut;
-  typedef little_buf32_ut  native_buf32_ut;
-  typedef little_buf40_ut  native_buf40_ut;
-  typedef little_buf48_ut  native_buf48_ut;
-  typedef little_buf56_ut  native_buf56_ut;
-  typedef little_buf64_ut  native_buf64_ut;
+  typedef little_int8_buf_ut   native_int8_buf_ut;
+  typedef little_int16_buf_ut  native_int16_buf_ut;
+  typedef little_int24_buf_ut  native_int24_buf_ut;
+  typedef little_int32_buf_ut  native_int32_buf_ut;
+  typedef little_int40_buf_ut  native_int40_buf_ut;
+  typedef little_int48_buf_ut  native_int48_buf_ut;
+  typedef little_int56_buf_ut  native_int56_buf_ut;
+  typedef little_int64_buf_ut  native_int64_buf_ut;
 
   // unaligned native endian unsigned integer types
-  typedef little_ubuf8_ut   native_ubuf8_ut;
-  typedef little_ubuf16_ut  native_ubuf16_ut;
-  typedef little_ubuf24_ut  native_ubuf24_ut;
-  typedef little_ubuf32_ut  native_ubuf32_ut;
-  typedef little_ubuf40_ut  native_ubuf40_ut;
-  typedef little_ubuf48_ut  native_ubuf48_ut;
-  typedef little_ubuf56_ut  native_ubuf56_ut;
-  typedef little_ubuf64_ut  native_ubuf64_ut;
+  typedef little_uint8_buf_ut   native_uint8_buf_ut;
+  typedef little_uint16_buf_ut  native_uint16_buf_ut;
+  typedef little_uint24_buf_ut  native_uint24_buf_ut;
+  typedef little_uint32_buf_ut  native_uint32_buf_ut;
+  typedef little_uint40_buf_ut  native_uint40_buf_ut;
+  typedef little_uint48_buf_ut  native_uint48_buf_ut;
+  typedef little_uint56_buf_ut  native_uint56_buf_ut;
+  typedef little_uint64_buf_ut  native_uint64_buf_ut;
 
   // native endian floating point types
-  typedef little_floatbuf32_ut native_floatbuf32_ut;
-  typedef little_floatbuf64_ut native_floatbuf64_ut;
-  typedef little_floatbuf32_t native_floatbuf32_t;
-  typedef little_floatbuf64_t native_floatbuf64_t;
+  typedef little_float32_buf_ut native_float32_buf_ut;
+  typedef little_float64_buf_ut native_float64_buf_ut;
+  typedef little_float32_buf_t native_float32_buf_t;
+  typedef little_float64_buf_t native_float64_buf_t;
 # endif
 }  // namespace boost
 }  // namespace endian
@@ -525,6 +525,10 @@ namespace endian
           m_value = ::boost::endian::big_endian_value(val);
           return *this;
         }
+        //operator value_type() const BOOST_NOEXCEPT
+        //{
+        //  return ::boost::endian::big_endian_value(m_value);
+        //}
         value_type value() const BOOST_NOEXCEPT
         {
 #       ifdef BOOST_ENDIAN_LOG
