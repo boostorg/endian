@@ -38,55 +38,61 @@ namespace endian
 
 //--------------------------------------------------------------------------------------//
 //                                                                                      //
-//                             value returning interfaces                               //
-//                        approach suggested by Phil Endecott                           //
+//                             return-by-value interfaces                               //
+//                    return-by-value suggested by Phil Endecott                        //
 //                                                                                      //
 //                             user-defined types (UDTs)                                //
 //                                                                                      //
-//  All value returning conversion function templates are required to be implemented in //
-//  terms of an unqualified call to "reverse(x)", a function returning the value of x   //
-//  with endianness reversed. This provides a customization point for any UDT that      //
-//  provides a "reverse" free-function meeting the requirements. It must be declared    //
-//  in the same namespace as the UDT itself so that it will be found by argument        //
-//  dependent lookup (ADL).                                                             //
+//  All return-by-value conversion function templates are required to be implemented in //
+//  terms of an unqualified call to "reverse_endianness(x)", a function returning the   //
+//  value of x with endianness reversed. This provides a customization point for any    //
+//  UDT that provides a "reverse_endianness" free-function meeting the requirements.    //
+//  It must be defined in the same namespace as the UDT itself so that it will be found //
+//  by argument dependent lookup (ADL).                                                 //
 //                                                                                      //
 //--------------------------------------------------------------------------------------//
   
-  //  value returning reverse byte order (i.e. endianness)
-  inline int8_t   reverse(int8_t x) BOOST_NOEXCEPT;
-  inline int16_t  reverse(int16_t x) BOOST_NOEXCEPT;
-  inline int32_t  reverse(int32_t x) BOOST_NOEXCEPT;
-  inline int64_t  reverse(int64_t x) BOOST_NOEXCEPT;
-  inline uint8_t  reverse(uint8_t x) BOOST_NOEXCEPT;
-  inline uint16_t reverse(uint16_t x) BOOST_NOEXCEPT;
-  inline uint32_t reverse(uint32_t x) BOOST_NOEXCEPT;
-  inline uint64_t reverse(uint64_t x) BOOST_NOEXCEPT;
+  //  customization for built-in arithmetic types
+  inline int8_t   reverse_endianness(int8_t x) BOOST_NOEXCEPT;
+  inline int16_t  reverse_endianness(int16_t x) BOOST_NOEXCEPT;
+  inline int32_t  reverse_endianness(int32_t x) BOOST_NOEXCEPT;
+  inline int64_t  reverse_endianness(int64_t x) BOOST_NOEXCEPT;
+  inline uint8_t  reverse_endianness(uint8_t x) BOOST_NOEXCEPT;
+  inline uint16_t reverse_endianness(uint16_t x) BOOST_NOEXCEPT;
+  inline uint32_t reverse_endianness(uint32_t x) BOOST_NOEXCEPT;
+  inline uint64_t reverse_endianness(uint64_t x) BOOST_NOEXCEPT;
   //  TODO: Track progress of Floating-Point Typedefs Having Specified Widths proposal (N3626)
-  inline float    reverse(float x) BOOST_NOEXCEPT;
-  inline double   reverse(double x) BOOST_NOEXCEPT;
+  inline float    reverse_endianness(float x) BOOST_NOEXCEPT;
+  inline double   reverse_endianness(double x) BOOST_NOEXCEPT;
 
   //  reverse byte order unless native endianness is big
-  template <class ReversibleValue >
-  inline ReversibleValue  big(ReversibleValue  x) BOOST_NOEXCEPT;    
-  //  Returns: x if native endian order is big, otherwise reverse(x)
+  template <class Reversible >
+    inline Reversible  big_to_native(Reversible  x) BOOST_NOEXCEPT;
+    //  Returns: x if native endian order is big, otherwise reverse_endianness(x)
+  template <class Reversible >
+    inline Reversible  native_to_big(Reversible  x) BOOST_NOEXCEPT;
+    //  Returns: x if native endian order is big, otherwise reverse_endianness(x)
 
   //  reverse byte order unless native endianness is little
-  template <class ReversibleValue >
-  inline ReversibleValue  little(ReversibleValue  x) BOOST_NOEXCEPT;
-  //  Returns: x if native endian order is little, otherwise reverse(x)
+  template <class Reversible >
+    inline Reversible  little_to_native(Reversible  x) BOOST_NOEXCEPT;
+    //  Returns: x if native endian order is little, otherwise reverse_endianness(x)
+  template <class Reversible >
+    inline Reversible  native_to_little(Reversible  x) BOOST_NOEXCEPT;
+    //  Returns: x if native endian order is little, otherwise reverse_endianness(x)
 
   //  generic conditional reverse byte order
   template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To,
-            class ReversibleValue >
-  ReversibleValue  reverse(ReversibleValue from) BOOST_NOEXCEPT;
+            class Reversible >
+  Reversible  reverse_endianness(Reversible from) BOOST_NOEXCEPT;
 
   //  runtime byte order determination
   inline BOOST_SCOPED_ENUM(order) effective_order(BOOST_SCOPED_ENUM(order) o) BOOST_NOEXCEPT;
   //  Return: o if o != native, otherwise big or little depending on native ordering
   
   //  runtime conditional reverse byte order
-  template <class ReversibleValue >
-  ReversibleValue  reverse(ReversibleValue from, BOOST_SCOPED_ENUM(order) from_order,
+  template <class Reversible >
+  Reversible  reverse_endianness(Reversible from, BOOST_SCOPED_ENUM(order) from_order,
     BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT;
 
   //  Q: What happended to bswap, htobe, and the other synonym functions based on names
@@ -104,43 +110,50 @@ namespace endian
   //                             user-defined types (UDTs)                              //
   //                                                                                    //
   //  All reverse in place function templates are required to be implemented in terms   // 
-  //  of an unqualified call to "reverse_in_place(x)", a function reversing the         //
-  //  endianness of x, which is a non-const reference. This provides a customization    //
-  //  point for any UDT that provides a "reverse_in_place" free-function meeting the    //
-  //  requirements. The free-function must be declared in the same namespace as the     //
-  //  UDT itself so that it will be found by argument-dependent lookup (ADL).           //
+  //  of an unqualified call to "reverse_endianness_in_place(x)", a function reversing  //
+  //  the endianness of x, which is a non-const reference. This provides a              //
+  //  customization point for any UDT that provides a "reverse_in_place" free-function  //
+  //  meeting the requirements. The free-function must be declared in the same          //
+  //  namespace as the UDT itself so that it will be found by argument-dependent        //
+  //   lookup (ADL).                                                                    //
   //                                                                                    //
   //------------------------------------------------------------------------------------//
 
-  //  reverse byte-order in place (i.e. flip endianness)
-  inline void reverse_in_place(int8_t& x) BOOST_NOEXCEPT;
-  inline void reverse_in_place(int16_t& x) BOOST_NOEXCEPT;
-  inline void reverse_in_place(int32_t& x) BOOST_NOEXCEPT;
-  inline void reverse_in_place(int64_t& x) BOOST_NOEXCEPT;
-  inline void reverse_in_place(uint8_t& x) BOOST_NOEXCEPT;
-  inline void reverse_in_place(uint16_t& x) BOOST_NOEXCEPT;
-  inline void reverse_in_place(uint32_t& x) BOOST_NOEXCEPT;
-  inline void reverse_in_place(uint64_t& x) BOOST_NOEXCEPT;
-  inline void reverse_in_place(float& x) BOOST_NOEXCEPT;
-  inline void reverse_in_place(double& x) BOOST_NOEXCEPT;
+  //  customization for built-in arithmetic types
+  inline void reverse_endianness_in_place(int8_t& x) BOOST_NOEXCEPT;
+  inline void reverse_endianness_in_place(int16_t& x) BOOST_NOEXCEPT;
+  inline void reverse_endianness_in_place(int32_t& x) BOOST_NOEXCEPT;
+  inline void reverse_endianness_in_place(int64_t& x) BOOST_NOEXCEPT;
+  inline void reverse_endianness_in_place(uint8_t& x) BOOST_NOEXCEPT;
+  inline void reverse_endianness_in_place(uint16_t& x) BOOST_NOEXCEPT;
+  inline void reverse_endianness_in_place(uint32_t& x) BOOST_NOEXCEPT;
+  inline void reverse_endianness_in_place(uint64_t& x) BOOST_NOEXCEPT;
+  inline void reverse_endianness_in_place(float& x) BOOST_NOEXCEPT;
+  inline void reverse_endianness_in_place(double& x) BOOST_NOEXCEPT;
 
   //  reverse in place unless native endianness is big
   template <class Reversible>
-  inline void big_in_place(Reversible& x) BOOST_NOEXCEPT;
-    //  Effects: none if native byte-order is big, otherwise reverse_in_place(x)
+    inline void big_to_native_in_place(Reversible& x) BOOST_NOEXCEPT;
+    //  Effects: none if native byte-order is big, otherwise reverse_endianness_in_place(x)
+  template <class Reversible>
+    inline void native_to_big_in_place(Reversible& x) BOOST_NOEXCEPT;
+    //  Effects: none if native byte-order is big, otherwise reverse_endianness_in_place(x)
 
   //  reverse in place unless native endianness is little
   template <class Reversible>
-  inline void little_in_place(Reversible& x) BOOST_NOEXCEPT;
-    //  Effects: none if native byte-order is little, otherwise reverse_in_place(x);
+    inline void little_to_native_in_place(Reversible& x) BOOST_NOEXCEPT;
+    //  Effects: none if native byte-order is little, otherwise reverse_endianness_in_place(x);
+  template <class Reversible>
+    inline void native_to_little_in_place(Reversible& x) BOOST_NOEXCEPT;
+    //  Effects: none if native byte-order is little, otherwise reverse_endianness_in_place(x);
 
   //  fully generic conditional reverse in place
   template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class Reversible>
-  void reverse_in_place(Reversible& x) BOOST_NOEXCEPT; 
+  void reverse_endianness_in_place(Reversible& x) BOOST_NOEXCEPT; 
 
   //  runtime reverse in place
   template <class Reversible>
-  void reverse_in_place(Reversible& x, BOOST_SCOPED_ENUM(order) from_order,
+  void reverse_endianness_in_place(Reversible& x, BOOST_SCOPED_ENUM(order) from_order,
     BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT;
 
 //----------------------------------- end synopsis -------------------------------------//
@@ -157,12 +170,12 @@ namespace endian
 //                                                                                      //
 //--------------------------------------------------------------------------------------//
 
-  inline int8_t reverse(int8_t x) BOOST_NOEXCEPT
+  inline int8_t reverse_endianness(int8_t x) BOOST_NOEXCEPT
   {
     return x;
   }
                                                 
-  inline int16_t reverse(int16_t x) BOOST_NOEXCEPT
+  inline int16_t reverse_endianness(int16_t x) BOOST_NOEXCEPT
   {
 # ifdef BOOST_ENDIAN_NO_INTRINSICS  
     return (static_cast<uint16_t>(x) << 8)
@@ -172,7 +185,7 @@ namespace endian
 # endif
   }
 
-  inline int32_t reverse(int32_t x) BOOST_NOEXCEPT
+  inline int32_t reverse_endianness(int32_t x) BOOST_NOEXCEPT
   {
 # ifdef BOOST_ENDIAN_NO_INTRINSICS  
     uint32_t step16;
@@ -185,7 +198,7 @@ namespace endian
 # endif
   }
 
-  inline int64_t reverse(int64_t x) BOOST_NOEXCEPT
+  inline int64_t reverse_endianness(int64_t x) BOOST_NOEXCEPT
   {
 # ifdef BOOST_ENDIAN_NO_INTRINSICS  
     uint64_t step32, step16;
@@ -199,12 +212,12 @@ namespace endian
 # endif
   }
   
-  inline uint8_t reverse(uint8_t x) BOOST_NOEXCEPT
+  inline uint8_t reverse_endianness(uint8_t x) BOOST_NOEXCEPT
   {
     return x;
   }
 
-  inline uint16_t reverse(uint16_t x) BOOST_NOEXCEPT
+  inline uint16_t reverse_endianness(uint16_t x) BOOST_NOEXCEPT
   {
 # ifdef BOOST_ENDIAN_NO_INTRINSICS  
     return (x << 8)
@@ -214,7 +227,7 @@ namespace endian
 # endif
   }
 
-  inline uint32_t reverse(uint32_t x) BOOST_NOEXCEPT                           
+  inline uint32_t reverse_endianness(uint32_t x) BOOST_NOEXCEPT                           
   {
 # ifdef BOOST_ENDIAN_NO_INTRINSICS  
     uint32_t step16;
@@ -227,7 +240,7 @@ namespace endian
 # endif
   }
 
-  inline uint64_t reverse(uint64_t x) BOOST_NOEXCEPT
+  inline uint64_t reverse_endianness(uint64_t x) BOOST_NOEXCEPT
   {
 # ifdef BOOST_ENDIAN_NO_INTRINSICS  
     uint64_t step32, step16;
@@ -241,52 +254,72 @@ namespace endian
 # endif
   }
 
-  inline float reverse(float x) BOOST_NOEXCEPT
-  {
-    BOOST_STATIC_ASSERT_MSG(sizeof(float) == sizeof(uint32_t),
-      "boost::endian only supprts sizeof(float) == 4; please report error to boost mailing list");
-    return detail::generic_reverse(x);
-  }
-
-  inline double reverse(double x) BOOST_NOEXCEPT
-  {
-    BOOST_STATIC_ASSERT_MSG(sizeof(double) == sizeof(uint64_t),
-      "boost::endian only supprts sizeof(double) == 8; please report error to boost mailing list");
-    return detail::generic_reverse(x);
-  }
-
   namespace detail
   {
     //  generic reverse function template implementation approach using std::reverse
     //  suggested by Mathias Gaunard.
     template <class T>
-    inline T generic_reverse(T x) BOOST_NOEXCEPT
+    inline T generic_reverse_endianness(T x) BOOST_NOEXCEPT
     {
       T tmp(x);
-      std::reverse(
+      std::reverse_endianness(
         reinterpret_cast<char*>(&tmp),
         reinterpret_cast<char*>(&tmp) + sizeof(T));
       return tmp;
     }
   }  // namespace detail
 
-  template <class ReversibleValue >
-  inline ReversibleValue  big(ReversibleValue  x) BOOST_NOEXCEPT
+  inline float reverse_endianness(float x) BOOST_NOEXCEPT
+  {
+    BOOST_STATIC_ASSERT_MSG(sizeof(float) == sizeof(uint32_t),
+      "boost::endian only supprts sizeof(float) == 4; please report error to boost mailing list");
+    return detail::generic_reverse_endianness(x);
+  }
+
+  inline double reverse_endianness(double x) BOOST_NOEXCEPT
+  {
+    BOOST_STATIC_ASSERT_MSG(sizeof(double) == sizeof(uint64_t),
+      "boost::endian only supprts sizeof(double) == 8; please report error to boost mailing list");
+    return detail::generic_reverse_endianness(x);
+  }
+
+  template <class Reversible >
+  inline Reversible  big_to_native(Reversible  x) BOOST_NOEXCEPT
   {
 #   ifdef BOOST_BIG_ENDIAN
-      return x;
+    return x;
 #   else
-      return reverse(x);
+    return reverse_endianness(x);
 #   endif
   }
 
-  template <class ReversibleValue >
-  inline ReversibleValue  little(ReversibleValue  x) BOOST_NOEXCEPT    
+  template <class Reversible >
+  inline Reversible  native_to_big(Reversible  x) BOOST_NOEXCEPT
+  {
+#   ifdef BOOST_BIG_ENDIAN
+    return x;
+#   else
+    return reverse_endianness(x);
+#   endif
+  }
+
+  template <class Reversible >
+  inline Reversible  little_to_native(Reversible  x) BOOST_NOEXCEPT
   {
 #   ifdef BOOST_LITTLE_ENDIAN
-      return x;
+    return x;
 #   else
-      return reverse(x);
+    return reverse_endianness(x);
+#   endif
+  }
+
+  template <class Reversible >
+  inline Reversible  native_to_little(Reversible  x) BOOST_NOEXCEPT
+  {
+#   ifdef BOOST_LITTLE_ENDIAN
+    return x;
+#   else
+    return reverse_endianness(x);
 #   endif
   }
 
@@ -329,12 +362,12 @@ namespace endian
     ;
   }
 
-  template <class ReversibleValue >
-  ReversibleValue  convert_value(ReversibleValue  from,
+  template <class Reversible >
+  Reversible  convert_value(Reversible  from,
     BOOST_SCOPED_ENUM(order) from_order, BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT
   {
     return effective_order(from_order) == effective_order(to_order)
-      ? from : reverse(from);
+      ? from : reverse_endianness(from);
   }
 
 //--------------------------------------------------------------------------------------//
@@ -342,39 +375,51 @@ namespace endian
 //--------------------------------------------------------------------------------------//
 
   //  reverse byte-order in place (i.e. flip endianness)
-  inline void reverse_in_place(int8_t& x) BOOST_NOEXCEPT   { x = reverse(x); }
-  inline void reverse_in_place(int16_t& x) BOOST_NOEXCEPT  { x = reverse(x); }
-  inline void reverse_in_place(int32_t& x) BOOST_NOEXCEPT  { x = reverse(x); }
-  inline void reverse_in_place(int64_t& x) BOOST_NOEXCEPT  { x = reverse(x); }
-  inline void reverse_in_place(uint8_t& x) BOOST_NOEXCEPT  { x = reverse(x); }
-  inline void reverse_in_place(uint16_t& x) BOOST_NOEXCEPT { x = reverse(x); }
-  inline void reverse_in_place(uint32_t& x) BOOST_NOEXCEPT { x = reverse(x); }
-  inline void reverse_in_place(uint64_t& x) BOOST_NOEXCEPT { x = reverse(x); }
-  inline void reverse_in_place(float& x) BOOST_NOEXCEPT    { x = reverse(x); }
-  inline void reverse_in_place(double& x) BOOST_NOEXCEPT   { x = reverse(x); }
+  inline void reverse_endianness_in_place(int8_t& x) BOOST_NOEXCEPT   { x = reverse_endianness(x); }
+  inline void reverse_endianness_in_place(int16_t& x) BOOST_NOEXCEPT  { x = reverse_endianness(x); }
+  inline void reverse_endianness_in_place(int32_t& x) BOOST_NOEXCEPT  { x = reverse_endianness(x); }
+  inline void reverse_endianness_in_place(int64_t& x) BOOST_NOEXCEPT  { x = reverse_endianness(x); }
+  inline void reverse_endianness_in_place(uint8_t& x) BOOST_NOEXCEPT  { x = reverse_endianness(x); }
+  inline void reverse_endianness_in_place(uint16_t& x) BOOST_NOEXCEPT { x = reverse_endianness(x); }
+  inline void reverse_endianness_in_place(uint32_t& x) BOOST_NOEXCEPT { x = reverse_endianness(x); }
+  inline void reverse_endianness_in_place(uint64_t& x) BOOST_NOEXCEPT { x = reverse_endianness(x); }
+  inline void reverse_endianness_in_place(float& x) BOOST_NOEXCEPT    { x = reverse_endianness(x); }
+  inline void reverse_endianness_in_place(double& x) BOOST_NOEXCEPT   { x = reverse_endianness(x); }
 
   //  reverse in place unless native endianness is big
-  //    Effects: none if native endian order is big, otherwise reverse_in_place(x)
+  //    Effects: none if native endian order is big, otherwise reverse_endianness_in_place(x)
   template <class Reversible>
 #   ifdef BOOST_BIG_ENDIAN
-  inline void big_in_place(Reversible&) BOOST_NOEXCEPT {}
+  inline void big_to_native_in_place(Reversible&) BOOST_NOEXCEPT {}
 #   else
-  inline void big_in_place(Reversible& x) BOOST_NOEXCEPT { reverse_in_place(x); }
+  inline void big_to_native_in_place(Reversible& x) BOOST_NOEXCEPT { reverse_endianness_in_place(x); }
+#   endif
+  template <class Reversible>
+#   ifdef BOOST_BIG_ENDIAN
+  inline void native_to_big_in_place(Reversible&) BOOST_NOEXCEPT {}
+#   else
+  inline void native_to_big_in_place(Reversible& x) BOOST_NOEXCEPT { reverse_endianness_in_place(x); }
 #   endif
 
   //  reverse in placeunless native endianness is little
-  //    Effects: none if native endian order is little, otherwise reverse_in_place(x)
+  //    Effects: none if native endian order is little, otherwise reverse_endianness_in_place(x)
   template <class Reversible>
 #   ifdef BOOST_LITTLE_ENDIAN
-  inline void little_in_place(Reversible&) BOOST_NOEXCEPT {}
+  inline void little_to_native_in_place(Reversible&) BOOST_NOEXCEPT {}
 #   else
-  inline void little_in_place(Reversible& x) BOOST_NOEXCEPT { reverse_in_place(x); }
+  inline void little_to_native_in_place(Reversible& x) BOOST_NOEXCEPT { reverse_endianness_in_place(x); }
+#   endif
+  template <class Reversible>
+#   ifdef BOOST_LITTLE_ENDIAN
+  inline void native_to_little_in_place(Reversible&) BOOST_NOEXCEPT {}
+#   else
+  inline void native_to_little_in_place(Reversible& x) BOOST_NOEXCEPT { reverse_endianness_in_place(x); }
 #   endif
 
   namespace detail
   {
-    //  Primary template and specializations to support generic reverse_in_place().
-    //  See rationale in reverse_in_place() below.
+    //  Primary template and specializations to support generic reverse_endianness_in_place().
+    //  See rationale in reverse_endianness_in_place() below.
     template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class Reversible>
       class converter;  // primary template
     template <class T> class converter<order::big, order::big, T>
@@ -382,14 +427,14 @@ namespace endian
     template <class T> class converter<order::little, order::little, T>
       {public: void operator()(T&) BOOST_NOEXCEPT {/*no effect*/}};
     template <class T> class converter<order::big, order::little, T>
-      {public: void operator()(T& x) BOOST_NOEXCEPT { reverse_in_place(x); }};
+      {public: void operator()(T& x) BOOST_NOEXCEPT { reverse_endianness_in_place(x); }};
     template <class T> class converter<order::little, order::big, T>
-      {public: void operator()(T& x) BOOST_NOEXCEPT { reverse_in_place(x); }};
+      {public: void operator()(T& x) BOOST_NOEXCEPT { reverse_endianness_in_place(x); }};
   }  // namespace detail
 
   //  fully generic conditional reverse in place
   template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class Reversible>
-  void reverse_in_place(Reversible& x) BOOST_NOEXCEPT
+  void reverse_endianness_in_place(Reversible& x) BOOST_NOEXCEPT
   {
     //  work around lack of function template partial specialization by instantiating
     //  a function object of a class that is partially specialized on the two order
@@ -400,11 +445,11 @@ namespace endian
 
   //  runtime reverse in place
   template <class Reversible>
-  void reverse_in_place(Reversible& x, BOOST_SCOPED_ENUM(order) from_order,
+  void reverse_endianness_in_place(Reversible& x, BOOST_SCOPED_ENUM(order) from_order,
             BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT
   {
     if (effective_order(from_order) != effective_order(to_order))
-      reverse_in_place(x);
+      reverse_endianness_in_place(x);
   }
 
 }  // namespace endian
