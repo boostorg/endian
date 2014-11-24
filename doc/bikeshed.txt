@@ -1,0 +1,51 @@
+Conversion function naming bikeshed
+
+return-by-value          modify-argument
+------------------       ---------------
+
+reverse_endianness       reverse_endianness_in_place <-------
+       "                 reverse_endianness_arg
+
+reverse                  reverse_in_place
+reverse_endian           reverse_endian_in_place
+endian_reverse           endian_reverse_in_place
+
+swap_endianness          swap_endianness_in_place
+swap_endian              swap_endian_in_place
+endian_swap              endian_swap_in_place
+
+flip_endianness          flip_endianness_in_place
+flip_endian              flip_endian_in_place
+endian_flip              endian_flip_in_place
+
+
+reverse_order            reverse_order_in_place
+
+
+Key points:
+
+* These names are defined in a user namespace as customization points to be found by
+  ADL, and so cannot depend on the enclosing namespace name to signal readers that they
+  are related to endianness.
+* These functions are rarely called directly by user code, which is more likely to use
+  the various conditional functions instead. So explicitness is more important than 
+  brevity.
+
+
+
+
+merriam-webster.com/dictionary
+
+reverse [1] (adjective): opposite or contrary to a previous or normal condition <reverse order>
+reverse [2] (verb) : to change (something) to an opposite state or condition
+
+swap (verb) : to give something to someone and receive something in return : to trade or exchange (things)
+
+flip (verb)
+
+: to turn (something) over by throwing it up in the air with a quick movement
+
+: to cause (something) to turn or turn over quickly
+
+: to move (something) with a quick light movement
+ 

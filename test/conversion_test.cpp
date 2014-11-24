@@ -134,85 +134,97 @@ namespace
     big_value(big);
     little_value(little);
 
-    //  one-way tests
+    //  validate the values used by the tests below
+
+# ifdef BOOST_BIG_ENDIAN
+    BOOST_TEST_EQ(native, big);
+    BOOST_TEST_EQ(be::detail::std_reverse_endianness(native), little);
+# else
+    BOOST_TEST_EQ(be::detail::std_reverse_endianness(native), big);
+    BOOST_TEST_EQ(native, little);
+# endif
+
+    //  unconditional reverse
 
     BOOST_TEST_EQ(be::reverse_endianness(big), little);
     BOOST_TEST_EQ(be::reverse_endianness(little), big);
-//    BOOST_TEST_EQ(be::reverse<T>(big), little);
-//    BOOST_TEST_EQ(be::reverse<T>(little), big);
 
+    //  conditional reverse
     BOOST_TEST_EQ(be::native_to_big(native), big);
-//    BOOST_TEST_EQ(be::native_to_big<T>(native), big);
     BOOST_TEST_EQ(be::native_to_little(native), little);
- //   BOOST_TEST_EQ(be::native_to_little<T>(native), little);
+    BOOST_TEST_EQ(be::big_to_native(big), native);
+    BOOST_TEST_EQ(be::little_to_native(little), native);
 
-    //  round-trip tests
+    //  generic conditional reverse
 
-    BOOST_TEST_EQ(be::big_to_native(be::native_to_big(native)), native);
-    BOOST_TEST_EQ(be::native_to_big(be::big_to_native(big)), big);
-    BOOST_TEST_EQ(be::big_to_native(be::native_to_big(little)), little);
-
-    BOOST_TEST_EQ(be::little_to_native(be::native_to_little(native)), native);
-    BOOST_TEST_EQ(be::little_to_native(be::native_to_little(big)), big);
-    BOOST_TEST_EQ(be::little_to_native(be::native_to_little(little)), little);
-
-# ifdef BOOST_BIG_ENDIAN
-    BOOST_TEST_EQ(be::reverse_endianness(native), little);
-//    BOOST_TEST_EQ(be::detail::reverse<T>(native), little);
-    BOOST_TEST_EQ(be::big_to_native(big), big);
-//    BOOST_TEST_EQ(be::big_endian<T>(big), big);
-    BOOST_TEST_EQ(be::little_to_native(little), little);
-//    BOOST_TEST_EQ(be::big_endian<T>(little), little);
-# else
-    BOOST_TEST_EQ(be::reverse_endianness(native), big);
-//    BOOST_TEST_EQ(be::detail::reverse<T>(native), big);
-    BOOST_TEST_EQ(be::big_to_native(big), little);
-//    BOOST_TEST_EQ(be::big_endian<T>(big), little);
-    BOOST_TEST_EQ(be::native_to_big(little), big);
-//    BOOST_TEST_EQ(be::big_endian<T>(little), big);
-# endif
-
-    //  compile time order determination test
-
-    BOOST_TEST_EQ((be::reverse_endianness<be::order::big, be::order::big>(big)), big);
-    BOOST_TEST_EQ((be::reverse_endianness<be::order::little,
+    BOOST_TEST_EQ((be::conditional_reverse<be::order::big, be::order::big>(big)), big);
+    BOOST_TEST_EQ((be::conditional_reverse<be::order::little,
       be::order::little>(little)), little);
-    BOOST_TEST_EQ((be::reverse_endianness<be::order::native,
+    BOOST_TEST_EQ((be::conditional_reverse<be::order::native,
       be::order::native>(native)), native);
 
-    BOOST_TEST_EQ((be::reverse_endianness<be::order::big,
+    BOOST_TEST_EQ((be::conditional_reverse<be::order::big,
       be::order::little>(big)), little);
-    BOOST_TEST_EQ((be::reverse_endianness<be::order::big,
+    BOOST_TEST_EQ((be::conditional_reverse<be::order::big,
       be::order::native>(big)), native);
-    BOOST_TEST_EQ((be::reverse_endianness<be::order::little,
+    BOOST_TEST_EQ((be::conditional_reverse<be::order::little,
       be::order::big>(little)), big);
-    BOOST_TEST_EQ((be::reverse_endianness<be::order::little,
+    BOOST_TEST_EQ((be::conditional_reverse<be::order::little,
       be::order::native>(little)), native);
-    BOOST_TEST_EQ((be::reverse_endianness<be::order::native,
+    BOOST_TEST_EQ((be::conditional_reverse<be::order::native,
       be::order::big>(native)), big);
-    BOOST_TEST_EQ((be::reverse_endianness<be::order::native,
+    BOOST_TEST_EQ((be::conditional_reverse<be::order::native,
       be::order::little>(native)), little);
 
-    //  runtime order determination test
+    //  runtime conditional reverse
 
-    BOOST_TEST_EQ((be::reverse_endianness(big, be::order::big, be::order::big)), big);
-    BOOST_TEST_EQ((be::reverse_endianness(little, be::order::little,
+    BOOST_TEST_EQ((be::runtime_conditional_reverse(big, be::order::big, be::order::big)),
+      big);
+    BOOST_TEST_EQ((be::runtime_conditional_reverse(little, be::order::little,
       be::order::little)), little);
-    BOOST_TEST_EQ((be::reverse_endianness(native, be::order::native,
+    BOOST_TEST_EQ((be::runtime_conditional_reverse(native, be::order::native,
       be::order::native)), native);
 
-    BOOST_TEST_EQ((be::reverse_endianness(big, be::order::big, be::order::little)),
-      little);
-    BOOST_TEST_EQ((be::reverse_endianness(big, be::order::big, be::order::native)),
-      native);
-    BOOST_TEST_EQ((be::reverse_endianness(little, be::order::little, be::order::big)),
-      big);
-    BOOST_TEST_EQ((be::reverse_endianness(little, be::order::little, be::order::native)),
-      native);
-    BOOST_TEST_EQ((be::reverse_endianness(native, be::order::native, be::order::big)),
-      big);
-    BOOST_TEST_EQ((be::reverse_endianness(native, be::order::native, be::order::little)),
-      little);
+    BOOST_TEST_EQ((be::runtime_conditional_reverse(big, be::order::big,
+      be::order::little)), little);
+    BOOST_TEST_EQ((be::runtime_conditional_reverse(big, be::order::big,
+      be::order::native)), native);
+    BOOST_TEST_EQ((be::runtime_conditional_reverse(little, be::order::little,
+      be::order::big)), big);
+    BOOST_TEST_EQ((be::runtime_conditional_reverse(little, be::order::little,
+      be::order::native)), native);
+    BOOST_TEST_EQ((be::runtime_conditional_reverse(native, be::order::native,
+      be::order::big)), big);
+    BOOST_TEST_EQ((be::runtime_conditional_reverse(native, be::order::native,
+      be::order::little)), little);
+
+
+//    //  round-trip tests
+//
+//    BOOST_TEST_EQ(be::big_to_native(be::native_to_big(native)), native);
+//    BOOST_TEST_EQ(be::native_to_big(be::big_to_native(big)), big);
+//    BOOST_TEST_EQ(be::big_to_native(be::native_to_big(little)), little);
+//
+//    BOOST_TEST_EQ(be::little_to_native(be::native_to_little(native)), native);
+//    BOOST_TEST_EQ(be::little_to_native(be::native_to_little(big)), big);
+//    BOOST_TEST_EQ(be::little_to_native(be::native_to_little(little)), little);
+//
+//# ifdef BOOST_BIG_ENDIAN
+//    BOOST_TEST_EQ(be::reverse_endianness(native), little);
+//    BOOST_TEST_EQ(be::detail::reverse<T>(native), little);
+//    BOOST_TEST_EQ(be::big_to_native(big), big);
+//    BOOST_TEST_EQ(be::big_endian<T>(big), big);
+//    BOOST_TEST_EQ(be::little_to_native(little), little);
+//    BOOST_TEST_EQ(be::big_endian<T>(little), little);
+//# else  // little endian
+//    BOOST_TEST_EQ(be::reverse_endianness(native), big);
+//    BOOST_TEST_EQ(be::detail::std_reverse_endianness<T>(native), big);
+//    BOOST_TEST_EQ(be::big_to_native(big), little);
+////    BOOST_TEST_EQ(be::big_endian<T>(big), little);
+//    BOOST_TEST_EQ(be::native_to_big(little), big);
+////    BOOST_TEST_EQ(be::big_endian<T>(little), big);
+//# endif
+
  
 //    //  light test of modify-in-place functions
 //
