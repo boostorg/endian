@@ -29,6 +29,7 @@ using boost::uint64_t;
 
 namespace
 {
+
   //  values for tests
 
   void native_value(int8_t& x) {x = static_cast<int8_t>(0xF0U);}
@@ -261,6 +262,39 @@ namespace
   }
 }  // unnamed namespace
 
+//--------------------------------------------------------------------------------------//
+
+   //  User-defined type 
+  
+  namespace user
+  {
+    struct UDT
+    {
+      int64_t member1;
+      int64_t member2;
+      int64_t member3;
+    };
+
+    UDT reverse_endianness(const UDT& udt) BOOST_NOEXCEPT
+    {
+      UDT tmp;
+      tmp.member1 = boost::endian::reverse_endianness(udt.member1);
+      tmp.member2 = boost::endian::reverse_endianness(udt.member2);
+      tmp.member3 = boost::endian::reverse_endianness(udt.member3);
+      return tmp;
+    }
+
+    void reverse_endianness_in_place(UDT& udt) BOOST_NOEXCEPT
+    {
+      boost::endian::reverse_endianness_in_place(udt.member1);
+      boost::endian::reverse_endianness_in_place(udt.member2);
+      boost::endian::reverse_endianness_in_place(udt.member3);
+    }
+
+  }  // namespace user
+
+//--------------------------------------------------------------------------------------//
+
 int cpp_main(int, char * [])
 {
   cout << "byte swap intrinsics: " BOOST_ENDIAN_INTRINSIC_MSG << endl;
@@ -291,6 +325,31 @@ int cpp_main(int, char * [])
   test<float>();
   cout << "double" << endl;
   test<double>();
+
+  cout << "UDT" << endl;
+  user::UDT udt;
+  int64_t big;
+  int64_t little;
+  int64_t native;
+  big_value(big);
+  little_value(little);
+  native_value(native);
+
+  udt.member1 = big;
+  udt.member2 = little;
+  udt.member3 = native;
+  be::conditional_reverse_in_place<be::order::big, be::order::little>(udt);
+  BOOST_TEST_EQ(udt.member1, be::reverse_endianness(big));
+  BOOST_TEST_EQ(udt.member2, be::reverse_endianness(little));
+  BOOST_TEST_EQ(udt.member3, be::reverse_endianness(native));
+
+  udt.member1 = big;
+  udt.member2 = little;
+  udt.member3 = native;
+  be::conditional_reverse_in_place<be::order::big, be::order::big>(udt);
+  BOOST_TEST_EQ(udt.member1, big);
+  BOOST_TEST_EQ(udt.member2, little);
+  BOOST_TEST_EQ(udt.member3, native);
 
   return ::boost::report_errors();
 }
