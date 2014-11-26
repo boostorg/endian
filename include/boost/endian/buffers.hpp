@@ -516,27 +516,27 @@ namespace endian
             std::cout << "big, aligned, " << n_bits
               << "-bits, construct(" << val << ")\n";
 #       endif
-          m_value = ::boost::endian::big_endian_value(val);
+          m_value = ::boost::endian::native_to_big(val);
         }
 
 #     endif  
         endian_buffer& operator=(T val) BOOST_NOEXCEPT
         {
-          m_value = ::boost::endian::big_endian_value(val);
+          m_value = ::boost::endian::native_to_big(val);
           return *this;
         }
         //operator value_type() const BOOST_NOEXCEPT
-        //{
-        //  return ::boost::endian::big_endian_value(m_value);
+        //{                                                                       
+        //  return ::boost::endian::big_to_native(m_value);
         //}
         value_type value() const BOOST_NOEXCEPT
         {
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
             std::cout << "big, aligned, " << n_bits << "-bits, convert("
-              << ::boost::endian::big_endian_value(m_value) << ")\n";
+              << ::boost::endian::big_to_native(m_value) << ")\n";
 #       endif
-          return ::boost::endian::big_endian_value(m_value);
+          return ::boost::endian::big_to_native(m_value);
         }
         const char* data() const BOOST_NOEXCEPT
           {return reinterpret_cast<const char*>(&m_value);}
@@ -561,13 +561,13 @@ namespace endian
             std::cout << "little, aligned, " << n_bits
               << "-bits, construct(" << val << ")\n";
 #       endif
-          m_value = ::boost::endian::little_endian_value(val);
+          m_value = ::boost::endian::native_to_little(val);
         }
 
 #     endif  
         endian_buffer& operator=(T val) BOOST_NOEXCEPT
         {
-          m_value = ::boost::endian::little_endian_value(val);
+          m_value = ::boost::endian::native_to_little(val);
           return *this;
         }
         value_type value() const BOOST_NOEXCEPT
@@ -575,9 +575,9 @@ namespace endian
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
             std::cout << "little, aligned, " << n_bits << "-bits, convert("
-              << ::boost::endian::little_endian_value(m_value) << ")\n";
+              << ::boost::endian::little_to_native(m_value) << ")\n";
 #       endif
-          return ::boost::endian::little_endian_value(m_value);
+          return ::boost::endian::little_to_native(m_value);
         }
         const char* data() const BOOST_NOEXCEPT
           {return reinterpret_cast<const char*>(&m_value);}

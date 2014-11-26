@@ -24,32 +24,32 @@ namespace user
   using namespace boost;
   using namespace boost::endian;
 
-  int16_t return_x_big_int16(int16_t x, big_int16_t y) BOOST_NOEXCEPT;
-  int16_t return_x_little_int16(int16_t x, little_int16_t y) BOOST_NOEXCEPT;
-  int16_t return_x_value_big_int16(int16_t x, big_int16_t) BOOST_NOEXCEPT;
-  int16_t return_x_value_little_int16(int16_t x, little_int16_t y) BOOST_NOEXCEPT;
-  int16_t return_x_in_place_big_int16(int16_t x, big_int16_t y) BOOST_NOEXCEPT;
-  int16_t return_x_in_place_little_int16(int16_t x, little_int16_t y) BOOST_NOEXCEPT;
-  int16_t return_y_big_int16(int16_t x, big_int16_t y) BOOST_NOEXCEPT;
-  int16_t return_y_little_int16(int16_t x, little_int16_t y) BOOST_NOEXCEPT;
+  int16_t return_x_big_int16(int16_t x, big_int16_ut y) BOOST_NOEXCEPT;
+  int16_t return_x_little_int16(int16_t x, little_int16_ut y) BOOST_NOEXCEPT;
+  int16_t return_x_value_big_int16(int16_t x, big_int16_ut) BOOST_NOEXCEPT;
+  int16_t return_x_value_little_int16(int16_t x, little_int16_ut y) BOOST_NOEXCEPT;
+  int16_t return_x_in_place_big_int16(int16_t x, big_int16_ut y) BOOST_NOEXCEPT;
+  int16_t return_x_in_place_little_int16(int16_t x, little_int16_ut y) BOOST_NOEXCEPT;
+  int16_t return_y_big_int16(int16_t x, big_int16_ut y) BOOST_NOEXCEPT;
+  int16_t return_y_little_int16(int16_t x, little_int16_ut y) BOOST_NOEXCEPT;
 
-  int32_t return_x_big_int32(int32_t x, big_int32_t y) BOOST_NOEXCEPT;
-  int32_t return_x_little_int32(int32_t x, little_int32_t y) BOOST_NOEXCEPT;
-  int32_t return_x_value_big_int32(int32_t x, big_int32_t) BOOST_NOEXCEPT;
-  int32_t return_x_value_little_int32(int32_t x, little_int32_t y) BOOST_NOEXCEPT;
-  int32_t return_x_in_place_big_int32(int32_t x, big_int32_t y) BOOST_NOEXCEPT;
-  int32_t return_x_in_place_little_int32(int32_t x, little_int32_t y) BOOST_NOEXCEPT;
-  int32_t return_y_big_int32(int32_t x, big_int32_t y) BOOST_NOEXCEPT;
-  int32_t return_y_little_int32(int32_t x, little_int32_t y) BOOST_NOEXCEPT;
+  int32_t return_x_big_int32(int32_t x, big_int32_ut y) BOOST_NOEXCEPT;
+  int32_t return_x_little_int32(int32_t x, little_int32_ut y) BOOST_NOEXCEPT;
+  int32_t return_x_value_big_int32(int32_t x, big_int32_ut) BOOST_NOEXCEPT;
+  int32_t return_x_value_little_int32(int32_t x, little_int32_ut y) BOOST_NOEXCEPT;
+  int32_t return_x_in_place_big_int32(int32_t x, big_int32_ut y) BOOST_NOEXCEPT;
+  int32_t return_x_in_place_little_int32(int32_t x, little_int32_ut y) BOOST_NOEXCEPT;
+  int32_t return_y_big_int32(int32_t x, big_int32_ut y) BOOST_NOEXCEPT;
+  int32_t return_y_little_int32(int32_t x, little_int32_ut y) BOOST_NOEXCEPT;
 
-  int64_t return_x_big_int64(int64_t x, big_int64_t y) BOOST_NOEXCEPT;
-  int64_t return_x_little_int64(int64_t x, little_int64_t y) BOOST_NOEXCEPT;
-  int64_t return_x_value_big_int64(int64_t x, big_int64_t) BOOST_NOEXCEPT;
-  int64_t return_x_value_little_int64(int64_t x, little_int64_t y) BOOST_NOEXCEPT;
-  int64_t return_x_in_place_big_int64(int64_t x, big_int64_t y) BOOST_NOEXCEPT;
-  int64_t return_x_in_place_little_int64(int64_t x, little_int64_t y) BOOST_NOEXCEPT;
-  int64_t return_y_big_int64(int64_t x, big_int64_t y) BOOST_NOEXCEPT;
-  int64_t return_y_little_int64(int64_t x, little_int64_t y) BOOST_NOEXCEPT;
+  int64_t return_x_big_int64(int64_t x, big_int64_ut y) BOOST_NOEXCEPT;
+  int64_t return_x_little_int64(int64_t x, little_int64_ut y) BOOST_NOEXCEPT;
+  int64_t return_x_value_big_int64(int64_t x, big_int64_ut) BOOST_NOEXCEPT;
+  int64_t return_x_value_little_int64(int64_t x, little_int64_ut y) BOOST_NOEXCEPT;
+  int64_t return_x_in_place_big_int64(int64_t x, big_int64_ut y) BOOST_NOEXCEPT;
+  int64_t return_x_in_place_little_int64(int64_t x, little_int64_ut y) BOOST_NOEXCEPT;
+  int64_t return_y_big_int64(int64_t x, big_int64_ut y) BOOST_NOEXCEPT;
+  int64_t return_y_little_int64(int64_t x, little_int64_ut y) BOOST_NOEXCEPT;
 
 }
 

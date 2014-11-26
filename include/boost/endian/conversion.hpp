@@ -72,6 +72,9 @@ namespace endian
   template <class Reversible >
     inline Reversible  native_to_big(Reversible  x) BOOST_NOEXCEPT;
     //  Returns: x if native endian order is big, otherwise reverse_endianness(x)
+  template <class Reversible >
+    inline Reversible  reverse_unless_native_big(Reversible  x) BOOST_NOEXCEPT;
+    //  Returns: x if native endian order is big, otherwise reverse_endianness(x)
 
   //  reverse byte order unless native endianness is little
   template <class Reversible >
@@ -79,6 +82,9 @@ namespace endian
     //  Returns: x if native endian order is little, otherwise reverse_endianness(x)
   template <class Reversible >
     inline Reversible  native_to_little(Reversible  x) BOOST_NOEXCEPT;
+    //  Returns: x if native endian order is little, otherwise reverse_endianness(x)
+  template <class Reversible >
+    inline Reversible  reverse_unless_native_little(Reversible  x) BOOST_NOEXCEPT;
     //  Returns: x if native endian order is little, otherwise reverse_endianness(x)
 
   //  generic conditional reverse byte order
@@ -141,6 +147,9 @@ namespace endian
   template <class Reversible>
     inline void native_to_big_in_place(Reversible& x) BOOST_NOEXCEPT;
     //  Effects: none if native byte-order is big, otherwise reverse_endianness_in_place(x)
+  template <class Reversible>
+    inline void reverse_in_place_unless_native_big(Reversible& x) BOOST_NOEXCEPT;
+    //  Effects: none if native byte-order is big, otherwise reverse_endianness_in_place(x)
 
   //  reverse in place unless native endianness is little
   template <class Reversible>
@@ -148,6 +157,9 @@ namespace endian
     //  Effects: none if native byte-order is little, otherwise reverse_endianness_in_place(x);
   template <class Reversible>
     inline void native_to_little_in_place(Reversible& x) BOOST_NOEXCEPT;
+    //  Effects: none if native byte-order is little, otherwise reverse_endianness_in_place(x);
+  template <class Reversible>
+    inline void reverse_in_place_unless_native_little(Reversible& x) BOOST_NOEXCEPT;
     //  Effects: none if native byte-order is little, otherwise reverse_endianness_in_place(x);
 
   //  generic conditional reverse in place
@@ -264,7 +276,7 @@ namespace endian
     //  suggested by Mathias Gaunard. Primary motivation for inclusion is to have an
     //  independent implementation to test against. Secondary motivation is use by
     //  floating-point reverse_endianness, but that use is likely to be replace by a
-    //  more tailored floating-point algorithm.
+    //  more tailored floating-point implementation.
 
     template <class T>
     inline T std_reverse_endianness(T x) BOOST_NOEXCEPT
@@ -275,6 +287,16 @@ namespace endian
         reinterpret_cast<char*>(&tmp) + sizeof(T));
       return tmp;
     }
+
+    //  conditional unaligned reverse copy, patterned after std::reverse_copy
+    template <class T>
+    inline void big_reverse_copy(T from, char* to) BOOST_NOEXCEPT;
+    template <class T>
+    inline void big_reverse_copy(const char* from, T& to) BOOST_NOEXCEPT;
+    template <class T>
+    inline void little_reverse_copy(T from, char* to) BOOST_NOEXCEPT;
+    template <class T>
+    inline void little_reverse_copy(const char* from, T& to) BOOST_NOEXCEPT;
   }  // namespace detail
 
   inline float reverse_endianness(float x) BOOST_NOEXCEPT
@@ -314,6 +336,16 @@ namespace endian
   }
 
   template <class Reversible >
+  inline Reversible  reverse_unless_native_big(Reversible  x) BOOST_NOEXCEPT
+  {
+#   ifdef BOOST_BIG_ENDIAN
+    return x;
+#   else
+    return reverse_endianness(x);
+#   endif
+  }
+
+  template <class Reversible >
   inline Reversible  little_to_native(Reversible  x) BOOST_NOEXCEPT
   {
 #   ifdef BOOST_LITTLE_ENDIAN
@@ -325,6 +357,16 @@ namespace endian
 
   template <class Reversible >
   inline Reversible  native_to_little(Reversible  x) BOOST_NOEXCEPT
+  {
+#   ifdef BOOST_LITTLE_ENDIAN
+    return x;
+#   else
+    return reverse_endianness(x);
+#   endif
+  }
+
+  template <class Reversible >
+  inline Reversible  reverse_unless_native_little(Reversible  x) BOOST_NOEXCEPT
   {
 #   ifdef BOOST_LITTLE_ENDIAN
     return x;
@@ -408,7 +450,18 @@ namespace endian
   inline void native_to_big_in_place(Reversible&) BOOST_NOEXCEPT {}
 #   else
   inline void native_to_big_in_place(Reversible& x) BOOST_NOEXCEPT
-    { reverse_endianness_in_place(x); }
+  {
+    reverse_endianness_in_place(x);
+  }
+#   endif
+  template <class Reversible>
+#   ifdef BOOST_BIG_ENDIAN
+  inline void reverse_in_place_unless_native_big(Reversible&) BOOST_NOEXCEPT {}
+#   else
+  inline void reverse_in_place_unless_native_big(Reversible& x) BOOST_NOEXCEPT
+  {
+    reverse_endianness_in_place(x);
+  }
 #   endif
 
   //  reverse in place unless native endianness is little
@@ -426,7 +479,18 @@ namespace endian
   inline void native_to_little_in_place(Reversible&) BOOST_NOEXCEPT {}
 #   else
   inline void native_to_little_in_place(Reversible& x) BOOST_NOEXCEPT
-    { reverse_endianness_in_place(x); }
+  {
+    reverse_endianness_in_place(x);
+  }
+#   endif
+  template <class Reversible>
+#   ifdef BOOST_LITTLE_ENDIAN
+  inline void reverse_in_place_unless_native_little(Reversible&) BOOST_NOEXCEPT {}
+#   else
+  inline void reverse_in_place_unless_native_little(Reversible& x) BOOST_NOEXCEPT
+  {
+    reverse_endianness_in_place(x);
+  }
 #   endif
 
   namespace detail
@@ -467,6 +531,59 @@ namespace endian
       reverse_endianness_in_place(x);
   }
 
+
+  namespace detail
+  {
+    //  general reverse_value function template implementation approach using std::reverse
+    //  suggested by Mathias Gaunard
+    template <class T>
+    inline T reverse_value(T x) BOOST_NOEXCEPT
+    {
+      T tmp(x);
+      std::reverse(
+        reinterpret_cast<char*>(&tmp),
+        reinterpret_cast<char*>(&tmp) + sizeof(T));
+      return tmp;
+    }
+    template <class T>
+    inline void big_reverse_copy(T from, char* to) BOOST_NOEXCEPT
+    {
+#     ifdef BOOST_BIG_ENDIAN
+      std::memcpy(to, reinterpret_cast<const char*>(&from), sizeof(T));
+#     else
+      std::reverse_copy(reinterpret_cast<const char*>(&from),
+        reinterpret_cast<const char*>(&from) + sizeof(T), to);
+#     endif
+    }
+    template <class T>
+    inline void big_reverse_copy(const char* from, T& to) BOOST_NOEXCEPT
+    {
+#     ifdef BOOST_BIG_ENDIAN
+      std::memcpy(reinterpret_cast<char*>(&to), from, sizeof(T));
+#     else
+      std::reverse_copy(from, from + sizeof(T), reinterpret_cast<char*>(&to));
+#     endif
+    }
+    template <class T>
+    inline void little_reverse_copy(T from, char* to) BOOST_NOEXCEPT
+    {
+#     ifdef BOOST_LITTLE_ENDIAN
+      std::memcpy(to, reinterpret_cast<const char*>(&from), sizeof(T));
+#     else
+      std::reverse_copy(reinterpret_cast<const char*>(&from),
+        reinterpret_cast<const char*>(&from) + sizeof(T), to);
+#     endif
+    }
+    template <class T>
+    inline void little_reverse_copy(const char* from, T& to) BOOST_NOEXCEPT
+    {
+#     ifdef BOOST_LITTLE_ENDIAN
+      std::memcpy(reinterpret_cast<char*>(&to), from, sizeof(T));
+#     else
+      std::reverse_copy(from, from + sizeof(T), reinterpret_cast<char*>(&to));
+#     endif
+    }
+  }  // namespace detail
 }  // namespace endian
 }  // namespace boost
 

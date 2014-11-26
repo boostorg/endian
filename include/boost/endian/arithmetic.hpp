@@ -383,13 +383,13 @@ namespace endian
           if ( endian_log )
             std::cout << "big, aligned, " << n_bits << "-bits, construct(" << val << ")\n";
 #       endif
-          this->m_value = ::boost::endian::big_endian_value(val);
+          this->m_value = ::boost::endian::native_to_big(val);
         }
 
 #     endif  
         endian_arithmetic& operator=(T val) BOOST_NOEXCEPT
         {
-          this->m_value = ::boost::endian::big_endian_value(val);
+          this->m_value = ::boost::endian::native_to_big(val);
           return *this;
         }
         operator value_type() const BOOST_NOEXCEPT { return this->value(); }
@@ -413,12 +413,12 @@ namespace endian
           if ( endian_log )
             std::cout << "little, aligned, " << n_bits << "-bits, construct(" << val << ")\n";
 #       endif
-          this->m_value = ::boost::endian::little_endian_value(val);
+          this->m_value = ::boost::endian::native_to_little(val);
         }
 #     endif  
         endian_arithmetic& operator=(T val) BOOST_NOEXCEPT
         {
-          this->m_value = ::boost::endian::little_endian_value(val);
+          this->m_value = ::boost::endian::native_to_little(val);
           return *this;
         }
         operator value_type() const BOOST_NOEXCEPT { return this->value(); }

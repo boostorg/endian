@@ -40,7 +40,8 @@ public:
     desc_[sizeof(desc_-1)] = '\0';
   }
 
-  friend void reverse(UDT&);
+  friend UDT reverse_endianness(const UDT&);
+  friend void reverse_endianness_in_place(UDT&);
 
 private:
   int32_t id_;
@@ -48,35 +49,36 @@ private:
   char    desc_[56];  // '/0'
 };
 
-void reverse(UDT& x)
+void reverse_endianness_in_place(UDT& x)
 {
-  reverse(x.id_);
-  reverse(x.value_);
+  reverse_endianness_in_place(x.id_);
+  reverse_endianness_in_place(x.value_);
 }
 
 int main(int, char* [])
 {
   UDT x(1, 1.2345f, "Bingo!");
-  cout << std::hex;
-  cout << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
 
-  reverse(x);
-  cout << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
+  //cout << std::hex;
+  cout << "(1) " << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
 
-  reverse(x);
-  cout << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
+  reverse_endianness_in_place(x);
+  cout << "(2) " << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
 
-  big_endian(x);
-  cout << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
+  reverse_endianness_in_place(x);
+  cout << "(3) " << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
 
-  little_endian(x);
-  cout << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
+  reverse_in_place_unless_native_big(x);
+  cout << "(4) " << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
 
-  convert<order::little, order::big>(x);
-  cout << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
+  reverse_in_place_unless_native_little(x);
+  cout << "(5) " << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
 
-  convert(x, order::big, order::little);
-  cout << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
+  conditional_reverse_in_place<order::little, order::big>(x);
+  cout << "(6) " << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
+
+  runtime_conditional_reverse_in_place(x, order::big, order::little);
+  cout << "(7) " << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
 }
 
 #include <boost/endian/detail/disable_warnings_pop.hpp>

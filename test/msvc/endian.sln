@@ -17,8 +17,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "benchmark", "benchmark\benc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "converter_test", "converter_test\converter_test.vcxproj", "{EAE18F4D-AAF2-4C19-86FB-1144B5BD5993}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pair_test", "pair_test\pair_test.vcxproj", "{5223CCD9-F1D4-4778-9BFD-242533DFE380}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "udt_conversion_example", "udt_conversion_example\udt_conversion_example.vcxproj", "{27A53564-D32B-4A32-8A6E-2F3BD252EEBA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "speed_test", "speed_test\speed_test.vcxproj", "{5407AF29-59E9-4DE2-9939-F067576F7868}"
@@ -89,14 +87,6 @@ Global
 		{EAE18F4D-AAF2-4C19-86FB-1144B5BD5993}.Release|Win32.Build.0 = Release|Win32
 		{EAE18F4D-AAF2-4C19-86FB-1144B5BD5993}.Release|x64.ActiveCfg = Release|x64
 		{EAE18F4D-AAF2-4C19-86FB-1144B5BD5993}.Release|x64.Build.0 = Release|x64
-		{5223CCD9-F1D4-4778-9BFD-242533DFE380}.Debug|Win32.ActiveCfg = Debug|Win32
-		{5223CCD9-F1D4-4778-9BFD-242533DFE380}.Debug|Win32.Build.0 = Debug|Win32
-		{5223CCD9-F1D4-4778-9BFD-242533DFE380}.Debug|x64.ActiveCfg = Debug|x64
-		{5223CCD9-F1D4-4778-9BFD-242533DFE380}.Debug|x64.Build.0 = Debug|x64
-		{5223CCD9-F1D4-4778-9BFD-242533DFE380}.Release|Win32.ActiveCfg = Release|Win32
-		{5223CCD9-F1D4-4778-9BFD-242533DFE380}.Release|Win32.Build.0 = Release|Win32
-		{5223CCD9-F1D4-4778-9BFD-242533DFE380}.Release|x64.ActiveCfg = Release|x64
-		{5223CCD9-F1D4-4778-9BFD-242533DFE380}.Release|x64.Build.0 = Release|x64
 		{27A53564-D32B-4A32-8A6E-2F3BD252EEBA}.Debug|Win32.ActiveCfg = Debug|Win32
 		{27A53564-D32B-4A32-8A6E-2F3BD252EEBA}.Debug|Win32.Build.0 = Debug|Win32
 		{27A53564-D32B-4A32-8A6E-2F3BD252EEBA}.Debug|x64.ActiveCfg = Debug|x64

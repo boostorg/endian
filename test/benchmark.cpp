@@ -6,6 +6,7 @@
 //  http://www.boost.org/LICENSE_1_0.txt
 
 #define _CRT_SECURE_NO_WARNINGS
+#define _SCL_SECURE_NO_WARNINGS
 
 #include <cstdlib>
 #include <boost/endian/conversion.hpp>
