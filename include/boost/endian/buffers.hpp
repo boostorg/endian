@@ -324,6 +324,11 @@ namespace endian
     //  the size and signedness of the desired integer and get the appropriate
     //  corresponding integer type for the interface.
 
+    // Q: Should endian_buffer supply "value_type operator value_type() const noexcept"?
+    // A: No. The rationale for endian_buffers is to prevent high-cost hidden
+    //    conversions. If an implicit conversion operator is supplied, hidden conversions
+    //    can occur.
+
     //  unaligned big endian_buffer specialization
     template <typename T, std::size_t n_bits>
     class endian_buffer< order::big, T, n_bits, align::no >

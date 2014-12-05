@@ -23,8 +23,8 @@ using namespace boost::endian;
 
 namespace 
 {
-  //  This is an extract from a very widely used GIS file format. Who knows
-  //  why a designer would mix big and little endians in the same file? But
+  //  This is an extract from a very widely used GIS file format. Why the designer
+  //  decided to mix big and little endians in the same file is not known. But
   //  this is a real-world format and users wishing to write low level code
   //  manipulating these files have to deal with the mixed endianness.
 
