@@ -29,7 +29,8 @@ integer/float type and endian conversion approaches to the common use
 case scenarios, and provide guidelines for choosing the most appropriate 
 approach in user's applications.</b></p>
   <blockquote>
-  <p>Done. See <a href="index.html#Choosing">Choosing between endian types and 
+  <p>Done. See <a href="index.html#Choosing">Choosing between 
+  <span style="background-color: #FFFF00">endian types</span> and 
   endian conversion functions</a>.</p>
   </blockquote>
   <p><b>Conversion functions supplying results via return should be provided.</b></p>
@@ -57,9 +58,8 @@ possible to compare platform specific performance enhancements against
 portable base implementations, and to compare endian integer approaches 
 against endian conversion approaches for the common use case scenarios.</b></p>
   <blockquote>
-  <p>Done. See <a href="index.html#Timings">Timings for Example 2</a>. Also note 
-  that the <code>endian/test</code> directory contains a number of additional 
-  benchmark and speed test programs.</p>
+  <p>Done. See <a href="index.html#Timings">Timings for Example 2</a>. The <code>endian/test</code> directory 
+  also contains several addional benchmark and speed test programs.</p>
   </blockquote>
   <p><b>Float (32-bits) and double (64-bits) should be supported. IEEE 754 is 
 the primary use case.</b></p>
@@ -71,13 +71,16 @@ the primary use case.</b></p>
   <p><b>Support for user defined types (UDTs) is desirable, and should be 
 provided where there would be no conflict with the other concerns.</b></p>
   <blockquote>
-  <p>Done.</p>
+  <p>Done. <span style="background-color: #FFFF00">Need docs.</span></p>
   </blockquote>
   <p><b>There is some concern that endian integer/float arithmetic operations 
 might used inadvertently or inappropriately. The impact of adding an endian_buffer 
   class without arithmetic operations should be investigated.</b></p>
   <blockquote>
-  <p>&nbsp;</p>
+  <p>Done. The endian types have been decomposed into class template <code>
+  endian_buffer</code> and class template <code>endian_arithmetic</code>. Class
+  <code>endian_buffer</code> is a public base class for <code>endian_arithmetic</code>, 
+  and can also be used by users as a stand-alone class.</p>
   </blockquote>
   <p><b>Stream insertion and extraction of the endian integer/float types should 
   be documented and included in the test coverage.</b></p>
@@ -95,7 +98,7 @@ might used inadvertently or inappropriately. The impact of adding an endian_buff
 </blockquote>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->12 November, 2014<!--webbot bot="Timestamp" endspan i-checksum="39485" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->27 November, 2014<!--webbot bot="Timestamp" endspan i-checksum="39496" --></p>
 <p>© Copyright Beman Dawes, 2014</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
