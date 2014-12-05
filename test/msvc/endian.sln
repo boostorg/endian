@@ -27,6 +27,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "buffer_test", "buffer_test\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "uses_cases", "uses_cases\uses_cases.vcxproj", "{36BF451A-EAEF-4140-92E4-6EA461A26107}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "conversion_use_case", "conversion_use_case\conversion_use_case.vcxproj", "{1139E765-DE0F-497A-A7D9-EB2683521DF1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -122,6 +124,12 @@ Global
 		{36BF451A-EAEF-4140-92E4-6EA461A26107}.Release|Win32.ActiveCfg = Release|Win32
 		{36BF451A-EAEF-4140-92E4-6EA461A26107}.Release|Win32.Build.0 = Release|Win32
 		{36BF451A-EAEF-4140-92E4-6EA461A26107}.Release|x64.ActiveCfg = Release|Win32
+		{1139E765-DE0F-497A-A7D9-EB2683521DF1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1139E765-DE0F-497A-A7D9-EB2683521DF1}.Debug|Win32.Build.0 = Debug|Win32
+		{1139E765-DE0F-497A-A7D9-EB2683521DF1}.Debug|x64.ActiveCfg = Debug|Win32
+		{1139E765-DE0F-497A-A7D9-EB2683521DF1}.Release|Win32.ActiveCfg = Release|Win32
+		{1139E765-DE0F-497A-A7D9-EB2683521DF1}.Release|Win32.Build.0 = Release|Win32
+		{1139E765-DE0F-497A-A7D9-EB2683521DF1}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
