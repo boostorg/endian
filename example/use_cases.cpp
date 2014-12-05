@@ -14,55 +14,13 @@
 #include <boost/endian/arithmetic.hpp>
 #include <iostream>
 
-//  Maximize chance of name clashes for testing purposes
 using namespace boost::endian;
 
 using std::cout;
 using std::endl;
 
 
-void read(void* data, std::size_t sz);         // for exposition
-void write(const void* data, std::size_t sz);  // for exposition
-const int32_t fee(100);                        // for exposition
 
-int main(int, char *[])
-{
-  {
-    // Q: Should endian_buffer supply "value_type operator value_type() const noexcept"?
-    // A: No. The whole point of the endian_buffers is to prevent high-cost hidden
-    //    conversions. If an implicit conversion operator is supplied, hidden conversions
-    //    can occur.
-
-    big_buf32_t v(5);
-    int32_t x;
-    x  = v * v;    // error: operator not defined & no conversion available
-    x = v.value() * v.value();  // OK, conversion visable. "cvt" or "native" better name?
- 
-  }
-
-  { // Use case 1 - Conversion functions
-
-    struct Record
-    {
-      uint32_t count;  // big endian
-      int32_t  value;  // big endian
-    };
-
-    Record rec;
-
-    read(&rec, sizeof(Record));
-
-    uint32_t count = big(rec.count);
-    int32_t value = big(rec.value);
-
-    ++count;
-    value += fee;
-
-    rec.count = big(count);
-    rec.value = big(value);
-
-    write(&rec, sizeof(Record));
-  }
 
   { // Use case 2 - Endian buffer types
 
