@@ -13,7 +13,9 @@
 
 //--------------------------------------------------------------------------------------//
 
+#if !defined(_SCL_SECURE_NO_WARNINGS)
 #define _SCL_SECURE_NO_WARNINGS
+#endif
 
 #include "speed_test_functions.hpp"
 
