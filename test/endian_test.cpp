@@ -121,7 +121,7 @@ namespace
 
     View v = { 0x0102030405060708LL };  // initialize v.i
     
-    if ( memcmp( v.c, "\10\7\6\5\4\3\2\1", 8) == 0 )
+    if ( memcmp( v.c, "\x8\7\6\5\4\3\2\1", 8) == 0 )
     {
       cout << "This machine is little-endian.\n";
   #   ifndef BOOST_LITTLE_ENDIAN
@@ -131,7 +131,7 @@ namespace
         exit(1);
   #   endif
     } 
-    else if ( memcmp( v.c, "\1\2\3\4\5\6\7\10", 8) == 0 )
+    else if ( memcmp( v.c, "\1\2\3\4\5\6\7\x8", 8) == 0 )
     {
       cout << "This machine is big-endian.\n";
   #   ifndef BOOST_BIG_ENDIAN
