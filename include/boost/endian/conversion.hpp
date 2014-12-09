@@ -174,6 +174,35 @@ namespace endian
 
 //----------------------------------- end synopsis -------------------------------------//
 
+  namespace detail
+  {
+    //  generic reverse function template implementation approach using std::reverse
+    //  suggested by Mathias Gaunard. Primary motivation for inclusion is to have an
+    //  independent implementation to test against. Secondary motivation is use by
+    //  floating-point reverse_endianness, but that use is likely to be replace by a
+    //  more tailored floating-point implementation.
+
+    template <class T>
+    inline T std_reverse_endianness(T x) BOOST_NOEXCEPT
+    {
+      T tmp(x);
+      std::reverse(
+        reinterpret_cast<char*>(&tmp),
+        reinterpret_cast<char*>(&tmp) + sizeof(T));
+      return tmp;
+    }
+
+    //  conditional unaligned reverse copy, patterned after std::reverse_copy
+    template <class T>
+      inline void big_reverse_copy(T from, char* to) BOOST_NOEXCEPT;
+    template <class T>
+      inline void big_reverse_copy(const char* from, T& to) BOOST_NOEXCEPT;
+    template <class T>
+      inline void little_reverse_copy(T from, char* to) BOOST_NOEXCEPT;
+    template <class T>
+      inline void little_reverse_copy(const char* from, T& to) BOOST_NOEXCEPT;
+  }  // namespace detail
+
 //--------------------------------------------------------------------------------------//
 //                                                                                      //
 //                            return-by-value implementation                            //
@@ -269,35 +298,6 @@ namespace endian
     return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_8(x);
 # endif
   }
-
-  namespace detail
-  {
-    //  generic reverse function template implementation approach using std::reverse
-    //  suggested by Mathias Gaunard. Primary motivation for inclusion is to have an
-    //  independent implementation to test against. Secondary motivation is use by
-    //  floating-point reverse_endianness, but that use is likely to be replace by a
-    //  more tailored floating-point implementation.
-
-    template <class T>
-    inline T std_reverse_endianness(T x) BOOST_NOEXCEPT
-    {
-      T tmp(x);
-      std::reverse(
-        reinterpret_cast<char*>(&tmp),
-        reinterpret_cast<char*>(&tmp) + sizeof(T));
-      return tmp;
-    }
-
-    //  conditional unaligned reverse copy, patterned after std::reverse_copy
-    template <class T>
-    inline void big_reverse_copy(T from, char* to) BOOST_NOEXCEPT;
-    template <class T>
-    inline void big_reverse_copy(const char* from, T& to) BOOST_NOEXCEPT;
-    template <class T>
-    inline void little_reverse_copy(T from, char* to) BOOST_NOEXCEPT;
-    template <class T>
-    inline void little_reverse_copy(const char* from, T& to) BOOST_NOEXCEPT;
-  }  // namespace detail
 
   inline float reverse_endianness(float x) BOOST_NOEXCEPT
   {
@@ -534,17 +534,6 @@ namespace endian
 
   namespace detail
   {
-    //  general reverse_value function template implementation approach using std::reverse
-    //  suggested by Mathias Gaunard
-    template <class T>
-    inline T reverse_value(T x) BOOST_NOEXCEPT
-    {
-      T tmp(x);
-      std::reverse(
-        reinterpret_cast<char*>(&tmp),
-        reinterpret_cast<char*>(&tmp) + sizeof(T));
-      return tmp;
-    }
     template <class T>
     inline void big_reverse_copy(T from, char* to) BOOST_NOEXCEPT
     {
