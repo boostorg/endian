@@ -16,7 +16,7 @@
 
 #include <iostream>
 #include <cstdio>
-#include <boost/endian/arithmetic.hpp>
+#include <boost/endian/buffers.hpp>
 #include <boost/static_assert.hpp>
 
 using namespace boost::endian;
@@ -30,10 +30,10 @@ namespace
 
   struct header
   {
-    big_int32_t     file_code;
-    big_int32_t     file_length;
-    little_int32_t  version;
-    little_int32_t  shape_type;
+    big_int32_buf_t     file_code;
+    big_int32_buf_t     file_length;
+    little_int32_buf_t  version;
+    little_int32_buf_t  shape_type;
   };
 
   const char* filename = "test.dat";
