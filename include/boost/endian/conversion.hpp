@@ -39,7 +39,7 @@ namespace endian
 //--------------------------------------------------------------------------------------//
 //                                                                                      //
 //                             return-by-value interfaces                               //
-//                    return-by-value suggested by Phil Endecott                        //
+//                             suggested by Phil Endecott                               //
 //                                                                                      //
 //                             user-defined types (UDTs)                                //
 //                                                                                      //
@@ -128,17 +128,10 @@ namespace endian
   //                                                                                    //
   //------------------------------------------------------------------------------------//
 
-  //  customization for built-in arithmetic types
-  inline void reverse_endianness_in_place(int8_t& x) BOOST_NOEXCEPT;
-  inline void reverse_endianness_in_place(int16_t& x) BOOST_NOEXCEPT;
-  inline void reverse_endianness_in_place(int32_t& x) BOOST_NOEXCEPT;
-  inline void reverse_endianness_in_place(int64_t& x) BOOST_NOEXCEPT;
-  inline void reverse_endianness_in_place(uint8_t& x) BOOST_NOEXCEPT;
-  inline void reverse_endianness_in_place(uint16_t& x) BOOST_NOEXCEPT;
-  inline void reverse_endianness_in_place(uint32_t& x) BOOST_NOEXCEPT;
-  inline void reverse_endianness_in_place(uint64_t& x) BOOST_NOEXCEPT;
-  inline void reverse_endianness_in_place(float& x) BOOST_NOEXCEPT;
-  inline void reverse_endianness_in_place(double& x) BOOST_NOEXCEPT;
+  //  reverse in place
+  template <class Value>
+    inline void reverse_endianness_in_place(Value& x) BOOST_NOEXCEPT;
+    //  Effects: x = reverse_endianness(x)
 
   //  reverse in place unless native endianness is big
   template <class Reversible>
@@ -413,27 +406,12 @@ namespace endian
 //                           reverse-in-place implementation                            //
 //--------------------------------------------------------------------------------------//
 
-  //  customization for built-in arithmetic types
-  inline void reverse_endianness_in_place(int8_t& x) BOOST_NOEXCEPT
-    { x = reverse_endianness(x); }
-  inline void reverse_endianness_in_place(int16_t& x) BOOST_NOEXCEPT
-    { x = reverse_endianness(x); }
-  inline void reverse_endianness_in_place(int32_t& x) BOOST_NOEXCEPT
-    { x = reverse_endianness(x); }
-  inline void reverse_endianness_in_place(int64_t& x) BOOST_NOEXCEPT
-    { x = reverse_endianness(x); }
-  inline void reverse_endianness_in_place(uint8_t& x) BOOST_NOEXCEPT
-    { x = reverse_endianness(x); }
-  inline void reverse_endianness_in_place(uint16_t& x) BOOST_NOEXCEPT
-    { x = reverse_endianness(x); }
-  inline void reverse_endianness_in_place(uint32_t& x) BOOST_NOEXCEPT
-    { x = reverse_endianness(x); }
-  inline void reverse_endianness_in_place(uint64_t& x) BOOST_NOEXCEPT
-    { x = reverse_endianness(x); }
-  inline void reverse_endianness_in_place(float& x) BOOST_NOEXCEPT 
-    { x = reverse_endianness(x); }
-  inline void reverse_endianness_in_place(double& x) BOOST_NOEXCEPT  
-    { x = reverse_endianness(x); }
+  //  reverse in place
+  template <class Value>
+  inline void reverse_endianness_in_place(Value& x) BOOST_NOEXCEPT
+  {
+    x = reverse_endianness(x);
+  }
 
   //  reverse in place unless native endianness is big
   //    Effects: none if native endian order is big,

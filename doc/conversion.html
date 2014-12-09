@@ -164,8 +164,8 @@ instantiating a template.</p>
     <code>x</code> is a value of a possibly <code>const</code> type convertible 
     to <code>Reversible</code>.</td>
     <td>
-    <p>The value of <code>x</code> with the 
-    order of its constituent bytes reversed is returned.</td>
+    <p>Returns the value of <code>x</code> with the 
+    order of its constituent bytes reversed.</td>
   </tr>
   <tr>
     <td valign="top">
@@ -183,7 +183,13 @@ modifiable lvalue of type <code>Reversible</code>.</td>
 
 <p> [<i>Note:</i> A user-defined type meets these requirements by defining a 
 non-member function in the same namespace as the UDT itself so that the function 
-can be found by argument dependent lookup (ADL). <i>&mdash;end note</i>]</p>
+can be found by argument dependent lookup (ADL).&nbsp; <i>&mdash;end note</i>]</p>
+
+<p> [<i>Note:</i> Because there is a function template for <code>reverse_endianness_in_place</code> 
+that calls <code>reverse_endianness</code>, only <code>reverse_endianness</code> 
+is required for a user-defined type to meet the <code>Reversible</code> 
+requirements. User-defined types may provide <code>reverse_endianness_in_place</code> 
+for improved efficiency. <i>&mdash;end note</i>]</p>
 
 </blockquote>
 
@@ -192,13 +198,13 @@ can be found by argument dependent lookup (ADL). <i>&mdash;end note</i>]</p>
 <p> This subsection describes requirements on the endian library&#39;s own 
 implementation.</p>
 
-<p> The endianness conversion function templates that return  values are 
+<p> The endianness reversal function templates that return values are 
 required to perform reversal of endianness if needed by making an unqualified 
 call to <code>reverse_endianness(<i>argument</i>)</code>, as described in the 
 preceding table.</p>
 
-<p> The endianness conversion function templates that modify their argument in 
-place are required to perform reversal of endianness if needed by making an 
+<p> The endianness reversal function templates that modify their argument in 
+place, except <code>reverse_endianness_in_place</code> itself, are required to perform reversal of endianness if needed by making an 
 unqualified call to <code>reverse_endianness_in_place(<i>argument</i>)</code>, 
 as described in the preceding table.</p>
 

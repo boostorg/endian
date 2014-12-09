@@ -260,36 +260,106 @@ namespace
       BOOST_TEST_EQ(x, little);
 
   }
+
+//--------------------------------------------------------------------------------------//
+
+  template <class UDT>
+  void udt_test()
+  {
+    UDT udt, tmp;
+    int64_t big;
+    int64_t little;
+    int64_t native;
+    big_value(big);
+    little_value(little);
+    native_value(native);
+
+    udt.member1 = big;
+    udt.member2 = little;
+    udt.member3 = native;
+
+    tmp = be::conditional_reverse<be::order::big, be::order::little>(udt);
+    BOOST_TEST_EQ(tmp.member1, be::reverse_endianness(big));
+    BOOST_TEST_EQ(tmp.member2, be::reverse_endianness(little));
+    BOOST_TEST_EQ(tmp.member3, be::reverse_endianness(native));
+
+    be::conditional_reverse_in_place<be::order::big, be::order::little>(udt);
+    BOOST_TEST_EQ(udt.member1, be::reverse_endianness(big));
+    BOOST_TEST_EQ(udt.member2, be::reverse_endianness(little));
+    BOOST_TEST_EQ(udt.member3, be::reverse_endianness(native));
+
+    udt.member1 = big;
+    udt.member2 = little;
+    udt.member3 = native;
+    tmp.member1 = tmp.member2 = tmp.member3 = 0;
+
+    tmp = be::conditional_reverse<be::order::big, be::order::big>(udt);
+    BOOST_TEST_EQ(tmp.member1, big);
+    BOOST_TEST_EQ(tmp.member2, little);
+    BOOST_TEST_EQ(tmp.member3, native);
+
+    be::conditional_reverse_in_place<be::order::big, be::order::big>(udt);
+    BOOST_TEST_EQ(udt.member1, big);
+    BOOST_TEST_EQ(udt.member2, little);
+    BOOST_TEST_EQ(udt.member3, native);
+  }
 }  // unnamed namespace
 
 //--------------------------------------------------------------------------------------//
 
-   //  User-defined type 
+  //  User-defined types 
   
   namespace user
   {
-    struct UDT
+    //  UDT1 supplies both reverse_endianness and reverse_endianness_in_place
+    struct UDT1
     {
       int64_t member1;
       int64_t member2;
       int64_t member3;
     };
 
-    UDT reverse_endianness(const UDT& udt) BOOST_NOEXCEPT
+    UDT1 reverse_endianness(const UDT1& udt) BOOST_NOEXCEPT
     {
-      UDT tmp;
+      UDT1 tmp;
       tmp.member1 = boost::endian::reverse_endianness(udt.member1);
       tmp.member2 = boost::endian::reverse_endianness(udt.member2);
       tmp.member3 = boost::endian::reverse_endianness(udt.member3);
       return tmp;
     }
 
-    void reverse_endianness_in_place(UDT& udt) BOOST_NOEXCEPT
+    void reverse_endianness_in_place(UDT1& udt) BOOST_NOEXCEPT
     {
       boost::endian::reverse_endianness_in_place(udt.member1);
       boost::endian::reverse_endianness_in_place(udt.member2);
       boost::endian::reverse_endianness_in_place(udt.member3);
     }
+
+    //  UDT2 supplies only reverse_endianness
+    struct UDT2
+    {
+      int64_t member1;
+      int64_t member2;
+      int64_t member3;
+    };
+
+    UDT2 reverse_endianness(const UDT2& udt) BOOST_NOEXCEPT
+    {
+      UDT2 tmp;
+      tmp.member1 = boost::endian::reverse_endianness(udt.member1);
+      tmp.member2 = boost::endian::reverse_endianness(udt.member2);
+      tmp.member3 = boost::endian::reverse_endianness(udt.member3);
+      return tmp;
+    }
+
+    //  UDT3 supplies neither reverse_endianness nor reverse_endianness_in_place,
+    //  so udt_test<UDT3>() should fail to compile
+    struct UDT3
+    {
+      int64_t member1;
+      int64_t member2;
+      int64_t member3;
+    };
 
   }  // namespace user
 
@@ -326,30 +396,16 @@ int cpp_main(int, char * [])
   cout << "double" << endl;
   test<double>();
 
-  cout << "UDT" << endl;
-  user::UDT udt;
-  int64_t big;
-  int64_t little;
-  int64_t native;
-  big_value(big);
-  little_value(little);
-  native_value(native);
+  cout << "UDT 1" << endl;
+  udt_test<user::UDT1>();
 
-  udt.member1 = big;
-  udt.member2 = little;
-  udt.member3 = native;
-  be::conditional_reverse_in_place<be::order::big, be::order::little>(udt);
-  BOOST_TEST_EQ(udt.member1, be::reverse_endianness(big));
-  BOOST_TEST_EQ(udt.member2, be::reverse_endianness(little));
-  BOOST_TEST_EQ(udt.member3, be::reverse_endianness(native));
+  cout << "UDT 2" << endl;
+  udt_test<user::UDT2>();
 
-  udt.member1 = big;
-  udt.member2 = little;
-  udt.member3 = native;
-  be::conditional_reverse_in_place<be::order::big, be::order::big>(udt);
-  BOOST_TEST_EQ(udt.member1, big);
-  BOOST_TEST_EQ(udt.member2, little);
-  BOOST_TEST_EQ(udt.member3, native);
+#ifdef BOOST_ENDIAN_COMPILE_FAIL
+  cout << "UDT 3" << endl;
+  udt_test<user::UDT3>();    // should fail to compile since has not reverse_endianness()
+#endif
 
   return ::boost::report_errors();
 }
