@@ -58,6 +58,7 @@
   <tr>
     <td width="100%" bgcolor="#E8F5FF">
       <a href="../include/boost/endian/conversion.hpp">&lt;boost/endian/conversion.hpp&gt;</a><br>
+      <a href="../include/boost/endian/buffers.hpp">&lt;boost/endian/buffers.hpp&gt;</a><br>
       <a href="../include/boost/endian/arithmetic.hpp">&lt;boost/endian/arithmetic.hpp&gt;</a></td>
   </tr>
 </table>
@@ -199,8 +200,8 @@ application needs.</p>
     <p>These problems are eliminated by defining S like this:</p>
     <blockquote>
       <p><code>struct S {<br>
-      &nbsp; big_uint16_t a;<br>
-      &nbsp; big_uint32_t b;<br>
+      &nbsp; big_uint16_ut a;<br>
+      &nbsp; big_uint32_ut b;<br>
       };</code>
     </p></blockquote>
       </li>
@@ -677,7 +678,7 @@ and 16, 32, and 64-bit aligned integers.</p>
   <li><code>order::native</code> is now a synonym for <code>order::big</code> 
   or <code>order::little</code> according to the endianness of the platform, as 
   requested. This reduces the number of template specializations required.</li>
-  <li><code>reverse_value()</code> overloads for <code>int8_t</code> and <code>
+  <li><code>reverse_endianness()</code> overloads for <code>int8_t</code> and <code>
   uint8_t</code> have been added for improved generality. (Pierre Talbot)</li>
   <li>Overloads of <code>reverse()</code> have been replaced with a single <code>
   reverse()</code> template. (Pierre Talbot)</li>
@@ -701,7 +702,7 @@ Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen and
 Vitaly Budovski,.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->19 November, 2014<!--webbot bot="Timestamp" endspan i-checksum="39499" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->05 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38642" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

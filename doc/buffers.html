@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
@@ -64,26 +64,34 @@
   </tr>
   <tr>
     <td width="100%" bgcolor="#E8F5FF">
+      <p dir="ltr">
       <a href="../include/boost/endian/conversion.hpp">&lt;boost/endian/conversion.hpp&gt;</a><br>
+      <a href="../include/boost/endian/buffers.hpp">&lt;boost/endian/buffers.hpp&gt;</a><br>
       <a href="../include/boost/endian/arithmetic.hpp">&lt;boost/endian/arithmetic.hpp&gt;</a></td>
   </tr>
 </table>
 <h2><a name="Introduction">Introduction</a></h2>
-<p>Header <a href="buffers.html">boost/endian/buffers.hpp</a> 
-provides portable integer and floating-point binary buffer types with control over 
-byte order, value type, size, and alignment independent of the native computer 
-architecture. Typedefs provide easy-to-use names 
-for common configurations. Use cases almost always involve I/O, either via files or 
-network connections.</p>
-<p>Although data portability is the primary motivation, these byte-holders may 
-also be used to reduce memory use, file size, or network activity since they 
-also 
-provide binary numeric sizes not otherwise available.</p>
-<p>The byte order of arithmetic types is traditionally called <b><i>endianness</i></b>. See the
+<p>The internal byte order of arithmetic types is traditionally called <b><i>endianness</i></b>. See the
 <a href="http://en.wikipedia.org/wiki/Endian" name="endianness">Wikipedia</a> for 
 a full 
 exploration of <b><i>endianness</i></b>, including definitions of <i><b>big 
 endian</b></i> and <i><b>little endian</b></i>.</p>
+<p>Header <a href="buffers.html">boost/endian/buffers.hpp</a> 
+provides <code>endian_buffer</code>, a portable endian integer and floating-point binary buffer 
+class template with control over 
+byte order, value type, size, and alignment independent of the platform&#39;s native 
+endianness. Typedefs provide easy-to-use names 
+for common configurations.</p>
+<p>Use cases primarily involve data portability, either via files or network 
+connections, but these byte-holders may 
+also be used to reduce memory use, file size, or network activity since they 
+ 
+provide binary numeric sizes not otherwise available.</p>
+<p dir="ltr">Class <code>endian_buffer</code> is aimed at users who wish 
+explicit control over when endianness conversions occur. It also serves as the 
+base class for the <code><a href="arithmetic.html">endian_arithmetic</a></code> 
+class template, which is aimed at users who wish fully automatic endianness 
+conversion and direct support for all normal arithmetic operations.</p>
 <h2><a name="Example">Example</a></h2>
 <p>The <a href="../example/endian_example.cpp">endian_example.cpp</a> program writes a 
 binary file containing four byte big-endian and little-endian integers:</p>
@@ -360,13 +368,11 @@ usual operations on integers are supplied.</p>
     public:
       typedef T value_type;
 
-      // if BOOST_ENDIAN_FORCE_PODNESS is defined &amp;&amp; C++11 POD's are not
-      // available then these two constructors will not be present
       <a href="#endian">endian_buffer</a>() noexcept = default;
       explicit <a href="#explicit-endian">endian_buffer</a>(T v) noexcept;
 
       endian_buffer&amp; <a href="#operator-eq">operator=</a>(T v) noexcept;
-      value_type     value() const noexcept;
+      value_type     <a href="#value">value</a>() const noexcept;
       const char*    <a href="#data">data</a>() const noexcept;
     protected:
       <b><i>implementaton-defined</i></b>  endian_value;  // for exposition only
@@ -489,35 +495,49 @@ requirements imposed by the <code>Nbits</code> and <code>Align</code> template
 parameters.&nbsp; The <code><span style="font-size: 85%">CHAR_BIT</span></code> 
 macro is defined in <code><span style="font-size: 85%">&lt;climits&gt;</span></code>. 
 The only value of <code><span style="font-size: 85%">CHAR_BIT</span></code> that 
-is required to be supported is 8. </p>
+is required to be supported is 8.</p>
+<p>Template parameter <code><span style="font-size: 85%">T</span></code> is 
+required to be a standard integer type (C++std, 3.9.1) and <code>
+<span style="font-size: 85%">sizeof(T)*CHAR_BIT</span></code> is required to be 
+greater or equal to <span style="font-size: 85%"> <code>Nbits</code>.</span></p>
 <h3><a name="Members">Members</a></h3>
-<div dir="ltr">
-  <pre><code><a name="endian">endian</a>_buffer() = default;  // C++03: endian(){}</code></pre>
-</div>
+  <pre><code><a name="endian">endian</a>_buffer() noexcept = default;</code></pre>
 <blockquote>
 <p><i>Effects:</i> Constructs an object of type <code>endian_buffer&lt;Order, T, 
 Nbits, Align&gt;</code>.</p>
 </blockquote>
-<pre><code>explicit <a name="explicit-endian">endian</a>_buffer(T v);</code></pre>
+<pre><code>explicit <a name="explicit-endian">endian</a>_buffer(T v) noexcept;</code></pre>
 <blockquote>
 <p><i>Effects:</i> Constructs an object of type <code>endian_buffer&lt;Order, T, 
 Nbits, Align&gt;</code>.</p>
-<p><i>Postcondition:</i> <code>value() == v</code>.</p>
+<p><i>Postcondition:</i> <code>value() == v &amp; mask</code>, where <code>mask</code> 
+is a constant of type <code>value_type</code> with <code>Nbits</code> low-order 
+bits set to one.</p>
+<p><i>Remarks:</i> If <code>Align</code> is <code>align::yes</code> then 
+endianness conversion if required is performed by <code>
+boost::endian::reverse_endianness</code>.</p>
 </blockquote>
-<pre><code>endian_buffer&amp; <a name="operator-eq">operator=</a>(T v);</code></pre>
+<pre><code>endian_buffer&amp; <a name="operator-eq">operator=</a>(T v) noexcept;</code></pre>
 <blockquote>
-  <p><i>Postcondition:</i> <code>value() == v</code>.</p>
+  <p><i>Postcondition:</i> <code>value() == v &amp; mask</code>, where <code>mask</code> 
+  is a constant of type <code>value_type</code> with <code>Nbits</code> 
+  low-order bits set to one..</p>
   <p><i>Returns:</i> <code>*this</code>.</p>
+<p><i>Remarks:</i> If <code>Align</code> is <code>align::yes</code> then 
+endianness conversion if required is performed by <code>
+boost::endian::reverse_endianness</code>.</p>
 </blockquote>
-<pre>value_type <a name="value">value</a>()<code> const;</code></pre>
+<pre>value_type <a name="value">value</a>()<code> const noexcept;</code></pre>
 <blockquote>
-<p><i>Returns:</i> The current value stored in <code>*this</code>, converted to
-<code>value_type</code>.</p>
+<p><i>Returns:</i> <code>endian_value</code>, converted to <code>value_type</code> 
+if necessary and having the endianness of the native platform.</p>
+<p><i>Remarks:</i> If <code>Align</code> is <code>align::yes</code> then 
+endianness conversion if required is performed by <code>
+boost::endian::reverse_endianness</code>.</p>
 </blockquote>
-<pre><code>const char* <a name="data">data</a>() const;</code></pre>
+<pre><code>const char* <a name="data">data</a>() const noexcept;</code></pre>
 <blockquote>
-<p><i>Returns:</i> A pointer to the first byte of the endian binary value stored 
-in <code>*this</code>.</p>
+<p><i>Returns:</i> A pointer to the first byte of <code>endian_value</code>.</p>
 </blockquote>
 <h2><a name="FAQ">FAQ</a></h2>
 
@@ -597,7 +617,7 @@ any Boost object libraries.</p>
 </ul>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->05 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38642" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->06 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38644" --></p>
 <p>© Copyright Beman Dawes, 2006-2009, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

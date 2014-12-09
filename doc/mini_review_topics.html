@@ -71,14 +71,15 @@ the primary use case.</b></p>
   <p><b>Support for user defined types (UDTs) is desirable, and should be 
 provided where there would be no conflict with the other concerns.</b></p>
   <blockquote>
-  <p>Done. <span style="background-color: #FFFF00">Need docs.</span></p>
+  <p>Done. See <a href="conversion.html#Requirements">conversion requirements</a>.</p>
   </blockquote>
   <p><b>There is some concern that endian integer/float arithmetic operations 
 might used inadvertently or inappropriately. The impact of adding an endian_buffer 
   class without arithmetic operations should be investigated.</b></p>
   <blockquote>
   <p>Done. The endian types have been decomposed into class template <code>
-  endian_buffer</code> and class template <code>endian_arithmetic</code>. Class
+  <a href="buffers.html">endian_buffer</a></code> and class template <code>
+  <a href="arithmetic.html">endian_arithmetic</a></code>. Class
   <code>endian_buffer</code> is a public base class for <code>endian_arithmetic</code>, 
   and can also be used by users as a stand-alone class.</p>
   </blockquote>
@@ -98,7 +99,7 @@ might used inadvertently or inappropriately. The impact of adding an endian_buff
 </blockquote>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->27 November, 2014<!--webbot bot="Timestamp" endspan i-checksum="39496" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->05 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38642" --></p>
 <p>© Copyright Beman Dawes, 2014</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

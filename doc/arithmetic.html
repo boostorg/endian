@@ -71,6 +71,7 @@
   <tr>
     <td width="100%" bgcolor="#E8F5FF">
       <a href="../include/boost/endian/conversion.hpp">&lt;boost/endian/conversion.hpp&gt;</a><br>
+      <a href="../include/boost/endian/buffers.hpp">&lt;boost/endian/buffers.hpp&gt;</a><br>
       <a href="../include/boost/endian/arithmetic.hpp">&lt;boost/endian/arithmetic.hpp&gt;</a></td>
   </tr>
 </table>
@@ -375,19 +376,21 @@ usual operations on integers are supplied.</p>
     enum class <a name="alignment">align</a> {no, yes};            
 
     template &lt;order Order, class T, std::size_t n_bits, align A = align::no&gt;
-    class endian
+    class endian_arithmetic
+      : public endian_buffer&lt;Order, T, n_bits, A&gt;
     {
     public:
       typedef T value_type;
 
       // if BOOST_ENDIAN_FORCE_PODNESS is defined &amp;&amp; C++11 POD's are not
       // available then these two constructors will not be present
-      <a href="#endian">endian</a>() noexcept = default;
-      <a href="#explicit-endian">endian</a>(T v) noexcept;
+      <a href="#endian">endian_arithmetic</a>() noexcept = default;
+      <a href="#explicit-endian">endian_arithmetic</a>(T v) noexcept;
 
-      endian&amp; <a href="#operator-eq">operator=</a>(T v) noexcept;
-      <a href="#operator-T">operator T</a>() const noexcept;
-      const char* <a href="#data">data</a>() const noexcept;
+      endian_arithmetic&amp; <a href="#operator-eq">operator=</a>(T v) noexcept;
+      <a href="#operator-T">operator value_type</a>() const noexcept;
+      value_type value() const noexcept;  // exposition only; see endian_buffer
+      const char* <a href="#data">data</a>() const noexcept;  // exposition only; see endian_buffer
 
       // arithmetic operations
       //   note that additional operations are provided by the value_type 
@@ -678,7 +681,7 @@ differs from endian representation size. Vicente Botet and other reviewers
 suggested supporting floating point types.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->19 November, 2014<!--webbot bot="Timestamp" endspan i-checksum="39499" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->05 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38642" --></p>
 <p>© Copyright Beman Dawes, 2006-2009, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

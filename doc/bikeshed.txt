@@ -3,12 +3,17 @@ Conversion function naming bikeshed
 return-by-value          modify-argument
 ------------------       ---------------
 
-reverse_endianness       reverse_endianness_in_place <-------
+reverse_endianness       reverse_endianness_in_place
        "                 reverse_endianness_arg
+endian_reverse           endian_reverse_in_place
+       "                 endian_reverse_here
+	   "                 endian_reverse_this
+	   "                 endian_reverse_self
+	   "                 endian_reverse_arg
+	   "                 endian_reverse_in                     <------
 
 reverse                  reverse_in_place
 reverse_endian           reverse_endian_in_place
-endian_reverse           endian_reverse_in_place
 
 swap_endianness          swap_endianness_in_place
 swap_endian              swap_endian_in_place
@@ -31,7 +36,16 @@ Key points:
   the various conditional functions instead. So explicitness is more important than 
   brevity.
 
+big_to_native  native_to_big  reverse_unless_native_big  little_to_native  native_to_little  reverse_unless_native_little
+                              reverse_if_not_big
+							  reverse_if_little
+							  reverse_unless_big
 
+big_to_host    host_to_big    reverse_unless_host_big
+                              reverse_if_host_little
+be_to_ne       ne_to_be
+
+from_big, to_big, reverse_unless_big
 
 
 merriam-webster.com/dictionary
@@ -48,4 +62,7 @@ flip (verb)
 : to cause (something) to turn or turn over quickly
 
 : to move (something) with a quick light movement
+
+
+
  
