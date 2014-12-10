@@ -7,8 +7,6 @@
 
 //--------------------------------------------------------------------------------------//
 
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <boost/endian/detail/disable_warnings.hpp>
 
 #include <boost/endian/conversion.hpp>

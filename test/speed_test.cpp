@@ -7,8 +7,6 @@
 
 //--------------------------------------------------------------------------------------//
 
-#define _SCL_SECURE_NO_WARNINGS
-
 #define BOOST_ENDIAN_NO_INTRINSICS
 //#define BOOST_ENDIAN_LOG
 

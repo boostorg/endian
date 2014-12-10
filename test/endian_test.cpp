@@ -16,8 +16,6 @@
 
 //----------------------------------------------------------------------------//
 
-#define _SCL_SECURE_NO_WARNINGS
-
 #include <boost/endian/detail/disable_warnings.hpp>
 
 #include <boost/endian/arithmetic.hpp>

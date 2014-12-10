@@ -9,8 +9,6 @@
 
 //--------------------------------------------------------------------------------------//
 
-#define _SCL_SECURE_NO_WARNINGS
-
 #include <boost/endian/detail/disable_warnings.hpp>
 
 #define BOOST_ENDIAN_LOG

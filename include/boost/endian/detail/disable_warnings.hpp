@@ -8,6 +8,15 @@
 //--------------------------------------------------------------------------------------//
 
 #ifdef  _MSC_VER
+
+#ifndef _SCL_SECURE_NO_WARNINGS
+# define _SCL_SECURE_NO_WARNINGS
+#endif
+
+#ifndef _CRT_SECURE_NO_WARNINGS
+# define _CRT_SECURE_NO_WARNINGS
+#endif
+
 # pragma warning(push)
 
 // triggered by boost/detail/lightweight_test.hpp
