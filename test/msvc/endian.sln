@@ -29,7 +29,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "uses_cases", "uses_cases\us
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "conversion_use_case", "conversion_use_case\conversion_use_case.vcxproj", "{1139E765-DE0F-497A-A7D9-EB2683521DF1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "html", "html\html.vcxproj", "{3E0B428D-FDBB-40AF-ACA8-DE677B88D39C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "associated-files", "associated-files\associated-files.vcxproj", "{D9C80FE0-20A6-4711-A3F4-676019BD5A06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -132,12 +132,12 @@ Global
 		{1139E765-DE0F-497A-A7D9-EB2683521DF1}.Release|Win32.ActiveCfg = Release|Win32
 		{1139E765-DE0F-497A-A7D9-EB2683521DF1}.Release|Win32.Build.0 = Release|Win32
 		{1139E765-DE0F-497A-A7D9-EB2683521DF1}.Release|x64.ActiveCfg = Release|Win32
-		{3E0B428D-FDBB-40AF-ACA8-DE677B88D39C}.Debug|Win32.ActiveCfg = Debug|Win32
-		{3E0B428D-FDBB-40AF-ACA8-DE677B88D39C}.Debug|Win32.Build.0 = Debug|Win32
-		{3E0B428D-FDBB-40AF-ACA8-DE677B88D39C}.Debug|x64.ActiveCfg = Debug|Win32
-		{3E0B428D-FDBB-40AF-ACA8-DE677B88D39C}.Release|Win32.ActiveCfg = Release|Win32
-		{3E0B428D-FDBB-40AF-ACA8-DE677B88D39C}.Release|Win32.Build.0 = Release|Win32
-		{3E0B428D-FDBB-40AF-ACA8-DE677B88D39C}.Release|x64.ActiveCfg = Release|Win32
+		{D9C80FE0-20A6-4711-A3F4-676019BD5A06}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D9C80FE0-20A6-4711-A3F4-676019BD5A06}.Debug|Win32.Build.0 = Debug|Win32
+		{D9C80FE0-20A6-4711-A3F4-676019BD5A06}.Debug|x64.ActiveCfg = Debug|Win32
+		{D9C80FE0-20A6-4711-A3F4-676019BD5A06}.Release|Win32.ActiveCfg = Release|Win32
+		{D9C80FE0-20A6-4711-A3F4-676019BD5A06}.Release|Win32.Build.0 = Release|Win32
+		{D9C80FE0-20A6-4711-A3F4-676019BD5A06}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
