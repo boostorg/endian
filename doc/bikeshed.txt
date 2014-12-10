@@ -8,17 +8,17 @@ reverse_endianness       reverse_endianness_in_place
 endian_reverse           endian_reverse_in_place
        "                 endian_reverse_in_situ
        "                 endian_reverse_here
-	   "                 endian_reverse_this
-	   "                 endian_reverse_self
-	   "                 endian_reverse_arg
-	   "                 endian_reverse_in  
+       "                 endian_reverse_this          <-----
+       "                 endian_reverse_self
+       "                 endian_reverse_arg
+       "                 endian_reverse_in  
 
 reverse                  reverse_in_place
 reverse_endian           reverse_endian_in_place
 
 swap_endianness          swap_endianness_in_place
 swap_endian              swap_endian_in_place
-endian_swap              endian_swap_in_place
+endian_swap              endian_swap_this
 
 flip_endianness          flip_endianness_in_place
 flip_endian              flip_endian_in_place
@@ -30,29 +30,28 @@ reverse_order            reverse_order_in_place
 
 Key points:
 
-* These names are defined in a user namespace as customization points to be found by
+* The above names are defined in a user namespace as customization points to be found by
   ADL, and so cannot depend on the enclosing namespace name to signal readers that they
   are related to endianness.
-* These functions are rarely called directly by user code, which is more likely to use
+* The above functions are rarely called directly by user code, which is more likely to use
   the various conditional functions instead. So explicitness is more important than 
   brevity.
 
-big_to_native  native_to_big  reverse_unless_native_big  little_to_native  native_to_little  reverse_unless_native_little
-                              reverse_if_not_big
-							  reverse_if_little
-							  reverse_unless_big
+Conditional names
 
-big_to_host    host_to_big    reverse_unless_host_big
-                              reverse_if_host_little
+big_to_native  native_to_big  little_to_native  native_to_little
+
+big_to_host    host_to_big    
+                              
 be_to_ne       ne_to_be
 
-from_big, to_big, reverse_unless_big
+from_big, to_big
 
 big_to_native                  big_to_native
 native_to_big                  native_to_big
-reverse_unless_native_big      ------                                   <------
-conditional_reverse            reverse_unless_same<...>()               <------
-runtime_conditional_reverse    reverse_unless_same()                    <------
+
+conditional_reverse            runtime_conditional_reverse
+conditional_reverse            conditional_reverse              <------
 
 merriam-webster.com/dictionary
 

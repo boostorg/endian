@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
@@ -515,7 +515,7 @@ is a constant of type <code>value_type</code> with <code>Nbits</code> low-order
 bits set to one.</p>
 <p><i>Remarks:</i> If <code>Align</code> is <code>align::yes</code> then 
 endianness conversion if required is performed by <code>
-boost::endian::reverse_endianness</code>.</p>
+boost::endian::endian_reverse</code>.</p>
 </blockquote>
 <pre><code>endian_buffer&amp; <a name="operator-eq">operator=</a>(T v) noexcept;</code></pre>
 <blockquote>
@@ -525,7 +525,7 @@ boost::endian::reverse_endianness</code>.</p>
   <p><i>Returns:</i> <code>*this</code>.</p>
 <p><i>Remarks:</i> If <code>Align</code> is <code>align::yes</code> then 
 endianness conversion if required is performed by <code>
-boost::endian::reverse_endianness</code>.</p>
+boost::endian::endian_reverse</code>.</p>
 </blockquote>
 <pre>value_type <a name="value">value</a>()<code> const noexcept;</code></pre>
 <blockquote>
@@ -533,7 +533,7 @@ boost::endian::reverse_endianness</code>.</p>
 if necessary and having the endianness of the native platform.</p>
 <p><i>Remarks:</i> If <code>Align</code> is <code>align::yes</code> then 
 endianness conversion if required is performed by <code>
-boost::endian::reverse_endianness</code>.</p>
+boost::endian::endian_reverse</code>.</p>
 </blockquote>
 <pre><code>const char* <a name="data">data</a>() const noexcept;</code></pre>
 <blockquote>

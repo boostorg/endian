@@ -1,4 +1,4 @@
-<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40">
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40">
 
 <head>
 <meta name="GENERATOR" content="Microsoft FrontPage 5.0">
@@ -678,7 +678,7 @@ and 16, 32, and 64-bit aligned integers.</p>
   <li><code>order::native</code> is now a synonym for <code>order::big</code> 
   or <code>order::little</code> according to the endianness of the platform, as 
   requested. This reduces the number of template specializations required.</li>
-  <li><code>reverse_endianness()</code> overloads for <code>int8_t</code> and <code>
+  <li><code>endian_reverse()</code> overloads for <code>int8_t</code> and <code>
   uint8_t</code> have been added for improved generality. (Pierre Talbot)</li>
   <li>Overloads of <code>reverse()</code> have been replaced with a single <code>
   reverse()</code> template. (Pierre Talbot)</li>

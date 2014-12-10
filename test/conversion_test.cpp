@@ -139,17 +139,17 @@ namespace
 
 # ifdef BOOST_BIG_ENDIAN
     BOOST_TEST_EQ(native, big);
-    BOOST_TEST_EQ(be::detail::std_reverse_endianness(native), little);
+    BOOST_TEST_EQ(be::detail::std_endian_reverse(native), little);
 # else
-    BOOST_TEST_EQ(be::detail::std_reverse_endianness(native), big);
+    BOOST_TEST_EQ(be::detail::std_endian_reverse(native), big);
     BOOST_TEST_EQ(native, little);
 # endif
 
     //  value-by-value tests
 
     //  unconditional reverse
-    BOOST_TEST_EQ(be::reverse_endianness(big), little);
-    BOOST_TEST_EQ(be::reverse_endianness(little), big);
+    BOOST_TEST_EQ(be::endian_reverse(big), little);
+    BOOST_TEST_EQ(be::endian_reverse(little), big);
 
     //  conditional reverse
     BOOST_TEST_EQ(be::native_to_big(native), big);
@@ -201,8 +201,8 @@ namespace
     T x;
 
     //  unconditional reverse
-    x = big; be::reverse_endianness_in_place(x); BOOST_TEST_EQ(x, little);
-    x = little; be::reverse_endianness_in_place(x); BOOST_TEST_EQ(x, big);
+    x = big; be::endian_reverse_in_place(x); BOOST_TEST_EQ(x, little);
+    x = little; be::endian_reverse_in_place(x); BOOST_TEST_EQ(x, big);
 
     //  conditional reverse
     x = native; be::native_to_big_in_place(x); BOOST_TEST_EQ(x, big);
@@ -279,14 +279,14 @@ namespace
     udt.member3 = native;
 
     tmp = be::conditional_reverse<be::order::big, be::order::little>(udt);
-    BOOST_TEST_EQ(tmp.member1, be::reverse_endianness(big));
-    BOOST_TEST_EQ(tmp.member2, be::reverse_endianness(little));
-    BOOST_TEST_EQ(tmp.member3, be::reverse_endianness(native));
+    BOOST_TEST_EQ(tmp.member1, be::endian_reverse(big));
+    BOOST_TEST_EQ(tmp.member2, be::endian_reverse(little));
+    BOOST_TEST_EQ(tmp.member3, be::endian_reverse(native));
 
     be::conditional_reverse_in_place<be::order::big, be::order::little>(udt);
-    BOOST_TEST_EQ(udt.member1, be::reverse_endianness(big));
-    BOOST_TEST_EQ(udt.member2, be::reverse_endianness(little));
-    BOOST_TEST_EQ(udt.member3, be::reverse_endianness(native));
+    BOOST_TEST_EQ(udt.member1, be::endian_reverse(big));
+    BOOST_TEST_EQ(udt.member2, be::endian_reverse(little));
+    BOOST_TEST_EQ(udt.member3, be::endian_reverse(native));
 
     udt.member1 = big;
     udt.member2 = little;
@@ -311,7 +311,7 @@ namespace
   
   namespace user
   {
-    //  UDT1 supplies both reverse_endianness and reverse_endianness_in_place
+    //  UDT1 supplies both endian_reverse and endian_reverse_in_place
     struct UDT1
     {
       int64_t member1;
@@ -319,23 +319,23 @@ namespace
       int64_t member3;
     };
 
-    UDT1 reverse_endianness(const UDT1& udt) BOOST_NOEXCEPT
+    UDT1 endian_reverse(const UDT1& udt) BOOST_NOEXCEPT
     {
       UDT1 tmp;
-      tmp.member1 = boost::endian::reverse_endianness(udt.member1);
-      tmp.member2 = boost::endian::reverse_endianness(udt.member2);
-      tmp.member3 = boost::endian::reverse_endianness(udt.member3);
+      tmp.member1 = boost::endian::endian_reverse(udt.member1);
+      tmp.member2 = boost::endian::endian_reverse(udt.member2);
+      tmp.member3 = boost::endian::endian_reverse(udt.member3);
       return tmp;
     }
 
-    void reverse_endianness_in_place(UDT1& udt) BOOST_NOEXCEPT
+    void endian_reverse_in_place(UDT1& udt) BOOST_NOEXCEPT
     {
-      boost::endian::reverse_endianness_in_place(udt.member1);
-      boost::endian::reverse_endianness_in_place(udt.member2);
-      boost::endian::reverse_endianness_in_place(udt.member3);
+      boost::endian::endian_reverse_in_place(udt.member1);
+      boost::endian::endian_reverse_in_place(udt.member2);
+      boost::endian::endian_reverse_in_place(udt.member3);
     }
 
-    //  UDT2 supplies only reverse_endianness
+    //  UDT2 supplies only endian_reverse
     struct UDT2
     {
       int64_t member1;
@@ -343,16 +343,16 @@ namespace
       int64_t member3;
     };
 
-    UDT2 reverse_endianness(const UDT2& udt) BOOST_NOEXCEPT
+    UDT2 endian_reverse(const UDT2& udt) BOOST_NOEXCEPT
     {
       UDT2 tmp;
-      tmp.member1 = boost::endian::reverse_endianness(udt.member1);
-      tmp.member2 = boost::endian::reverse_endianness(udt.member2);
-      tmp.member3 = boost::endian::reverse_endianness(udt.member3);
+      tmp.member1 = boost::endian::endian_reverse(udt.member1);
+      tmp.member2 = boost::endian::endian_reverse(udt.member2);
+      tmp.member3 = boost::endian::endian_reverse(udt.member3);
       return tmp;
     }
 
-    //  UDT3 supplies neither reverse_endianness nor reverse_endianness_in_place,
+    //  UDT3 supplies neither endian_reverse nor endian_reverse_in_place,
     //  so udt_test<UDT3>() should fail to compile
     struct UDT3
     {
@@ -404,7 +404,7 @@ int cpp_main(int, char * [])
 
 #ifdef BOOST_ENDIAN_COMPILE_FAIL
   cout << "UDT 3" << endl;
-  udt_test<user::UDT3>();    // should fail to compile since has not reverse_endianness()
+  udt_test<user::UDT3>();    // should fail to compile since has not endian_reverse()
 #endif
 
   return ::boost::report_errors();
