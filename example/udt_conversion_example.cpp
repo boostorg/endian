@@ -73,7 +73,7 @@ int main(int, char* [])
   conditional_reverse_in_place<order::little, order::big>(x);
   cout << "(4) " << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
 
-  runtime_conditional_reverse_in_place(x, order::big, order::little);
+  conditional_reverse_in_place(x, order::big, order::little);
   cout << "(5) " << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
 }
 

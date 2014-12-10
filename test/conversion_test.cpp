@@ -177,23 +177,23 @@ namespace
       be::order::little>(native)), little);
 
     //  runtime conditional reverse
-    BOOST_TEST_EQ((be::runtime_conditional_reverse(big, be::order::big, be::order::big)),
+    BOOST_TEST_EQ((be::conditional_reverse(big, be::order::big, be::order::big)),
       big);
-    BOOST_TEST_EQ((be::runtime_conditional_reverse(little, be::order::little,
+    BOOST_TEST_EQ((be::conditional_reverse(little, be::order::little,
       be::order::little)), little);
-    BOOST_TEST_EQ((be::runtime_conditional_reverse(native, be::order::native,
+    BOOST_TEST_EQ((be::conditional_reverse(native, be::order::native,
       be::order::native)), native);
-    BOOST_TEST_EQ((be::runtime_conditional_reverse(big, be::order::big,
+    BOOST_TEST_EQ((be::conditional_reverse(big, be::order::big,
       be::order::little)), little);
-    BOOST_TEST_EQ((be::runtime_conditional_reverse(big, be::order::big,
+    BOOST_TEST_EQ((be::conditional_reverse(big, be::order::big,
       be::order::native)), native);
-    BOOST_TEST_EQ((be::runtime_conditional_reverse(little, be::order::little,
+    BOOST_TEST_EQ((be::conditional_reverse(little, be::order::little,
       be::order::big)), big);
-    BOOST_TEST_EQ((be::runtime_conditional_reverse(little, be::order::little,
+    BOOST_TEST_EQ((be::conditional_reverse(little, be::order::little,
       be::order::native)), native);
-    BOOST_TEST_EQ((be::runtime_conditional_reverse(native, be::order::native,
+    BOOST_TEST_EQ((be::conditional_reverse(native, be::order::native,
       be::order::big)), big);
-    BOOST_TEST_EQ((be::runtime_conditional_reverse(native, be::order::native,
+    BOOST_TEST_EQ((be::conditional_reverse(native, be::order::native,
       be::order::little)), little);
 
     //  modify-in-place tests
@@ -232,31 +232,31 @@ namespace
 
     //  runtime conditional reverse
     x = big;
-      be::runtime_conditional_reverse_in_place(x, be::order::big, be::order::big);
+      be::conditional_reverse_in_place(x, be::order::big, be::order::big);
       BOOST_TEST_EQ(x, big);
     x = little;
-      be::runtime_conditional_reverse_in_place(x, be::order::little, be::order::little);
+      be::conditional_reverse_in_place(x, be::order::little, be::order::little);
       BOOST_TEST_EQ(x, little);
     x = native;
-      be::runtime_conditional_reverse_in_place(x, be::order::native, be::order::native);
+      be::conditional_reverse_in_place(x, be::order::native, be::order::native);
       BOOST_TEST_EQ(x, native);
     x = big;
-      be::runtime_conditional_reverse_in_place(x, be::order::big, be::order::little);
+      be::conditional_reverse_in_place(x, be::order::big, be::order::little);
       BOOST_TEST_EQ(x, little);
     x = big;
-      be::runtime_conditional_reverse_in_place(x, be::order::big, be::order::native);
+      be::conditional_reverse_in_place(x, be::order::big, be::order::native);
       BOOST_TEST_EQ(x, native);
     x = little;
-      be::runtime_conditional_reverse_in_place(x, be::order::little, be::order::big); 
+      be::conditional_reverse_in_place(x, be::order::little, be::order::big); 
       BOOST_TEST_EQ(x, big);
     x = little;
-      be::runtime_conditional_reverse_in_place(x, be::order::little, be::order::native); 
+      be::conditional_reverse_in_place(x, be::order::little, be::order::native); 
       BOOST_TEST_EQ(x, native);
     x = native;
-      be::runtime_conditional_reverse_in_place(x, be::order::native, be::order::big); 
+      be::conditional_reverse_in_place(x, be::order::native, be::order::big); 
       BOOST_TEST_EQ(x, big);
     x = native;
-      be::runtime_conditional_reverse_in_place(x, be::order::native, be::order::little); 
+      be::conditional_reverse_in_place(x, be::order::native, be::order::little); 
       BOOST_TEST_EQ(x, little);
 
   }

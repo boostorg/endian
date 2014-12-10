@@ -91,7 +91,7 @@ namespace endian
 
   //  runtime conditional reverse byte order
   template <class Reversible >
-  inline Reversible  runtime_conditional_reverse(Reversible from,
+  inline Reversible  conditional_reverse(Reversible from,
     BOOST_SCOPED_ENUM(order) from_order, BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT;
       //  Returns: from_order == to_order ? from : endian_reverse(from).
 
@@ -149,7 +149,7 @@ namespace endian
 
   //  runtime reverse in place
   template <class Reversible>
-  inline void runtime_conditional_reverse_in_place(Reversible& x,
+  inline void conditional_reverse_in_place(Reversible& x,
     BOOST_SCOPED_ENUM(order) from_order,  BOOST_SCOPED_ENUM(order) to_order)
     BOOST_NOEXCEPT;
 
@@ -364,7 +364,7 @@ namespace endian
 
   //  runtime conditional reverse
   template <class Reversible >
-  inline Reversible  runtime_conditional_reverse(Reversible  from,
+  inline Reversible  conditional_reverse(Reversible  from,
     BOOST_SCOPED_ENUM(order) from_order, BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT
   {
     return from_order == to_order ? from : endian_reverse(from);
@@ -445,7 +445,7 @@ namespace endian
 
   //  runtime reverse in place
   template <class Reversible>
-  inline void runtime_conditional_reverse_in_place(Reversible& x,
+  inline void conditional_reverse_in_place(Reversible& x,
     BOOST_SCOPED_ENUM(order) from_order,  BOOST_SCOPED_ENUM(order) to_order)
     BOOST_NOEXCEPT
   {

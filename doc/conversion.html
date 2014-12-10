@@ -118,7 +118,7 @@ namespace endian
   template &lt;order O1, order O2, class Reversible&gt;
     Reversible conditional_reverse(Reversible x) noexcept;
   template &lt;class Reversible&gt;
-    Reversible runtime_conditional_reverse(Reversible x,
+    Reversible conditional_reverse(Reversible x,
       order order1, order order2) noexcept;
       
   template &lt;class Reversible&gt;
@@ -135,7 +135,7 @@ namespace endian
   template &lt;order O1, order O2, class Reversible&gt;
     void conditional_reverse_in_place(Reversible&amp; x) noexcept; 
   template &lt;class Reversible&gt;
-   void runtime_conditional_reverse_in_place(Reversible&amp; x,
+   void conditional_reverse_in_place(Reversible&amp; x,
      order order1, order order2) noexcept;
 
 } // namespace endian
@@ -266,7 +266,7 @@ Reversible conditional_reverse(Reversible x) noexcept; </pre>
         is to be returned shall be determined at compile time.</p>
     </blockquote>
 <pre>template &lt;class Reversible&gt;
-Reversible runtime_conditional_reverse(Reversible x,
+Reversible conditional_reverse(Reversible x,
       order order1, order order2) noexcept; </pre>
     <blockquote>
         <p><i>Returns:</i> <code>order1 == order2 ? x : endian_reverse(x)</code>.</p>
@@ -314,7 +314,7 @@ void conditional_reverse_in_place(Reversible&amp; x) noexcept; </pre>
         <p><i>Remarks: </i>Which effect applies shall be determined at compile time.</p>
     </blockquote>
 <pre>template &lt;class Reversible&gt;
-void runtime_conditional_reverse_in_place(Reversible&amp; x,
+void conditional_reverse_in_place(Reversible&amp; x,
      order order1, order order2) noexcept; </pre>
 
 
