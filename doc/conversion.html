@@ -192,6 +192,13 @@ is required for a user-defined type to meet the <code>Reversible</code>
 requirements. User-defined types may provide <code>endian_reverse_in_place</code> 
 for improved efficiency. <i>&mdash;end note</i>]</p>
 
+<p> <span style="background-color: #FFFF00">This still isn&#39;t right. There are 
+really separate Reversible and </span><span style="background-color: #FFFF00">
+ReversibleHere</span><span style="background-color: #FFFF00"> requirements, and 
+the </span><span style="background-color: #FFFF00">endian_reverse_here</span><span style="background-color: #FFFF00"> 
+template&#39;s type should be Reversible. See the udt_conversion_example for a type 
+that is ReversibleHere but not Reversible and works just fine.</span></p>
+
 </blockquote>
 
 <h4> <a name="Customization-points">Customization points</a> for user-defined types (<a name="UDT">UDT</a>s)</h4>
@@ -351,7 +358,7 @@ Pierre Talbot provided the <code>int8_t endian_reverse()</code> and templated
 <code>reverse()</code> implementations.</p>
 <hr>
 <p>Last revised: 
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->09 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38650" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->10 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38633" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
 
