@@ -68,17 +68,11 @@ int main(int, char* [])
   reverse_endianness_in_place(x);
   cout << "(3) " << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
 
-  reverse_in_place_unless_native_big(x);
+  conditional_reverse_in_place<order::little, order::big>(x);
   cout << "(4) " << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
 
-  reverse_in_place_unless_native_little(x);
-  cout << "(5) " << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
-
-  conditional_reverse_in_place<order::little, order::big>(x);
-  cout << "(6) " << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
-
   runtime_conditional_reverse_in_place(x, order::big, order::little);
-  cout << "(7) " << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
+  cout << "(5) " << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
 }
 
 #include <boost/endian/detail/disable_warnings_pop.hpp>

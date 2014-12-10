@@ -72,9 +72,6 @@ namespace endian
   template <class Reversible >
     inline Reversible  native_to_big(Reversible  x) BOOST_NOEXCEPT;
     //  Returns: x if native endian order is big, otherwise reverse_endianness(x)
-  template <class Reversible >
-    inline Reversible  reverse_unless_native_big(Reversible  x) BOOST_NOEXCEPT;
-    //  Returns: x if native endian order is big, otherwise reverse_endianness(x)
 
   //  reverse byte order unless native endianness is little
   template <class Reversible >
@@ -82,9 +79,6 @@ namespace endian
     //  Returns: x if native endian order is little, otherwise reverse_endianness(x)
   template <class Reversible >
     inline Reversible  native_to_little(Reversible  x) BOOST_NOEXCEPT;
-    //  Returns: x if native endian order is little, otherwise reverse_endianness(x)
-  template <class Reversible >
-    inline Reversible  reverse_unless_native_little(Reversible  x) BOOST_NOEXCEPT;
     //  Returns: x if native endian order is little, otherwise reverse_endianness(x)
 
   //  generic conditional reverse byte order
@@ -140,9 +134,6 @@ namespace endian
   template <class Reversible>
     inline void native_to_big_in_place(Reversible& x) BOOST_NOEXCEPT;
     //  Effects: none if native byte-order is big, otherwise reverse_endianness_in_place(x)
-  template <class Reversible>
-    inline void reverse_in_place_unless_native_big(Reversible& x) BOOST_NOEXCEPT;
-    //  Effects: none if native byte-order is big, otherwise reverse_endianness_in_place(x)
 
   //  reverse in place unless native endianness is little
   template <class Reversible>
@@ -150,9 +141,6 @@ namespace endian
     //  Effects: none if native byte-order is little, otherwise reverse_endianness_in_place(x);
   template <class Reversible>
     inline void native_to_little_in_place(Reversible& x) BOOST_NOEXCEPT;
-    //  Effects: none if native byte-order is little, otherwise reverse_endianness_in_place(x);
-  template <class Reversible>
-    inline void reverse_in_place_unless_native_little(Reversible& x) BOOST_NOEXCEPT;
     //  Effects: none if native byte-order is little, otherwise reverse_endianness_in_place(x);
 
   //  generic conditional reverse in place
@@ -329,16 +317,6 @@ namespace endian
   }
 
   template <class Reversible >
-  inline Reversible  reverse_unless_native_big(Reversible  x) BOOST_NOEXCEPT
-  {
-#   ifdef BOOST_BIG_ENDIAN
-    return x;
-#   else
-    return reverse_endianness(x);
-#   endif
-  }
-
-  template <class Reversible >
   inline Reversible  little_to_native(Reversible  x) BOOST_NOEXCEPT
   {
 #   ifdef BOOST_LITTLE_ENDIAN
@@ -350,16 +328,6 @@ namespace endian
 
   template <class Reversible >
   inline Reversible  native_to_little(Reversible  x) BOOST_NOEXCEPT
-  {
-#   ifdef BOOST_LITTLE_ENDIAN
-    return x;
-#   else
-    return reverse_endianness(x);
-#   endif
-  }
-
-  template <class Reversible >
-  inline Reversible  reverse_unless_native_little(Reversible  x) BOOST_NOEXCEPT
   {
 #   ifdef BOOST_LITTLE_ENDIAN
     return x;
@@ -413,9 +381,6 @@ namespace endian
     x = reverse_endianness(x);
   }
 
-  //  reverse in place unless native endianness is big
-  //    Effects: none if native endian order is big,
-  //             otherwise reverse_endianness_in_place(x)
   template <class Reversible>
 #   ifdef BOOST_BIG_ENDIAN
   inline void big_to_native_in_place(Reversible&) BOOST_NOEXCEPT {}
@@ -432,19 +397,7 @@ namespace endian
     reverse_endianness_in_place(x);
   }
 #   endif
-  template <class Reversible>
-#   ifdef BOOST_BIG_ENDIAN
-  inline void reverse_in_place_unless_native_big(Reversible&) BOOST_NOEXCEPT {}
-#   else
-  inline void reverse_in_place_unless_native_big(Reversible& x) BOOST_NOEXCEPT
-  {
-    reverse_endianness_in_place(x);
-  }
-#   endif
 
-  //  reverse in place unless native endianness is little
-  //    Effects: none if native endian order is little,
-  //             otherwise reverse_endianness_in_place(x)
   template <class Reversible>
 #   ifdef BOOST_LITTLE_ENDIAN
   inline void little_to_native_in_place(Reversible&) BOOST_NOEXCEPT {}
@@ -457,15 +410,6 @@ namespace endian
   inline void native_to_little_in_place(Reversible&) BOOST_NOEXCEPT {}
 #   else
   inline void native_to_little_in_place(Reversible& x) BOOST_NOEXCEPT
-  {
-    reverse_endianness_in_place(x);
-  }
-#   endif
-  template <class Reversible>
-#   ifdef BOOST_LITTLE_ENDIAN
-  inline void reverse_in_place_unless_native_little(Reversible&) BOOST_NOEXCEPT {}
-#   else
-  inline void reverse_in_place_unless_native_little(Reversible& x) BOOST_NOEXCEPT
   {
     reverse_endianness_in_place(x);
   }

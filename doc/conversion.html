@@ -1,4 +1,4 @@
-﻿<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40">
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40">
 
 <head>
 <meta name="GENERATOR" content="Microsoft FrontPage 5.0">
@@ -75,7 +75,7 @@ ordering. User defined types are also supported.</p>
 
 <h2><a name="Reference">Reference</a></h2>
 
-<p>Functions are implemented <code>inline</code> if appropriate.<code> noexcept</code> is 
+<p>Functions are implemented if appropriate.<code> noexcept</code> is 
 elided for compilers that do not support it. 
 Boost scoped enum emulation is used so that the library still works for compilers that do not support scoped enums.  </p>
 
@@ -96,7 +96,6 @@ namespace endian
     native = <b><i>implementation-defined</i></b>  // same as order::big or order::little<b><i>
   </i></b>};
 
-  // reverse byte order (i.e. endianness)
   int8_t   <a href="#reverse_endianness">reverse_endianness</a>(int8_t x) noexcept;
   int16_t  <a href="#reverse_endianness">reverse_endianness</a>(int16_t x) noexcept;
   int32_t  <a href="#reverse_endianness">reverse_endianness</a>(int32_t x) noexcept;
@@ -108,34 +107,36 @@ namespace endian
   float    <a href="#reverse_endianness">reverse_endianness</a>(float x) noexcept;
   double   <a href="#reverse_endianness">reverse_endianness</a>(double x) noexcept;
 
-  template &lt;class Value&gt;
-  void     <a href="#reverse">reverse</a>(Value&amp; x) noexcept;
-
-  // reverse byte order unless native endianness is big
-  template &lt;class ReversibleValue &gt;
-    ReversibleValue <a href="#big_endian_value">big_endian_value</a>(ReversibleValue x) noexcept; 
   template &lt;class Reversible&gt;
-    void <a href="#big_endian">big_endian</a>(Reversible&amp; x) noexcept; 
-
-  // reverse byte order unless native endianness is little
-  template &lt;class ReversibleValue &gt;
-    ReversibleValue <a href="#little_endian_value">little_endian_value</a>(ReversibleValue x) noexcept; 
+    Reversible big_to_native(Reversible x) noexcept;
   template &lt;class Reversible&gt;
-    void <a href="#little_endian">little_endian</a>(Reversible&amp; x) noexcept; 
-
-  // generic byte order conversion
-  template &lt;order From, order To, class ReversibleValue&gt;
-    ReversibleValue <a href="#convert_value_generic">convert_value</a>(ReversibleValue from) noexcept;
-  template &lt;order From, order To, class Reversible&gt;
-    void <a href="#convert_generic">convert</a>(Reversible&amp; x) noexcept; 
-
-  // runtime byte-order conversion
-  template &lt;class ReversibleValue&gt;
-    ReversibleValue <a href="#convert_value_runtime">convert_value</a>(ReversibleValue from,
-      order from_order, order to_order) noexcept;
+    Reversible native_to_big(Reversible x) noexcept;
   template &lt;class Reversible&gt;
-    void <a href="#convert_runtime">convert</a>(Reversible&amp; x,
-      order from_order, order to_order) noexcept;
+    Reversible little_to_native(Reversible x) noexcept;
+  template &lt;class Reversible&gt;
+    Reversible native_to_little(Reversible x) noexcept;
+  template &lt;order O1, order O2, class Reversible&gt;
+    Reversible conditional_reverse(Reversible x) noexcept;
+  template &lt;class Reversible&gt;
+    Reversible runtime_conditional_reverse(Reversible x,
+      order order1, order order2) noexcept;
+      
+  template &lt;class Reversible&gt;
+    void reverse_endianness_in_place(Reversible&amp; x) noexcept;
+
+  template &lt;class Reversible&gt;
+    void big_to_native_in_place(Reversible&amp; x) noexcept;
+  template &lt;class Reversible&gt;
+    void native_to_big_in_place(Reversible&amp; x) noexcept;
+  template &lt;class Reversible&gt;
+    void little_to_native_in_place(Reversible&amp; x) noexcept;
+  template &lt;class Reversible&gt;
+    void native_to_little_in_place(Reversible&amp; x) noexcept;
+  template &lt;order O1, order O2, class Reversible&gt;
+    void conditional_reverse_in_place(Reversible&amp; x) noexcept; 
+  template &lt;class Reversible&gt;
+   void runtime_conditional_reverse_in_place(Reversible&amp; x,
+     order order1, order order2) noexcept;
 
 } // namespace endian
 } // namespace boost</pre>
@@ -212,7 +213,7 @@ as described in the preceding table.</p>
 udt_conversion_example.cpp</a> for an example user-defined type.</p>
 
 <h3><a name="Functions">Functions</a></h3>
-<pre><a name="reverse_endianness"></a>int8_t  reverse_endianness(int8_t x) noexcept;
+<pre><a name="reverse_endianness"></a>int8_t   reverse_endianness(int8_t x) noexcept;
 int16_t  reverse_endianness(int16_t x) noexcept;
 int32_t  reverse_endianness(int32_t x) noexcept;
 int64_t  reverse_endianness(int64_t x) noexcept;
@@ -226,81 +227,94 @@ double   reverse_endianness(double x) noexcept;</pre>
   <p><i>Returns:</i> <i><code>x</code></i>, with the order of its 
   constituent bytes reversed.</p>
 </blockquote>
-<pre><a name="reverse"></a>template &lt;class Value&gt;
-  void     reverse(Value&amp; x) noexcept;</pre>
+
+<pre>template &lt;class Reversible&gt;
+Reversible big_to_native(Reversible x) noexcept;</pre>
+    <blockquote>
+        <p>
+            <i>Returns:</i> <code>conditional_reverse&lt;order::big, 
+            order::native&gt;(x)</code>.</p>
+    </blockquote>
+<pre>template &lt;class Reversible&gt;
+Reversible native_to_big(Reversible x) noexcept; </pre>
 <blockquote>
-  <p><i>Postconditions:</i> The order of the constituent bytes of
-  <code>x</code> are reversed.</p>
+  <p><i>Returns:</i> <code>conditional_reverse&lt;order::native, order::big&gt;(x)</code>.</p>
 </blockquote>
-<pre><a name="big_endian_value"></a>template &lt;class ReversibleValue &gt;
-  ReversibleValue big_endian_value(ReversibleValue x) noexcept; 
-<a name="big_endian"></a>template &lt;class Reversible&gt;
-  void big_endian(Reversible&amp; x) noexcept;</pre>
+<pre>template &lt;class Reversible&gt;
+Reversible little_to_native(Reversible x) noexcept; </pre>
+    <blockquote>
+        <p><i>Returns:</i> <code>conditional_reverse&lt;order::little, order::native&gt;(x)</code>.</p>
+    </blockquote>
+<pre>template &lt;class Reversible&gt;
+Reversible native_to_little(Reversible x) noexcept; </pre>
+    <blockquote>
+        <p><i>Returns:</i> <code>conditional_reverse&lt;order::native, order::little&gt;(x)</code>.</p>
+    </blockquote>
+<pre>template &lt;order O1, order O2, class Reversible&gt;
+Reversible conditional_reverse(Reversible x) noexcept; </pre>
+    <blockquote>
+        <p><i>Returns:</i> <code>x</code> if <code>O1 == O2,</code> otherwise
+        <code>reverse_endianness(x)</code>.</p>
+        <p><i>Remarks: </i>Whether <code>x</code> or <code>reverse_endianness(x)</code> 
+        is to be returned shall be determined at compile time.</p>
+    </blockquote>
+<pre>template &lt;class Reversible&gt;
+Reversible runtime_conditional_reverse(Reversible x,
+      order order1, order order2) noexcept; </pre>
+    <blockquote>
+        <p><i>Returns:</i> <code>order1 == order2 ? x : reverse_endianness(x)</code>.</p>
+    </blockquote>
+      
+<pre>template &lt;class Reversible&gt;
+void reverse_endianness_in_place(Reversible&amp; x) noexcept; </pre>
+
 <blockquote>
-  <p><i>Returns (first form)</i>: <code>x</code> if the native byte order is big 
-  endian, otherwise <code>reverse_endianness(x)</code>.</p>
-  <p><i>Effects (second form):</i> None if the native byte order is big 
-  endian, otherwise <code>reverse(x)</code>.</p>
-  <p><i>Example:</i></p>
-  <blockquote>
-    <pre>int32_t x = <b><i>some-value</i></b>;
-big_endian(x);  // reverses the byte order of x, unless
-                // the native byte order is big-endian</pre>
-  </blockquote>
-</blockquote>
-<pre><a name="little_endian_value"></a>template &lt;class ReversibleValue &gt;
-  ReversibleValue little_endian_value(ReversibleValue x) noexcept; 
-<a name="little_endian"></a>template &lt;class Reversible&gt;
-  void little_endian(Reversible&amp; x) noexcept;</pre>
+        <p><i>Effects:</i> <code>x</code> <code>= reverse_endianness(x)</code>.</p>
+    </blockquote>
+
+<pre>template &lt;class Reversible&gt;
+void big_to_native_in_place(Reversible&amp; x) noexcept; </pre>
 <blockquote>
-  <p><i>Returns (first form)</i>: <code>x</code> if the native byte order is little 
-  endian, otherwise <code>reverse_endianness(x)</code>.</p>
-  <p><i>Effects (second form):</i> None if the native byte order is little 
-  endian,  otherwise <code>reverse(x)</code>.</p>
-  <p><i>Example:</i></p>
-  <blockquote>
-    <pre>int32_t x = <b><i>some-value</i></b>;
-int32_t y(little_endian(x));
-// y has been set to x; the byte order is reversed unless
-// the native byte order is little-endian.</pre>
-  </blockquote>
-</blockquote>
-<pre><a name="convert_value_generic"></a>template &lt;order From, order To, class ReversibleValue&gt;
-  ReversibleValue convert_value(ReversibleValue from) noexcept;
-<a name="convert_generic"></a>template &lt;order From, order To, class Reversible&gt;
-  void convert(Reversible&amp; x) noexcept;
-</pre>
+        <p>
+            <i>Effects:</i> <code>conditional_reverse_in_place&lt;order::big, 
+            order::native&gt;(x)</code>.</p>
+    </blockquote>
+<pre>template &lt;class Reversible&gt;
+void native_to_big_in_place(Reversible&amp; x) noexcept; </pre>
 <blockquote>
-  <p>The <b><i>effective order</i></b> of an order template parameter 
-  is the same as the order template parameter if the parameter is not <code>
-  order::native</code>, otherwise it is the constant <code>order::big</code> or
-  <code>order::little</code> that represents the actual native byte order.</p>
-  <p><i>Returns (first form)</i>: <code>from</code> if <code>From</code> 
-  and <code>To</code> have the same effective order, otherwise <code>
-  reverse_endianness(from)</code>.</p>
-  <p><i>Effects (second form):</i> None if <code>From</code> and <code>
-  To</code> have the same effective order, otherwise <code>reverse(x)</code>.</p>
-  <p><i>Example:</i></p>
-  <blockquote>
-    <pre>int32_t x;
-<i>... read an external big-endian value into x</i>
-convert&lt;order::big, order::native&gt;(x);  // more generic equivalent of big_endian(x);</pre>
-  </blockquote>
-</blockquote>
-<pre><a name="convert_value_runtime"></a>template &lt;class ReversibleValue&gt;
-  ReversibleValue convert_value(ReversibleValue from,
-    order from_order, order to_order) noexcept;
-<a name="convert_runtime"></a>template &lt;class Reversible&gt;
-  void convert(Reversible&amp; x,
-    order from_order, order to_order) noexcept;</pre><blockquote><p><i>Returns (first form)</i>: <code>from</code> if <code>effect_order(from_order) == effective_order(to_order)</code>, otherwise <code>reverse_endianness(from)</code>.</p>
-  <p><i>Effects (second form):</i> None if <code>effect_order(from_order) == effective_order(to_order)</code>, otherwise <code>reverse(x)</code>.</p>
-  <p><i>Example:</i></p>
-  <blockquote>
-    <pre>int32_t x;
-<i>... read an external value of an endianness know only at runtime into x</i>
-convert(x, some_order, order::native);  // convert to native byte order if needed</pre>
-  </blockquote>
-</blockquote>
+        <p>
+            <i>Effects:</i> <code>conditional_reverse_in_place&lt;order::native, 
+            order::big&gt;(x)</code>.</p>
+    </blockquote>
+<pre>template &lt;class Reversible&gt;
+void little_to_native_in_place(Reversible&amp; x) noexcept; </pre>
+<blockquote>
+        <p>
+            <i>Effects:</i> <code>conditional_reverse_in_place&lt;order::little, order::native&gt;(x)</code>.</p>
+    </blockquote>
+<pre>template &lt;class Reversible&gt;
+void native_to_little_in_place(Reversible&amp; x) noexcept; </pre>
+<blockquote>
+        <p>
+            <i>Effects:</i> <code>conditional_reverse_in_place&lt;order::native, 
+            order::little&gt;(x)</code>.</p>
+    </blockquote>
+<pre>template &lt;order O1, order O2, class Reversible&gt;
+void conditional_reverse_in_place(Reversible&amp; x) noexcept; </pre> 
+<blockquote>
+        <p><i>Effects:</i> None if <code>O1 == O2,</code> otherwise
+        <code>reverse_endianness_in_place(x)</code>.</p>
+        <p><i>Remarks: </i>Which effect applies shall be determined at compile time.</p>
+    </blockquote>
+<pre>template &lt;class Reversible&gt;
+void runtime_conditional_reverse_in_place(Reversible&amp; x,
+     order order1, order order2) noexcept; </pre>
+
+
+<blockquote>
+        <p><i>Effects: </i>If <code>order1 == order2</code> then <code>reverse_endianness_in_place(x)</code>.</p>
+    </blockquote>
+
 
 <h2> <a name="FAQ">FAQ</a></h2>
 
@@ -325,7 +339,7 @@ wrong!</p>
 
 <p>Returning the result by value is the standard C and C++ idiom for functions that compute a 
 value from an argument. Modify-in-place functions allow cleaner code in many real-world 
-endian use cases and are more efficient for user defined types that have 
+endian use cases and are more efficient for user-defined types that have 
 members such as string data that do not need to be reversed. Thus both forms are 
 provided.</p>
 
@@ -337,7 +351,7 @@ Pierre Talbot provided the <code>int8_t reverse_endianness()</code> and template
 <code>reverse()</code> implementations.</p>
 <hr>
 <p>Last revised: 
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->07 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38646" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->09 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38650" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
 
