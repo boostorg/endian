@@ -236,19 +236,19 @@ namespace endian
       typedef unrolled_byte_loops<T, n_bytes - 1, sign> next;
 
       static T load_big(const unsigned char* bytes) BOOST_NOEXCEPT
-        { return *(bytes - 1) | (next::load_big(bytes - 1) << 8); }
+        { return static_cast<T>(*(bytes - 1) | (next::load_big(bytes - 1) << 8)); }
       static T load_little(const unsigned char* bytes) BOOST_NOEXCEPT
-        { return *bytes | (next::load_little(bytes + 1) << 8); }
+        { return static_cast<T>(*bytes | (next::load_little(bytes + 1) << 8)); }
 
       static void store_big(char* bytes, T value) BOOST_NOEXCEPT
         {
           *(bytes - 1) = static_cast<char>(value);
-          next::store_big(bytes - 1, value >> 8);
+          next::store_big(bytes - 1, static_cast<T>(value >> 8));
         }
       static void store_little(char* bytes, T value) BOOST_NOEXCEPT
         {
           *bytes = static_cast<char>(value);
-          next::store_little(bytes + 1, value >> 8);
+          next::store_little(bytes + 1, static_cast<T>(value >> 8));
         }
     };
 

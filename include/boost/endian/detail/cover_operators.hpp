@@ -62,20 +62,32 @@ namespace boost
 #   endif
       
       // The basic arithmetic operations.
-      friend D& operator+=(D& x, ArithmeticT y) BOOST_NOEXCEPT { return x = +x + y; }
-      friend D& operator-=(D& x, ArithmeticT y) BOOST_NOEXCEPT { return x = +x - y; }
-      friend D& operator*=(D& x, ArithmeticT y) BOOST_NOEXCEPT { return x = +x * y; }
-      friend D& operator/=(D& x, ArithmeticT y) BOOST_NOEXCEPT { return x = +x / y; }
-      friend D& operator%=(D& x, ArithmeticT y) BOOST_NOEXCEPT { return x = +x % y; }
-      friend D& operator&=(D& x, ArithmeticT y) BOOST_NOEXCEPT { return x = +x & y; }
-      friend D& operator|=(D& x, ArithmeticT y) BOOST_NOEXCEPT { return x = +x | y; }
-      friend D& operator^=(D& x, ArithmeticT y) BOOST_NOEXCEPT { return x = +x ^ y; }
-      friend D& operator<<=(D& x, ArithmeticT y) BOOST_NOEXCEPT { return x = +x << y; }
-      friend D& operator>>=(D& x, ArithmeticT y) BOOST_NOEXCEPT { return x = +x >> y; }
+      friend D& operator+=(D& x, ArithmeticT y) BOOST_NOEXCEPT
+        { return x = static_cast<ArithmeticT>(+x + y); }
+      friend D& operator-=(D& x, ArithmeticT y) BOOST_NOEXCEPT
+        { return x = static_cast<ArithmeticT>(+x - y); }
+      friend D& operator*=(D& x, ArithmeticT y) BOOST_NOEXCEPT
+        { return x = static_cast<ArithmeticT>(+x * y); }
+      friend D& operator/=(D& x, ArithmeticT y) BOOST_NOEXCEPT
+        { return x = static_cast<ArithmeticT>(+x / y); }
+      friend D& operator%=(D& x, ArithmeticT y) BOOST_NOEXCEPT
+        { return x = static_cast<ArithmeticT>(+x % y); }
+      friend D& operator&=(D& x, ArithmeticT y) BOOST_NOEXCEPT
+        { return x = static_cast<ArithmeticT>(+x & y); }
+      friend D& operator|=(D& x, ArithmeticT y) BOOST_NOEXCEPT
+        { return x = static_cast<ArithmeticT>(+x | y); }
+      friend D& operator^=(D& x, ArithmeticT y) BOOST_NOEXCEPT
+        { return x = static_cast<ArithmeticT>(+x ^ y); }
+      friend D& operator<<=(D& x, ArithmeticT y) BOOST_NOEXCEPT
+        { return x = static_cast<ArithmeticT>(+x << y); }
+      friend D& operator>>=(D& x, ArithmeticT y) BOOST_NOEXCEPT
+        { return x = static_cast<ArithmeticT>(+x >> y); }
       
       // A few binary arithmetic operations not covered by operators base class.
-      friend ArithmeticT operator<<(const D& x, ArithmeticT y) BOOST_NOEXCEPT { return +x << y; }
-      friend ArithmeticT operator>>(const D& x, ArithmeticT y) BOOST_NOEXCEPT { return +x >> y; }
+      friend ArithmeticT operator<<(const D& x, ArithmeticT y) BOOST_NOEXCEPT
+        { return static_cast<ArithmeticT>(+x << y); }
+      friend ArithmeticT operator>>(const D& x, ArithmeticT y) BOOST_NOEXCEPT
+        { return static_cast<ArithmeticT>(+x >> y); }
       
       // Auto-increment and auto-decrement can be defined in terms of the
       // arithmetic operations.
