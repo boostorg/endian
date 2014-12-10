@@ -75,9 +75,11 @@ ordering. User defined types are also supported.</p>
 
 <h2><a name="Reference">Reference</a></h2>
 
-<p>Functions are implemented if appropriate.<code> noexcept</code> is 
+<p>Functions are implemented <code>inline</code> if appropriate.<code> noexcept</code> is 
 elided for compilers that do not support it. 
-Boost scoped enum emulation is used so that the library still works for compilers that do not support scoped enums.  </p>
+Boost scoped enum emulation is used so that the library still works for compilers that do not support scoped enums.</p>
+
+<p>&nbsp;</p>
 
 <h3>
 Header <code>&lt;boost/endian/conversion.hpp&gt;</code>
@@ -91,9 +93,9 @@ namespace endian
 {
   enum class <a name="order">order</a>
   {
-    big,                             // big-endian
-    little,                          // little-endian
-    native = <b><i>implementation-defined</i></b>  // same as order::big or order::little<b><i>
+    big,                             // big endian
+    little,                          // little endian
+    native = <b><i>implementation-defined-as-big-or-little
   </i></b>};
 
   int8_t   <a href="#endian_reverse">endian_reverse</a>(int8_t x) noexcept;
@@ -328,18 +330,6 @@ void conditional_reverse_inplace(Reversible&amp; x,
 <p>See the <a href="index.html#FAQ">Endian home page</a> FAQ for a library-wide 
 FAQ.</p>
 
-<p><b>Why are the template versions of <code>reverse()</code> and <code>endian_reverse()</code> 
-in a detail namespace?</b></p>
-
-<blockquote>
-
-<p>They are unsafe for general use. Consider reversing 
-the bytes of a <code>std::pair</code> as a whole - the bytes from <code>first</code> 
-would end up in <code>second</code> and visa versa, and this is totally 
-wrong!</p>
-
-</blockquote>
-
 <p><b>Why are both value returning and modify-in-place functions provided?</b></p>
 
 <blockquote>
@@ -355,7 +345,7 @@ provided.</p>
 <h2><a name="Acknowledgements">Acknowledgements</a></h2><p>Tomas Puverle was instrumental in identifying and articulating the need to 
 support endian conversion as separate from endian integer types. Phil Endecott suggested the form of the value returning signatures. Vicente Botet and other reviewers suggested supporting floating point types and user defined types. General reverse template implementation approach using std::reverse suggested by Mathias Gaunard. Portable implementation approach for 16, 32, and 64-bit integers suggested by tymofey, with avoidance of undefined behavior as suggested by Giovanni Piero Deretta, and a further refinement suggested by Pyry Jahkola. Intrinsic builtins implementation approach for 16, 32, and 64-bit integers suggested by several reviewers, and by David Stone, who provided his Boost licensed macro implementation that became the starting point for <a href="../include/boost/endian/detail/intrinsic.hpp">boost/endian/detail/intrinsic.hpp</a>. 
 Pierre Talbot provided the <code>int8_t endian_reverse()</code> and templated
-<code>reverse()</code> implementations.</p>
+<code>endian_reverse_inplace()</code> implementations.</p>
 <hr>
 <p>Last revised: 
 <!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->10 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38633" --></p>
