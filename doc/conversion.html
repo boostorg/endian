@@ -122,20 +122,20 @@ namespace endian
       order order1, order order2) noexcept;
       
   template &lt;class Reversible&gt;
-    void endian_reverse_in_place(Reversible&amp; x) noexcept;
+    void endian_reverse_inplace(Reversible&amp; x) noexcept;
 
   template &lt;class Reversible&gt;
-    void big_to_native_in_place(Reversible&amp; x) noexcept;
+    void big_to_native_inplace(Reversible&amp; x) noexcept;
   template &lt;class Reversible&gt;
-    void native_to_big_in_place(Reversible&amp; x) noexcept;
+    void native_to_big_inplace(Reversible&amp; x) noexcept;
   template &lt;class Reversible&gt;
-    void little_to_native_in_place(Reversible&amp; x) noexcept;
+    void little_to_native_inplace(Reversible&amp; x) noexcept;
   template &lt;class Reversible&gt;
-    void native_to_little_in_place(Reversible&amp; x) noexcept;
+    void native_to_little_inplace(Reversible&amp; x) noexcept;
   template &lt;order O1, order O2, class Reversible&gt;
-    void conditional_reverse_in_place(Reversible&amp; x) noexcept; 
+    void conditional_reverse_inplace(Reversible&amp; x) noexcept; 
   template &lt;class Reversible&gt;
-   void conditional_reverse_in_place(Reversible&amp; x,
+   void conditional_reverse_inplace(Reversible&amp; x,
      order order1, order order2) noexcept;
 
 } // namespace endian
@@ -170,7 +170,7 @@ instantiating a template.</p>
   </tr>
   <tr>
     <td valign="top">
-    <code>endian_reverse_in_place(x)</code></td>
+    <code>endian_reverse_inplace(x)</code></td>
     <td valign="top">
     <code>x</code> is a 
 modifiable lvalue of type <code>Reversible</code>.</td>
@@ -186,10 +186,10 @@ modifiable lvalue of type <code>Reversible</code>.</td>
 non-member function in the same namespace as the UDT itself so that the function 
 can be found by argument dependent lookup (ADL).&nbsp; <i>&mdash;end note</i>]</p>
 
-<p> [<i>Note:</i> Because there is a function template for <code>endian_reverse_in_place</code> 
+<p> [<i>Note:</i> Because there is a function template for <code>endian_reverse_inplace</code> 
 that calls <code>endian_reverse</code>, only <code>endian_reverse</code> 
 is required for a user-defined type to meet the <code>Reversible</code> 
-requirements. User-defined types may provide <code>endian_reverse_in_place</code> 
+requirements. User-defined types may provide <code>endian_reverse_inplace</code> 
 for improved efficiency. <i>&mdash;end note</i>]</p>
 
 <p> <span style="background-color: #FFFF00">This still isn&#39;t right. There are 
@@ -212,8 +212,8 @@ call to <code>endian_reverse(<i>argument</i>)</code>, as described in the
 preceding table.</p>
 
 <p> The endianness reversal function templates that modify their argument in 
-place, except <code>endian_reverse_in_place</code> itself, are required to perform reversal of endianness if needed by making an 
-unqualified call to <code>endian_reverse_in_place(<i>argument</i>)</code>, 
+place, except <code>endian_reverse_inplace</code> itself, are required to perform reversal of endianness if needed by making an 
+unqualified call to <code>endian_reverse_inplace(<i>argument</i>)</code>, 
 as described in the preceding table.</p>
 
 <p> See <a href="../example/udt_conversion_example.cpp">
@@ -273,53 +273,53 @@ Reversible conditional_reverse(Reversible x,
     </blockquote>
       
 <pre>template &lt;class Reversible&gt;
-void endian_reverse_in_place(Reversible&amp; x) noexcept; </pre>
+void endian_reverse_inplace(Reversible&amp; x) noexcept; </pre>
 
 <blockquote>
         <p><i>Effects:</i> <code>x</code> <code>= endian_reverse(x)</code>.</p>
     </blockquote>
 
 <pre>template &lt;class Reversible&gt;
-void big_to_native_in_place(Reversible&amp; x) noexcept; </pre>
+void big_to_native_inplace(Reversible&amp; x) noexcept; </pre>
 <blockquote>
         <p>
-            <i>Effects:</i> <code>conditional_reverse_in_place&lt;order::big, 
+            <i>Effects:</i> <code>conditional_reverse_inplace&lt;order::big, 
             order::native&gt;(x)</code>.</p>
     </blockquote>
 <pre>template &lt;class Reversible&gt;
-void native_to_big_in_place(Reversible&amp; x) noexcept; </pre>
+void native_to_big_inplace(Reversible&amp; x) noexcept; </pre>
 <blockquote>
         <p>
-            <i>Effects:</i> <code>conditional_reverse_in_place&lt;order::native, 
+            <i>Effects:</i> <code>conditional_reverse_inplace&lt;order::native, 
             order::big&gt;(x)</code>.</p>
     </blockquote>
 <pre>template &lt;class Reversible&gt;
-void little_to_native_in_place(Reversible&amp; x) noexcept; </pre>
+void little_to_native_inplace(Reversible&amp; x) noexcept; </pre>
 <blockquote>
         <p>
-            <i>Effects:</i> <code>conditional_reverse_in_place&lt;order::little, order::native&gt;(x)</code>.</p>
+            <i>Effects:</i> <code>conditional_reverse_inplace&lt;order::little, order::native&gt;(x)</code>.</p>
     </blockquote>
 <pre>template &lt;class Reversible&gt;
-void native_to_little_in_place(Reversible&amp; x) noexcept; </pre>
+void native_to_little_inplace(Reversible&amp; x) noexcept; </pre>
 <blockquote>
         <p>
-            <i>Effects:</i> <code>conditional_reverse_in_place&lt;order::native, 
+            <i>Effects:</i> <code>conditional_reverse_inplace&lt;order::native, 
             order::little&gt;(x)</code>.</p>
     </blockquote>
 <pre>template &lt;order O1, order O2, class Reversible&gt;
-void conditional_reverse_in_place(Reversible&amp; x) noexcept; </pre> 
+void conditional_reverse_inplace(Reversible&amp; x) noexcept; </pre> 
 <blockquote>
         <p><i>Effects:</i> None if <code>O1 == O2,</code> otherwise
-        <code>endian_reverse_in_place(x)</code>.</p>
+        <code>endian_reverse_inplace(x)</code>.</p>
         <p><i>Remarks: </i>Which effect applies shall be determined at compile time.</p>
     </blockquote>
 <pre>template &lt;class Reversible&gt;
-void conditional_reverse_in_place(Reversible&amp; x,
+void conditional_reverse_inplace(Reversible&amp; x,
      order order1, order order2) noexcept; </pre>
 
 
 <blockquote>
-        <p><i>Effects: </i>If <code>order1 == order2</code> then <code>endian_reverse_in_place(x)</code>.</p>
+        <p><i>Effects: </i>If <code>order1 == order2</code> then <code>endian_reverse_inplace(x)</code>.</p>
     </blockquote>
 
 

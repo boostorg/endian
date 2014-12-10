@@ -42,7 +42,7 @@ namespace user
       desc_[sizeof(desc_-1)] = '\0';
     }
 
-    friend void endian_reverse_in_place(UDT&);
+    friend void endian_reverse_inplace(UDT&);
 
   private:
     int32_t id_;
@@ -50,10 +50,10 @@ namespace user
     char    desc_[56];  // '/0'
   };
 
-  void endian_reverse_in_place(UDT& x)
+  void endian_reverse_inplace(UDT& x)
   {
-    boost::endian::endian_reverse_in_place(x.id_);
-    boost::endian::endian_reverse_in_place(x.value_);
+    boost::endian::endian_reverse_inplace(x.id_);
+    boost::endian::endian_reverse_inplace(x.value_);
   }
 }
 
@@ -64,16 +64,16 @@ int main(int, char* [])
   //cout << std::hex;
   cout << "(1) " << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
 
-  user::endian_reverse_in_place(x);
+  user::endian_reverse_inplace(x);
   cout << "(2) " << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
 
-  endian_reverse_in_place(x);
+  endian_reverse_inplace(x);
   cout << "(3) " << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
 
-  conditional_reverse_in_place<order::little, order::big>(x);
+  conditional_reverse_inplace<order::little, order::big>(x);
   cout << "(4) " << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
 
-  conditional_reverse_in_place(x, order::big, order::little);
+  conditional_reverse_inplace(x, order::big, order::little);
   cout << "(5) " << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;
 }
 

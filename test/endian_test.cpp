@@ -604,25 +604,25 @@ namespace
   {
     // aligned floating point types
     float big_float32_expected = (std::numeric_limits<float>::max) ();
-    boost::endian::native_to_big_in_place(big_float32_expected);
+    boost::endian::native_to_big_inplace(big_float32_expected);
     big_float32_t big_float32((std::numeric_limits<float>::max) ());
     VERIFY(std::memcmp(big_float32.data(),
       reinterpret_cast<const char*>(&big_float32_expected), sizeof(float)) == 0);
 
     float little_float32_expected = (std::numeric_limits<float>::max) ();
-    boost::endian::native_to_little_in_place(little_float32_expected);
+    boost::endian::native_to_little_inplace(little_float32_expected);
     little_float32_t little_float32((std::numeric_limits<float>::max) ());
     VERIFY(std::memcmp(little_float32.data(),
       reinterpret_cast<const char*>(&little_float32_expected), sizeof(float)) == 0);
 
     double big_float64_expected = (std::numeric_limits<double>::max) ();
-    boost::endian::native_to_big_in_place(big_float64_expected);
+    boost::endian::native_to_big_inplace(big_float64_expected);
     big_float64_t big_float64((std::numeric_limits<double>::max) ());
     VERIFY(std::memcmp(big_float64.data(),
       reinterpret_cast<const char*>(&big_float64_expected), sizeof(double)) == 0);
 
     double little_float64_expected = (std::numeric_limits<double>::max) ();
-    boost::endian::native_to_little_in_place(little_float64_expected);
+    boost::endian::native_to_little_inplace(little_float64_expected);
     little_float64_t little_float64((std::numeric_limits<double>::max) ());
     VERIFY(std::memcmp(little_float64.data(),
       reinterpret_cast<const char*>(&little_float64_expected), sizeof(double)) == 0);
@@ -639,25 +639,25 @@ namespace
 
     // unaligned floating point types
     float big_float32un_expected = (std::numeric_limits<float>::max) ();
-    boost::endian::native_to_big_in_place(big_float32un_expected);
+    boost::endian::native_to_big_inplace(big_float32un_expected);
     big_float32_ut big_float32un((std::numeric_limits<float>::max) ());
     VERIFY(std::memcmp(big_float32un.data(),
       reinterpret_cast<const char*>(&big_float32un_expected), sizeof(float)) == 0);
 
     float little_float32un_expected = (std::numeric_limits<float>::max) ();
-    boost::endian::native_to_little_in_place(little_float32un_expected);
+    boost::endian::native_to_little_inplace(little_float32un_expected);
     little_float32_ut little_float32un((std::numeric_limits<float>::max) ());
     VERIFY(std::memcmp(little_float32un.data(),
       reinterpret_cast<const char*>(&little_float32un_expected), sizeof(float)) == 0);
 
     double big_float64un_expected = (std::numeric_limits<double>::max) ();
-    boost::endian::native_to_big_in_place(big_float64un_expected);
+    boost::endian::native_to_big_inplace(big_float64un_expected);
     big_float64_ut big_float64un((std::numeric_limits<double>::max) ());
     VERIFY(std::memcmp(big_float64un.data(),
       reinterpret_cast<const char*>(&big_float64un_expected), sizeof(double)) == 0);
 
     double little_float64un_expected = (std::numeric_limits<double>::max) ();
-    boost::endian::native_to_little_in_place(little_float64un_expected);
+    boost::endian::native_to_little_inplace(little_float64un_expected);
     little_float64_ut little_float64un((std::numeric_limits<double>::max) ());
     VERIFY(std::memcmp(little_float64un.data(),
       reinterpret_cast<const char*>(&little_float64un_expected), sizeof(double)) == 0);

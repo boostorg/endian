@@ -101,7 +101,7 @@ namespace
     cout << "<tr><td>16-bit aligned big endian</td>";
     time<int16_t, big_int16_ut>(user::return_x_big_int16);
     time<int16_t, big_int16_ut>(user::return_x_value_big_int16);
-    time<int16_t, big_int16_ut>(user::return_x_in_place_big_int16);
+    time<int16_t, big_int16_ut>(user::return_x_inplace_big_int16);
     time<int16_t, big_int16_ut>(user::return_x_big_int16);
     cout << "</tr>\n";
   }
@@ -111,7 +111,7 @@ namespace
     cout << "<tr><td>16-bit aligned little endian</td>";
     time<int16_t, little_int16_ut>(user::return_x_little_int16);
     time<int16_t, little_int16_ut>(user::return_x_value_little_int16);
-    time<int16_t, little_int16_ut>(user::return_x_in_place_little_int16);
+    time<int16_t, little_int16_ut>(user::return_x_inplace_little_int16);
     time<int16_t, little_int16_ut>(user::return_x_little_int16);
     cout << "</tr>\n";
   }
@@ -121,7 +121,7 @@ namespace
     cout << "<tr><td>32-bit aligned big endian</td>";
     time<int32_t, big_int32_ut>(user::return_x_big_int32);
     time<int32_t, big_int32_ut>(user::return_x_value_big_int32);
-    time<int32_t, big_int32_ut>(user::return_x_in_place_big_int32);
+    time<int32_t, big_int32_ut>(user::return_x_inplace_big_int32);
     time<int32_t, big_int32_ut>(user::return_x_big_int32);
     cout << "</tr>\n";
   }
@@ -131,7 +131,7 @@ namespace
     cout << "<tr><td>32-bit aligned little endian</td>";
     time<int32_t, little_int32_ut>(user::return_x_little_int32);
     time<int32_t, little_int32_ut>(user::return_x_value_little_int32);
-    time<int32_t, little_int32_ut>(user::return_x_in_place_little_int32);
+    time<int32_t, little_int32_ut>(user::return_x_inplace_little_int32);
     time<int32_t, little_int32_ut>(user::return_x_little_int32);
     cout << "</tr>\n";
   }
@@ -141,7 +141,7 @@ namespace
     cout << "<tr><td>64-bit aligned big endian</td>";
     time<int64_t, big_int64_ut>(user::return_x_big_int64);
     time<int64_t, big_int64_ut>(user::return_x_value_big_int64);
-    time<int64_t, big_int64_ut>(user::return_x_in_place_big_int64);
+    time<int64_t, big_int64_ut>(user::return_x_inplace_big_int64);
     time<int64_t, big_int64_ut>(user::return_x_big_int64);
     cout << "</tr>\n";
   }
@@ -151,7 +151,7 @@ namespace
     cout << "<tr><td>64-bit aligned little endian</td>";
     time<int64_t, little_int64_ut>(user::return_x_little_int64);
     time<int64_t, little_int64_ut>(user::return_x_value_little_int64);
-    time<int64_t, little_int64_ut>(user::return_x_in_place_little_int64);
+    time<int64_t, little_int64_ut>(user::return_x_inplace_little_int64);
     time<int64_t, little_int64_ut>(user::return_x_little_int64);
     cout << "</tr>\n";
   }

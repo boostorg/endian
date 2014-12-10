@@ -120,7 +120,7 @@ namespace
     }
   }
 
-  inline void in_place(int32_t& x)
+  inline void inplace(int32_t& x)
   {
     x =  (static_cast<uint32_t>(x) << 24)
       | ((static_cast<uint32_t>(x) << 8) & 0x00ff0000)
@@ -162,10 +162,10 @@ namespace
     return v;
   }
 
-  inline int32_t modify_in_place(int32_t x)
+  inline int32_t modify_inplace(int32_t x)
   {
     int32_t v(x);
-    in_place(v);
+    inplace(v);
     return v;
   }
 
@@ -214,7 +214,7 @@ int main(int argc, char * argv[])
 
 #ifndef BOOST_TWO_ARG
   overhead = benchmark(modify_noop, "modify no-op");
-  benchmark(modify_in_place, "modify in place"/*, overhead*/);
+  benchmark(modify_inplace, "modify in place"/*, overhead*/);
   benchmark(modify_by_return, "modify by return"/*, overhead*/);
   benchmark(modify_by_return_pyry, "modify by return_pyry"/*, overhead*/);
   benchmark(modify_by_return_intrinsic, "modify by return_intrinsic"/*, overhead*/);

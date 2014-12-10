@@ -101,14 +101,14 @@ namespace
 //      cout << "***************Endian conversion approach...\n";
       T x(0);
       boost::timer::cpu_timer t;
-      native_to_big_in_place(x);
+      native_to_big_inplace(x);
       for (uint64_t i = 0; i < n; ++i)
       {
         x += static_cast<T>(i);
       }
-      big_to_native_in_place(x);
+      big_to_native_inplace(x);
       t.stop();
-      native_to_big_in_place(x);
+      native_to_big_inplace(x);
       if (x != total)
         throw std::logic_error("integer approach total != conversion approach total");
       cout << "<td align=\"right\">" << t.format(places, "%t") << " s</td>";

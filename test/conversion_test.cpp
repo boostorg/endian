@@ -201,62 +201,62 @@ namespace
     T x;
 
     //  unconditional reverse
-    x = big; be::endian_reverse_in_place(x); BOOST_TEST_EQ(x, little);
-    x = little; be::endian_reverse_in_place(x); BOOST_TEST_EQ(x, big);
+    x = big; be::endian_reverse_inplace(x); BOOST_TEST_EQ(x, little);
+    x = little; be::endian_reverse_inplace(x); BOOST_TEST_EQ(x, big);
 
     //  conditional reverse
-    x = native; be::native_to_big_in_place(x); BOOST_TEST_EQ(x, big);
-    x = native; be::native_to_little_in_place(x);  BOOST_TEST_EQ(x, little);
-    x = big; be::big_to_native_in_place(x);  BOOST_TEST_EQ(x, native);
-    x = little; be::little_to_native_in_place(x); BOOST_TEST_EQ(x, native);
+    x = native; be::native_to_big_inplace(x); BOOST_TEST_EQ(x, big);
+    x = native; be::native_to_little_inplace(x);  BOOST_TEST_EQ(x, little);
+    x = big; be::big_to_native_inplace(x);  BOOST_TEST_EQ(x, native);
+    x = little; be::little_to_native_inplace(x); BOOST_TEST_EQ(x, native);
 
     //  generic conditional reverse
-    x = big; be::conditional_reverse_in_place<be::order::big, be::order::big>(x);
+    x = big; be::conditional_reverse_inplace<be::order::big, be::order::big>(x);
       BOOST_TEST_EQ(x, big);
-    x = little; be::conditional_reverse_in_place<be::order::little, be::order::little>(x);
+    x = little; be::conditional_reverse_inplace<be::order::little, be::order::little>(x);
       BOOST_TEST_EQ(x, little);
-    x = native; be::conditional_reverse_in_place<be::order::native, be::order::native>(x);
+    x = native; be::conditional_reverse_inplace<be::order::native, be::order::native>(x);
       BOOST_TEST_EQ(x, native);
-    x = big; be::conditional_reverse_in_place<be::order::big, be::order::little>(x);
+    x = big; be::conditional_reverse_inplace<be::order::big, be::order::little>(x);
       BOOST_TEST_EQ(x, little);
-    x = big; be::conditional_reverse_in_place<be::order::big, be::order::native>(x);
+    x = big; be::conditional_reverse_inplace<be::order::big, be::order::native>(x);
       BOOST_TEST_EQ(x, native);
-    x = little; be::conditional_reverse_in_place<be::order::little, be::order::big>(x);
+    x = little; be::conditional_reverse_inplace<be::order::little, be::order::big>(x);
       BOOST_TEST_EQ(x, big);
-    x = little; be::conditional_reverse_in_place<be::order::little, be::order::native>(x);
+    x = little; be::conditional_reverse_inplace<be::order::little, be::order::native>(x);
       BOOST_TEST_EQ(x, native);
-      x = native; be::conditional_reverse_in_place<be::order::native, be::order::big>(x);
+      x = native; be::conditional_reverse_inplace<be::order::native, be::order::big>(x);
       BOOST_TEST_EQ(x, big);
-    x = native; be::conditional_reverse_in_place<be::order::native, be::order::little>(x);
+    x = native; be::conditional_reverse_inplace<be::order::native, be::order::little>(x);
       BOOST_TEST_EQ(x, little);
 
     //  runtime conditional reverse
     x = big;
-      be::conditional_reverse_in_place(x, be::order::big, be::order::big);
+      be::conditional_reverse_inplace(x, be::order::big, be::order::big);
       BOOST_TEST_EQ(x, big);
     x = little;
-      be::conditional_reverse_in_place(x, be::order::little, be::order::little);
+      be::conditional_reverse_inplace(x, be::order::little, be::order::little);
       BOOST_TEST_EQ(x, little);
     x = native;
-      be::conditional_reverse_in_place(x, be::order::native, be::order::native);
+      be::conditional_reverse_inplace(x, be::order::native, be::order::native);
       BOOST_TEST_EQ(x, native);
     x = big;
-      be::conditional_reverse_in_place(x, be::order::big, be::order::little);
+      be::conditional_reverse_inplace(x, be::order::big, be::order::little);
       BOOST_TEST_EQ(x, little);
     x = big;
-      be::conditional_reverse_in_place(x, be::order::big, be::order::native);
+      be::conditional_reverse_inplace(x, be::order::big, be::order::native);
       BOOST_TEST_EQ(x, native);
     x = little;
-      be::conditional_reverse_in_place(x, be::order::little, be::order::big); 
+      be::conditional_reverse_inplace(x, be::order::little, be::order::big); 
       BOOST_TEST_EQ(x, big);
     x = little;
-      be::conditional_reverse_in_place(x, be::order::little, be::order::native); 
+      be::conditional_reverse_inplace(x, be::order::little, be::order::native); 
       BOOST_TEST_EQ(x, native);
     x = native;
-      be::conditional_reverse_in_place(x, be::order::native, be::order::big); 
+      be::conditional_reverse_inplace(x, be::order::native, be::order::big); 
       BOOST_TEST_EQ(x, big);
     x = native;
-      be::conditional_reverse_in_place(x, be::order::native, be::order::little); 
+      be::conditional_reverse_inplace(x, be::order::native, be::order::little); 
       BOOST_TEST_EQ(x, little);
 
   }
@@ -283,7 +283,7 @@ namespace
     BOOST_TEST_EQ(tmp.member2, be::endian_reverse(little));
     BOOST_TEST_EQ(tmp.member3, be::endian_reverse(native));
 
-    be::conditional_reverse_in_place<be::order::big, be::order::little>(udt);
+    be::conditional_reverse_inplace<be::order::big, be::order::little>(udt);
     BOOST_TEST_EQ(udt.member1, be::endian_reverse(big));
     BOOST_TEST_EQ(udt.member2, be::endian_reverse(little));
     BOOST_TEST_EQ(udt.member3, be::endian_reverse(native));
@@ -298,7 +298,7 @@ namespace
     BOOST_TEST_EQ(tmp.member2, little);
     BOOST_TEST_EQ(tmp.member3, native);
 
-    be::conditional_reverse_in_place<be::order::big, be::order::big>(udt);
+    be::conditional_reverse_inplace<be::order::big, be::order::big>(udt);
     BOOST_TEST_EQ(udt.member1, big);
     BOOST_TEST_EQ(udt.member2, little);
     BOOST_TEST_EQ(udt.member3, native);
@@ -311,7 +311,7 @@ namespace
   
   namespace user
   {
-    //  UDT1 supplies both endian_reverse and endian_reverse_in_place
+    //  UDT1 supplies both endian_reverse and endian_reverse_inplace
     struct UDT1
     {
       int64_t member1;
@@ -328,11 +328,11 @@ namespace
       return tmp;
     }
 
-    void endian_reverse_in_place(UDT1& udt) BOOST_NOEXCEPT
+    void endian_reverse_inplace(UDT1& udt) BOOST_NOEXCEPT
     {
-      boost::endian::endian_reverse_in_place(udt.member1);
-      boost::endian::endian_reverse_in_place(udt.member2);
-      boost::endian::endian_reverse_in_place(udt.member3);
+      boost::endian::endian_reverse_inplace(udt.member1);
+      boost::endian::endian_reverse_inplace(udt.member2);
+      boost::endian::endian_reverse_inplace(udt.member3);
     }
 
     //  UDT2 supplies only endian_reverse
@@ -352,7 +352,7 @@ namespace
       return tmp;
     }
 
-    //  UDT3 supplies neither endian_reverse nor endian_reverse_in_place,
+    //  UDT3 supplies neither endian_reverse nor endian_reverse_inplace,
     //  so udt_test<UDT3>() should fail to compile
     struct UDT3
     {

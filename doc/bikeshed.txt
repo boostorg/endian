@@ -6,9 +6,11 @@ return-by-value          modify-argument
 reverse_endianness       reverse_endianness_in_place    
        "                 reverse_endianness_arg
 endian_reverse           endian_reverse_in_place
+       "                 endian_reverse_inplace
+	   "                 endian_reverse_replace
        "                 endian_reverse_in_situ
        "                 endian_reverse_here
-       "                 endian_reverse_this          <-----
+       "                 endian_reverse_this          
        "                 endian_reverse_self
        "                 endian_reverse_arg
        "                 endian_reverse_in  
