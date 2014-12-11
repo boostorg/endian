@@ -90,7 +90,7 @@ struct construct
   static void test()
   {
     T2 o2(1);
-    T1 o1(o2);
+    T1 o1(o2);   // TODO: does this make sense for char types?
     ++o1;  // quiet gcc unused variable warning
   }
 };

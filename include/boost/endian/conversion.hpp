@@ -66,33 +66,35 @@ namespace endian
   inline double   endian_reverse(double x) BOOST_NOEXCEPT;
 
   //  reverse byte order unless native endianness is big
-  template <class Reversible >
-    inline Reversible  big_to_native(Reversible  x) BOOST_NOEXCEPT;
+  template <class EndianReversible >
+    inline EndianReversible  big_to_native(EndianReversible  x) BOOST_NOEXCEPT;
     //  Returns: x if native endian order is big, otherwise endian_reverse(x)
-  template <class Reversible >
-    inline Reversible  native_to_big(Reversible  x) BOOST_NOEXCEPT;
+  template <class EndianReversible >
+    inline EndianReversible  native_to_big(EndianReversible  x) BOOST_NOEXCEPT;
     //  Returns: x if native endian order is big, otherwise endian_reverse(x)
 
   //  reverse byte order unless native endianness is little
-  template <class Reversible >
-    inline Reversible  little_to_native(Reversible  x) BOOST_NOEXCEPT;
+  template <class EndianReversible >
+    inline EndianReversible  little_to_native(EndianReversible  x) BOOST_NOEXCEPT;
     //  Returns: x if native endian order is little, otherwise endian_reverse(x)
-  template <class Reversible >
-    inline Reversible  native_to_little(Reversible  x) BOOST_NOEXCEPT;
+  template <class EndianReversible >
+    inline EndianReversible  native_to_little(EndianReversible  x) BOOST_NOEXCEPT;
     //  Returns: x if native endian order is little, otherwise endian_reverse(x)
 
   //  generic conditional reverse byte order
-  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class Reversible>
-  inline Reversible  conditional_reverse(Reversible from) BOOST_NOEXCEPT;
+  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To,
+    class EndianReversible>
+      inline EndianReversible  conditional_reverse(EndianReversible from) BOOST_NOEXCEPT;
     //  Returns: If From == To have different values, from.
     //           Otherwise endian_reverse(from).
     //  Remarks: The From == To test, and as a consequence which form the return takes, is
     //           is determined at compile time.
 
   //  runtime conditional reverse byte order
-  template <class Reversible >
-  inline Reversible  conditional_reverse(Reversible from,
-    BOOST_SCOPED_ENUM(order) from_order, BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT;
+  template <class EndianReversible >
+    inline EndianReversible  conditional_reverse(EndianReversible from,
+      BOOST_SCOPED_ENUM(order) from_order, BOOST_SCOPED_ENUM(order) to_order)
+        BOOST_NOEXCEPT;
       //  Returns: from_order == to_order ? from : endian_reverse(from).
 
   //------------------------------------------------------------------------------------//
@@ -123,33 +125,33 @@ namespace endian
   //------------------------------------------------------------------------------------//
 
   //  reverse in place
-  template <class Value>
-    inline void endian_reverse_inplace(Value& x) BOOST_NOEXCEPT;
+  template <class EndianReversible>
+    inline void endian_reverse_inplace(EndianReversible& x) BOOST_NOEXCEPT;
     //  Effects: x = endian_reverse(x)
 
   //  reverse in place unless native endianness is big
-  template <class Reversible>
-    inline void big_to_native_inplace(Reversible& x) BOOST_NOEXCEPT;
+  template <class EndianReversibleInplace>
+    inline void big_to_native_inplace(EndianReversibleInplace& x) BOOST_NOEXCEPT;
     //  Effects: none if native byte-order is big, otherwise endian_reverse_inplace(x)
-  template <class Reversible>
-    inline void native_to_big_inplace(Reversible& x) BOOST_NOEXCEPT;
+  template <class EndianReversibleInplace>
+    inline void native_to_big_inplace(EndianReversibleInplace& x) BOOST_NOEXCEPT;
     //  Effects: none if native byte-order is big, otherwise endian_reverse_inplace(x)
 
   //  reverse in place unless native endianness is little
-  template <class Reversible>
-    inline void little_to_native_inplace(Reversible& x) BOOST_NOEXCEPT;
+  template <class EndianReversibleInplace>
+    inline void little_to_native_inplace(EndianReversibleInplace& x) BOOST_NOEXCEPT;
     //  Effects: none if native byte-order is little, otherwise endian_reverse_inplace(x);
-  template <class Reversible>
-    inline void native_to_little_inplace(Reversible& x) BOOST_NOEXCEPT;
+  template <class EndianReversibleInplace>
+    inline void native_to_little_inplace(EndianReversibleInplace& x) BOOST_NOEXCEPT;
     //  Effects: none if native byte-order is little, otherwise endian_reverse_inplace(x);
 
   //  generic conditional reverse in place
-  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class Reversible>
-  inline void conditional_reverse_inplace(Reversible& x) BOOST_NOEXCEPT; 
+  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class EndianReversibleInplace>
+  inline void conditional_reverse_inplace(EndianReversibleInplace& x) BOOST_NOEXCEPT; 
 
   //  runtime reverse in place
-  template <class Reversible>
-  inline void conditional_reverse_inplace(Reversible& x,
+  template <class EndianReversibleInplace>
+  inline void conditional_reverse_inplace(EndianReversibleInplace& x,
     BOOST_SCOPED_ENUM(order) from_order,  BOOST_SCOPED_ENUM(order) to_order)
     BOOST_NOEXCEPT;
 
@@ -296,8 +298,8 @@ namespace endian
     return detail::std_endian_reverse(x);
   }
 
-  template <class Reversible >
-  inline Reversible  big_to_native(Reversible  x) BOOST_NOEXCEPT
+  template <class EndianReversible >
+  inline EndianReversible  big_to_native(EndianReversible  x) BOOST_NOEXCEPT
   {
 #   ifdef BOOST_BIG_ENDIAN
     return x;
@@ -306,8 +308,8 @@ namespace endian
 #   endif
   }
 
-  template <class Reversible >
-  inline Reversible  native_to_big(Reversible  x) BOOST_NOEXCEPT
+  template <class EndianReversible >
+  inline EndianReversible  native_to_big(EndianReversible  x) BOOST_NOEXCEPT
   {
 #   ifdef BOOST_BIG_ENDIAN
     return x;
@@ -316,8 +318,8 @@ namespace endian
 #   endif
   }
 
-  template <class Reversible >
-  inline Reversible  little_to_native(Reversible  x) BOOST_NOEXCEPT
+  template <class EndianReversible >
+  inline EndianReversible  little_to_native(EndianReversible  x) BOOST_NOEXCEPT
   {
 #   ifdef BOOST_LITTLE_ENDIAN
     return x;
@@ -326,8 +328,8 @@ namespace endian
 #   endif
   }
 
-  template <class Reversible >
-  inline Reversible  native_to_little(Reversible  x) BOOST_NOEXCEPT
+  template <class EndianReversible >
+  inline EndianReversible  native_to_little(EndianReversible  x) BOOST_NOEXCEPT
   {
 #   ifdef BOOST_LITTLE_ENDIAN
     return x;
@@ -340,7 +342,7 @@ namespace endian
   {
     //  Primary template and specializations to support endian_reverse().
     //  See rationale in endian_reverse() below.
-    template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class Reversible>
+    template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class EndianReversible>
       class value_converter ;  // primary template
     template <class T> class value_converter <order::big, order::big, T>
       {public: T operator()(T x) BOOST_NOEXCEPT {return x;}};
@@ -353,18 +355,18 @@ namespace endian
   }
 
   //  generic conditional reverse
-  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class Reversible>
-  inline Reversible  conditional_reverse(Reversible from) BOOST_NOEXCEPT  {
+  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class EndianReversible>
+  inline EndianReversible  conditional_reverse(EndianReversible from) BOOST_NOEXCEPT  {
     //  work around lack of function template partial specialization by instantiating
     //  a function object of a class that is partially specialized on the two order
     //  template parameters, and then calling its operator().
-    detail::value_converter <From, To, Reversible> tmp;
+    detail::value_converter <From, To, EndianReversible> tmp;
     return tmp(from);
   }
 
   //  runtime conditional reverse
-  template <class Reversible >
-  inline Reversible  conditional_reverse(Reversible  from,
+  template <class EndianReversible >
+  inline EndianReversible  conditional_reverse(EndianReversible  from,
     BOOST_SCOPED_ENUM(order) from_order, BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT
   {
     return from_order == to_order ? from : endian_reverse(from);
@@ -375,41 +377,41 @@ namespace endian
 //--------------------------------------------------------------------------------------//
 
   //  reverse in place
-  template <class Value>
-  inline void endian_reverse_inplace(Value& x) BOOST_NOEXCEPT
+  template <class EndianReversible>
+  inline void endian_reverse_inplace(EndianReversible& x) BOOST_NOEXCEPT
   {
     x = endian_reverse(x);
   }
 
-  template <class Reversible>
+  template <class EndianReversibleInplace>
 #   ifdef BOOST_BIG_ENDIAN
-  inline void big_to_native_inplace(Reversible&) BOOST_NOEXCEPT {}
+  inline void big_to_native_inplace(EndianReversibleInplace&) BOOST_NOEXCEPT {}
 #   else
-  inline void big_to_native_inplace(Reversible& x) BOOST_NOEXCEPT
+  inline void big_to_native_inplace(EndianReversibleInplace& x) BOOST_NOEXCEPT
     { endian_reverse_inplace(x); }
 #   endif
-  template <class Reversible>
+  template <class EndianReversibleInplace>
 #   ifdef BOOST_BIG_ENDIAN
-  inline void native_to_big_inplace(Reversible&) BOOST_NOEXCEPT {}
+  inline void native_to_big_inplace(EndianReversibleInplace&) BOOST_NOEXCEPT {}
 #   else
-  inline void native_to_big_inplace(Reversible& x) BOOST_NOEXCEPT
+  inline void native_to_big_inplace(EndianReversibleInplace& x) BOOST_NOEXCEPT
   {
     endian_reverse_inplace(x);
   }
 #   endif
 
-  template <class Reversible>
+  template <class EndianReversibleInplace>
 #   ifdef BOOST_LITTLE_ENDIAN
-  inline void little_to_native_inplace(Reversible&) BOOST_NOEXCEPT {}
+  inline void little_to_native_inplace(EndianReversibleInplace&) BOOST_NOEXCEPT {}
 #   else
-  inline void little_to_native_inplace(Reversible& x) BOOST_NOEXCEPT
+  inline void little_to_native_inplace(EndianReversibleInplace& x) BOOST_NOEXCEPT
     { endian_reverse_inplace(x); }
 #   endif
-  template <class Reversible>
+  template <class EndianReversibleInplace>
 #   ifdef BOOST_LITTLE_ENDIAN
-  inline void native_to_little_inplace(Reversible&) BOOST_NOEXCEPT {}
+  inline void native_to_little_inplace(EndianReversibleInplace&) BOOST_NOEXCEPT {}
 #   else
-  inline void native_to_little_inplace(Reversible& x) BOOST_NOEXCEPT
+  inline void native_to_little_inplace(EndianReversibleInplace& x) BOOST_NOEXCEPT
   {
     endian_reverse_inplace(x);
   }
@@ -420,7 +422,7 @@ namespace endian
     //  Primary template and specializations support generic 
     //  endian_reverse_inplace().
     //  See rationale in endian_reverse_inplace() below.
-    template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class Reversible>
+    template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class EndianReversibleInplace>
       class converter;  // primary template
     template <class T> class converter<order::big, order::big, T>
       {public: void operator()(T&) BOOST_NOEXCEPT {/*no effect*/}};
@@ -433,19 +435,19 @@ namespace endian
   }  // namespace detail
 
   //  generic conditional reverse in place
-  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class Reversible>
-  inline void conditional_reverse_inplace(Reversible& x) BOOST_NOEXCEPT
+  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class EndianReversibleInplace>
+  inline void conditional_reverse_inplace(EndianReversibleInplace& x) BOOST_NOEXCEPT
   {
     //  work around lack of function template partial specialization by instantiating
     //  a function object of a class that is partially specialized on the two order
     //  template parameters, and then calling its operator().
-    detail::converter<From, To, Reversible> tmp;
+    detail::converter<From, To, EndianReversibleInplace> tmp;
     tmp(x);  // call operator ()
   }
 
   //  runtime reverse in place
-  template <class Reversible>
-  inline void conditional_reverse_inplace(Reversible& x,
+  template <class EndianReversibleInplace>
+  inline void conditional_reverse_inplace(EndianReversibleInplace& x,
     BOOST_SCOPED_ENUM(order) from_order,  BOOST_SCOPED_ENUM(order) to_order)
     BOOST_NOEXCEPT
   {

@@ -1,4 +1,4 @@
-﻿<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40">
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40">
 
 <head>
 <meta name="GENERATOR" content="Microsoft FrontPage 5.0">
@@ -45,7 +45,7 @@
       <a href="#Reference">Reference</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#Synopsis">Synopsis</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#Requirements">Requirements</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code><a href="#Reversible">Reversible</a></code><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code><a href="#EndianReversible">EndianReversible</a></code><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#Customization-points">Customization for 
       UDTs</a><br>
       <a href="#Functions">Functions</a><br>
@@ -98,6 +98,7 @@ namespace endian
     native = <b><i>implementation-defined-as-big-or-little
   </i></b>};
 
+  <span style="background-color: #FFFF00">TODO</span><span style="background-color: #FFFF00">: Add overloads for char, </span><span style="background-color: #FFFF00">wchar_t</span><span style="background-color: #FFFF00">, char16_t, char32_t</span>
   int8_t   <a href="#endian_reverse">endian_reverse</a>(int8_t x) noexcept;
   int16_t  <a href="#endian_reverse">endian_reverse</a>(int16_t x) noexcept;
   int32_t  <a href="#endian_reverse">endian_reverse</a>(int32_t x) noexcept;
@@ -109,35 +110,35 @@ namespace endian
   float    <a href="#endian_reverse">endian_reverse</a>(float x) noexcept;
   double   <a href="#endian_reverse">endian_reverse</a>(double x) noexcept;
 
-  template &lt;class Reversible&gt;
-    Reversible big_to_native(Reversible x) noexcept;
-  template &lt;class Reversible&gt;
-    Reversible native_to_big(Reversible x) noexcept;
-  template &lt;class Reversible&gt;
-    Reversible little_to_native(Reversible x) noexcept;
-  template &lt;class Reversible&gt;
-    Reversible native_to_little(Reversible x) noexcept;
-  template &lt;order O1, order O2, class Reversible&gt;
-    Reversible conditional_reverse(Reversible x) noexcept;
-  template &lt;class Reversible&gt;
-    Reversible conditional_reverse(Reversible x,
+  template &lt;class EndianReversible&gt;
+    EndianReversible big_to_native(EndianReversible x) noexcept;
+  template &lt;class EndianReversible&gt;
+    EndianReversible native_to_big(EndianReversible x) noexcept;
+  template &lt;class EndianReversible&gt;
+    EndianReversible little_to_native(EndianReversible x) noexcept;
+  template &lt;class EndianReversible&gt;
+    EndianReversible native_to_little(EndianReversible x) noexcept;
+  template &lt;order O1, order O2, class EndianReversible&gt;
+    EndianReversible conditional_reverse(EndianReversible x) noexcept;
+  template &lt;class EndianReversible&gt;
+    EndianReversible conditional_reverse(EndianReversible x,
       order order1, order order2) noexcept;
       
-  template &lt;class Reversible&gt;
-    void endian_reverse_inplace(Reversible&amp; x) noexcept;
+  template &lt;class EndianReversible&gt;
+    void endian_reverse_inplace(EndianReversible&amp; x) noexcept;
 
-  template &lt;class Reversible&gt;
-    void big_to_native_inplace(Reversible&amp; x) noexcept;
-  template &lt;class Reversible&gt;
-    void native_to_big_inplace(Reversible&amp; x) noexcept;
-  template &lt;class Reversible&gt;
-    void little_to_native_inplace(Reversible&amp; x) noexcept;
-  template &lt;class Reversible&gt;
-    void native_to_little_inplace(Reversible&amp; x) noexcept;
-  template &lt;order O1, order O2, class Reversible&gt;
-    void conditional_reverse_inplace(Reversible&amp; x) noexcept; 
-  template &lt;class Reversible&gt;
-   void conditional_reverse_inplace(Reversible&amp; x,
+  template &lt;class EndianReversibleInplace&gt;
+    void big_to_native_inplace(EndianReversibleInplace&amp; x) noexcept;
+  template &lt;class EndianReversibleInplace&gt;
+    void native_to_big_inplace(EndianReversibleInplace&amp; x) noexcept;
+  template &lt;class EndianReversibleInplace&gt;
+    void little_to_native_inplace(EndianReversibleInplace&amp; x) noexcept;
+  template &lt;class EndianReversibleInplace&gt;
+    void native_to_little_inplace(EndianReversibleInplace&amp; x) noexcept;
+  template &lt;order O1, order O2, class EndianReversibleInplace&gt;
+    void conditional_reverse_inplace(EndianReversibleInplace&amp; x) noexcept; 
+  template &lt;class EndianReversibleInplace&gt;
+   void conditional_reverse_inplace(EndianReversibleInplace&amp; x,
      order order1, order order2) noexcept;
 
 } // namespace endian
@@ -146,77 +147,91 @@ namespace endian
 constant <code>native</code> as
 <code>big</code> on big endian platforms and <code>little</code> on little 
 endian platforms.</p>
+<h3 dir="ltr"><a name="Definitions">Definitions</a></h3>
+<p dir="ltr">The standard integral types (C++std 3.9.1) except <code>bool</code>, 
+and the floating point types <code>float</code> and <code>double</code> are 
+collectively called the <i>endian types</i>.</p>
 <h3><a name="Requirements">Requirements</a></h3>
-<h4>Template argument <code><a name="Reversible">Reversible</a></code> requirements</h4>
-<p>This subsection describes names that are used to specify constraints on 
-template arguments.</p>
-<p>User-defined types may be used in the function templates in this header only 
-if they meet these requirements.</p>
-<p><code>Reversible</code> is an object type to be supplied by a C++ program 
-instantiating a template.</p>
+<h4><a name="Template-argument-requirements">Template argument requirements</a></h4>
+<p dir="ltr">The template definitions in the <code>boost/endian/conversion.hpp</code> 
+header refer to various named requirements whose details are set out in the 
+tables in this subsection. In these tables, <code>T</code> is an object or 
+reference type to be supplied by a C++ program instantiating a template; <code>x</code> 
+is a value of type (possibly <code>const</code>) <code>T</code>; <code>mlx</code> is a 
+modifiable lvalue of type <code>T</code>.</p>
 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
   <tr>
-    <td width="160"><b>Expression</b></td>
-    <td width="160"><b>Meaning of x</b></td>
-    <td width="347"><b>Requirements</b></td>
+    <td colspan="3" align="center"><b><code><a name="EndianReversible">EndianReversible</a></code></b> 
+    requirements (in addition to <b><code>CopyConstructible</code></b>)</td>
   </tr>
   <tr>
-    <td valign="top">
-    <p><code>endian_reverse(x)</code></td>
-    <td valign="top">
-    <code>x</code> is a value of a possibly <code>const</code> type convertible 
-    to <code>Reversible</code>.</td>
-    <td>
-    <p>Returns the value of <code>x</code> with the 
-    order of its constituent bytes reversed.</td>
+    <td><b>Expression</b></td>
+    <td><b>Return<br>
+    type</b></td>
+    <td><b>Requirements</b></td>
   </tr>
   <tr>
-    <td valign="top">
-    <code>endian_reverse_inplace(x)</code></td>
-    <td valign="top">
-    <code>x</code> is a 
-modifiable lvalue of type <code>Reversible</code>.</td>
-    <td>
-    The order of the constituent bytes of <code>x</code> are 
-    reversed.</td>
+    <td valign="top"><code>endian_reverse(x)</code></td>
+    <td align="center" valign="top"><code>T</code></td>
+    <td> <code>T</code> is an endian type or a class type.<p>If <code>T</code> is 
+    an endian type, returns the value of <code>x</code> with the order of bytes 
+    reversed.</p>
+    <p>If <code>T</code> is an class type, the function:</p>
+    <ul>
+      <li>Returns the value of <code>x</code> 
+    with the order of bytes reversed for all data members of types or arrays of 
+    types that meet the <code>EndianReversible</code> requirements, and;</li>
+      <li>Is a non-member function in the same namespace as <code>T</code> that 
+can be found by argument dependent lookup (ADL). </li>
+    </ul>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
+  <tr>
+    <td colspan="2" align="center"><b><code><a name="EndianReversibleInplace">EndianReversibleInplace</a></code></b> 
+    requirements (in addition to <b><code>CopyConstructible</code></b>)</td>
+  </tr>
+  <tr>
+    <td><b>Expression</b></td>
+    <td><b>Requirements</b></td>
+  </tr>
+  <tr>
+    <td valign="top"><code>endian_reverse_inplace(mlx)</code></td>
+    <td> <code>T</code> is an endian type or a class type.<p>If <code>T</code> is 
+    an endian type, reverses the order of bytes in <code>mlx</code>.</p>
+    <p>If <code>T</code> is an class type, the function:</p>
+    <ul>
+      <li>Reverses the order of bytes of all data members of <code>mlx</code> 
+      that have types or arrays of 
+    types that meet the <code>EndianReversible</code> or <code>EndianReversibleInplace</code> 
+      requirements, and;</li>
+      <li>Is a non-member function in the same namespace as <code>T</code> that 
+can be found by argument dependent lookup (ADL).&nbsp; </li>
+    </ul>
+    </td>
   </tr>
 </table>
 
-<blockquote>
-
-<p> [<i>Note:</i> A user-defined type meets these requirements by defining a 
-non-member function in the same namespace as the UDT itself so that the function 
-can be found by argument dependent lookup (ADL).&nbsp; <i>&mdash;end note</i>]</p>
-
 <p> [<i>Note:</i> Because there is a function template for <code>endian_reverse_inplace</code> 
 that calls <code>endian_reverse</code>, only <code>endian_reverse</code> 
-is required for a user-defined type to meet the <code>Reversible</code> 
-requirements. User-defined types may provide <code>endian_reverse_inplace</code> 
-for improved efficiency. <i>&mdash;end note</i>]</p>
-
-<p> <span style="background-color: #FFFF00">This still isn&#39;t right. There are 
-really separate Reversible and </span><span style="background-color: #FFFF00">
-ReversibleHere</span><span style="background-color: #FFFF00"> requirements, and 
-the </span><span style="background-color: #FFFF00">endian_reverse_here</span><span style="background-color: #FFFF00"> 
-template&#39;s type should be Reversible. See the udt_conversion_example for a type 
-that is ReversibleHere but not Reversible and works just fine.</span></p>
-
-</blockquote>
+is required for a user-defined type to meet the <code>EndianReversibleInplace</code> 
+requirements. Although User-defined types are not required to supply an <code>endian_reverse_inplace</code> 
+function, doing so may improved efficiency. <i>&nbsp;&mdash;end note</i>]</p>
 
 <h4> <a name="Customization-points">Customization points</a> for user-defined types (<a name="UDT">UDT</a>s)</h4>
 
-<p> This subsection describes requirements on the endian library&#39;s own 
-implementation.</p>
+<p> This subsection describes requirements on the Endian library&#39;s  implementation.</p>
 
-<p> The endianness reversal function templates that return values are 
+<p> The library&#39;s function templates requiring <code>
+<a href="#EndianReversible">EndianReversible</a></code> are 
 required to perform reversal of endianness if needed by making an unqualified 
-call to <code>endian_reverse(<i>argument</i>)</code>, as described in the 
-preceding table.</p>
+call to <code>endian_reverse()</code>.</p>
 
-<p> The endianness reversal function templates that modify their argument in 
-place, except <code>endian_reverse_inplace</code> itself, are required to perform reversal of endianness if needed by making an 
-unqualified call to <code>endian_reverse_inplace(<i>argument</i>)</code>, 
-as described in the preceding table.</p>
+<p> The library&#39;s function templates requiring <code>
+<a href="#EndianReversibleInplace">EndianReversibleInplace</a></code> are required to perform reversal of endianness if needed by making an 
+unqualified call to <code>endian_reverse_inplace()</code>.</p>
 
 <p> See <a href="../example/udt_conversion_example.cpp">
 udt_conversion_example.cpp</a> for an example user-defined type.</p>
@@ -233,90 +248,93 @@ uint64_t endian_reverse(uint64_t x) noexcept;
 float    endian_reverse(float x) noexcept;
 double   endian_reverse(double x) noexcept;</pre>
 <blockquote>
-  <p><i>Returns:</i> <i><code>x</code></i>, with the order of its 
+  <p dir="ltr"><i>Returns:</i> <i><code>x</code></i>, with the order of its 
   constituent bytes reversed.</p>
+  <p><i>Remarks:</i> Meet the <code>EndianReversible</code> requirements.</p>
+  <p>[<i>Note:</i> The Boost.Endian library does not provide overloads for the C++ standard library 
+    supplied types. <i>&mdash;end note</i>]</p>
 </blockquote>
 
-<pre>template &lt;class Reversible&gt;
-Reversible big_to_native(Reversible x) noexcept;</pre>
+<pre>template &lt;class EndianReversible&gt;
+EndianReversible big_to_native(EndianReversible x) noexcept;</pre>
     <blockquote>
         <p>
             <i>Returns:</i> <code>conditional_reverse&lt;order::big, 
             order::native&gt;(x)</code>.</p>
     </blockquote>
-<pre>template &lt;class Reversible&gt;
-Reversible native_to_big(Reversible x) noexcept; </pre>
+<pre>template &lt;class EndianReversible&gt;
+EndianReversible native_to_big(EndianReversible x) noexcept; </pre>
 <blockquote>
   <p><i>Returns:</i> <code>conditional_reverse&lt;order::native, order::big&gt;(x)</code>.</p>
 </blockquote>
-<pre>template &lt;class Reversible&gt;
-Reversible little_to_native(Reversible x) noexcept; </pre>
+<pre>template &lt;class EndianReversible&gt;
+EndianReversible little_to_native(EndianReversible x) noexcept; </pre>
     <blockquote>
         <p><i>Returns:</i> <code>conditional_reverse&lt;order::little, order::native&gt;(x)</code>.</p>
     </blockquote>
-<pre>template &lt;class Reversible&gt;
-Reversible native_to_little(Reversible x) noexcept; </pre>
+<pre>template &lt;class EndianReversible&gt;
+EndianReversible native_to_little(EndianReversible x) noexcept; </pre>
     <blockquote>
         <p><i>Returns:</i> <code>conditional_reverse&lt;order::native, order::little&gt;(x)</code>.</p>
     </blockquote>
-<pre>template &lt;order O1, order O2, class Reversible&gt;
-Reversible conditional_reverse(Reversible x) noexcept; </pre>
+<pre>template &lt;order O1, order O2, class EndianReversible&gt;
+EndianReversible conditional_reverse(EndianReversible x) noexcept; </pre>
     <blockquote>
         <p><i>Returns:</i> <code>x</code> if <code>O1 == O2,</code> otherwise
         <code>endian_reverse(x)</code>.</p>
         <p><i>Remarks: </i>Whether <code>x</code> or <code>endian_reverse(x)</code> 
         is to be returned shall be determined at compile time.</p>
     </blockquote>
-<pre>template &lt;class Reversible&gt;
-Reversible conditional_reverse(Reversible x,
+<pre>template &lt;class EndianReversible&gt;
+EndianReversible conditional_reverse(EndianReversible x,
       order order1, order order2) noexcept; </pre>
     <blockquote>
         <p><i>Returns:</i> <code>order1 == order2 ? x : endian_reverse(x)</code>.</p>
     </blockquote>
       
-<pre>template &lt;class Reversible&gt;
-void endian_reverse_inplace(Reversible&amp; x) noexcept; </pre>
+<pre>template &lt;class EndianReversible&gt;
+void endian_reverse_inplace(EndianReversible&amp; x) noexcept; </pre>
 
 <blockquote>
         <p><i>Effects:</i> <code>x</code> <code>= endian_reverse(x)</code>.</p>
     </blockquote>
 
-<pre>template &lt;class Reversible&gt;
-void big_to_native_inplace(Reversible&amp; x) noexcept; </pre>
+<pre>template &lt;class EndianReversibleInplace&gt;
+void big_to_native_inplace(EndianReversibleInplace&amp; x) noexcept; </pre>
 <blockquote>
         <p>
             <i>Effects:</i> <code>conditional_reverse_inplace&lt;order::big, 
             order::native&gt;(x)</code>.</p>
     </blockquote>
-<pre>template &lt;class Reversible&gt;
-void native_to_big_inplace(Reversible&amp; x) noexcept; </pre>
+<pre>template &lt;class EndianReversibleInplace&gt;
+void native_to_big_inplace(EndianReversibleInplace&amp; x) noexcept; </pre>
 <blockquote>
         <p>
             <i>Effects:</i> <code>conditional_reverse_inplace&lt;order::native, 
             order::big&gt;(x)</code>.</p>
     </blockquote>
-<pre>template &lt;class Reversible&gt;
-void little_to_native_inplace(Reversible&amp; x) noexcept; </pre>
+<pre>template &lt;class EndianReversibleInplace&gt;
+void little_to_native_inplace(EndianReversibleInplace&amp; x) noexcept; </pre>
 <blockquote>
         <p>
             <i>Effects:</i> <code>conditional_reverse_inplace&lt;order::little, order::native&gt;(x)</code>.</p>
     </blockquote>
-<pre>template &lt;class Reversible&gt;
-void native_to_little_inplace(Reversible&amp; x) noexcept; </pre>
+<pre>template &lt;class EndianReversibleInplace&gt;
+void native_to_little_inplace(EndianReversibleInplace&amp; x) noexcept; </pre>
 <blockquote>
         <p>
             <i>Effects:</i> <code>conditional_reverse_inplace&lt;order::native, 
             order::little&gt;(x)</code>.</p>
     </blockquote>
-<pre>template &lt;order O1, order O2, class Reversible&gt;
-void conditional_reverse_inplace(Reversible&amp; x) noexcept; </pre> 
+<pre>template &lt;order O1, order O2, class EndianReversibleInplace&gt;
+void conditional_reverse_inplace(EndianReversibleInplace&amp; x) noexcept; </pre> 
 <blockquote>
         <p><i>Effects:</i> None if <code>O1 == O2,</code> otherwise
         <code>endian_reverse_inplace(x)</code>.</p>
         <p><i>Remarks: </i>Which effect applies shall be determined at compile time.</p>
     </blockquote>
-<pre>template &lt;class Reversible&gt;
-void conditional_reverse_inplace(Reversible&amp; x,
+<pre>template &lt;class EndianReversibleInplace&gt;
+void conditional_reverse_inplace(EndianReversibleInplace&amp; x,
      order order1, order order2) noexcept; </pre>
 
 
@@ -348,7 +366,7 @@ Pierre Talbot provided the <code>int8_t endian_reverse()</code> and templated
 <code>endian_reverse_inplace()</code> implementations.</p>
 <hr>
 <p>Last revised: 
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->10 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38633" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->11 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38635" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
 
