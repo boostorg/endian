@@ -98,7 +98,6 @@ namespace endian
     native = <b><i>implementation-defined-as-big-or-little
   </i></b>};
 
-  <span style="background-color: #FFFF00">TODO</span><span style="background-color: #FFFF00">: Add overloads for char, </span><span style="background-color: #FFFF00">wchar_t</span><span style="background-color: #FFFF00">, char16_t, char32_t</span>
   int8_t   <a href="#endian_reverse">endian_reverse</a>(int8_t x) noexcept;
   int16_t  <a href="#endian_reverse">endian_reverse</a>(int16_t x) noexcept;
   int32_t  <a href="#endian_reverse">endian_reverse</a>(int32_t x) noexcept;
@@ -357,6 +356,17 @@ value from an argument. Modify-in-place functions allow cleaner code in many rea
 endian use cases and are more efficient for user-defined types that have 
 members such as string data that do not need to be reversed. Thus both forms are 
 provided.</p>
+
+</blockquote>
+
+<p><b>Why are 8, 16, 32, and 64-bit integers supported rather than the built-in 
+char, short, int, long, long long, etc?</b></p>
+
+<blockquote>
+
+<p>The primary use case, portable file or network data, needs these de facto 
+standard sizes. Using types that vary with the platform would greatly limit 
+portability for both programs and data.</p>
 
 </blockquote>
 
