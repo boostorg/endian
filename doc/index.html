@@ -1,4 +1,4 @@
-﻿<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40">
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40">
 
 <head>
 <meta name="GENERATOR" content="Microsoft FrontPage 5.0">
@@ -65,8 +65,9 @@
 
 <h2><a name="Abstract">Abstract</a></h2>
 
-<p>Boost.Endian provides facilities to manipulate the endianness of integers, 
-floating point, and user defined data.</p>
+<p>Boost.Endian provides facilities to manipulate the 
+<a href="#Introduction-to-endianness">endianness</a> of integers, 
+floating point numbers, and user-defined types.</p>
 <ul>
   <li>The primary use case is binary I/O for portable data exchange with 
   other systems, via either external media or network transmission.<br>
@@ -74,7 +75,7 @@ floating point, and user defined data.</p>
   <li>An additional use case is minimizing storage size via sizes and/or 
   alignments not supported by the built-in types.<br>
 &nbsp;</li>
-  <li>Three distinct approaches to dealing with endianness are provided. Each approach has a 
+  <li>Three  approaches to dealing with endianness are provided. Each approach has a 
   long history of successful use, and each approach has use cases where it is 
   preferred over the other approaches.</li>
 </ul>
@@ -114,11 +115,11 @@ at different ends.</p>
 <p>See the Wikipedia's
 <a href="http://en.wikipedia.org/wiki/Endianness">Endianness</a> article for an 
 extensive discussion of endianness.</p>
-<p>Programmers can usually ignore endianness, except perhaps for reading a core 
+<p>Programmers can usually ignore endianness, except when reading a core 
 dump on little-endian systems. But programmers will have to deal with endianness  when exchanging binary integers and binary floating point 
 values between computer systems with differing endianness, whether by physical file transfer or over a network. 
-And programmers may want to use the library if minimizing either internal or 
-external data sizes is advantagous.</p>
+And programmers may also want to use the library when minimizing either internal or 
+external data sizes is advantageous.</p>
 <h2><a name="Introduction">Introduction</a> to the Boost.Endian library</h2>
 
 <p>The Boost.Endian library provides three different approaches to dealing with 
@@ -132,116 +133,137 @@ cases where it is preferred to the other approaches.</p>
 <blockquote>
 
 <p><b><a href="conversion.html">Endian conversion functions</a> -</b> The 
-application uses the built-in integer and floating point types, and calls the 
+application uses the built-in integer and floating point types to hold values, and calls the 
 provided conversion functions to convert byte ordering as needed. Both mutating 
 and non-mutating conversions are supplied, and each comes in unconditional and 
 conditional variants.</p>
 
 <p><b><a href="buffers.html">Endian buffer types</a> -</b> The application uses the provided endian 
 buffer types 
-which mimic the 
-built-in integer types. For example, <code>big_buf32_t</code> or <code>little_floatbuf64_t</code>. 
-Buffer types with lengths of 1 through 8 bytes are supported, rather than just 
-2, 4, and 8 bytes. The types may be aligned (name suffix <code>_t</code>) or unaligned 
-(name suffix <code>_ut</code>).</p>
+to hold values, and explicitly converts to and from the built-in integer and 
+floating point types to perform arithmetic.  Buffer lengths of 1 through 8 bytes 
+are supported, rather than just 2, 4, and 8 bytes. The types may be aligned or 
+unaligned.</p>
 
 <p><b><a href="arithmetic.html">Endian arithmetic types</a> -</b> The application uses the provided endian 
-arithmetic types 
-which mimic the 
-built-in arithmetic types. For example, <code>big_int32_t</code> or <code>little_float64_t</code>. 
-Arithmetic integer types with lengths of 1 through 8 bytes are supported, rather than just 
-2, 4, and 8 byte integers. The types may be aligned (name suffix <code>_t</code>) or unaligned 
-(name suffix <code>_ut</code>).</p>
+arithmetic types, which supply the same operations as the built-in C++ 
+arithmetic types. All conversions are implicit. Arithmetic integer types with 
+lengths of 1 through 8 bytes are supported, rather than just 2, 4, and 8 byte 
+integers. The types may be aligned.</p>
 
 </blockquote>
 
 <p>Boost Endian is a header-only library.</p>
 
-<h2><a name="Choosing">Choosing</a> between conversion functions, buffers types, 
-and arithmetic types</h2>
+<h2><a name="Choosing">Choosing</a> between endian conversion functions, endian buffer types, 
+and endian arithmetic types</h2>
 
-<p>Which endianness approach is best depends on  
+<p>Which approach to endianness  is best depends on the interaction between 
+approach characteristics and  
 application needs.</p>
 
-<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
-  <tr>
-    <th colspan="2">Needs that favor one approach over the other</th>
-  </tr>
-  <tr>
-    <th width="50%"><b><a href="types.html">Endian types</a> may be better for 
-    these needs</b></th>
-    <th><b><a href="conversion.html">Endian conversion functions</a> may be 
-    better for 
-    these needs</b></th>
-  </tr>
-  <tr>
-    <td valign="top">
-    <ul>
-      <li><p>A need to save overall time when I/O time is more important than 
-      numeric variable CPU time.</p></li>
-      <li><p>A need to simplify program logic and eliminate logic 
-      errors. Since the endian types mimic the built-in types, there is no need to reason about the current endianness of variables 
-      and that can simplify program logic and eliminate logic errors.</p></li>
-      <li><p>A need to use unusual integer sizes (i.e. 3, 5, 
-      6, or 7 bytes) to reduce internal and external space usage and 
-      save I/O time.</li>
-      <li><p>A need to portably use unaligned variables or eliminate padding bytes in 
-      structures, either to save I/O time by reducing internal and external space usage, 
-      or to conform to a data layout over which you have no control. For 
-      example, the structure below relies on a compiler extension, so is 
-      non-portable, and operations on S::b will fail on hardware platforms that 
-      require 32-bit alignment.
-    <blockquote>
+<p>The characteristics that differentiate the approaches are the endianness 
+invariants, conversion explicitness, arithmetic operations, sizes available, and 
+alignment requirements.</p>
+
+<h3>Endianness invariants</h3>
+
+<blockquote>
+
+<p><b>Endian conversion functions</b> use objects of the ordinary C++ arithmetic 
+types like <code>int</code> or <code>unsigned short</code> to hold values. That 
+breaks the implicit invariant that the C++ language rules apply. The usual 
+language rules only apply if the endianness of the object is currently set by 
+the conversion functions to the native endianness for the platform. That can 
+make it very hard to reason about complex logic flow, and result in difficult to 
+find bugs.</p>
+
+<p><b>Endian buffer and arithmetic types</b> hold values internally as arrays of 
+characters with an invariant that the endianness of the array never changes. 
+That makes these types easy to use and programs easy to maintain.</p>
+
+</blockquote>
+
+<h3>Conversion explicitness</h3>
+
+<blockquote>
+
+<p><b>Endian conversion functions</b> and <b>buffer types</b> never perform 
+implicit conversions. This gives users explicit control of when conversion 
+occurs, and may help avoid unnecessary conversions.</p>
+
+<p><b>Endian arithmetic types</b> perform conversion implicitly. That makes 
+these types very easy to use, but can result in unnecessary conversions. Failure 
+to hoist conversions out of inner loops can bring a performance penalty.</p>
+
+</blockquote>
+
+<h3>Arithmetic operations</h3>
+
+<blockquote>
+
+<p><b>Endian conversion functions</b> do not supply arithmetic 
+operations, but this is not a concern since this approach uses ordinary C++ 
+arithmetic types to hold values.</p>
+
+<p><b>Endian buffer types</b> do not supply arithmetic operations. Although this 
+approach avoids unnecessary conversions, it can result in the introduction of 
+additional variables and confuse maintenance programmers.</p>
+
+<p><b>Endian</b> <b>arithmetic types</b> do supply arithmetic operations. They 
+are very easy to use if lots of arithmetic is involved.</p>
+
+</blockquote>
+
+<h3>Sizes available</h3>
+
+<blockquote>
+
+<p><b>Endianness conversion functions</b> only support 1, 2, 4, and 8 byte 
+integers. That&#39;s sufficient for many applications.</p>
+
+<p><b>Endian buffer and arithmetic types</b> support 1, 2, 3, 4, 5, 6, 7, and 8 
+byte integers. For an application where memory use or I/O speed is the limiting 
+factor, using sizes tailored to application needs can be very useful.</p>
+
+</blockquote>
+
+<h3>Alignments available</h3>
+
+<blockquote>
+
+<p><b>Endianness conversion functions</b> only support aligned integer and 
+floating-point types. That&#39;s sufficient for most applications.</p>
+
+<p><b>Endian buffer and arithmetic types</b> support both aligned and unaligned 
+integer and floating-point types. Unaligned types are rarely needed, but when 
+needed they are often very useful and workarounds are painful. For example,</p>
+
+<blockquote>
+  <p>Non-portable code like this:<blockquote>
       <p><code>struct S {<br>
-      &nbsp; uint16_t a;<br>
-      &nbsp; uint32_t b;<br>
+      &nbsp; uint16_t a;&nbsp; // big endian<br>
+      &nbsp; uint32_t b;&nbsp; // big endian<br>
       } __attribute__ ((packed));</code>
     </p></blockquote>
-    <p>These problems are eliminated by defining S like this:</p>
+    <p>Can be replaced with portable code like this:</p>
     <blockquote>
       <p><code>struct S {<br>
       &nbsp; big_uint16_ut a;<br>
       &nbsp; big_uint32_ut b;<br>
       };</code>
     </p></blockquote>
-      </li>
-    <li>
-    <p>Programmer preference.</p></li>
-    </ul>
-    </td>
-    <td valign="top">
-    <ul>
-      <li>A need to save overall time when numeric variable CPU use time is more 
-      important that I/O time.</li>
-      <li>
-      <p>A need to pass structures to third-party libraries expecting a 
-      specific structure format.</li>
-      <li>
-      <p>A need to leverage knowledge of developers who have been using C byte 
-      swapping 
-      functions for years.</li>
-      <li>
-      <p>Programmer preference.</li>
-    </ul>
-    </td>
-  </tr>
-</table>
+      </blockquote>
 
-<p><b>Warning:</b> Endian conversion functions are dangerous unless the current 
-endianness of a variable is always known. For example, if an exception is thrown 
-and there is no way in a catch block to know a variable&#39;s current endianness, 
-then any use of that variable including I/O is inherently unsafe. This danger is 
-not limited to exceptions; all uses of a variable whose endianness is unknown 
-are unsafe, period.</p>
+</blockquote>
 
 <h2>Built-in support for <a name="Intrinsic">Intrinsic</a>s</h2>
-<p>Recent compilers, including GCC, Clang, and Microsoft, supply  built-in support for byte swapping 
-intrinsics. Such support is automatically detected and 
-used since it may in smaller and faster generated code, particularly for release 
+<p>Supply compilers, including GCC, Clang, and Visual C++, supply  built-in support for byte swapping intrinsics. 
+The library uses these intrinsics when available since they may result in smaller and faster generated code, particularly for release 
 builds.</p>
 <p>Defining <code>BOOST_ENDIAN_NO_INTRINSICS</code> will suppress use 
-of the intrinsics. Please try defining it if you get compiler errors, such as 
-header byteswap.h not being found.</p>
+of the intrinsics. Useful when intrinsic headers such as 
+<code>byteswap.h </code>are not being found on your platform.</p>
 <p>The macro <code>BOOST_ENDIAN_INTRINSIC_MSG</code> is defined as 
 either <code>&quot;no byte swap intrinsics&quot;</code> or a string describing the 
 particular set of intrinsics being used.</p>
@@ -260,8 +282,8 @@ particular set of intrinsics being used.</p>
     result to a file</i> </b> </td>
   </tr>
   <tr>
-    <td><i><b>Endian type approach</b></i></td>
-    <td><i><b>Endian conversion approach</b></i></td>
+    <td><i><b>Endian arithmetic type approach</b></i></td>
+    <td><i><b>Endian conversion function approach</b></i></td>
   </tr>
   <tr>
     <td valign="top">
@@ -280,9 +302,9 @@ int32_t x;
 
 ... read into x from a file ...
 
-big_endian(x);
+big_to_native_inplace(x);
 x += 100;
-big_endian(x);
+native_to_big_inplace(x);
 
 ... write x to a file ...
 </pre>
@@ -294,7 +316,8 @@ big_endian(x);
 release builds, 
 regardless of the native endianness of the machine.</b> That&#39;s because optimizing compilers will likely 
 generate exactly the same code for each. That conclusion was confirmed by 
-studying the generated assembly code for GCC and Visual C++.</p>
+studying the generated assembly code for GCC and Visual C++. Furthermore, time 
+spent doing I/O will determine the speed of this application.</p>
 
 <p>Now consider a slightly different problem:&nbsp; </p>
 
@@ -308,8 +331,8 @@ studying the generated assembly code for GCC and Visual C++.</p>
     result to a file </b></i> </td>
   </tr>
   <tr>
-    <td><i><b>Endian type approach</b></i></td>
-    <td><i><b>Endian conversion approach</b></i></td>
+    <td><i><b>Endian arithmetic type approach</b></i></td>
+    <td><i><b>Endian conversion function approach</b></i></td>
   </tr>
   <tr>
     <td valign="top">
@@ -328,12 +351,12 @@ for (int32_t i = 0; i &lt; 1000000; ++i)
 
 ... read into x from a file ...
 
-big_endian(x);
+big_to_native_inplace(x);
 
 for (int32_t i = 0; i &lt; 1000000; ++i)
   x += i;
 
-big_endian(x);
+native_to_big_inplace(x);
 
 ... write x to a file ...
 </pre>
@@ -341,10 +364,10 @@ big_endian(x);
   </tr>
 </table>
 
-<p>With the Endian type approach, an implicit conversion from and then back to 
+<p>With the Endian arithmetic approach, on little endian platforms an implicit conversion from and then back to 
 big endian is done inside the loop. With the Endian conversion function 
-approach, the conversions are explicit, so only need to be done once, before and 
-after the loop.</p>
+approach, the user has ensured the conversions are done outside the loop, so the 
+code may run more quickly on little endian platforms.</p>
 
 <h3><a name="Timings">Timings</a> for Example 2 (conversion functions hoisted 
 out of loop)</h3>
@@ -361,201 +384,204 @@ setup.
 32-bit intrinsics.)</p>
 
 <table border="1" cellpadding="5" cellspacing="0"style="border-collapse: collapse" bordercolor="#111111">
-<tr><td colspan="6" align="center" dir="ltr"><b><font size="2">GNU C++ version 4.7.0</font></b></td></tr>
-<tr><td colspan="6" align="center" dir="ltr"><b> <font size="2">Iterations: 1000000000, Intrinsics: __builtin_bswap16, etc.</font></b></td></tr>
-<tr><td dir="ltr"><b><font size="2">Test Case</font></b></td>
-<td align="center" dir="ltr"><b><font size="2">Endian<br>type</font></b></td>
-<td align="center" dir="ltr"><b><font size="2">Endian<br>conversion<br>function</font></b></td>
+<tr><td colspan="6" align="center"><b><font size="2">GNU C++ version 4.7.0</font></b></td></tr>
+<tr><td colspan="6" align="center"><b> <font size="2">Iterations: 1000000000, Intrinsics: __builtin_bswap16, etc.</font></b></td></tr>
+<tr><td><b><font size="2">Test Case</font></b></td>
+<td align="center"><b><font size="2">Endian<br>arithmetic</font></b></td>
+<td align="center"><b><font size="2">Endian<br>conversion<br>function</font></b></td>
 </tr>
-<tr><td dir="ltr"><font size="2">16-bit aligned big endian</font></td>
-  <td align="right" dir="ltr"><font size="2">1.37 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.81 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">16-bit aligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">0.83 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.81 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">16-bit unaligned big endian</font></td>
-  <td align="right" dir="ltr"><font size="2">1.09 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.83 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">16-bit unaligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">1.09 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.81 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">32-bit aligned big endian</font></td>
-  <td align="right" dir="ltr"><font size="2">0.98 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.27 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">32-bit aligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">0.28 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.27 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">32-bit unaligned big endian</font></td>
-  <td align="right" dir="ltr"><font size="2">3.82 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.27 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">32-bit unaligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">3.82 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.27 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">64-bit aligned big endian</font></td>
-  <td align="right" dir="ltr"><font size="2">1.65 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.41 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">64-bit aligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">0.41 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.41 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">64-bit unaligned big endian</font></td>
-  <td align="right" dir="ltr"><font size="2">17.53 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.41 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">64-bit unaligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">17.52 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.41 s</font></td></tr>
+<tr><td><font size="2">16-bit aligned big endian</font></td>
+  <td align="right"><font size="2">1.37 s</font></td>
+  <td align="right"><font size="2">0.81 s</font></td></tr>
+<tr><td><font size="2">16-bit aligned little endian</font></td>
+  <td align="right"><font size="2">0.83 s</font></td>
+  <td align="right"><font size="2">0.81 s</font></td></tr>
+<tr><td><font size="2">16-bit unaligned big endian</font></td>
+  <td align="right"><font size="2">1.09 s</font></td>
+  <td align="right"><font size="2">0.83 s</font></td></tr>
+<tr><td><font size="2">16-bit unaligned little endian</font></td>
+  <td align="right"><font size="2">1.09 s</font></td>
+  <td align="right"><font size="2">0.81 s</font></td></tr>
+<tr><td><b><font size="2">32-bit aligned big endian</font></b></td>
+  <td align="right"><b><font size="2">0.98 s</font></b></td>
+  <td align="right"><b><font size="2">0.27 s</font></b></td></tr>
+<tr><td><font size="2">32-bit aligned little endian</font></td>
+  <td align="right"><font size="2">0.28 s</font></td>
+  <td align="right"><font size="2">0.27 s</font></td></tr>
+<tr><td><font size="2">32-bit unaligned big endian</font></td>
+  <td align="right"><font size="2">3.82 s</font></td>
+  <td align="right"><font size="2">0.27 s</font></td></tr>
+<tr><td><font size="2">32-bit unaligned little endian</font></td>
+  <td align="right"><font size="2">3.82 s</font></td>
+  <td align="right"><font size="2">0.27 s</font></td></tr>
+<tr><td><font size="2">64-bit aligned big endian</font></td>
+  <td align="right"><font size="2">1.65 s</font></td>
+  <td align="right"><font size="2">0.41 s</font></td></tr>
+<tr><td><font size="2">64-bit aligned little endian</font></td>
+  <td align="right"><font size="2">0.41 s</font></td>
+  <td align="right"><font size="2">0.41 s</font></td></tr>
+<tr><td><font size="2">64-bit unaligned big endian</font></td>
+  <td align="right"><font size="2">17.53 s</font></td>
+  <td align="right"><font size="2">0.41 s</font></td></tr>
+<tr><td><font size="2">64-bit unaligned little endian</font></td>
+  <td align="right"><font size="2">17.52 s</font></td>
+  <td align="right"><font size="2">0.41 s</font></td></tr>
 
-<tr><td colspan="6" align="center" dir="ltr"><b> <font size="2">Iterations: 1000000000, Intrinsics: no byte swap intrinsics</font></b></td></tr>
-<tr><td dir="ltr"><b><font size="2">Test Case</font></b></td>
-<td align="center" dir="ltr"><b><font size="2">Endian<br>type</font></b></td>
-<td align="center" dir="ltr"><b><font size="2">Endian<br>conversion<br>function</font></b></td>
+<tr><td colspan="6" align="center"><b> <font size="2">Iterations: 1000000000, Intrinsics: no byte swap intrinsics</font></b></td></tr>
+<tr><td><b><font size="2">Test Case</font></b></td>
+<td align="center"><b><font size="2">Endian<br>arithmetic</font></b></td>
+<td align="center"><b><font size="2">Endian<br>conversion<br>function</font></b></td>
 </tr>
-<tr><td dir="ltr"><font size="2">16-bit aligned big endian</font></td>
-  <td align="right" dir="ltr"><font size="2">1.95 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.81 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">16-bit aligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">0.83 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.81 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">16-bit unaligned big endian</font></td>
-  <td align="right" dir="ltr"><font size="2">1.19 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.81 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">16-bit unaligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">1.20 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.81 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">32-bit aligned big endian</font></td>
-  <td align="right" dir="ltr"><font size="2">0.97 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.28 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">32-bit aligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">0.27 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.28 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">32-bit unaligned big endian</font></td>
-  <td align="right" dir="ltr"><font size="2">4.10 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.27 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">32-bit unaligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">4.10 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.27 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">64-bit aligned big endian</font></td>
-  <td align="right" dir="ltr"><font size="2">1.64 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.42 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">64-bit aligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">0.41 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.41 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">64-bit unaligned big endian</font></td>
-  <td align="right" dir="ltr"><font size="2">17.52 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.42 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">64-bit unaligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">17.52 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.41 s</font></td></tr>
+<tr><td><font size="2">16-bit aligned big endian</font></td>
+  <td align="right"><font size="2">1.95 s</font></td>
+  <td align="right"><font size="2">0.81 s</font></td></tr>
+<tr><td><font size="2">16-bit aligned little endian</font></td>
+  <td align="right"><font size="2">0.83 s</font></td>
+  <td align="right"><font size="2">0.81 s</font></td></tr>
+<tr><td><font size="2">16-bit unaligned big endian</font></td>
+  <td align="right"><font size="2">1.19 s</font></td>
+  <td align="right"><font size="2">0.81 s</font></td></tr>
+<tr><td><font size="2">16-bit unaligned little endian</font></td>
+  <td align="right"><font size="2">1.20 s</font></td>
+  <td align="right"><font size="2">0.81 s</font></td></tr>
+<tr><td><b><font size="2">32-bit aligned big endian</font></b></td>
+  <td align="right"><b><font size="2">0.97 s</font></b></td>
+  <td align="right"><b><font size="2">0.28 s</font></b></td></tr>
+<tr><td><font size="2">32-bit aligned little endian</font></td>
+  <td align="right"><font size="2">0.27 s</font></td>
+  <td align="right"><font size="2">0.28 s</font></td></tr>
+<tr><td><font size="2">32-bit unaligned big endian</font></td>
+  <td align="right"><font size="2">4.10 s</font></td>
+  <td align="right"><font size="2">0.27 s</font></td></tr>
+<tr><td><font size="2">32-bit unaligned little endian</font></td>
+  <td align="right"><font size="2">4.10 s</font></td>
+  <td align="right"><font size="2">0.27 s</font></td></tr>
+<tr><td><font size="2">64-bit aligned big endian</font></td>
+  <td align="right"><font size="2">1.64 s</font></td>
+  <td align="right"><font size="2">0.42 s</font></td></tr>
+<tr><td><font size="2">64-bit aligned little endian</font></td>
+  <td align="right"><font size="2">0.41 s</font></td>
+  <td align="right"><font size="2">0.41 s</font></td></tr>
+<tr><td><font size="2">64-bit unaligned big endian</font></td>
+  <td align="right"><font size="2">17.52 s</font></td>
+  <td align="right"><font size="2">0.42 s</font></td></tr>
+<tr><td><font size="2">64-bit unaligned little endian</font></td>
+  <td align="right"><font size="2">17.52 s</font></td>
+  <td align="right"><font size="2">0.41 s</font></td></tr>
 
 </table>
 
-<p></p>
+<p><b>Comment:</b> Note that the <b><font size="2">32-bit aligned big endian </font></b>
+timings are the same with or without intrinsics turned on. Presumably the 
+optimizer is recognizing the byte swapping and applying the intrinsics itself.</p>
 
-<table border="1" cellpadding="5" cellspacing="0"style="border-collapse: collapse" bordercolor="#111111" dir="ltr">
-<tr><td colspan="6" align="center" dir="ltr"><b><font size="2">Microsoft Visual C++ version 11.0</font></b></td></tr>
-<tr><td colspan="6" align="center" dir="ltr"><b> <font size="2">Iterations: 1000000000, Intrinsics: cstdlib _byteswap_ushort, etc.</font></b></td></tr>
-<tr><td dir="ltr"><b><font size="2">Test Case</font></b></td>
-<td align="center" dir="ltr"><b><font size="2">Endian<br>type</font></b></td>
-<td align="center" dir="ltr"><b><font size="2">Endian<br>conversion<br>function</font></b></td>
+<table border="1" cellpadding="5" cellspacing="0"style="border-collapse: collapse" bordercolor="#111111">
+<tr><td colspan="6" align="center"><b><font size="2">Microsoft Visual C++ version 11.0</font></b></td></tr>
+<tr><td colspan="6" align="center"><b> <font size="2">Iterations: 1000000000, Intrinsics: cstdlib _byteswap_ushort, etc.</font></b></td></tr>
+<tr><td><b><font size="2">Test Case</font></b></td>
+<td align="center"><b><font size="2">Endian<br>type</font></b></td>
+<td align="center"><b><font size="2">Endian<br>conversion<br>function</font></b></td>
 </tr>
-<tr><td dir="ltr"><font size="2">16-bit aligned big endian</font></td>
-  <td align="right" dir="ltr"><font size="2">0.83 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.51 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">16-bit aligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">0.51 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.50 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">16-bit unaligned big endian</font></td>
-  <td align="right" dir="ltr"><font size="2">1.37 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.51 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">16-bit unaligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">1.37 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.50 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">32-bit aligned big endian</font></td>
-  <td align="right" bgcolor="#CCFFCC" dir="ltr"><font size="2">0.81 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.50 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">32-bit aligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">0.51 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.51 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">32-bit unaligned big endian</font></td>
-  <td align="right" dir="ltr"><font size="2">2.98 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.53 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">32-bit unaligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">3.00 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.51 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">64-bit aligned big endian</font></td>
-  <td align="right" bgcolor="#CCFFCC" dir="ltr"><font size="2">1.33 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.33 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">64-bit aligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">0.34 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.27 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">64-bit unaligned big endian</font></td>
-  <td align="right" dir="ltr"><font size="2">7.05 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.33 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">64-bit unaligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">7.11 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.31 s</font></td></tr>
+<tr><td><font size="2">16-bit aligned big endian</font></td>
+  <td align="right"><font size="2">0.83 s</font></td>
+  <td align="right"><font size="2">0.51 s</font></td></tr>
+<tr><td><font size="2">16-bit aligned little endian</font></td>
+  <td align="right"><font size="2">0.51 s</font></td>
+  <td align="right"><font size="2">0.50 s</font></td></tr>
+<tr><td><font size="2">16-bit unaligned big endian</font></td>
+  <td align="right"><font size="2">1.37 s</font></td>
+  <td align="right"><font size="2">0.51 s</font></td></tr>
+<tr><td><font size="2">16-bit unaligned little endian</font></td>
+  <td align="right"><font size="2">1.37 s</font></td>
+  <td align="right"><font size="2">0.50 s</font></td></tr>
+<tr><td><b><font size="2">32-bit aligned big endian</font></b></td>
+  <td align="right"><b><font size="2">0.81 s</font></b></td>
+  <td align="right"><b><font size="2">0.50 s</font></b></td></tr>
+<tr><td><font size="2">32-bit aligned little endian</font></td>
+  <td align="right"><font size="2">0.51 s</font></td>
+  <td align="right"><font size="2">0.51 s</font></td></tr>
+<tr><td><font size="2">32-bit unaligned big endian</font></td>
+  <td align="right"><font size="2">2.98 s</font></td>
+  <td align="right"><font size="2">0.53 s</font></td></tr>
+<tr><td><font size="2">32-bit unaligned little endian</font></td>
+  <td align="right"><font size="2">3.00 s</font></td>
+  <td align="right"><font size="2">0.51 s</font></td></tr>
+<tr><td><font size="2">64-bit aligned big endian</font></td>
+  <td align="right"><font size="2">1.33 s</font></td>
+  <td align="right"><font size="2">0.33 s</font></td></tr>
+<tr><td><font size="2">64-bit aligned little endian</font></td>
+  <td align="right"><font size="2">0.34 s</font></td>
+  <td align="right"><font size="2">0.27 s</font></td></tr>
+<tr><td><font size="2">64-bit unaligned big endian</font></td>
+  <td align="right"><font size="2">7.05 s</font></td>
+  <td align="right"><font size="2">0.33 s</font></td></tr>
+<tr><td><font size="2">64-bit unaligned little endian</font></td>
+  <td align="right"><font size="2">7.11 s</font></td>
+  <td align="right"><font size="2">0.31 s</font></td></tr>
 
-<tr><td colspan="6" align="center" dir="ltr"><b> <font size="2">Iterations: 1000000000, Intrinsics: no byte swap intrinsics</font></b></td></tr>
-<tr><td dir="ltr"><b><font size="2">Test Case</font></b></td>
-<td align="center" dir="ltr"><b><font size="2">Endian<br>type</font></b></td>
-<td align="center" dir="ltr"><b><font size="2">Endian<br>conversion<br>function</font></b></td>
+<tr><td colspan="6" align="center"><b> <font size="2">Iterations: 1000000000, Intrinsics: no byte swap intrinsics</font></b></td></tr>
+<tr><td><b><font size="2">Test Case</font></b></td>
+<td align="center"><b><font size="2">Endian<br>type</font></b></td>
+<td align="center"><b><font size="2">Endian<br>conversion<br>function</font></b></td>
 </tr>
-<tr><td dir="ltr"><font size="2">16-bit aligned big endian</font></td>
-  <td align="right" dir="ltr"><font size="2">0.83 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.51 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">16-bit aligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">0.51 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.51 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">16-bit unaligned big endian</font></td>
-  <td align="right" dir="ltr"><font size="2">1.36 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.51 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">16-bit unaligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">1.37 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.51 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">32-bit aligned big endian</font></td>
-  <td align="right" bgcolor="#FFCACA" dir="ltr"><font size="2">3.42 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.50 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">32-bit aligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">0.51 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.51 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">32-bit unaligned big endian</font></td>
-  <td align="right" dir="ltr"><font size="2">2.93 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.50 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">32-bit unaligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">2.95 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.50 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">64-bit aligned big endian</font></td>
-  <td align="right" bgcolor="#FFCACA" dir="ltr"><font size="2">5.99 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.33 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">64-bit aligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">0.33 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.33 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">64-bit unaligned big endian</font></td>
-  <td align="right" dir="ltr"><font size="2">7.02 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.27 s</font></td></tr>
-<tr><td dir="ltr"><font size="2">64-bit unaligned little endian</font></td>
-  <td align="right" dir="ltr"><font size="2">7.02 s</font></td>
-  <td align="right" dir="ltr"><font size="2">0.27 s</font></td></tr>
+<tr><td><font size="2">16-bit aligned big endian</font></td>
+  <td align="right"><font size="2">0.83 s</font></td>
+  <td align="right"><font size="2">0.51 s</font></td></tr>
+<tr><td><font size="2">16-bit aligned little endian</font></td>
+  <td align="right"><font size="2">0.51 s</font></td>
+  <td align="right"><font size="2">0.51 s</font></td></tr>
+<tr><td><font size="2">16-bit unaligned big endian</font></td>
+  <td align="right"><font size="2">1.36 s</font></td>
+  <td align="right"><font size="2">0.51 s</font></td></tr>
+<tr><td><font size="2">16-bit unaligned little endian</font></td>
+  <td align="right"><font size="2">1.37 s</font></td>
+  <td align="right"><font size="2">0.51 s</font></td></tr>
+<tr><td><b><font size="2">32-bit aligned big endian</font></b></td>
+  <td align="right"><b><font size="2">3.42 s</font></b></td>
+  <td align="right"><b><font size="2">0.50 s</font></b></td></tr>
+<tr><td><font size="2">32-bit aligned little endian</font></td>
+  <td align="right"><font size="2">0.51 s</font></td>
+  <td align="right"><font size="2">0.51 s</font></td></tr>
+<tr><td><font size="2">32-bit unaligned big endian</font></td>
+  <td align="right"><font size="2">2.93 s</font></td>
+  <td align="right"><font size="2">0.50 s</font></td></tr>
+<tr><td><font size="2">32-bit unaligned little endian</font></td>
+  <td align="right"><font size="2">2.95 s</font></td>
+  <td align="right"><font size="2">0.50 s</font></td></tr>
+<tr><td><font size="2">64-bit aligned big endian</font></td>
+  <td align="right"><font size="2">5.99 s</font></td>
+  <td align="right"><font size="2">0.33 s</font></td></tr>
+<tr><td><font size="2">64-bit aligned little endian</font></td>
+  <td align="right"><font size="2">0.33 s</font></td>
+  <td align="right"><font size="2">0.33 s</font></td></tr>
+<tr><td><font size="2">64-bit unaligned big endian</font></td>
+  <td align="right"><font size="2">7.02 s</font></td>
+  <td align="right"><font size="2">0.27 s</font></td></tr>
+<tr><td><font size="2">64-bit unaligned little endian</font></td>
+  <td align="right"><font size="2">7.02 s</font></td>
+  <td align="right"><font size="2">0.27 s</font></td></tr>
 
 </table>
 
 
 <h3><a name="Conclusions">Conclusions</a></h3>
 
-<p>When program logic dictates many more conversions for the Endian integer 
+<p>When program logic dictates many more conversions for the Endian arithmetic 
 approach than the Endian conversion function approach (<a href="#Example-2">example 
 2</a>):</p>
 
 <blockquote>
 
 <p><b>There may be a considerable performance difference. </b>If machine endianness differs from the 
-desired endianness, the Endian type approach must do the byte reversal many 
+desired endianness, the Endian arithmetic approach must do the byte reversal many 
 times while the Endian conversion approach only does the reversal once. But if 
 the endianness is the same, there is no conversion with either approach and no 
 conversion code is generated for typical release builds.</p>
 
 <p><b>Whether or not compiler byte swap intrinsics are explicitly available has little 
-impact as tested.</b> Byte swap intrinsics are not available on some older 
-compilers and on some machine architectures, such as pre-486 X86 CPUs.</p>
+impact on GCC but a lot of impact on Visual C++, for the tested compiler 
+versions.</b> Yet another example of why actual timing tests are needed to 
+determine if some coding technique has significant impact on performance.</p>
 
 <p><b>Unaligned types are much slower that aligned types, regardless of 
 endianness considerations.</b> Instead of single instruction register loads and 
@@ -595,9 +621,9 @@ memory space is a minor secondary use case.</p>
 <p><b>Why bother with binary I/O? Why not just use C++ Standard Library stream 
 inserters and extractors?</b></p>
 <blockquote>
+<p>Data interchange formats often specify binary arithmetic data.</p>
 <p>Binary arithmetic data is smaller and therefore I/O is faster and file sizes 
-are smaller. Transfer between systems is less expensive. Standard interchange 
-formats often specify binary arithmetic data.</p>
+are smaller. Transfer between systems is less expensive.</p>
 <p>Furthermore, binary arithmetic data is of fixed size, and so fixed-size disk 
 records are possible without padding, easing sorting and allowing direct access. 
 Disadvantages, such as the inability to use text utilities on the resulting 
@@ -614,7 +640,7 @@ CPU's. The <a href="http://en.wikipedia.org/wiki/Endian">Wikipedia</a> article
 gives more pros and cons.</p>
 </blockquote>
 
-<p><b>Why is only big, little, and native endianness supported?</b></p>
+<p><b>Why are only big, little, and native endianness supported?</b></p>
 <blockquote>
 <p>These are the only endian schemes that have any practical value today. PDP-11 
 and the other middle endian approaches are interesting historical curiosities 
@@ -625,10 +651,10 @@ but have no relevance to today&#39;s C++ developers.</p>
 
 <blockquote>
 
-<p>The only supported types are four byte <code>float</code> and eight byte
+<p>The only supported types are four-byte <code>float</code> and eight-byte
 <code>double</code>. Even after endianness has been accounted for, floating 
 point values will not be portable between systems that use different floating 
-point formats. Systems where the integer endianness differs from floating point 
+point formats. Systems where  integer endianness differs from floating point 
 endianness are not supported.</p>
 
 </blockquote>
@@ -648,23 +674,28 @@ and 16, 32, and 64-bit aligned integers.</p>
 <h2><a name="Release-history">Release history</a></h2>
 <h3>Changes since formal review</h3>
 <ul>
-  <li>Headers have been renamed to endian/types.hpp and endian/conversion.hpp. 
+  <li>
+  <p>The endian types have been decomposed into endian buffer types 
+  and endian arithmetic types, as requested. The arithmetic types derive from 
+  the buffer types.</li>
+  <li>
+  <p>Headers have been renamed to <code>endian/arithmetic.hpp</code> and 
+  <code>endian/conversion.hpp</code>. <code>endian/buffers.hpp</code> has been 
+  added. 
   Infrastructure file names were changed accordingly.</li>
-  <li>The endian types and endian conversion functions now support 32-bit (<code>float)</code> and 
+  <li>
+  <p>The endian buffer and arithmetic types and endian conversion functions now support 32-bit (<code>float)</code> and 
   64-bit <code>(double)</code> floating point, as requested.</li>
   <li>The endian types now have stream inserter and extractor templates, as 
   requested.</li>
   <li>Both the endian types and endian conversion functions now support UDTs, as requested.</li>
   <li>The endian type aliases have been renamed, 
-  using a naming pattern that is consistent for both integer and floating point.</li>
+  using a naming pattern that is consistent for both integer and floating point, .</li>
   <li>The conversion functions have been much revised, 
   refactored, and otherwise improved based on review comments.<ul>
     <li>Functions have been renamed to clarify their functionality.</li>
     <li>Both return-by-value and modify-in-place interfaces are provided, as 
     requested.</li>
-    <li>Synonyms for the BSD byte swapping function names popularized by OS X 
-    and Linux are provided, so that that developers already used to these names 
-    can continue to use them if they wish.</li>
     <li>In addition to the named-endianness functions, functions that perform 
     compile-time (via template) and run-time (via function argument) dispatch 
     are now provided, as requested.</li>
@@ -680,8 +711,8 @@ and 16, 32, and 64-bit aligned integers.</p>
   requested. This reduces the number of template specializations required.</li>
   <li><code>endian_reverse()</code> overloads for <code>int8_t</code> and <code>
   uint8_t</code> have been added for improved generality. (Pierre Talbot)</li>
-  <li>Overloads of <code>reverse()</code> have been replaced with a single <code>
-  reverse()</code> template. (Pierre Talbot)</li>
+  <li>Overloads of <code>endian_reverse_inplace()</code> have been replaced with a single <code>
+  endian_reverse_inplace()</code> template. (Pierre Talbot)</li>
   <li>C++11 features such as <code>noexcept</code> are now used, while still 
   supporting C++03 compilers.</li>
   <li>Headers have been reorganized to make them easier to read, 
@@ -702,7 +733,7 @@ Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen and
 Vitaly Budovski,.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->05 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38642" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->15 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38643" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

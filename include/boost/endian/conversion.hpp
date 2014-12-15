@@ -44,9 +44,9 @@ namespace endian
 //                             user-defined types (UDTs)                                //
 //                                                                                      //
 //  All return-by-value conversion function templates are required to be implemented in //
-//  terms of an unqualified call to "endian_reverse(x)", a function returning the   //
+//  terms of an unqualified call to "endian_reverse(x)", a function returning the       //
 //  value of x with endianness reversed. This provides a customization point for any    //
-//  UDT that provides a "endian_reverse" free-function meeting the requirements.    //
+//  UDT that provides a "endian_reverse" free-function meeting the requirements.        //
 //  It must be defined in the same namespace as the UDT itself so that it will be found //
 //  by argument dependent lookup (ADL).                                                 //
 //                                                                                      //
@@ -115,9 +115,9 @@ namespace endian
   //                             user-defined types (UDTs)                              //
   //                                                                                    //
   //  All reverse in place function templates are required to be implemented in terms   // 
-  //  of an unqualified call to "endian_reverse_inplace(x)", a function reversing  //
+  //  of an unqualified call to "endian_reverse_inplace(x)", a function reversing       //
   //  the endianness of x, which is a non-const reference. This provides a              //
-  //  customization point for any UDT that provides a "reverse_inplace" free-function  //
+  //  customization point for any UDT that provides a "reverse_inplace" free-function   //
   //  meeting the requirements. The free-function must be declared in the same          //
   //  namespace as the UDT itself so that it will be found by argument-dependent        //
   //   lookup (ADL).                                                                    //
@@ -146,7 +146,8 @@ namespace endian
     //  Effects: none if native byte-order is little, otherwise endian_reverse_inplace(x);
 
   //  generic conditional reverse in place
-  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class EndianReversibleInplace>
+  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To,
+    class EndianReversibleInplace>
   inline void conditional_reverse_inplace(EndianReversibleInplace& x) BOOST_NOEXCEPT; 
 
   //  runtime reverse in place
@@ -342,7 +343,8 @@ namespace endian
   {
     //  Primary template and specializations to support endian_reverse().
     //  See rationale in endian_reverse() below.
-    template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class EndianReversible>
+    template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To,
+        class EndianReversible>
       class value_converter ;  // primary template
     template <class T> class value_converter <order::big, order::big, T>
       {public: T operator()(T x) BOOST_NOEXCEPT {return x;}};
@@ -355,7 +357,8 @@ namespace endian
   }
 
   //  generic conditional reverse
-  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class EndianReversible>
+  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To,
+    class EndianReversible>
   inline EndianReversible  conditional_reverse(EndianReversible from) BOOST_NOEXCEPT  {
     //  work around lack of function template partial specialization by instantiating
     //  a function object of a class that is partially specialized on the two order
@@ -422,7 +425,8 @@ namespace endian
     //  Primary template and specializations support generic 
     //  endian_reverse_inplace().
     //  See rationale in endian_reverse_inplace() below.
-    template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class EndianReversibleInplace>
+    template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To,
+        class EndianReversibleInplace>
       class converter;  // primary template
     template <class T> class converter<order::big, order::big, T>
       {public: void operator()(T&) BOOST_NOEXCEPT {/*no effect*/}};
@@ -435,7 +439,8 @@ namespace endian
   }  // namespace detail
 
   //  generic conditional reverse in place
-  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class EndianReversibleInplace>
+  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To,
+    class EndianReversibleInplace>
   inline void conditional_reverse_inplace(EndianReversibleInplace& x) BOOST_NOEXCEPT
   {
     //  work around lack of function template partial specialization by instantiating
