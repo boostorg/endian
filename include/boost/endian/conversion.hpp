@@ -52,7 +52,7 @@ namespace endian
 //                                                                                      //
 //--------------------------------------------------------------------------------------//
   
-  //  customization for built-in arithmetic types
+  //  customization for exact-length arithmetic types. See doc/conversion.html/#FAQ
   inline int8_t   endian_reverse(int8_t x) BOOST_NOEXCEPT;
   inline int16_t  endian_reverse(int16_t x) BOOST_NOEXCEPT;
   inline int32_t  endian_reverse(int32_t x) BOOST_NOEXCEPT;
@@ -61,7 +61,7 @@ namespace endian
   inline uint16_t endian_reverse(uint16_t x) BOOST_NOEXCEPT;
   inline uint32_t endian_reverse(uint32_t x) BOOST_NOEXCEPT;
   inline uint64_t endian_reverse(uint64_t x) BOOST_NOEXCEPT;
-  //  TODO: Track progress of Floating-Point Typedefs Having Specified Widths proposal (N3626)
+  //  TODO: Track N3626,Floating-Point Typedefs Having Specified Widths, proposal
   inline float    endian_reverse(float x) BOOST_NOEXCEPT;
   inline double   endian_reverse(double x) BOOST_NOEXCEPT;
 

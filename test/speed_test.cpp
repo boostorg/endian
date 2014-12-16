@@ -7,7 +7,7 @@
 
 //--------------------------------------------------------------------------------------//
 
-#define BOOST_ENDIAN_NO_INTRINSICS
+//#define BOOST_ENDIAN_NO_INTRINSICS
 //#define BOOST_ENDIAN_LOG
 
 #include <boost/endian/detail/disable_warnings.hpp>
