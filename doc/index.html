@@ -69,12 +69,22 @@
 <a href="#Introduction-to-endianness">endianness</a> of integers, 
 floating point numbers, and user-defined types.</p>
 <ul>
-  <li>The primary use case is binary I/O for portable data exchange with 
-  other systems, via either external media or network transmission.<br>
+  <li>Primary use cases:<br>
+&nbsp;<ul>
+  <li>Data portability. The Endian library supports binary data exchange, via either external media or network transmission, 
+  regardless of platform endianness.<br>
 &nbsp;</li>
-  <li>An additional use case is minimizing storage size via sizes and/or 
-  alignments not supported by the built-in types.<br>
+  <li>Program portability. POSIX/BSD based, POSIX/non-BSD based, and 
+  Windows based operating systems traditionally supply libraries with 
+  non-portable functions to perform endian conversion. The Endian library is 
+  portable across all C++ platforms.<br>
 &nbsp;</li>
+</ul>
+
+  </li>
+  <li>Secondary use case: Minimizing storage size via sizes and/or alignments not supported by the 
+  standard C++ arithmetic types.<br>
+  <br></li>
   <li>Three  approaches to dealing with endianness are provided. Each approach has a 
   long history of successful use, and each approach has use cases where it is 
   preferred over the other approaches.</li>
@@ -116,7 +126,7 @@ at different ends.</p>
 <a href="http://en.wikipedia.org/wiki/Endianness">Endianness</a> article for an 
 extensive discussion of endianness.</p>
 <p>Programmers can usually ignore endianness, except when reading a core 
-dump on little-endian systems. But programmers will have to deal with endianness  when exchanging binary integers and binary floating point 
+dump on little-endian systems. But programmers  have to deal with endianness  when exchanging binary integers and binary floating point 
 values between computer systems with differing endianness, whether by physical file transfer or over a network. 
 And programmers may also want to use the library when minimizing either internal or 
 external data sizes is advantageous.</p>
@@ -125,7 +135,7 @@ external data sizes is advantageous.</p>
 <p>The Boost.Endian library provides three different approaches to dealing with 
  
 endianness. All three approaches support integers, floating point types 
-except&nbsp; <code>long double</code>, and user defined types (UDTs).</p>
+except&nbsp; <code>long double</code>, and user-define types (UDTs).</p>
 
 <p>Each approach has a long history of successful use, and each approach has use 
 cases where it is preferred to the other approaches.</p>
@@ -211,7 +221,7 @@ approach avoids unnecessary conversions, it can result in the introduction of
 additional variables and confuse maintenance programmers.</p>
 
 <p><b>Endian</b> <b>arithmetic types</b> do supply arithmetic operations. They 
-are very easy to use if lots of arithmetic is involved.</p>
+are very easy to use if lots of arithmetic is involved. </p>
 
 </blockquote>
 
@@ -224,7 +234,7 @@ integers. That&#39;s sufficient for many applications.</p>
 
 <p><b>Endian buffer and arithmetic types</b> support 1, 2, 3, 4, 5, 6, 7, and 8 
 byte integers. For an application where memory use or I/O speed is the limiting 
-factor, using sizes tailored to application needs can be very useful.</p>
+factor, using sizes tailored to application needs can be  useful.</p>
 
 </blockquote>
 
@@ -733,7 +743,7 @@ Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen and
 Vitaly Budovski,.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->15 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38643" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->16 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38645" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
