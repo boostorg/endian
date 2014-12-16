@@ -74,9 +74,10 @@ floating point numbers, and user-defined types.</p>
   <li>Data portability. The Endian library supports binary data exchange, via either external media or network transmission, 
   regardless of platform endianness.<br>
 &nbsp;</li>
-  <li>Program portability. POSIX/BSD based, POSIX/non-BSD based, and 
-  Windows based operating systems traditionally supply libraries with 
-  non-portable functions to perform endian conversion. The Endian library is 
+  <li>Program portability. POSIX-based and 
+  Windows-based operating systems traditionally supply libraries with 
+  non-portable functions to perform endian conversion. There are at least four 
+  non-compatible sets of functions in common use. The Endian library is 
   portable across all C++ platforms.<br>
 &nbsp;</li>
 </ul>
@@ -168,15 +169,17 @@ integers. The types may be aligned.</p>
 <h2><a name="Choosing">Choosing</a> between endian conversion functions, endian buffer types, 
 and endian arithmetic types</h2>
 
-<p>Which approach to endianness  is best depends on the interaction between 
-approach characteristics and  
-application needs.</p>
+<p>The best approach to endianness  depends on  interaction between 
+the approach characteristics and  
+the application needs.</p>
+
+<h3><a name="Approach-characteristics">Approach characteristics</a></h3>
 
 <p>The characteristics that differentiate the approaches are the endianness 
 invariants, conversion explicitness, arithmetic operations, sizes available, and 
 alignment requirements.</p>
 
-<h3>Endianness invariants</h3>
+<h4>Endianness invariants</h4>
 
 <blockquote>
 
@@ -194,7 +197,7 @@ That makes these types easy to use and programs easy to maintain.</p>
 
 </blockquote>
 
-<h3>Conversion explicitness</h3>
+<h4>Conversion explicitness</h4>
 
 <blockquote>
 
@@ -208,7 +211,7 @@ to hoist conversions out of inner loops can bring a performance penalty.</p>
 
 </blockquote>
 
-<h3>Arithmetic operations</h3>
+<h4>Arithmetic operations</h4>
 
 <blockquote>
 
@@ -225,7 +228,7 @@ are very easy to use if lots of arithmetic is involved. </p>
 
 </blockquote>
 
-<h3>Sizes available</h3>
+<h4>Sizes available</h4>
 
 <blockquote>
 
@@ -238,7 +241,7 @@ factor, using sizes tailored to application needs can be  useful.</p>
 
 </blockquote>
 
-<h3>Alignments available</h3>
+<h4>Alignments available</h4>
 
 <blockquote>
 
@@ -266,6 +269,48 @@ needed they are often very useful and workarounds are painful. For example,</p>
       </blockquote>
 
 </blockquote>
+
+<h3><a name="Use-cases">Use cases</a></h3>
+
+<h4>Program portability use case</h4>
+
+<p>An existing large codebase runs on little-endian Linux systems. It already 
+deals with endianness via
+<a href="http://man7.org/linux/man-pages/man3/endian.3.html">Linux provided 
+functions</a>. Because of a business merger, the codebase has to be quickly 
+modified for Windows and possibly other operating systems, while still 
+supporting Linux. The codebase is reliable and the programmers are all 
+well-aware of endian issues. </p>
+
+<p>These factors all argue for an <a href="conversion.html">endian conversion 
+approach</a> that just mechanically changes the calls to <code>htobe32</code>, 
+etc. to <code>boost::endian::native_to_big</code>, etc. and replaces <code>&lt;endian.h&gt;</code> 
+with <code>&lt;boost/endian/conversion.hpp&gt;</code>.</p>
+
+<h4>Reliability and arithmetic-speed use case</h4>
+
+<p>A new, complex, multi-threaded application is to be developed that must run 
+on little endian machines, but do big endian network I/O. The developers believe 
+computational speed for endian variable is critical but have seen numerous bugs 
+result from inability to reason about endian conversion state. They are also 
+worried that future maintenance changes could inadvertently introduce a lot of 
+slow conversions if full-blown endian arithmetic types are used.</p>
+
+<p>The <a href="buffers.html">endian buffers</a> approach is made-to-order for 
+this use case.</p>
+
+<h4>Reliability and ease-of-use use case</h4>
+
+<p>A new, complex, multi-threaded application is to be developed that must run 
+on little endian machines, but do big endian network I/O. The developers believe 
+computational speed for endian variables is <b>not critical</b> but have seen 
+numerous bugs result from inability to reason about endian conversion state. 
+They are also concerned about ease-of-use both during development and long-term 
+maintenance.</p>
+
+<p>Removing concern about conversion speed and adding concern about ease-of-use 
+tips the balance strongly in favor the <a href="arithmetic.html">endian 
+arithmetic approach</a>.</p>
 
 <h2>Built-in support for <a name="Intrinsic">Intrinsic</a>s</h2>
 <p>Supply compilers, including GCC, Clang, and Visual C++, supply  built-in support for byte swapping intrinsics. 
