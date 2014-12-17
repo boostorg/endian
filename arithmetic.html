@@ -5,25 +5,22 @@
 <meta name="GENERATOR" content="Microsoft FrontPage 5.0">
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Boost Endian Integers</title>
-<style type="text/css">
- ins {background-color:#CCFFCC}
- del {background-color:#FFCACA}
- body { font-family: sans-serif; width:8.0in; }
- pre { background-color:#D7EEFF }
+<title>Endian Arithmetic Types</title>
+<link href="styles.css" rel="stylesheet">
 </style>
 </head>
 
 <body>
 
 
-<table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="710">
+<table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%">
   <tr>
-    <td width="277">
+    <td>
 <a href="../../../index.html">
-<img src="../../../boost.png" alt="boost.png (6897 bytes)" align="middle" width="277" height="86" border="0"></a></td>
-    <td width="413" align="middle">
-    <font size="7">Endian Types</font>
+<img src="../../../boost.png" alt="boost.png (6897 bytes)" align="middle" border="0" width="277" height="86"></a></td>
+    <td align="middle">
+    <b>
+    <font size="6">Endian Arithmetic Types</font> </b>
     </td>
   </tr>
 </table>
@@ -33,7 +30,8 @@
     <td><b><a href="../../../index.htm">Boost Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="index.html">Endian Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="conversion.html">Conversion Functions</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="types.html">Endian Types</a></b></td>
+    <a href="arithmetic.html">Arithmetic Types</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="buffers.html">Buffer Types</a></b></td>
   </tr>
 </table>
 
@@ -55,6 +53,8 @@
       &nbsp;&nbsp;&nbsp;
       <a href="#Synopsis">Synopsis</a><br>
       &nbsp;&nbsp;&nbsp; <a href="#Members">Members</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Stream-inserter">Stream inserter</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Stream-extractor">Stream extractor</a><br>
       <a href="#FAQ">FAQ</a><br>
       <a href="#Design">Design</a><br>
       <a href="#Experience">Experience</a><br>
@@ -71,11 +71,12 @@
   <tr>
     <td width="100%" bgcolor="#E8F5FF">
       <a href="../include/boost/endian/conversion.hpp">&lt;boost/endian/conversion.hpp&gt;</a><br>
-      <a href="../include/boost/endian/types.hpp">&lt;boost/endian/types.hpp&gt;</a></td>
+      <a href="../include/boost/endian/buffers.hpp">&lt;boost/endian/buffers.hpp&gt;</a><br>
+      <a href="../include/boost/endian/arithmetic.hpp">&lt;boost/endian/arithmetic.hpp&gt;</a></td>
   </tr>
 </table>
 <h2><a name="Introduction">Introduction</a></h2>
-<p>Header <a href="../include/boost/endian/types.hpp">boost/endian/types.hpp</a> 
+<p>Header <a href="arithmetic.html">boost/endian/arithmetic.hpp</a> 
 provides integer and floating point binary types with control over 
 byte order, value type, size, and alignment. Typedefs provide easy-to-use names 
 for common configurations.</p>
@@ -86,7 +87,8 @@ integer byte-holders may
 also be used to reduce memory use, file size, or network activity since they 
 provide binary integer sizes not otherwise available.</p>
 <p>Such integer byte-holder types are traditionally called <b><i>
-endian</i></b> types. See the <a href="http://en.wikipedia.org/wiki/Endian">Wikipedia</a> for 
+endian</i></b> types. See the
+<a href="http://en.wikipedia.org/wiki/Endian" name="endianness">Wikipedia</a> for 
 a full 
 exploration of <b><i>endianness</i></b>, including definitions of <i><b>big 
 endian</b></i> and <i><b>little endian</b></i>.</p>
@@ -101,7 +103,7 @@ arithmetic operators are <code>+</code>, <code>+=</code>, <code>-</code>, <code>
 <code>^</code>, <code>^=</code>, <code>&lt;&lt;</code>, <code>&lt;&lt;=</code>, <code>&gt;&gt;</code>,
 <code>&gt;&gt;=</code>. Binary relational operators are <code>==</code>, <code>!=</code>,
 <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>.</p>
-<p>Automatic implicit conversion to the underlying value type is provided. An 
+<p>Automatic implicit conversion to the underlying value type is provided. A 
 conversion constructor from the underlying value type is provided. </p>
 <h2><a name="Example">Example</a></h2>
 <p>The <a href="../example/endian_example.cpp">endian_example.cpp</a> program writes a 
@@ -109,17 +111,17 @@ binary file containing four byte big-endian and little-endian integers:</p>
 <blockquote>
   <pre>#include &lt;iostream&gt;
 #include &lt;cstdio&gt;
-#include &lt;boost/endian/types.hpp&gt;
+#include &lt;boost/endian/arithmetic.hpp&gt;
 #include &lt;boost/static_assert.hpp&gt;
 
 using namespace boost::endian;
 
 namespace 
 {
-  //  This is an extract from a very widely used GIS file format. Who knows
-  //  why a designer would mix big and little endians in the same file - but
-  //  this is a real-world format and users wishing to write low level code
-  //  manipulating these files have to deal with the mixed endianness.
+  //  This is an extract from a very widely used GIS file format. It seems odd
+  //  to mix big and little endians in the same file - but this is a real-world
+  //  format and users wishing to write low level code manipulating these files
+  //  must deal with the mixed endianness.
 
   struct header
   {
@@ -144,10 +146,10 @@ int main(int, char* [])
   h.shape_type  = 0x01020304;
 
   //  Low-level I/O such as POSIX read/write or &lt;cstdio&gt; fread/fwrite is sometimes
-  //  used for binary file operations when ultimate efficiency is important.
-  //  Such I/O is often performed in some C++ wrapper class, but to drive home the
-  //  point that endian integers are often used in fairly low-level code that
-  //  does bulk I/O operations, &lt;cstdio&gt; fopen/fwrite is used for I/O in this example.
+  //  used for binary file operations when ultimate efficiency is important. Such
+  //  I/O is often performed in some C++ wrapper class, but to drive home the
+  //  point that endian integers are often used in fairly low-level code that does
+  //  bulk I/O operations, &lt;cstdio&gt; fopen/fwrite is used for I/O in this example.
 
   std::FILE* fi = std::fopen(filename, &quot;wb&quot;);  // MUST BE BINARY
   
@@ -213,7 +215,7 @@ enum class align {no, yes}; </pre>
 <p>One class template is provided:</p>
 <blockquote>
   <pre>template &lt;order Order, typename T, std::size_t n_bits, align A = align::no&gt;
-  class endian;
+  class endian_arithmetic;
 </pre>
 </blockquote>
 <p>Typedefs, such as <code>big_int32_t</code>, provide convenient naming 
@@ -223,108 +225,122 @@ conventions for common use cases:</p>
   <tr>
     <td width="18%" align="center"><b><i>Name</i></b></td>
     <td width="10%" align="center"><b><i>Endianness</i></b></td>
+    <td width="49%" align="center"><b><i>Alignment</i></b></td>
     <td width="10%" align="center"><b><i>Sign</i></b></td>
     <td width="15%" align="center"><b><i>Sizes in bits (n)</i></b></td>
-    <td width="49%" align="center"><b><i>Alignment</i></b></td>
   </tr>
   <tr>
-    <td width="18%"><code>big_align_int</code><i><b>n</b></i><code>_t</code></td>
+    <td width="18%"><code>big_int</code><i><b>n</b></i><code>_t</code></td>
     <td width="10%" align="center"><code>big</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">16,32,64</td>
-    <td width="49%" align="center"><code>yes</code></td>
   </tr>
   <tr>
-    <td width="18%"><code>big_align_uint</code><i><b>n</b></i><code>_t</code></td>
+    <td width="18%"><code>big_uint</code><i><b>n</b></i><code>_t</code></td>
     <td width="10%" align="center"><code>big</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
     <td width="10%" align="center">unsigned</td>
     <td width="15%">16,32,64</td>
-    <td width="49%" align="center"><code>yes</code></td>
-  </tr>
-  <tr>
-    <td width="18%"><code>big_align_float</code><i><b>n</b></i><code>_t</code></td>
-    <td width="10%" align="center"><code>big</code></td>
-    <td width="10%" align="center">signed</td>
-    <td width="15%">32,64</td>
-    <td width="49%" align="center"><code>yes</code></td>
-  </tr>
-  <tr>
-    <td width="18%"><code>little_align_int</code><i><b>n</b></i><code>_t</code></td>
-    <td width="10%" align="center"><code>little</code></td>
-    <td width="10%" align="center">signed</td>
-    <td width="15%">16,32,64</td>
-    <td width="49%" align="center"><code>yes</code></td>
-  </tr>
-  <tr>
-    <td width="18%"><code>little_align_uint</code><i><b>n</b></i><code>_t</code></td>
-    <td width="10%" align="center"><code>little</code></td>
-    <td width="10%" align="center">unsigned</td>
-    <td width="15%">16,32,64</td>
-    <td width="49%" align="center"><code>yes</code></td>
-  </tr>
-  <tr>
-    <td width="18%"><code>little_align_float</code><i><b>n</b></i><code>_t</code></td>
-    <td width="10%" align="center"><code>little</code></td>
-    <td width="10%" align="center">signed</td>
-    <td width="15%">32,64</td>
-    <td width="49%" align="center"><code>yes</code></td>
-  </tr>
-  <tr>
-    <td width="18%"><code>big_int</code><b><i>n</i></b><code>_t</code></td>
-    <td width="10%" align="center"><code>big</code></td>
-    <td width="10%" align="center">signed</td>
-    <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%" align="center"><code>no</code></td>
-  </tr>
-  <tr>
-    <td width="18%"><code>big_uint</code><i><b>n</b></i><code>_</code><code>t</code></td>
-    <td width="10%" align="center"><code>big</code></td>
-    <td width="10%" align="center">unsigned</td>
-    <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%" align="center"><code>no</code></td>
   </tr>
   <tr>
     <td width="18%"><code>big_float</code><i><b>n</b></i><code>_t</code></td>
     <td width="10%" align="center"><code>big</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">32,64</td>
-    <td width="49%" align="center"><code>no</code></td>
   </tr>
   <tr>
-    <td width="18%"><code>little_int</code><i><b>n</b></i><code>_</code><code>t</code></td>
-    <td width="10%" align="center"><code>little</code></td>
+    <td width="18%"><code>big_int</code><b><i>n</i></b><code>_ut</code></td>
+    <td width="10%" align="center"><code>big</code></td>
+    <td width="49%" align="center"><code>no</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%" align="center"><code>no</code></td>
-  </tr>
+    </tr>
   <tr>
-    <td width="18%"><code>little_uint</code><i><b>n</b></i><code>_</code><code>t</code></td>
-    <td width="10%" align="center"><code>little</code></td>
+    <td width="18%"><code>big_uint</code><i><b>n</b></i><code>_ut</code></td>
+    <td width="10%" align="center"><code>big</code></td>
+    <td width="49%" align="center"><code>no</code></td>
     <td width="10%" align="center">unsigned</td>
     <td width="15%">8,16,24,32,40,48,56,64</td>
+    </tr>
+  <tr>
+    <td width="18%"><code>big_float</code><i><b>n</b></i><code>_ut</code></td>
+    <td width="10%" align="center"><code>big</code></td>
     <td width="49%" align="center"><code>no</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">32,64</td>
+    </tr>
+  <tr>
+    <td width="18%"><code>little_int</code><i><b>n</b></i><code>_t</code></td>
+    <td width="10%" align="center"><code>little</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">16,32,64</td>
+  </tr>
+  <tr>
+    <td width="18%"><code>little_uint</code><i><b>n</b></i><code>_t</code></td>
+    <td width="10%" align="center"><code>little</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
+    <td width="10%" align="center">unsigned</td>
+    <td width="15%">16,32,64</td>
   </tr>
   <tr>
     <td width="18%"><code>little_float</code><i><b>n</b></i><code>_t</code></td>
     <td width="10%" align="center"><code>little</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">32,64</td>
-    <td width="49%" align="center"><code>no</code></td>
   </tr>
   <tr>
-    <td width="18%"><code>native_int</code><i><b>n</b></i><code>_</code><code>t</code></td>
-    <td width="10%" align="center"><code>native</code></td>
+    <td width="18%"><code>little_int</code><i><b>n</b></i><code>_ut</code></td>
+    <td width="10%" align="center"><code>little</code></td>
+    <td width="49%" align="center"><code>no</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%" align="center"><code>no</code></td>
   </tr>
   <tr>
-    <td width="18%"><code>native_uint</code><i><b>n</b></i><code>_</code><code>t</code></td>
-    <td width="10%" align="center"><code>native</code></td>
+    <td width="18%"><code>little_uint</code><i><b>n</b></i><code>_ut</code></td>
+    <td width="10%" align="center"><code>little</code></td>
+    <td width="49%" align="center"><code>no</code></td>
     <td width="10%" align="center">unsigned</td>
     <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%" align="center"><code>no</code></td>
   </tr>
+  <tr>
+    <td width="18%"><code>little_float</code><i><b>n</b></i><code>_ut</code></td>
+    <td width="10%" align="center"><code>little</code></td>
+    <td width="49%" align="center"><code>no</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">32,64</td>
+  </tr>
+  <tr>
+    <td width="18%"><code>native_float</code><i><b>n</b></i><code>_t</code></td>
+    <td width="10%" align="center"><code>native</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">32,64</td>
+    </tr>
+  <tr>
+    <td width="18%"><code>native_int</code><i><b>n</b></i><code>_ut</code></td>
+    <td width="10%" align="center"><code>native</code></td>
+    <td width="49%" align="center"><code>no</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">8,16,24,32,40,48,56,64</td>
+  </tr>
+  <tr>
+    <td width="18%"><code>native_uint</code><i><b>n</b></i><code>_ut</code></td>
+    <td width="10%" align="center"><code>native</code></td>
+    <td width="49%" align="center"><code>no</code></td>
+    <td width="10%" align="center">unsigned</td>
+    <td width="15%">8,16,24,32,40,48,56,64</td>
+  </tr>
+  <tr>
+    <td width="18%"><code>native_float</code><i><b>n</b></i><code>_ut</code></td>
+    <td width="10%" align="center"><code>native</code></td>
+    <td width="49%" align="center"><code>no</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">32,64</td>
+    </tr>
   </table>
 </blockquote>
 <p>The unaligned types do not cause compilers to insert padding bytes in classes 
@@ -339,7 +355,7 @@ are only available on architectures with 16, 32, and 64-bit integer types. </p>
 <p><b><i>Note:</i></b> One-byte types 
 have identical 
 functionality. They are provided to improve code readability and searchability.</p>
-<h2><a name="Class_template_endian">Class template <code>endian</code></a></h2>
+<h2><a name="Class_template_endian">Class template <code>endian</code></a><code>_arithmetic</code></h2>
 <p>An endian is an integer byte-holder with user-specified <a href="#endianness">
 endianness</a>, value type, size, and <a href="#alignment">alignment</a>. The 
 usual operations on integers are supplied.</p>
@@ -359,20 +375,22 @@ usual operations on integers are supplied.</p>
 
     enum class <a name="alignment">align</a> {no, yes};            
 
-    template &lt;order Order, typename T, std::size_t n_bits, align A = align::no&gt;
-    class endian
+    template &lt;order Order, class T, std::size_t n_bits, align A = align::no&gt;
+    class endian_arithmetic
+      : public endian_buffer&lt;Order, T, n_bits, A&gt;
     {
     public:
-          typedef T value_type;
+      typedef T value_type;
 
       // if BOOST_ENDIAN_FORCE_PODNESS is defined &amp;&amp; C++11 POD's are not
       // available then these two constructors will not be present
-      <a href="#endian">endian</a>() noexcept = default;
-      <a href="#explicit-endian">endian</a>(T v) noexcept;
+      <a href="#endian">endian_arithmetic</a>() noexcept = default;
+      <a href="#explicit-endian">endian_arithmetic</a>(T v) noexcept;
 
-      endian&amp; <a href="#operator-eq">operator=</a>(T v) noexcept;
-      <a href="#operator-T">operator T</a>() const noexcept;
-      const char* <a href="#data">data</a>() const noexcept;
+      endian_arithmetic&amp; <a href="#operator-eq">operator=</a>(T v) noexcept;
+      <a href="#operator-T">operator value_type</a>() const noexcept;
+      value_type value() const noexcept;  // exposition only; see endian_buffer
+      const char* <a href="#data">data</a>() const noexcept;  // exposition only; see endian_buffer
 
       // arithmetic operations
       //   note that additional operations are provided by the value_type 
@@ -393,15 +411,27 @@ usual operations on integers are supplied.</p>
       endian&amp; operator--(endian&amp; x) noexcept;
       endian operator++(endian&amp; x, int) noexcept;
       endian operator--(endian&amp; x, int) noexcept;
+
+      // Stream inserter
+      template &lt;class charT, class traits&gt;
+      friend std::basic_ostream&lt;charT, traits&gt;&amp;
+        operator&lt;&lt;(std::basic_ostream&lt;charT, traits&gt;&amp; os, const T&amp; x);
+
+      // Stream extractor 
+      template &lt;class charT, class traits&gt;
+      friend std::basic_istream&lt;charT, traits&gt;&amp;
+        operator&gt;&gt;(std::basic_istream&lt;charT, traits&gt;&amp; is, T&amp; x);
     };
 
+    // typedefs  
+
     // aligned big endian floating point types
-    typedef endian&lt;order::big, float, 32, align::yes&gt;       big_align_float32_t;
-    typedef endian&lt;order::big, double, 64, align::yes&gt;      big_align_float64_t;
+    typedef endian&lt;order::big, float, 32, align::yes&gt;       big_float32_t;
+    typedef endian&lt;order::big, double, 64, align::yes&gt;      big_float64_t;
 
     // aligned little endian floating point types
-    typedef endian&lt;order::little, float, 32, align::yes&gt;    little_align_float32_t;
-    typedef endian&lt;order::little, double, 64, align::yes&gt;   little_align_float64_t;
+    typedef endian&lt;order::little, float, 32, align::yes&gt;    little_float32_t;
+    typedef endian&lt;order::little, double, 64, align::yes&gt;   little_float64_t;
 
     // unaligned big endian floating point types
     typedef endian&lt;order::big, float, 32, align::no&gt;        big_float32un_t;
@@ -412,87 +442,87 @@ usual operations on integers are supplied.</p>
     typedef endian&lt;order::little, double, 64, align::no&gt;    little_float64un_t;
   
     // aligned big endian signed integer types
-    typedef endian&lt;order::big, int16_t, 16, align::yes&gt;     big_align_int16_t;
-    typedef endian&lt;order::big, int32_t, 32, align::yes&gt;     big_align_int32_t;
-    typedef endian&lt;order::big, int64_t, 64, align::yes&gt;     big_align_int64_t;
+    typedef endian&lt;order::big, int16_t, 16, align::yes&gt;     big_int16_t;
+    typedef endian&lt;order::big, int32_t, 32, align::yes&gt;     big_int32_t;
+    typedef endian&lt;order::big, int64_t, 64, align::yes&gt;     big_int64_t;
 
     // aligned big endian unsigned integer types
-    typedef endian&lt;order::big, uint16_t, 16, align::yes&gt;    big_align_uint16_t;
-    typedef endian&lt;order::big, uint32_t, 32, align::yes&gt;    big_align_uint32_t;
-    typedef endian&lt;order::big, uint64_t, 64, align::yes&gt;    big_align_uint64_t;
+    typedef endian&lt;order::big, uint16_t, 16, align::yes&gt;    big_uint16_t;
+    typedef endian&lt;order::big, uint32_t, 32, align::yes&gt;    big_uint32_t;
+    typedef endian&lt;order::big, uint64_t, 64, align::yes&gt;    big_uint64_t;
 
     // aligned little endian signed integer types
-    typedef endian&lt;order::little, int16_t, 16, align::yes&gt;  little_align_int16_t;
-    typedef endian&lt;order::little, int32_t, 32, align::yes&gt;  little_align_int32_t;
-    typedef endian&lt;order::little, int64_t, 64, align::yes&gt;  little_align_int64_t;
+    typedef endian&lt;order::little, int16_t, 16, align::yes&gt;  little_int16_t;
+    typedef endian&lt;order::little, int32_t, 32, align::yes&gt;  little_int32_t;
+    typedef endian&lt;order::little, int64_t, 64, align::yes&gt;  little_int64_t;
 
     // aligned little endian unsigned integer types
-    typedef endian&lt;order::little, uint16_t, 16, align::yes&gt; little_align_uint16_t;
-    typedef endian&lt;order::little, uint32_t, 32, align::yes&gt; little_align_uint32_t;
-    typedef endian&lt;order::little, uint64_t, 64, align::yes&gt; little_align_uint64_t;
+    typedef endian&lt;order::little, uint16_t, 16, align::yes&gt; little_uint16_t;
+    typedef endian&lt;order::little, uint32_t, 32, align::yes&gt; little_uint32_t;
+    typedef endian&lt;order::little, uint64_t, 64, align::yes&gt; little_uint64_t;
 
     // aligned native endian typedefs are not provided because
     // &lt;cstdint&gt; types are superior for that use case
   
     // unaligned big endian signed integer types
-    typedef endian&lt;order::big, int_least8_t, 8&gt;        big_int8_t;
-    typedef endian&lt;order::big, int_least16_t, 16&gt;      big_int16_t;
-    typedef endian&lt;order::big, int_least32_t, 24&gt;      big_int24_t;
-    typedef endian&lt;order::big, int_least32_t, 32&gt;      big_int32_t;
-    typedef endian&lt;order::big, int_least64_t, 40&gt;      big_int40_t;
-    typedef endian&lt;order::big, int_least64_t, 48&gt;      big_int48_t;
-    typedef endian&lt;order::big, int_least64_t, 56&gt;      big_int56_t;
-    typedef endian&lt;order::big, int_least64_t, 64&gt;      big_int64_t;
+    typedef endian&lt;order::big, int_least8_t, 8&gt;        big_int8_ut;
+    typedef endian&lt;order::big, int_least16_t, 16&gt;      big_int16_ut;
+    typedef endian&lt;order::big, int_least32_t, 24&gt;      big_int24_ut;
+    typedef endian&lt;order::big, int_least32_t, 32&gt;      big_int32_ut;
+    typedef endian&lt;order::big, int_least64_t, 40&gt;      big_int40_ut;
+    typedef endian&lt;order::big, int_least64_t, 48&gt;      big_int48_ut;
+    typedef endian&lt;order::big, int_least64_t, 56&gt;      big_int56_ut;
+    typedef endian&lt;order::big, int_least64_t, 64&gt;      big_int64_ut;
   
     // unaligned big endian unsigned integer types
-    typedef endian&lt;order::big, uint_least8_t, 8&gt;       big_uint8_t;
-    typedef endian&lt;order::big, uint_least16_t, 16&gt;     big_uint16_t;
-    typedef endian&lt;order::big, uint_least32_t, 24&gt;     big_uint24_t;
-    typedef endian&lt;order::big, uint_least32_t, 32&gt;     big_uint32_t;
-    typedef endian&lt;order::big, uint_least64_t, 40&gt;     big_uint40_t;
-    typedef endian&lt;order::big, uint_least64_t, 48&gt;     big_uint48_t;
-    typedef endian&lt;order::big, uint_least64_t, 56&gt;     big_uint56_t;
-    typedef endian&lt;order::big, uint_least64_t, 64&gt;     big_uint64_t;
+    typedef endian&lt;order::big, uint_least8_t, 8&gt;       big_uint8_ut;
+    typedef endian&lt;order::big, uint_least16_t, 16&gt;     big_uint16_ut;
+    typedef endian&lt;order::big, uint_least32_t, 24&gt;     big_uint24_ut;
+    typedef endian&lt;order::big, uint_least32_t, 32&gt;     big_uint32_ut;
+    typedef endian&lt;order::big, uint_least64_t, 40&gt;     big_uint40_ut;
+    typedef endian&lt;order::big, uint_least64_t, 48&gt;     big_uint48_ut;
+    typedef endian&lt;order::big, uint_least64_t, 56&gt;     big_uint56_ut;
+    typedef endian&lt;order::big, uint_least64_t, 64&gt;     big_uint64_ut;
   
     // unaligned little endian signed integer types
-    typedef endian&lt;order::little, int_least8_t, 8&gt;     little_int8_t;
-    typedef endian&lt;order::little, int_least16_t, 16&gt;   little_int16_t;
-    typedef endian&lt;order::little, int_least32_t, 24&gt;   little_int24_t;
-    typedef endian&lt;order::little, int_least32_t, 32&gt;   little_int32_t;
-    typedef endian&lt;order::little, int_least64_t, 40&gt;   little_int40_t;
-    typedef endian&lt;order::little, int_least64_t, 48&gt;   little_int48_t;
-    typedef endian&lt;order::little, int_least64_t, 56&gt;   little_int56_t;
-    typedef endian&lt;order::little, int_least64_t, 64&gt;   little_int64_t;
+    typedef endian&lt;order::little, int_least8_t, 8&gt;     little_int8_ut;
+    typedef endian&lt;order::little, int_least16_t, 16&gt;   little_int16_ut;
+    typedef endian&lt;order::little, int_least32_t, 24&gt;   little_int24_ut;
+    typedef endian&lt;order::little, int_least32_t, 32&gt;   little_int32_ut;
+    typedef endian&lt;order::little, int_least64_t, 40&gt;   little_int40_ut;
+    typedef endian&lt;order::little, int_least64_t, 48&gt;   little_int48_ut;
+    typedef endian&lt;order::little, int_least64_t, 56&gt;   little_int56_ut;
+    typedef endian&lt;order::little, int_least64_t, 64&gt;   little_int64_ut;
   
     // unaligned little endian unsigned integer types
-    typedef endian&lt;order::little, uint_least8_t, 8&gt;    little_uint8_t;
-    typedef endian&lt;order::little, uint_least16_t, 16&gt;  little_uint16_t;
-    typedef endian&lt;order::little, uint_least32_t, 24&gt;  little_uint24_t;
-    typedef endian&lt;order::little, uint_least32_t, 32&gt;  little_uint32_t;
-    typedef endian&lt;order::little, uint_least64_t, 40&gt;  little_uint40_t;
-    typedef endian&lt;order::little, uint_least64_t, 48&gt;  little_uint48_t;
-    typedef endian&lt;order::little, uint_least64_t, 56&gt;  little_uint56_t;
-    typedef endian&lt;order::little, uint_least64_t, 64&gt;  little_uint64_t;
+    typedef endian&lt;order::little, uint_least8_t, 8&gt;    little_uint8_ut;
+    typedef endian&lt;order::little, uint_least16_t, 16&gt;  little_uint16_ut;
+    typedef endian&lt;order::little, uint_least32_t, 24&gt;  little_uint24_ut;
+    typedef endian&lt;order::little, uint_least32_t, 32&gt;  little_uint32_ut;
+    typedef endian&lt;order::little, uint_least64_t, 40&gt;  little_uint40_ut;
+    typedef endian&lt;order::little, uint_least64_t, 48&gt;  little_uint48_ut;
+    typedef endian&lt;order::little, uint_least64_t, 56&gt;  little_uint56_ut;
+    typedef endian&lt;order::little, uint_least64_t, 64&gt;  little_uint64_ut;
   
   // unaligned native endian signed integer types
-    typedef <b><i>implementation-defined</i></b>_int8_t   native_int8_t;
-    typedef <b><i>implementation-defined</i></b>_int16_t  native_int16_t;
-    typedef <b><i>implementation-defined</i></b>_int24_t  native_int24_t;
-    typedef <b><i>implementation-defined</i></b>_int32_t  native_int32_t;
-    typedef <b><i>implementation-defined</i></b>_int40_t  native_int40_t;
-    typedef <b><i>implementation-defined</i></b>_int48_t  native_int48_t;
-    typedef <b><i>implementation-defined</i></b>_int56_t  native_int56_t;
-    typedef <b><i>implementation-defined</i></b>_int64_t  native_int64_t;
+    typedef <b><i>implementation-defined</i></b>_int8_t   native_int8_ut;
+    typedef <b><i>implementation-defined</i></b>_int16_t  native_int16_ut;
+    typedef <b><i>implementation-defined</i></b>_int24_t  native_int24_ut;
+    typedef <b><i>implementation-defined</i></b>_int32_t  native_int32_ut;
+    typedef <b><i>implementation-defined</i></b>_int40_t  native_int40_ut;
+    typedef <b><i>implementation-defined</i></b>_int48_t  native_int48_ut;
+    typedef <b><i>implementation-defined</i></b>_int56_t  native_int56_ut;
+    typedef <b><i>implementation-defined</i></b>_int64_t  native_int64_ut;
 
   // unaligned native endian unsigned integer types
-    typedef <b><i>implementation-defined</i></b>_uint8_t   native_uint8_t;
-    typedef <b><i>implementation-defined</i></b>_uint16_t  native_uint16_t;
-    typedef <b><i>implementation-defined</i></b>_uint24_t  native_uint24_t;
-    typedef <b><i>implementation-defined</i></b>_uint32_t  native_uint32_t;
-    typedef <b><i>implementation-defined</i></b>_uint40_t  native_uint40_t;
-    typedef <b><i>implementation-defined</i></b>_uint48_t  native_uint48_t;
-    typedef <b><i>implementation-defined</i></b>_uint56_t  native_uint56_t;
-    typedef <b><i>implementation-defined</i></b>_uint64_t  native_uint64_t;
+    typedef <b><i>implementation-defined</i></b>_uint8_t   native_uint8_ut;
+    typedef <b><i>implementation-defined</i></b>_uint16_t  native_uint16_ut;
+    typedef <b><i>implementation-defined</i></b>_uint24_t  native_uint24_ut;
+    typedef <b><i>implementation-defined</i></b>_uint32_t  native_uint32_ut;
+    typedef <b><i>implementation-defined</i></b>_uint40_t  native_uint40_ut;
+    typedef <b><i>implementation-defined</i></b>_uint48_t  native_uint48_ut;
+    typedef <b><i>implementation-defined</i></b>_uint56_t  native_uint56_ut;
+    typedef <b><i>implementation-defined</i></b>_uint64_t  native_uint64_ut;
 
   } // namespace endian
 } // namespace boost</pre>
@@ -531,6 +561,29 @@ in <code>*this</code>.</p>
 <h3>Other operators</h3>
 <p>Other operators on endian objects are forwarded to the equivalent 
 operator on <code>value_type</code>.</p>
+<h3><a name="Stream-inserter">Stream inserter</a></h3>
+<pre>template &lt;class charT, class traits&gt;
+friend std::basic_ostream&lt;charT, traits&gt;&amp;
+  operator&lt;&lt;(std::basic_ostream&lt;charT, traits&gt;&amp; os, const T&amp; x);
+</pre>
+<blockquote>
+<p><i>Returns:</i> <code>os &lt;&lt; +x</code>.</p>
+</blockquote>
+<h3><a name="Stream-extractor">Stream extractor</a></h3>
+<pre>template &lt;class charT, class traits&gt;
+friend std::basic_istream&lt;charT, traits&gt;&amp;
+  operator&gt;&gt;(std::basic_istream&lt;charT, traits&gt;&amp; is, T&amp; x);
+</pre>
+<blockquote>
+<p><i>Effects: </i>As if:</p>
+  <blockquote>
+    <pre>T i;
+if (is &gt;&gt; i)
+  x = i;
+</pre>
+  </blockquote>
+  <p><i>Returns: </i><code>is</code><i>.</i></p>
+</blockquote>
 <h2><a name="FAQ">FAQ</a></h2>
 
 <p>See the <a href="index.html#FAQ">Endian home page</a> FAQ for a library-wide 
@@ -542,7 +595,7 @@ conversion or copying. They are already in the desired format for binary I/O.
 Thus they can be read or written in bulk.</p>
 <p><b>Are endian types POD's?</b> Yes for C++11. No for C++03, although several
 <a href="#Compilation">macros</a> are available to force PODness in all cases.</p>
-<p><b>What are the implications endian integer types not being POD's with C++03 
+<p><b>What are the implications of endian integer types not being POD's with C++03 
 compilers?</b> They 
 can't be used in unions. Also, compilers aren't required to align or lay 
 out storage in portable ways, although this potential problem hasn't prevented 
@@ -628,7 +681,7 @@ differs from endian representation size. Vicente Botet and other reviewers
 suggested supporting floating point types.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->12 August, 2014<!--webbot bot="Timestamp" endspan i-checksum="34569" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->05 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38642" --></p>
 <p>© Copyright Beman Dawes, 2006-2009, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
