@@ -1,6 +1,6 @@
 copy /y c:\boost\modular\develop\libs\endian\doc\* d:\boost\endian-gh-pages
 pushd d:\boost\endian-gh-pages
-git commit -a
+git commit -a -m "sync with develop"
 git push
 popd
 rem Copyright Beman Dawes, 2013
