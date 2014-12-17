@@ -3,7 +3,7 @@
 <head>
 <meta name="GENERATOR" content="Microsoft FrontPage 5.0">
 <meta name="ProgId" content="FrontPage.Editor.Document">
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Endian Mini-Review</title>
 </head>
 <link href="styles.css" rel="stylesheet">
@@ -18,7 +18,7 @@
   <p><b>Common use case scenarios should be developed.</b></p>
   <blockquote>
 
-  <p>&nbsp;</p>
+  <p>Done. See <a href="index.html#Use-cases">Use cases</a>.</p>
   </blockquote>
   <p><b>Example programs should be developed for the common use case scenarios.</b></p>
   <blockquote>
@@ -29,9 +29,8 @@ integer/float type and endian conversion approaches to the common use
 case scenarios, and provide guidelines for choosing the most appropriate 
 approach in user's applications.</b></p>
   <blockquote>
-  <p>Done. See <a href="index.html#Choosing">Choosing between 
-  <span style="background-color: #FFFF00">endian types</span> and 
-  endian conversion functions</a>.</p>
+  <p>Done. See <a href="index.html#Choosing">Choosing between endian conversion 
+  functions, endian buffer types, and endian arithmetic types</a>.</p>
   </blockquote>
   <p><b>Conversion functions supplying results via return should be provided.</b></p>
   <blockquote>
@@ -59,13 +58,14 @@ portable base implementations, and to compare endian integer approaches
 against endian conversion approaches for the common use case scenarios.</b></p>
   <blockquote>
   <p>Done. See <a href="index.html#Timings">Timings for Example 2</a>. The <code>endian/test</code> directory 
-  also contains several addional benchmark and speed test programs.</p>
+  also contains several additional benchmark and speed test programs.</p>
   </blockquote>
   <p><b>Float (32-bits) and double (64-bits) should be supported. IEEE 754 is 
 the primary use case.</b></p>
   <blockquote>
-  <p>Done. The <a href="types.html">endian types</a> and
-  <a href="conversion.html">endian conversion</a> functions now support 32-bit (<code>float)</code> 
+  <p>Done. The <a href="buffers.html">endian buffer types</a>,&nbsp;
+  <a href="arithmetic.html">endian arithmetic types</a> and
+  <a href="conversion.html">endian conversion functions</a> now support 32-bit (<code>float)</code> 
   and 64-bit <code>(double)</code> floating point, as requested.</p>
   </blockquote>
   <p><b>Support for user defined types (UDTs) is desirable, and should be 
@@ -99,8 +99,8 @@ might used inadvertently or inappropriately. The impact of adding an endian_buff
 </blockquote>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->05 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38642" --></p>
-<p>© Copyright Beman Dawes, 2014</p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->17 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38647" --></p>
+<p>Â© Copyright Beman Dawes, 2014</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
   
