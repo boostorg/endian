@@ -42,15 +42,20 @@
 <a href="#Abstract">Abstract</a><br>
 <a href="#Introduction-to-endianness">Introduction to endianness</a><br>
 <a href="#Introduction">Introduction to the Boost.Endian library</a><br>
-<a href="#Choosing">Choosing between  conversion,  buffer types,</a><br>
-&nbsp;<a href="#Choosing">and  arithmetic types</a><br>
+<a href="#Choosing">Choosing between conversion functions,</a><br>
+  &nbsp;  <a href="#Choosing">buffer types, and  arithmetic types</a><br>
 &nbsp;&nbsp;&nbsp;<a href="#Characteristics">Characteristics</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Endianness-invariants">Endianness invariants</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Conversion-explicitness">Conversion explicitness</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Arithmetic-operations">Arithmetic operations</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Sizes">Sizes</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Alignments">Alignments</a><br>
-&nbsp;&nbsp;&nbsp;<a href="#Use-cases">Use cases</a><br>
+&nbsp;&nbsp;&nbsp;<a href="#Design-patterns">Design patterns</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#As-needed">Convert only as needed (i.e. lazy)</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Anticipating-need">Convert in anticipation of need</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Convert-generally-as-needed-locally-in-anticipation">Generally 
+as needed, locally in anticipation</a><br>
+&nbsp;&nbsp;&nbsp;<a href="#Use-cases">Use case examples</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Porting-endian-unaware-codebase">Porting endian unaware codebase</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Porting-endian-aware-codebase">Porting endian aware codebase</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Reliability-arithmetic-speed">Reliability and arithmetic-speed</a><br>
@@ -83,7 +88,11 @@
 <a href="#Introduction-to-endianness">endianness</a> of integers, 
 floating point numbers, and user-defined types.</p>
 <ul>
-  <li>Primary use cases:<br>
+  <li>Three  approaches to dealing with endianness are supported. Each has a 
+  long history of successful use, and each approach has use cases where it is 
+  preferred over the other approaches.<br>
+&nbsp;</li>
+  <li>Primary uses:<br>
 &nbsp;<ul>
   <li>Data portability. The Endian library supports binary data exchange, via either external media or network transmission, 
   regardless of platform endianness.<br>
@@ -97,13 +106,14 @@ floating point numbers, and user-defined types.</p>
 </ul>
 
   </li>
-  <li>Secondary use case: Minimizing data size via sizes and/or alignments not supported by the 
+  <li>Secondary use: Minimizing data size via sizes and/or alignments not supported by the 
   standard C++ arithmetic types.<br>
-  <br></li>
-  <li>Three  approaches to dealing with endianness are supported. Each has a 
-  long history of successful use, and each approach has use cases where it is 
-  preferred over the other approaches.</li>
+  </li>
 </ul>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -810,17 +820,14 @@ and 16, 32, and 64-bit aligned integers.</p>
 <h2><a name="Release-history">Release history</a></h2>
 <h3><a name="Changes-since-formal-review">Changes since formal review</a></h3>
 <ul>
-  <li>
-  <p>The endian types have been decomposed into endian buffer types 
+  <li>The endian types have been decomposed into endian buffer types 
   and endian arithmetic types, as requested. The arithmetic types derive from 
   the buffer types.</li>
-  <li>
-  <p>Headers have been renamed to <code>endian/arithmetic.hpp</code> and 
+  <li>Headers have been renamed to <code>endian/arithmetic.hpp</code> and 
   <code>endian/conversion.hpp</code>. <code>endian/buffers.hpp</code> has been 
   added. 
   Infrastructure file names were changed accordingly.</li>
-  <li>
-  <p>The endian buffer and arithmetic types and endian conversion functions now support 32-bit (<code>float)</code> and 
+  <li>The endian buffer and arithmetic types and endian conversion functions now support 32-bit (<code>float)</code> and 
   64-bit <code>(double)</code> floating point, as requested.</li>
   <li>The endian types now have stream inserter and extractor templates, as 
   requested.</li>
