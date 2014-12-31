@@ -188,7 +188,7 @@ and  arithmetic types</h2>
 
 <p>The best approach to endianness for a particular application  depends on  the interaction between 
 the application&#39;s needs and the characteristics of each of the three (conversion 
-functions, buffer types, or arithmetic types) approaches.</p>
+functions, buffer types, and arithmetic types) approaches.</p>
 
 <p><b>Recommendation:</b> If you are new to endianness, uncertain, or don&#39;t want to invest 
 the time to 
@@ -212,8 +212,7 @@ alignment requirements.</p>
 <p><b>Endian conversion functions</b> use objects of the ordinary C++ arithmetic 
 types like <code>int</code> or <code>unsigned short</code> to hold values. That 
 breaks the implicit invariant that the C++ language rules apply. The usual 
-language rules only apply if the endianness of the object is currently set by 
-the conversion functions to the native endianness for the platform. That can 
+language rules only apply if the endianness of the object is currently set to the native endianness for the platform. That can 
 make it very hard to reason about complex logic flow, and result in difficult to 
 find bugs.</p>
 
@@ -328,15 +327,16 @@ conversion from native to the desired output endianness.</p>
 <p>This pattern is appropriate when all endian elements in a record are 
 typically used regardless of record content or other circumstances</p>
 
-<h4>Convert generally only as needed, but locally in anticipation of need</h4>
+<h4><a name="Convert-generally-as-needed-locally-in-anticipation">Convert 
+generally only as needed, but locally in anticipation of need</a></h4>
 
-<p>This pattern in general defers conversion but does 
-anticipatory conversion for specific local needs.</p>
+<p>This pattern in general defers conversion but for specific local needs does 
+anticipatory conversion.</p>
 
 <p>This pattern is particularly appropriate when coupled with the endian buffer 
 or arithmetic types.</p>
 
-<h3><a name="Use-cases">Use cases</a></h3>
+<h3><a name="Use-cases">Use case examples</a></h3>
 
 <h4><a name="Porting-endian-unaware-codebase">Porting endian unaware codebase</a></h4>
 
@@ -348,9 +348,9 @@ be maintained as big endian.</p>
 
 <p dir="ltr">The <a href="arithmetic.html">endian 
 arithmetic approach</a> is recommended to meet these needs. A relatively small 
-number of header files dealing with binary I/O layouts need to change types like
-<code>short</code> or <code>int16_t</code> to <code>big_int16_t</code>, and
-<code>int</code> or <code>int32_t</code> to <code>bif_int32_t</code>. No 
+number of header files dealing with binary I/O layouts need to change types. For 
+example,&nbsp;
+<code>short</code> or <code>int16_t</code> would change to <code>big_int16_t</code>. No 
 changes are required for <code>.cpp</code> files.</p>
 
 <h4><a name="Porting-endian-aware-codebase">Porting endian aware codebase</a></h4>
