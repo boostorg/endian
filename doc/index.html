@@ -22,16 +22,19 @@
   </tr>
 </table>
 
-<table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" bgcolor="#D7EEFF" width="100%">
+<table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse"
+  bordercolor="#111111" bgcolor="#D7EEFF" width="100%">
   <tr>
-    <td><b><a href="../../../index.htm">Boost Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <td><b>
     <a href="index.html">Endian Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="conversion.html">Conversion Functions</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="arithmetic.html">Arithmetic Types</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="buffers.html">Buffer Types</a></b></td>
+    <a href="buffers.html">Buffer Types</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="choosing_approach.html">Choosing Approach</a></b></td>
   </tr>
 </table>
 <p></p>
+
 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" align="right">
   <tr>
     <td width="100%" bgcolor="#D7EEFF" align="center">
@@ -44,22 +47,6 @@
 <a href="#Introduction">Introduction to the Boost.Endian library</a><br>
 <a href="#Choosing">Choosing between conversion functions,</a><br>
   &nbsp;  <a href="#Choosing">buffer types, and  arithmetic types</a><br>
-&nbsp;&nbsp;&nbsp;<a href="#Characteristics">Characteristics</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Endianness-invariants">Endianness invariants</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Conversion-explicitness">Conversion explicitness</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Arithmetic-operations">Arithmetic operations</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Sizes">Sizes</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Alignments">Alignments</a><br>
-&nbsp;&nbsp;&nbsp;<a href="#Design-patterns">Design patterns</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#As-needed">Convert only as needed (i.e. lazy)</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Anticipating-need">Convert in anticipation of need</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Convert-generally-as-needed-locally-in-anticipation">Generally 
-as needed, locally in anticipation</a><br>
-&nbsp;&nbsp;&nbsp;<a href="#Use-cases">Use case examples</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Porting-endian-unaware-codebase">Porting endian unaware codebase</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Porting-endian-aware-codebase">Porting endian aware codebase</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Reliability-arithmetic-speed">Reliability and arithmetic-speed</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Reliability-ease-of-use">Reliability and ease-of-use</a><br>
 <a href="#Intrinsic">Built-in support for Intrinsics</a><br>
 <a href="#Performance">Performance</a><br>
 &nbsp;&nbsp;&nbsp;<a href="#Timings">Timings for Example 2</a><br>
@@ -88,7 +75,7 @@ as needed, locally in anticipation</a><br>
 <a href="#Introduction-to-endianness">endianness</a> of integers, 
 floating point numbers, and user-defined types.</p>
 <ul>
-  <li>Three  approaches to dealing with endianness are supported. Each has a 
+  <li>Three  approaches to  endianness are supported. Each has a 
   long history of successful use, and each approach has use cases where it is 
   preferred over the other approaches.<br>
 &nbsp;</li>
@@ -110,13 +97,6 @@ floating point numbers, and user-defined types.</p>
   standard C++ arithmetic types.<br>
   </li>
 </ul>
-
-<p>&nbsp;</p>
-
-<p>&nbsp;</p>
-
-<p>&nbsp;</p>
-<p>&nbsp;</p>
 
 <h2><a name="Introduction-to-endianness">Introduction to endianness</a></h2>
 
@@ -196,223 +176,21 @@ integers. The types may be aligned.</p>
 <h2><a name="Choosing">Choosing</a> between  conversion functions,  buffer types, 
 and  arithmetic types</h2>
 
-<p>The best approach to endianness for a particular application  depends on  the interaction between 
-the application&#39;s needs and the characteristics of each of the three (conversion 
-functions, buffer types, and arithmetic types) approaches.</p>
-
-<p><b>Recommendation:</b> If you are new to endianness, uncertain, or don&#39;t want to invest 
-the time to 
-study 
-engineering trade-offs, use <a href="arithmetic.html">endian arithmetic types</a>. They are safe, easy 
-to use, and easy to maintain. Use the
-<a href="#Anticipating-need"> <i>
-anticipating need</i></a> design pattern locally around performance hot spots like lengthy loops, 
-if needed.&nbsp; </p>
-
-<h3><a name="Characteristics">Characteristics</a></h3>
-
-<p>The characteristics that differentiate the three approaches to endianness are the endianness 
-invariants, conversion explicitness, arithmetic operations, sizes available, and 
-alignment requirements.</p>
-
-<h4><a name="Endianness-invariants">Endianness invariants</a></h4>
-
-<blockquote>
-
-<p><b>Endian conversion functions</b> use objects of the ordinary C++ arithmetic 
-types like <code>int</code> or <code>unsigned short</code> to hold values. That 
-breaks the implicit invariant that the C++ language rules apply. The usual 
-language rules only apply if the endianness of the object is currently set to the native endianness for the platform. That can 
-make it very hard to reason about complex logic flow, and result in difficult to 
-find bugs.</p>
-
-<p><b>Endian buffer and arithmetic types</b> hold values internally as arrays of 
-characters with an invariant that the endianness of the array never changes. 
-That makes these types easier to use and programs easier to maintain.</p>
-
-</blockquote>
-
-<h4><a name="Conversion-explicitness">Conversion explicitness</a></h4>
-
-<blockquote>
-
-<p><b>Endian conversion functions</b> and <b>buffer types</b> never perform 
-implicit conversions. This gives users explicit control of when conversion 
-occurs, and may help avoid unnecessary conversions.</p>
-
-<p><b>Endian arithmetic types</b> perform conversion implicitly. That makes 
-these types very easy to use, but can result in unnecessary conversions. Failure 
-to hoist conversions out of inner loops can bring a performance penalty.</p>
-
-</blockquote>
-
-<h4><a name="Arithmetic-operations">Arithmetic operations</a></h4>
-
-<blockquote>
-
-<p><b>Endian conversion functions</b> do not supply arithmetic 
-operations, but this is not a concern since this approach uses ordinary C++ 
-arithmetic types to hold values.</p>
-
-<p><b>Endian buffer types</b> do not supply arithmetic operations. Although this 
-approach avoids unnecessary conversions, it can result in the introduction of 
-additional variables and confuse maintenance programmers.</p>
-
-<p><b>Endian</b> <b>arithmetic types</b> do supply arithmetic operations. They 
-are very easy to use if lots of arithmetic is involved. </p>
-
-</blockquote>
-
-<h4><a name="Sizes">Sizes</a></h4>
-
-<blockquote>
-
-<p><b>Endianness conversion functions</b> only support 1, 2, 4, and 8 byte 
-integers. That&#39;s sufficient for many applications.</p>
-
-<p><b>Endian buffer and arithmetic types</b> support 1, 2, 3, 4, 5, 6, 7, and 8 
-byte integers. For an application where memory use or I/O speed is the limiting 
-factor, using sizes tailored to application needs can be  useful.</p>
-
-</blockquote>
-
-<h4><a name="Alignments">Alignments</a></h4>
-
-<blockquote>
-
-<p><b>Endianness conversion functions</b> only support aligned integer and 
-floating-point types. That&#39;s sufficient for most applications.</p>
-
-<p><b>Endian buffer and arithmetic types</b> support both aligned and unaligned 
-integer and floating-point types. Unaligned types are rarely needed, but when 
-needed they are often very useful and workarounds are painful. For example,</p>
-
-<blockquote>
-  <p>Non-portable code like this:<blockquote>
-      <p><code>struct S {<br>
-      &nbsp; uint16_t a;&nbsp; // big endian<br>
-      &nbsp; uint32_t b;&nbsp; // big endian<br>
-      } __attribute__ ((packed));</code>
-    </p></blockquote>
-    <p>Can be replaced with portable code like this:</p>
-    <blockquote>
-      <p><code>struct S {<br>
-      &nbsp; big_uint16_ut a;<br>
-      &nbsp; big_uint32_ut b;<br>
-      };</code>
-    </p></blockquote>
-      </blockquote>
-
-</blockquote>
-
-<h3><a name="Design-patterns">Design patterns</a></h3>
-
-<p>Applications often traffic in endian data as records or packets containing 
-multiple endian data elements. For simplicity, we will just call them records.</p>
-
-<p>If desired endianness differs from native endianness, a conversion has to be 
-performed. When should that conversion occur? Three design patterns have 
-evolved.</p>
-
-<h4><a name="As-needed">Convert only as needed</a> (i.e. lazy)</h4>
-
-<p>This pattern defers conversion to the point in the code where the data 
-element is actually used.</p>
-
-<p>This pattern is appropriate when which endian element is actually used varies 
-greatly according to record content or other circumstances</p>
-
-<h4><a name="Anticipating-need">Convert in anticipation of need</a></h4>
-
-<p>This pattern performs conversion to native endianness in anticipation of use, 
-such as immediately after reading records. If needed, conversion to the output 
-endianness is performed after all possible needs have passed, such as just 
-before writing records.</p>
-
-<p>One implementation of this pattern is to create a proxy record with 
-endianness converted to native in a read function, and expose only that proxy to 
-the rest of the implementation. If a write function, if needed, handles the 
-conversion from native to the desired output endianness.</p>
-
-<p>This pattern is appropriate when all endian elements in a record are 
-typically used regardless of record content or other circumstances</p>
-
-<h4><a name="Convert-generally-as-needed-locally-in-anticipation">Convert 
-generally only as needed, but locally in anticipation of need</a></h4>
-
-<p>This pattern in general defers conversion but for specific local needs does 
-anticipatory conversion.</p>
-
-<p>This pattern is particularly appropriate when coupled with the endian buffer 
-or arithmetic types.</p>
-
-<h3><a name="Use-cases">Use case examples</a></h3>
-
-<h4><a name="Porting-endian-unaware-codebase">Porting endian unaware codebase</a></h4>
-
-<p>An existing codebase runs on  big endian systems. It does not 
-currently deal with endianness. The codebase needs to be modified so it can run 
-on&nbsp; little endian systems under various operating systems. To ease 
-transition and protect value of existing files, external data will continue to 
-be maintained as big endian.</p>
-
-<p dir="ltr">The <a href="arithmetic.html">endian 
-arithmetic approach</a> is recommended to meet these needs. A relatively small 
-number of header files dealing with binary I/O layouts need to change types. For 
-example,&nbsp;
-<code>short</code> or <code>int16_t</code> would change to <code>big_int16_t</code>. No 
-changes are required for <code>.cpp</code> files.</p>
-
-<h4><a name="Porting-endian-aware-codebase">Porting endian aware codebase</a></h4>
-
-<p>An existing codebase runs on little-endian Linux systems. It already 
-deals with endianness via
-<a href="http://man7.org/linux/man-pages/man3/endian.3.html">Linux provided 
-functions</a>. Because of a business merger, the codebase has to be quickly 
-modified for Windows and possibly other operating systems, while still 
-supporting Linux. The codebase is reliable and the programmers are all 
-well-aware of endian issues. </p>
-
-<p dir="ltr">These factors all argue for an <a href="conversion.html">endian conversion 
-approach</a> that just mechanically changes the calls to <code>htobe32</code>, 
-etc. to <code>boost::endian::native_to_big</code>, etc. and replaces <code>&lt;endian.h&gt;</code> 
-with <code>&lt;boost/endian/conversion.hpp&gt;</code>.</p>
-
-<h4><a name="Reliability-arithmetic-speed">Reliability and arithmetic-speed</a></h4>
-
-<p>A new, complex, multi-threaded application is to be developed that must run 
-on little endian machines, but do big endian network I/O. The developers believe 
-computational speed for endian variable is critical but have seen numerous bugs 
-result from inability to reason about endian conversion state. They are also 
-worried that future maintenance changes could inadvertently introduce a lot of 
-slow conversions if full-blown endian arithmetic types are used.</p>
-
-<p>The <a href="buffers.html">endian buffers</a> approach is made-to-order for 
-this use case.</p>
-
-<h4><a name="Reliability-ease-of-use">Reliability and ease-of-use</a></h4>
-
-<p>A new, complex, multi-threaded application is to be developed that must run 
-on little endian machines, but do big endian network I/O. The developers believe 
-computational speed for endian variables is <b>not critical</b> but have seen 
-numerous bugs result from inability to reason about endian conversion state. 
-They are also concerned about ease-of-use both during development and long-term 
-maintenance.</p>
-
-<p>Removing concern about conversion speed and adding concern about ease-of-use 
-tips the balance strongly in favor the <a href="arithmetic.html">endian 
-arithmetic approach</a>.</p>
+<p>This section has been moved to its own <a href="choosing_approach.html">
+Choosing the Approach</a> page. </p>
 
 <h2>Built-in support for <a name="Intrinsic">Intrinsic</a>s</h2>
-<p>Supply compilers, including GCC, Clang, and Visual C++, supply  built-in support for byte swapping intrinsics. 
-The library uses these intrinsics when available since they may result in smaller and faster generated code, particularly for release 
+<p>Most compilers, including GCC, Clang, and Visual C++, supply  built-in support for byte swapping intrinsics. 
+The Endian library uses these intrinsics when available since they may result in smaller and faster generated code, particularly for release 
 builds.</p>
-<p>Defining <code>BOOST_ENDIAN_NO_INTRINSICS</code> will suppress use 
+<p>Defining the macro <code>BOOST_ENDIAN_NO_INTRINSICS</code> will suppress use 
 of the intrinsics. Useful when intrinsic headers such as 
-<code>byteswap.h </code>are not being found on your platform.</p>
+<code>byteswap.h </code>are not being found by your compiler, perhaps because it 
+is an older release or has very limited supporting libraries.</p>
 <p>The macro <code>BOOST_ENDIAN_INTRINSIC_MSG</code> is defined as 
 either <code>&quot;no byte swap intrinsics&quot;</code> or a string describing the 
-particular set of intrinsics being used.</p>
+particular set of intrinsics being used. Useful for eliminating missing 
+intrinsics as a source of performance issues.</p>
 
 <h2><a name="Performance">Performance</a></h2>
 
@@ -762,7 +540,7 @@ stores, multiple instructions are required on common platforms.</p>
 I/O formats?</b> </p>
 <blockquote>
 <p>Using the unaligned integer types to save internal or external 
-memory space is a minor secondary use case.</p>
+memory space is a minor secondary use.</p>
 </blockquote>
 <p><b>Why bother with binary I/O? Why not just use C++ Standard Library stream 
 inserters and extractors?</b></p>
@@ -876,7 +654,7 @@ Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen and
 Vitaly Budovski,.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->31 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38637" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->02 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38888" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
