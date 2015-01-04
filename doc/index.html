@@ -53,7 +53,10 @@
 &nbsp;&nbsp;&nbsp;<a href="#Conclusions">Conclusions</a><br>
 <a href="#FAQ">Overall FAQ</a><br>
 <a href="#Release-history">Release history</a><br>
-&nbsp;&nbsp;&nbsp;<a href="#Changes-since-formal-review">Changes since formal review</a><br>
+&nbsp;&nbsp;&nbsp;<a href="#Changes-requested-by-formal-review">Changes 
+requested by formal review</a><br>
+&nbsp;&nbsp; <a href="#Other-changes-since-formal-review">Other changes since 
+formal review</a><br>
 <a href="#Acknowledgements">Acknowledgements</a><br>
     </td>
   </tr>
@@ -171,7 +174,8 @@ integers. The types may be aligned.</p>
 
 </blockquote>
 
-<p>Boost Endian is a header-only library.</p>
+<p>Boost Endian is a header-only library. C++03 compilers are supported. C++11 features 
+affecting interfaces, such as <code>noexcept</code>, are  used only if available.</p>
 
 <h2><a name="Choosing">Choosing</a> between  conversion functions,  buffer types, 
 and  arithmetic types</h2>
@@ -524,6 +528,14 @@ stores, multiple instructions are required on common platforms.</p>
 
 </blockquote>
 
+<p><b>Are C++03 compilers supported?</b></p>
+
+<blockquote>
+
+<p>Yes.</p>
+
+</blockquote>
+
 <p><b>Does the implementation use compiler intrinsic built-in byte swapping?</b></p>
 
 <blockquote>
@@ -596,50 +608,33 @@ and 16, 32, and 64-bit aligned integers.</p>
 </blockquote>
 
 <h2><a name="Release-history">Release history</a></h2>
-<h3><a name="Changes-since-formal-review">Changes since formal review</a></h3>
+<h3><a name="Changes-requested-by-formal-review">Changes requested by formal review</a></h3>
+<p>The library was reworked from top to bottom to accommodate changes requested 
+during the formal review. See <a href="mini_review_topics.html">Mini-Review</a> 
+page for details.</p>
+<h3><a name="Other-changes-since-formal-review">Other changes since formal 
+review</a></h3>
 <ul>
-  <li>The endian types have been decomposed into endian buffer types 
-  and endian arithmetic types, as requested. The arithmetic types derive from 
-  the buffer types.</li>
   <li>Headers have been renamed to <code>endian/arithmetic.hpp</code> and 
   <code>endian/conversion.hpp</code>. <code>endian/buffers.hpp</code> has been 
   added. 
   Infrastructure file names were changed accordingly.</li>
-  <li>The endian buffer and arithmetic types and endian conversion functions now support 32-bit (<code>float)</code> and 
-  64-bit <code>(double)</code> floating point, as requested.</li>
-  <li>The endian types now have stream inserter and extractor templates, as 
-  requested.</li>
-  <li>Both the endian types and endian conversion functions now support UDTs, as requested.</li>
-  <li>The endian type aliases have been renamed, 
-  using a naming pattern that is consistent for both integer and floating point, .</li>
-  <li>The conversion functions have been much revised, 
-  refactored, and otherwise improved based on review comments.<ul>
-    <li>Functions have been renamed to clarify their functionality.</li>
-    <li>Both return-by-value and modify-in-place interfaces are provided, as 
-    requested.</li>
-    <li>In addition to the named-endianness functions, functions that perform 
-    compile-time (via template) and run-time (via function argument) dispatch 
-    are now provided, as requested.</li>
-  </ul>
-  </li>
-  <li>Compiler (Clang, GCC, VisualC++, etc.) intrinsics and built-in functions 
-  are used in the implementation where appropriate, as requested.</li>
-  <li>For the endian  types, the implementation uses the endian conversion functions, 
-  and thus the intrinsics, 
-  as requested.</li>
-  <li><code>order::native</code> is now a synonym for <code>order::big</code> 
-  or <code>order::little</code> according to the endianness of the platform, as 
-  requested. This reduces the number of template specializations required.</li>
+  <li>The endian arithmetic type aliases have been renamed, 
+  using a naming pattern that is consistent for both integer and floating point, 
+  and a consistent set of aliases supplied for the endian buffer types.</li>
+  <li>The aligned-type alias names now have the <code>_t</code> suffix, for 
+  consistency with the standard library integer type aliases and because use of 
+  aligned types is much more common than unaligned types.</li>
+  <li>The unaligned-type alias names now have the <code>_ut</code> suffix. This 
+  is short, yet stands out enough to alert the reader than unusual types are 
+  involved.</li>
   <li><code>endian_reverse()</code> overloads for <code>int8_t</code> and <code>
   uint8_t</code> have been added for improved generality. (Pierre Talbot)</li>
   <li>Overloads of <code>endian_reverse_inplace()</code> have been replaced with a single <code>
   endian_reverse_inplace()</code> template. (Pierre Talbot)</li>
-  <li>C++11 features such as <code>noexcept</code> are now used, while still 
-  supporting C++03 compilers.</li>
-  <li>Headers have been reorganized to make them easier to read, 
-  with a synopsis at the front and implementation following, as requested.</li>
-  <li>Documentation has been revised to address most, but not all, concerns 
-  raised during formal review.</li>
+  <li>C++11 features affecting interfaces, such as <code>noexcept</code>, are now used. 
+  C++03 compilers are still 
+  supported.</li>
   <li>Acknowledgements have been updated.</li>
 </ul>
 
