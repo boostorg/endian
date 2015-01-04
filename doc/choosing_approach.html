@@ -94,8 +94,17 @@ study
 engineering trade-offs, use <a href="arithmetic.html">endian arithmetic types</a>. They are safe, easy 
 to use, and easy to maintain. Use the
 <a href="#Anticipating-need"> <i>
-anticipating need</i></a> design pattern locally around performance hot spots like lengthy loops, 
-if needed.&nbsp; </p>
+anticipating need</i></a> design pattern locally around performance hot spots 
+like lengthy loops, if needed.</p>
+
+<h3><a name="Background">Background</a> </h3>
+
+<p>A dealing with endianness usually implies a program portability or a data 
+portability requirement, and often both. That means real programs dealing with 
+endianness are usually complex, so the examples shown here would really be 
+written as multiple functions spread across multiple translation units. They 
+would involve interfaces that can not be altered as they are supplied by 
+third-parties or the standard library. </p>
 
 <h3><a name="Characteristics">Characteristics</a></h3>
 
@@ -111,12 +120,73 @@ alignment requirements.</p>
 types like <code>int</code> or <code>unsigned short</code> to hold values. That 
 breaks the implicit invariant that the C++ language rules apply. The usual 
 language rules only apply if the endianness of the object is currently set to the native endianness for the platform. That can 
-make it very hard to reason about complex logic flow, and result in difficult to 
+make it very hard to reason about logic flow, and result in difficult to 
 find bugs.</p>
 
+<p>For example:</p>
+
+<blockquote>
+  <pre>struct data_t  // big endian
+{
+  int32_t   v1;  // description ...
+  int32_t   v2;  // description ...
+  ... additional character data members (i.e. non-endian)
+  int32_t   v3;  // description ...
+};
+
+data_t data;
+
+read(data);
+big_to_native_inplace(data.v1);
+big_to_native_inplace(data.v2);
+
+... 
+
+++v1;
+third_party::func(data.v2);
+
+... 
+
+native_to_big_inplace(data.v1);
+native_to_big_inplace(data.v2);
+write(data);
+</pre>
+  <p>The programmer didn&#39;t bother to convert <code>data.v3</code> to native 
+  endianness because that member isn&#39;t used. A later maintainer needs to pass
+  <code>data.v3</code> to the third-party function, so adds <code>third_party::func(data.v3);</code> 
+  somewhere deep in the code. This causes a silent failure because the usual 
+  invariant that an object of type <code>int32_t</code> holds a value as 
+  described by the C++ core language does not apply.</p>
+</blockquote>
 <p><b>Endian buffer and arithmetic types</b> hold values internally as arrays of 
 characters with an invariant that the endianness of the array never changes. 
-That makes these types easier to use and programs easier to maintain.</p>
+That makes these types easier to use and programs easier to maintain. </p>
+<p>Here is the same example, using an endian arithmetic type:</p>
+<blockquote>
+  <pre>struct data_t
+{
+  big_int32_t   v1;  // description ...
+  big_int32_t   v2;  // description ...
+  ... additional character data members (i.e. non-endian)
+  big_int32_t   v3;  // description ...
+};
+
+data_t data;
+
+read(data);
+
+... 
+
+++v1;
+third_party::func(data.v2);
+
+... 
+
+write(data);
+</pre>
+  <p>A later maintainer can add <code>third_party::func(data.v3)</code>and it 
+  will just-work.</p>
+</blockquote>
 
 </blockquote>
 
@@ -177,18 +247,18 @@ needed they are often very useful and workarounds are painful. For example,</p>
 
 <blockquote>
   <p>Non-portable code like this:<blockquote>
-      <p><code>struct S {<br>
-      &nbsp; uint16_t a;&nbsp; // big endian<br>
-      &nbsp; uint32_t b;&nbsp; // big endian<br>
-      } __attribute__ ((packed));</code>
-    </p></blockquote>
+      <pre>struct S {
+  uint16_t a;&nbsp; // big endian
+  uint32_t b;&nbsp; // big endian
+} __attribute__ ((packed));</pre>
+    </blockquote>
     <p>Can be replaced with portable code like this:</p>
     <blockquote>
-      <p><code>struct S {<br>
-      &nbsp; big_uint16_ut a;<br>
-      &nbsp; big_uint32_ut b;<br>
-      };</code>
-    </p></blockquote>
+      <pre>struct S {
+  big_uint16_ut a;
+  big_uint32_ut b;
+};</pre>
+    </blockquote>
       </blockquote>
 
 </blockquote>
@@ -293,7 +363,7 @@ arithmetic approach</a>.</p>
 
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->02 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38888" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->03 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38890" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013, 2014</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
