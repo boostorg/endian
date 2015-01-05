@@ -21,8 +21,8 @@
 #ifndef BOOST_ENDIAN_BUFFERS_HPP
 #define BOOST_ENDIAN_BUFFERS_HPP
 
-#if defined(_MSC_VER)  
-# pragma warning(push)  
+#if defined(_MSC_VER)
+# pragma warning(push)
 # pragma warning(disable:4365)  // conversion ... signed/unsigned mismatch
 #endif
 
@@ -291,6 +291,12 @@ namespace endian
     inline
     T load_little_endian(const void* bytes) BOOST_NOEXCEPT
     {
+#     if defined(__x86_64__) || defined(_M_X64) || defined(__i386) || defined(_M_IX86)
+      // On x86 (which is little endian), unaligned loads are permitted
+      if (sizeof(T) == n_bytes) {
+        return *reinterpret_cast<T const *>(bytes);
+      }
+#     endif
       return unrolled_byte_loops<T, n_bytes>::load_little
         (static_cast<const unsigned char*>(bytes));
     }
@@ -307,6 +313,13 @@ namespace endian
     inline
     void store_little_endian(void* bytes, T value) BOOST_NOEXCEPT
     {
+#     if defined(__x86_64__) || defined(_M_X64) || defined(__i386) || defined(_M_IX86)
+      // On x86 (which is little endian), unaligned stores are permitted
+      if (sizeof(T) == n_bytes) {
+        *reinterpret_cast<T *>(bytes) = value;
+        return;
+      }
+#     endif
       unrolled_byte_loops<T, n_bytes>::store_little
         (static_cast<char*>(bytes), value);
     }
@@ -339,7 +352,7 @@ namespace endian
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian_buffer() BOOST_ENDIAN_DEFAULT_CONSTRUCT
         explicit endian_buffer(T val) BOOST_NOEXCEPT
-        { 
+        {
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
             std::cout << "big, unaligned, "
@@ -358,7 +371,7 @@ namespace endian
           return *this;
         }
         value_type value() const BOOST_NOEXCEPT
-        { 
+        {
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
             std::cout << "big, unaligned, " << n_bits << "-bits, convert("
@@ -370,7 +383,7 @@ namespace endian
       protected:
         char m_value[n_bits/8];
     };
- 
+
     //  unaligned float big endian_buffer specialization
     template <>
     class endian_buffer< order::big, float, 32, align::no >
@@ -418,7 +431,7 @@ namespace endian
       protected:
         char m_value[sizeof(value_type)];
     };
- 
+
     //  unaligned float little endian_buffer specialization
     template <>
     class endian_buffer< order::little, float, 32, align::no >
@@ -477,7 +490,7 @@ namespace endian
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian_buffer() BOOST_ENDIAN_DEFAULT_CONSTRUCT
         explicit endian_buffer(T val) BOOST_NOEXCEPT
-        { 
+        {
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
             std::cout << "little, unaligned, " << n_bits << "-bits, construct("
@@ -489,7 +502,7 @@ namespace endian
         endian_buffer & operator=(T val) BOOST_NOEXCEPT
           { detail::store_little_endian<T, n_bits/8>(m_value, val); return *this; }
         value_type value() const BOOST_NOEXCEPT
-        { 
+        {
 #       ifdef BOOST_ENDIAN_LOG
           if ( endian_log )
             std::cout << "little, unaligned, " << n_bits << "-bits, convert("
@@ -524,14 +537,14 @@ namespace endian
           m_value = ::boost::endian::native_to_big(val);
         }
 
-#     endif  
+#     endif
         endian_buffer& operator=(T val) BOOST_NOEXCEPT
         {
           m_value = ::boost::endian::native_to_big(val);
           return *this;
         }
         //operator value_type() const BOOST_NOEXCEPT
-        //{                                                                       
+        //{
         //  return ::boost::endian::big_to_native(m_value);
         //}
         value_type value() const BOOST_NOEXCEPT
@@ -569,7 +582,7 @@ namespace endian
           m_value = ::boost::endian::native_to_little(val);
         }
 
-#     endif  
+#     endif
         endian_buffer& operator=(T val) BOOST_NOEXCEPT
         {
           m_value = ::boost::endian::native_to_little(val);
@@ -597,8 +610,8 @@ namespace endian
 # pragma pack(pop)
 #endif
 
-#if defined(_MSC_VER)  
-# pragma warning(pop)  
-#endif 
+#if defined(_MSC_VER)
+# pragma warning(pop)
+#endif
 
 #endif // BOOST_ENDIAN_BUFFERS_HPP
