@@ -632,6 +632,11 @@ review</a></h3>
   uint8_t</code> have been added for improved generality. (Pierre Talbot)</li>
   <li>Overloads of <code>endian_reverse_inplace()</code> have been replaced with a single <code>
   endian_reverse_inplace()</code> template. (Pierre Talbot)</li>
+  <li>For X86 and X64 architectures, which permit unaligned loads and stores, 
+  unaligned little endian buffer and arithmetic types use regular loads and 
+  stores when the size is exact. This makes unaligned little endian buffer and 
+  arithmetic types significantly more efficient on these architectures. (Jeremy 
+  Maitin-Shepard)</li>
   <li>C++11 features affecting interfaces, such as <code>noexcept</code>, are now used. 
   C++03 compilers are still 
   supported.</li>
@@ -641,15 +646,15 @@ review</a></h3>
 <h2><a name="Acknowledgements">Acknowledgements</a></h2>
 <p>Comments and suggestions were received from Adder, Benaka Moorthi, 
 Christopher Kohlhoff, Cliff Green, Daniel James, Gennaro Proto, Giovanni Piero 
-Deretta, Gordon Woodhull, dizzy, Hartmut Kaiser, Jeff Flinn, John Filo, John 
+Deretta, Gordon Woodhull, dizzy, Hartmut Kaiser, Jeff Flinn, Jeremy Maitin-Shepard, John Filo, John 
 Maddock, Kim Barrett, Marsh Ray, Martin Bonner, Mathias Gaunard, Matias 
 Capeletto, Neil Mayhew, Paul Bristow, Pierre Talbot, Phil Endecott, Pyry Jahkola, 
 Rene Rivera, Robert Stewart, Roland Schwarz, Scott McMurray, Sebastian Redl, Tim 
 Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen and 
-Vitaly Budovski,.</p>
+Vitaly Budovsk. Apologies if anyone has been missed.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->04 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38892" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->06 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38896" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

@@ -26,15 +26,25 @@ int cpp_main(int, char *[])
 {
   cout << "byte swap intrinsics: " BOOST_ENDIAN_INTRINSIC_MSG << endl;
 
-  cout << "  construct" << endl;
+  cout << "  construct big endian aligned" << endl;
   bel::big_int32_buf_t x(1122334455);
 
-  cout << "  assign from built-in integer" << endl;
+  cout << "  assign to buffer from built-in integer" << endl;
   x = 1234567890;
 
-  cout << "  operator==(buffer, built-in)" << endl;
+  cout << "  operator==(buffer.value(), built-in)" << endl;
   bool b1(x.value() == 1234567890);
   BOOST_TEST(b1);
+
+  cout << "  construct little endian unaligned" << endl;
+  bel::little_int32_buf_ut x2(1122334455);
+
+  cout << "  assign to buffer from built-in integer" << endl;
+  x2 = 1234567890;
+
+  cout << "  operator==(buffer.value(), built-in)" << endl;
+  bool b2(x2.value() == 1234567890);
+  BOOST_TEST(b2);
 
   cout << "  done" << endl;
 

@@ -291,6 +291,16 @@ namespace endian
     inline
     T load_little_endian(const void* bytes) BOOST_NOEXCEPT
     {
+#   if defined(__x86_64__) || defined(_M_X64) || defined(__i386) || defined(_M_IX86)
+      // On x86 (which is little endian), unaligned loads are permitted
+      if (sizeof(T) == n_bytes)  // GCC 4.9, VC++ 14.0, and probably others, elide this
+                                 // test and generate code only for the applicable return
+                                 // case since sizeof(T) and n_bytes are known at compile
+                                 // time.
+      {
+        return *reinterpret_cast<T const *>(bytes);
+      }
+#   endif
       return unrolled_byte_loops<T, n_bytes>::load_little
         (static_cast<const unsigned char*>(bytes));
     }
@@ -307,6 +317,17 @@ namespace endian
     inline
     void store_little_endian(void* bytes, T value) BOOST_NOEXCEPT
     {
+#     if defined(__x86_64__) || defined(_M_X64) || defined(__i386) || defined(_M_IX86)
+      // On x86 (which is little endian), unaligned stores are permitted
+      if (sizeof(T) == n_bytes)  // GCC 4.9, VC++ 14.0, and probably others, elide this
+                                 // test and generate code only for the applicable return
+                                 // case since sizeof(T) and n_bytes are known at compile
+                                 // time.
+      {
+        *reinterpret_cast<T *>(bytes) = value;
+        return;
+      }
+#     endif
       unrolled_byte_loops<T, n_bytes>::store_little
         (static_cast<char*>(bytes), value);
     }
