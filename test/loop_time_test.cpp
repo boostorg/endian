@@ -16,8 +16,10 @@
 #include <boost/endian/arithmetic.hpp>
 #include <boost/cstdint.hpp>
 #include <boost/timer/timer.hpp>
+#include <boost/lexical_cast.hpp>
 #include <iostream>
 #include <cstdlib>
+#include <string>
 #include <boost/detail/lightweight_main.hpp>
 
 using namespace boost;
@@ -47,7 +49,7 @@ namespace
 
     if (argc >=2)
 #ifndef _MSC_VER
-      n = std::atoll(argv[1]);
+      n = atoll(argv[1]);
 #else
       n = _atoi64(argv[1]);
 #endif
@@ -75,6 +77,20 @@ namespace
               "   -p#      Decimal places for times; default -p" << places << "\n";
       return std::exit(1);
     }
+  }
+
+  std::string with_digit_separator(int64_t x)
+  {
+    std::string s = boost::lexical_cast<std::string>(x);
+    std::string s2;
+
+    for (std::string::size_type i = 0; i < s.size(); ++i)
+    {
+      if (i && ((s.size()-i) % 3) == 0)
+        s2 += '\'';
+      s2 += s[i];
+    }
+    return s2;
   }
 
 //--------------------------------------------------------------------------------------//
@@ -208,36 +224,37 @@ int cpp_main(int argc, char* argv[])
   
   cout
     << "<html>\n<head>\n<title>Endian Loop Time Test</title>\n</head>\n<body>\n"
+    << "<div align=\"center\"> <center>\n"
     << "<table border=\"1\" cellpadding=\"5\" cellspacing=\"0\""
     << "style=\"border-collapse: collapse\" bordercolor=\"#111111\">\n"
     << "<tr><td colspan=\"6\" align=\"center\"><b>"
     << BOOST_COMPILER << "</b></td></tr>\n"
     << "<tr><td colspan=\"6\" align=\"center\"><b>"
-    << " Iterations: " << n
+    << " Iterations: " << with_digit_separator(n)
     << ", Intrinsics: " BOOST_ENDIAN_INTRINSIC_MSG
     << "</b></td></tr>\n"
     << "<tr><td><b>Test Case</b></td>\n"
-       "<td align=\"center\"><b>Endian<br>type</b></td>\n"
+    "<td align=\"center\"><b>Endian<br>arithmetic<br>type</b></td>\n"
        "<td align=\"center\"><b>Endian<br>conversion<br>function</b></td>\n"
        "</tr>\n"
     ;
   
   test_big_align_int16();
   test_little_align_int16();
-  test_big_int16();
-  test_little_int16();
-
   test_big_align_int32();
   test_little_align_int32();
-  test_big_int32();
-  test_little_int32();
-
   test_big_align_int64();
   test_little_align_int64();
+
+  test_big_int16();
+  test_little_int16();
+  test_big_int32();
+  test_little_int32();
   test_big_int64();
   test_little_int64();
 
-  cout << "\n</table>\n</body>\n</html>\n";
+  cout << "\n</div> </center>\n"
+       << "\n</table>\n</body>\n</html>\n";
 
   return 0;
 }

@@ -200,6 +200,9 @@ intrinsics as a source of performance issues.</p>
 
 <p>Consider this problem:</p>
 
+<div align="center">
+  <center>
+
 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
   <tr>
     <td colspan="2">
@@ -240,14 +243,19 @@ native_to_big_inplace(x);
   </tr>
 </table>
 
+  </center>
+</div>
+
 <p><b>There will be no performance difference between the two approaches in 
 release builds, 
-regardless of the native endianness of the machine.</b> That&#39;s because optimizing compilers will likely 
-generate exactly the same code for each. That conclusion was confirmed by 
+regardless of the native endianness of the machine.</b> That&#39;s because optimizing compilers will  generate exactly the same code for each. That conclusion was confirmed by 
 studying the generated assembly code for GCC and Visual C++. Furthermore, time 
 spent doing I/O will determine the speed of this application.</p>
 
 <p>Now consider a slightly different problem:&nbsp; </p>
+
+<div align="center">
+  <center>
 
 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
   <tr>
@@ -292,6 +300,9 @@ native_to_big_inplace(x);
   </tr>
 </table>
 
+  </center>
+</div>
+
 <p>With the Endian arithmetic approach, on little endian platforms an implicit conversion from and then back to 
 big endian is done inside the loop. With the Endian conversion function 
 approach, the user has ensured the conversions are done outside the loop, so the 
@@ -305,11 +316,12 @@ CPU @ 3.40GHz under Windows 7.</p>
 <p><b>Caveat emptor: The Windows CPU timer has very high granularity. Repeated 
 runs of the same tests often yield considerably different results.</b></p>
 
-<p>See <a href="../test/loop_time_test.cpp">loop_time_test.cpp</a> and 
-<a href="../build/Jamfile.v2">Jamfile.v2</a> for the actual code and build 
-setup. 
-(For GCC 4.7, there are no 16-bit intrinsics, so they are emulated by using 
-32-bit intrinsics.)</p>
+<p>See <a href="../test/loop_time_test.cpp">loop_time_test.cpp</a> and
+<a href="../benchmark/Jamfile.v2">Jamfile.v2</a> for the actual code and build 
+setup.</p>
+
+<div align="center">
+  <center>
 
 <table border="1" cellpadding="5" cellspacing="0"style="border-collapse: collapse" bordercolor="#111111">
 <tr><td colspan="6" align="center"><b><font size="2">GNU C++ version 4.7.0</font></b></td></tr>
@@ -399,9 +411,15 @@ setup.
 
 </table>
 
+  </center>
+</div>
+
 <p><b>Comment:</b> Note that the <b><font size="2">32-bit aligned big endian </font></b>
 timings are the same with or without intrinsics turned on. Presumably the 
 optimizer is recognizing the byte swapping and applying the intrinsics itself.</p>
+
+<div align="center">
+  <center>
 
 <table border="1" cellpadding="5" cellspacing="0"style="border-collapse: collapse" bordercolor="#111111">
 <tr><td colspan="6" align="center"><b><font size="2">Microsoft Visual C++ version 11.0</font></b></td></tr>
@@ -490,6 +508,10 @@ optimizer is recognizing the byte swapping and applying the intrinsics itself.</
   <td align="right"><font size="2">0.27 s</font></td></tr>
 
 </table>
+
+
+  </center>
+</div>
 
 
 <h3><a name="Conclusions">Conclusions</a></h3>
@@ -654,7 +676,7 @@ Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen and
 Vitaly Budovsk. Apologies if anyone has been missed.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->06 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38896" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->12 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38889" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

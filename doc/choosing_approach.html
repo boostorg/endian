@@ -296,13 +296,60 @@ conversion from native to the desired output endianness.</p>
 typically used regardless of record content or other circumstances</p>
 
 <h4><a name="Convert-generally-as-needed-locally-in-anticipation">Convert 
-generally only as needed, but locally in anticipation of need</a></h4>
+only as needed, except locally in anticipation of need</a></h4>
 
 <p>This pattern in general defers conversion but for specific local needs does 
-anticipatory conversion.</p>
+anticipatory conversion. Although particularly appropriate when coupled with the endian buffer 
+or arithmetic types, it also works well with the conversion functions.</p>
 
-<p>This pattern is particularly appropriate when coupled with the endian buffer 
-or arithmetic types.</p>
+<p>Example:</p>
+
+<blockquote>
+  <pre>struct data_t
+{
+  big_int32_t   v1;
+  big_int32_t   v2;
+  big_int32_t   v3;
+};
+
+data_t data;
+
+read(data);
+
+...
+++v1;
+...
+
+int32_t v3_temp = data.v3;  // hoist conversion out of loop
+
+for (int32_t i = 0; i &lt; <i><b>large-number</b></i>; ++i)
+{
+  ... <i><b>lengthy computation that accesses </b></i>v3_temp<i><b> many times</b></i> ...
+}
+data.v3 = v3_temp; 
+
+write(data);
+</pre>
+</blockquote>
+
+<p dir="ltr">In general the above pseudo-code leaves conversion up to the endian 
+arithmetic type <code>big_int32_t</code>. But to avoid conversion inside the 
+loop, a temporary is created before the loop is entered, and then used to set 
+the new value of <code>data.v3</code> after the loop is complete.</p>
+
+<blockquote>
+
+<p dir="ltr">Question: Won&#39;t the compiler&#39;s optimizer hoist the conversion out 
+of the loop anyhow?</p>
+
+<p dir="ltr">Answer: VC++ 2015 Preview, and probably others, does not, even for 
+a toy test program. Although the savings is small (two register <code>
+<span style="font-size: 85%">bswap</span></code> instructions), the cost might 
+be significant if the loop is repeated enough times. On the other hand, the 
+program may be so dominated by I/O time that even a lengthy loop will be 
+immaterial.</p>
+
+</blockquote>
 
 <h3><a name="Use-cases">Use case examples</a></h3>
 
@@ -363,7 +410,7 @@ arithmetic approach</a>.</p>
 
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->04 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38892" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->08 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38900" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013, 2014</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
