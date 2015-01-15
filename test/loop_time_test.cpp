@@ -35,6 +35,11 @@ namespace
   uint64_t n;                 // number of test cases to run
   int places = 2;             // decimal places for times
   bool verbose (false);
+  bool time_aligned (true);
+  bool time_unaligned (true);
+  bool time_16(true);
+  bool time_32(true);
+  bool time_64(true);
 
   void process_command_line(int argc, char * argv[])
   {
@@ -58,8 +63,18 @@ namespace
     {
       if ( *(argv[2]+1) == 'p' )
         places = atoi( argv[2]+2 );
-      else if ( *(argv[2]+1) == 'v' )
+      else if (*(argv[2] + 1) == 'v')
         verbose = true;
+      else if (*(argv[2] + 1) == 'a')
+        time_unaligned = false;
+      else if (*(argv[2] + 1) == 'u')
+        time_aligned = false;
+      else if (*(argv[2] + 1) == '1')
+        time_32 = time_64 = false;
+      else if (*(argv[2] + 1) == '3')
+        time_16 = time_64 = false;
+      else if (*(argv[2] + 1) == '6')
+        time_16 = time_32 = false;
       else
       {
         cout << "Error - unknown option: " << argv[2] << "\n\n";
@@ -74,7 +89,13 @@ namespace
               "  The argument n specifies the number of test cases to run\n"
               "  Options:\n"
               "   -v       Verbose messages\n"
-              "   -p#      Decimal places for times; default -p" << places << "\n";
+              "   -p#      Decimal places for times; default -p" << places << "\n"
+              "   -a       Aligned tests only\n"
+              "   -u       Unaligned tests only\n"
+              "   -16      16-bit tests only\n"
+              "   -32      32-bit tests only\n"
+              "   -64      64-bit tests only\n"
+              ;
       return std::exit(1);
     }
   }
@@ -239,19 +260,43 @@ int cpp_main(int argc, char* argv[])
        "</tr>\n"
     ;
   
-  test_big_align_int16();
-  test_little_align_int16();
-  test_big_align_int32();
-  test_little_align_int32();
-  test_big_align_int64();
-  test_little_align_int64();
+  if (time_aligned)
+  {
+    if (time_16)
+    {
+      test_big_align_int16();
+      test_little_align_int16();
+    }
+    if (time_32)
+    {
+      test_big_align_int32();
+      test_little_align_int32();
+    }
+    if (time_64)
+    {
+      test_big_align_int64();
+      test_little_align_int64();
+    }
+  }
 
-  test_big_int16();
-  test_little_int16();
-  test_big_int32();
-  test_little_int32();
-  test_big_int64();
-  test_little_int64();
+  if (time_unaligned)
+  {
+    if (time_16)
+    {
+      test_big_int16();
+      test_little_int16();
+    }
+    if (time_32)
+    {
+      test_big_int32();
+      test_little_int32();
+    }
+    if (time_64)
+    {
+      test_big_int64();
+      test_little_int64();
+    }
+  }
 
   cout << "\n</div> </center>\n"
        << "\n</table>\n</body>\n</html>\n";
