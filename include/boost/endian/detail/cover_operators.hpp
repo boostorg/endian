@@ -39,6 +39,7 @@ namespace boost
 //  Define BOOST_NO_IO_COVER_OPERATORS if I/O cover operations are not desired.
 
 //--------------------------------------------------------------------------------------//
+
     template <class D,   // D is the CRTP derived type, i.e. the cover class
               class ArithmeticT>
     class cover_operators

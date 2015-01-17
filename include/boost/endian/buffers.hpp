@@ -215,6 +215,30 @@ namespace endian
   typedef little_float32_buf_t native_float32_buf_t;
   typedef little_float64_buf_t native_float64_buf_t;
 # endif
+
+  // Stream inserter
+  template <class charT, class traits, BOOST_SCOPED_ENUM(order) Order, class T,
+    std::size_t n_bits, BOOST_SCOPED_ENUM(align) A>
+  std::basic_ostream<charT, traits>&
+    operator<<(std::basic_ostream<charT, traits>& os,
+      const endian_buffer<Order, T, n_bits, A>& x)
+  {
+    return os << x.value();
+  }
+
+  // Stream extractor 
+  template <class charT, class traits, BOOST_SCOPED_ENUM(order) Order, class T,
+    std::size_t n_bits, BOOST_SCOPED_ENUM(align) A>
+  std::basic_istream<charT, traits>&
+    operator>>(std::basic_istream<charT, traits>& is,
+      endian_buffer<Order, T, n_bits, A>& x)
+  {
+    T i;
+    if (is >> i)
+      x = i;
+    return is;
+  }
+
 }  // namespace boost
 }  // namespace endian
 

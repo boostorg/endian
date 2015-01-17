@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
@@ -378,6 +378,20 @@ usual operations on integers are supplied.</p>
     protected:
       <b><i>implementaton-defined</i></b>  endian_value;  // for exposition only
     };
+    
+    //  stream inserter
+    template &lt;class charT, class traits, BOOST_SCOPED_ENUM(order) Order, class T,
+      std::size_t n_bits, BOOST_SCOPED_ENUM(align) A&gt;
+    std::basic_ostream&lt;charT, traits&gt;&amp;
+      operator&lt;&lt;(std::basic_ostream&lt;charT, traits&gt;&amp; os,
+        const endian_buffer&lt;Order, T, n_bits, A&gt;&amp; x);
+
+    //  stream extractor 
+    template &lt;class charT, class traits, BOOST_SCOPED_ENUM(order) Order, class T,
+      std::size_t n_bits, BOOST_SCOPED_ENUM(align) A&gt;
+    std::basic_istream&lt;charT, traits&gt;&amp;
+      operator&gt;&gt;(std::basic_istream&lt;charT, traits&gt;&amp; is,
+        endian_buffer&lt;Order, T, n_bits, A&gt;&amp; x);
 
     // typedefs  
 
@@ -618,7 +632,7 @@ any Boost object libraries.</p>
 </ul>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->04 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38892" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->17 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38899" --></p>
 <p>© Copyright Beman Dawes, 2006-2009, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
