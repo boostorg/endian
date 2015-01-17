@@ -53,17 +53,7 @@
       <a href="#FAQ">FAQ</a><br>
       <a href="#Acknowledgements">Acknowledgements</a></td>
   </tr>
-  <tr>
-    <td width="100%" bgcolor="#D7EEFF" align="center">
-      <b><i>Headers</i></b></td>
-  </tr>
-  <tr>
-    <td width="100%" bgcolor="#E8F5FF">
-      <a href="../include/boost/endian/conversion.hpp">&lt;boost/endian/conversion.hpp&gt;</a><br>
-      <a href="../include/boost/endian/buffers.hpp">&lt;boost/endian/buffers.hpp&gt;</a><br>
-      <a href="../include/boost/endian/arithmetic.hpp">&lt;boost/endian/arithmetic.hpp&gt;</a></td>
-  </tr>
-</table>
+  </table>
 
 <h2><a name="Introduction">Introduction</a></h2>
 
@@ -233,8 +223,7 @@ call to <code>endian_reverse()</code>.</p>
 <a href="#EndianReversibleInplace">EndianReversibleInplace</a></code> are required to perform reversal of endianness if needed by making an 
 unqualified call to <code>endian_reverse_inplace()</code>.</p>
 
-<p> See <a href="../example/udt_conversion_example.cpp">
-udt_conversion_example.cpp</a> for an example user-defined type.</p>
+<p> See <b><code>example/udt_conversion_example.cpp</code></b> for an example user-defined type.</p>
 
 <h3><a name="Functions">Functions</a></h3>
 <pre><a name="endian_reverse"></a>int8_t   endian_reverse(int8_t x) noexcept;
@@ -372,12 +361,13 @@ portability for both programs and data.</p>
 </blockquote>
 
 <h2><a name="Acknowledgements">Acknowledgements</a></h2><p>Tomas Puverle was instrumental in identifying and articulating the need to 
-support endian conversion as separate from endian integer types. Phil Endecott suggested the form of the value returning signatures. Vicente Botet and other reviewers suggested supporting floating point types and user defined types. General reverse template implementation approach using std::reverse suggested by Mathias Gaunard. Portable implementation approach for 16, 32, and 64-bit integers suggested by tymofey, with avoidance of undefined behavior as suggested by Giovanni Piero Deretta, and a further refinement suggested by Pyry Jahkola. Intrinsic builtins implementation approach for 16, 32, and 64-bit integers suggested by several reviewers, and by David Stone, who provided his Boost licensed macro implementation that became the starting point for <a href="../include/boost/endian/detail/intrinsic.hpp">boost/endian/detail/intrinsic.hpp</a>. 
+support endian conversion as separate from endian integer types. Phil Endecott suggested the form of the value returning signatures. Vicente Botet and other reviewers suggested supporting floating point types and user defined types. General reverse template implementation approach using std::reverse suggested by Mathias Gaunard. Portable implementation approach for 16, 32, and 64-bit integers suggested by tymofey, with avoidance of undefined behavior as suggested by Giovanni Piero Deretta, and a further refinement suggested by Pyry Jahkola. Intrinsic builtins implementation approach for 16, 32, and 64-bit integers suggested by several reviewers, and by David Stone, who provided his Boost licensed macro implementation that became the starting point for
+<b><code>boost/endian/detail/intrinsic.hpp</code></b>. 
 Pierre Talbot provided the <code>int8_t endian_reverse()</code> and templated
 <code>endian_reverse_inplace()</code> implementations.</p>
 <hr>
 <p>Last revised: 
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->04 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38892" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->17 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38899" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
 

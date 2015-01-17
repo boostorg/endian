@@ -54,30 +54,20 @@
       &nbsp;&nbsp;&nbsp;
       <a href="#Synopsis">Synopsis</a><br>
       &nbsp;&nbsp;&nbsp; <a href="#Members">Members</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Non-member-functions">Non-Members</a><br>
       <a href="#FAQ">FAQ</a><br>
       <a href="#Design">Design</a><br>
       <a href="#C++0x">C++11</a><br>
       <a href="#Compilation">Compilation</a></td>
   </tr>
-  <tr>
-    <td width="100%" bgcolor="#D7EEFF" align="center">
-      <b><i>Headers</i></b></td>
-  </tr>
-  <tr>
-    <td width="100%" bgcolor="#E8F5FF">
-      <p dir="ltr">
-      <a href="../include/boost/endian/conversion.hpp">&lt;boost/endian/conversion.hpp&gt;</a><br>
-      <a href="../include/boost/endian/buffers.hpp">&lt;boost/endian/buffers.hpp&gt;</a><br>
-      <a href="../include/boost/endian/arithmetic.hpp">&lt;boost/endian/arithmetic.hpp&gt;</a></td>
-  </tr>
-</table>
+  </table>
 <h2><a name="Introduction">Introduction</a></h2>
 <p>The internal byte order of arithmetic types is traditionally called <b><i>endianness</i></b>. See the
 <a href="http://en.wikipedia.org/wiki/Endian" name="endianness">Wikipedia</a> for 
 a full 
 exploration of <b><i>endianness</i></b>, including definitions of <i><b>big 
 endian</b></i> and <i><b>little endian</b></i>.</p>
-<p>Header <a href="buffers.html">boost/endian/buffers.hpp</a> 
+<p>Header <b><code>boost/endian/buffers.hpp</code></b> 
 provides <code>endian_buffer</code>, a portable endian integer and floating-point binary buffer 
 class template with control over 
 byte order, value type, size, and alignment independent of the platform&#39;s native 
@@ -94,22 +84,23 @@ base class for the <code><a href="arithmetic.html">endian_arithmetic</a></code>
 class template, which is aimed at users who wish fully automatic endianness 
 conversion and direct support for all normal arithmetic operations.</p>
 <h2><a name="Example">Example</a></h2>
-<p>The <a href="../example/endian_example.cpp">endian_example.cpp</a> program writes a 
+<p>The <b><code>example/endian_example.cpp</code></b> program writes a 
 binary file containing four byte big-endian and little-endian integers:</p>
 <blockquote>
   <pre>#include &lt;iostream&gt;
 #include &lt;cstdio&gt;
-#include &lt;boost/endian/buffers.hpp&gt;
+#include &lt;boost/endian/buffers.hpp&gt;  // see <a href="#Synopsis">Synopsis</a> below
 #include &lt;boost/static_assert.hpp&gt;
 
 using namespace boost::endian;
 
 namespace 
 {
-  //  This is an extract from a very widely used GIS file format. Why the designer
-  //  decided to mix big and little endians in the same file is not known. But
-  //  this is a real-world format and users wishing to write low level code
-  //  manipulating these files have to deal with the mixed endianness.
+  //  This is an extract from a very widely used GIS file format.
+  //  Why the designer decided to mix big and little endians in
+  //  the same file is not known. But this is a real-world format
+  //  and users wishing to write low level code manipulating these
+  //  files have to deal with the mixed endianness.
 
   struct header
   {
@@ -133,11 +124,13 @@ int main(int, char* [])
   h.version     = 1;
   h.shape_type  = 0x01020304;
 
-  //  Low-level I/O such as POSIX read/write or &lt;cstdio&gt; fread/fwrite is sometimes
-  //  used for binary file operations when ultimate efficiency is important. Such
-  //  I/O is often performed in some C++ wrapper class, but to drive home the
-  //  point that endian integers are often used in fairly low-level code that does
-  //  bulk I/O operations, &lt;cstdio&gt; fopen/fwrite is used for I/O in this example.
+  //  Low-level I/O such as POSIX read/write or &lt;cstdio&gt;
+  //  fread/fwrite is sometimes used for binary file operations
+  //  when ultimate efficiency is important. Such I/O is often
+  //  performed in some C++ wrapper class, but to drive home the
+  //  point that endian integers are often used in fairly
+  //  low-level code that does bulk I/O operations, &lt;cstdio&gt;
+  //  fopen/fwrite is used for I/O in this example.
 
   std::FILE* fi = std::fopen(filename, &quot;wb&quot;);  // MUST BE BINARY
   
@@ -161,7 +154,7 @@ int main(int, char* [])
 }
 </pre>
 </blockquote>
-<p>After compiling and executing <a href="../example/endian_example.cpp">endian_example.cpp</a>, 
+<p>After compiling and executing <b><code>example/endian_example.cpp</code></b>, 
 a hex dump of <code>test.dat</code> shows:</p>
 <blockquote>
   <pre>01020304 00000010 01000000 04030201</pre>
@@ -340,7 +333,7 @@ requirements vary between hardware architectures and because alignment may be
 affected by compiler switches or pragmas. For example, alignment of an 64-bit 
 integer may be to a 32-bit boundary on a 32-bit machine. Furthermore, aligned types 
 are only available on architectures with 16, 32, and 64-bit integer types. </p>
-<p><b><i>Note:</i></b> One-byte types 
+<p><b><i>Note:</i></b> One-byte big and little buffer types 
 have identical 
 functionality. They are provided to improve code readability and searchability.</p>
 <h2><a name="Class_template_endian">Class template <code>endian</code></a><code>_buffer</code></h2>
@@ -380,18 +373,18 @@ usual operations on integers are supplied.</p>
     };
     
     //  stream inserter
-    template &lt;class charT, class traits, BOOST_SCOPED_ENUM(order) Order, class T,
-      std::size_t n_bits, BOOST_SCOPED_ENUM(align) A&gt;
+    template &lt;class charT, class traits, order Order, class T,
+      std::size_t n_bits, align Align&gt;
     std::basic_ostream&lt;charT, traits&gt;&amp;
-      operator&lt;&lt;(std::basic_ostream&lt;charT, traits&gt;&amp; os,
-        const endian_buffer&lt;Order, T, n_bits, A&gt;&amp; x);
+      <a href="#inserter">operator&lt;&lt;</a>(std::basic_ostream&lt;charT, traits&gt;&amp; os,
+        const endian_buffer&lt;Order, T, n_bits, Align&gt;&amp; x);
 
     //  stream extractor 
-    template &lt;class charT, class traits, BOOST_SCOPED_ENUM(order) Order, class T,
-      std::size_t n_bits, BOOST_SCOPED_ENUM(align) A&gt;
+    template &lt;class charT, class traits, order Order, class T,
+      std::size_t n_bits, align A&gt;
     std::basic_istream&lt;charT, traits&gt;&amp;
-      operator&gt;&gt;(std::basic_istream&lt;charT, traits&gt;&amp; is,
-        endian_buffer&lt;Order, T, n_bits, A&gt;&amp; x);
+      <a href="#extractor">operator&gt;&gt;</a>(std::basic_istream&lt;charT, traits&gt;&amp; is,
+        endian_buffer&lt;Order, T, n_bits, Align&gt;&amp; x);
 
     // typedefs  
 
@@ -494,7 +487,6 @@ usual operations on integers are supplied.</p>
     typedef <b><i>implementation-defined</i></b>_uint56_buf_ut  native_uint56_buf_ut;
     typedef <b><i>implementation-defined</i></b>_uint64_buf_ut  native_uint64_buf_ut;
 
-
   } // namespace endian
 } // namespace boost</pre>
 <p>The <i><b><code>implementation-defined</code></b></i> text in typedefs above is either
@@ -553,6 +545,30 @@ boost::endian::endian_reverse</code>.</p>
 <pre><code>const char* <a name="data">data</a>() const noexcept;</code></pre>
 <blockquote>
 <p><i>Returns:</i> A pointer to the first byte of <code>endian_value</code>.</p>
+</blockquote>
+<h3><a name="Non-member-functions">Non-member functions</a></h3>
+<pre>template &lt;class charT, class traits, order Order, class T,
+  std::size_t n_bits, align Align&gt;
+std::basic_ostream&lt;charT, traits&gt;&amp; <a name="inserter">operator&lt;&lt;</a>(std::basic_ostream&lt;charT, traits&gt;&amp; os,
+  const endian_buffer&lt;Order, T, n_bits, Align&gt;&amp; x);
+</pre>
+<blockquote>
+  <p><i>Returns:</i> <code>os &lt;&lt; x.value()</code>.</p>
+</blockquote>
+<pre>template &lt;class charT, class traits, order Order, class T,
+  std::size_t n_bits, align A&gt;
+std::basic_istream&lt;charT, traits&gt;&amp; <a name="extractor">operator&gt;&gt;</a>(std::basic_istream&lt;charT, traits&gt;&amp; is,
+  endian_buffer&lt;Order, T, n_bits, Align&gt;&amp; x);
+</pre>
+<blockquote>
+  <p><i>Effects: </i>As if:</p>
+  <blockquote>
+    <pre>T i;
+if (is &gt;&gt; i)
+  x = i;
+</pre>
+  </blockquote>
+  <p><i>Returns:</i> <code>is</code>.</p>
 </blockquote>
 <h2><a name="FAQ">FAQ</a></h2>
 
