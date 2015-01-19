@@ -3,6 +3,7 @@ body
 {
   font-family: sans-serif;
   max-width: 6.5in;
+  margin: 0px auto;
   font-size: 85%;
 }
  ins  {background-color: #CCFFCC;}
@@ -12,7 +13,7 @@ body
  table{font-size: 100%;}
  
  /*
- Â© Copyright Beman Dawes, 2014
+ © Copyright Beman Dawes, 2014
  Distributed under the Boost Software License, Version 1.0.
  See www.boost.org/LICENSE_1_0.txt
  */

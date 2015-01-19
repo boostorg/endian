@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
@@ -17,7 +17,7 @@
   <tr>
     <td>
 <a href="../../../index.html">
-<img src="http://www.boost.org/boost.png" alt="Boost logo" align="middle" border="0" width="277" height="86"></a></td>
+<img src="../../../boost.png" alt="Boost logo" align="middle" border="0" width="277" height="86"></a></td>
     <td align="middle">
     <b>
     <font size="6">Endian Buffer Types</font> </b>
@@ -27,11 +27,12 @@
 
 <table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" bgcolor="#D7EEFF" width="100%">
   <tr>
-    <td><b><a href="../../../index.htm">Boost Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <td><b>
     <a href="index.html">Endian Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="conversion.html">Conversion Functions</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="arithmetic.html">Arithmetic Types</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="buffers.html">Buffer Types</a></b></td>
+    <a href="buffers.html">Buffer Types</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="choosing_approach.html">Choosing Approach</a></b></td>
   </tr>
 </table>
 
@@ -53,30 +54,20 @@
       &nbsp;&nbsp;&nbsp;
       <a href="#Synopsis">Synopsis</a><br>
       &nbsp;&nbsp;&nbsp; <a href="#Members">Members</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Non-member-functions">Non-Members</a><br>
       <a href="#FAQ">FAQ</a><br>
       <a href="#Design">Design</a><br>
       <a href="#C++0x">C++11</a><br>
       <a href="#Compilation">Compilation</a></td>
   </tr>
-  <tr>
-    <td width="100%" bgcolor="#D7EEFF" align="center">
-      <b><i>Headers</i></b></td>
-  </tr>
-  <tr>
-    <td width="100%" bgcolor="#E8F5FF">
-      <p dir="ltr">
-      <a href="../include/boost/endian/conversion.hpp">&lt;boost/endian/conversion.hpp&gt;</a><br>
-      <a href="../include/boost/endian/buffers.hpp">&lt;boost/endian/buffers.hpp&gt;</a><br>
-      <a href="../include/boost/endian/arithmetic.hpp">&lt;boost/endian/arithmetic.hpp&gt;</a></td>
-  </tr>
-</table>
+  </table>
 <h2><a name="Introduction">Introduction</a></h2>
 <p>The internal byte order of arithmetic types is traditionally called <b><i>endianness</i></b>. See the
 <a href="http://en.wikipedia.org/wiki/Endian" name="endianness">Wikipedia</a> for 
 a full 
 exploration of <b><i>endianness</i></b>, including definitions of <i><b>big 
 endian</b></i> and <i><b>little endian</b></i>.</p>
-<p>Header <a href="buffers.html">boost/endian/buffers.hpp</a> 
+<p>Header <b><code>boost/endian/buffers.hpp</code></b> 
 provides <code>endian_buffer</code>, a portable endian integer and floating-point binary buffer 
 class template with control over 
 byte order, value type, size, and alignment independent of the platform&#39;s native 
@@ -93,22 +84,23 @@ base class for the <code><a href="arithmetic.html">endian_arithmetic</a></code>
 class template, which is aimed at users who wish fully automatic endianness 
 conversion and direct support for all normal arithmetic operations.</p>
 <h2><a name="Example">Example</a></h2>
-<p>The <a href="../example/endian_example.cpp">endian_example.cpp</a> program writes a 
+<p>The <b><code>example/endian_example.cpp</code></b> program writes a 
 binary file containing four byte big-endian and little-endian integers:</p>
 <blockquote>
   <pre>#include &lt;iostream&gt;
 #include &lt;cstdio&gt;
-#include &lt;boost/endian/buffers.hpp&gt;
+#include &lt;boost/endian/buffers.hpp&gt;  // see <a href="#Synopsis">Synopsis</a> below
 #include &lt;boost/static_assert.hpp&gt;
 
 using namespace boost::endian;
 
 namespace 
 {
-  //  This is an extract from a very widely used GIS file format. Why the designer
-  //  decided to mix big and little endians in the same file is not known. But
-  //  this is a real-world format and users wishing to write low level code
-  //  manipulating these files have to deal with the mixed endianness.
+  //  This is an extract from a very widely used GIS file format.
+  //  Why the designer decided to mix big and little endians in
+  //  the same file is not known. But this is a real-world format
+  //  and users wishing to write low level code manipulating these
+  //  files have to deal with the mixed endianness.
 
   struct header
   {
@@ -132,11 +124,13 @@ int main(int, char* [])
   h.version     = 1;
   h.shape_type  = 0x01020304;
 
-  //  Low-level I/O such as POSIX read/write or &lt;cstdio&gt; fread/fwrite is sometimes
-  //  used for binary file operations when ultimate efficiency is important. Such
-  //  I/O is often performed in some C++ wrapper class, but to drive home the
-  //  point that endian integers are often used in fairly low-level code that does
-  //  bulk I/O operations, &lt;cstdio&gt; fopen/fwrite is used for I/O in this example.
+  //  Low-level I/O such as POSIX read/write or &lt;cstdio&gt;
+  //  fread/fwrite is sometimes used for binary file operations
+  //  when ultimate efficiency is important. Such I/O is often
+  //  performed in some C++ wrapper class, but to drive home the
+  //  point that endian integers are often used in fairly
+  //  low-level code that does bulk I/O operations, &lt;cstdio&gt;
+  //  fopen/fwrite is used for I/O in this example.
 
   std::FILE* fi = std::fopen(filename, &quot;wb&quot;);  // MUST BE BINARY
   
@@ -160,7 +154,7 @@ int main(int, char* [])
 }
 </pre>
 </blockquote>
-<p>After compiling and executing <a href="../example/endian_example.cpp">endian_example.cpp</a>, 
+<p>After compiling and executing <b><code>example/endian_example.cpp</code></b>, 
 a hex dump of <code>test.dat</code> shows:</p>
 <blockquote>
   <pre>01020304 00000010 01000000 04030201</pre>
@@ -201,8 +195,9 @@ enum class align {no, yes}; </pre>
 </blockquote>
 <p>One class template is provided:</p>
 <blockquote>
-  <pre>template &lt;order Order, typename T, std::size_t Nbits, align A = align::no&gt;
-  class endian_buffer;
+  <pre>template &lt;order Order, typename T, std::size_t Nbits,
+  align Align = align::no&gt;
+class endian_buffer;
 </pre>
 </blockquote>
 <p>Typedefs, such as <code>big_int32_buf_t</code>, provide convenient naming 
@@ -339,7 +334,7 @@ requirements vary between hardware architectures and because alignment may be
 affected by compiler switches or pragmas. For example, alignment of an 64-bit 
 integer may be to a 32-bit boundary on a 32-bit machine. Furthermore, aligned types 
 are only available on architectures with 16, 32, and 64-bit integer types. </p>
-<p><b><i>Note:</i></b> One-byte types 
+<p><b><i>Note:</i></b> One-byte big and little buffer types 
 have identical 
 functionality. They are provided to improve code readability and searchability.</p>
 <h2><a name="Class_template_endian">Class template <code>endian</code></a><code>_buffer</code></h2>
@@ -362,7 +357,8 @@ usual operations on integers are supplied.</p>
 
     enum class <a name="alignment">align</a> {no, yes};            
 
-    template &lt;order Order, class T, std::size_t Nbits, align Align = align::no&gt;
+    template &lt;order Order, class T, std::size_t Nbits,
+      align Align = align::no&gt;
     class endian_buffer
     {
     public:
@@ -377,6 +373,20 @@ usual operations on integers are supplied.</p>
     protected:
       <b><i>implementaton-defined</i></b>  endian_value;  // for exposition only
     };
+    
+    //  stream inserter
+    template &lt;class charT, class traits, order Order, class T,
+      std::size_t n_bits, align Align&gt;
+    std::basic_ostream&lt;charT, traits&gt;&amp;
+      <a href="#inserter">operator&lt;&lt;</a>(std::basic_ostream&lt;charT, traits&gt;&amp; os,
+        const endian_buffer&lt;Order, T, n_bits, Align&gt;&amp; x);
+
+    //  stream extractor 
+    template &lt;class charT, class traits, order Order, class T,
+      std::size_t n_bits, align A&gt;
+    std::basic_istream&lt;charT, traits&gt;&amp;
+      <a href="#extractor">operator&gt;&gt;</a>(std::basic_istream&lt;charT, traits&gt;&amp; is,
+        endian_buffer&lt;Order, T, n_bits, Align&gt;&amp; x);
 
     // typedefs  
 
@@ -479,7 +489,6 @@ usual operations on integers are supplied.</p>
     typedef <b><i>implementation-defined</i></b>_uint56_buf_ut  native_uint56_buf_ut;
     typedef <b><i>implementation-defined</i></b>_uint64_buf_ut  native_uint64_buf_ut;
 
-
   } // namespace endian
 } // namespace boost</pre>
 <p>The <i><b><code>implementation-defined</code></b></i> text in typedefs above is either
@@ -538,6 +547,30 @@ boost::endian::endian_reverse</code>.</p>
 <pre><code>const char* <a name="data">data</a>() const noexcept;</code></pre>
 <blockquote>
 <p><i>Returns:</i> A pointer to the first byte of <code>endian_value</code>.</p>
+</blockquote>
+<h3><a name="Non-member-functions">Non-member functions</a></h3>
+<pre>template &lt;class charT, class traits, order Order, class T,
+  std::size_t n_bits, align Align&gt;
+std::basic_ostream&lt;charT, traits&gt;&amp; <a name="inserter">operator&lt;&lt;</a>(std::basic_ostream&lt;charT, traits&gt;&amp; os,
+  const endian_buffer&lt;Order, T, n_bits, Align&gt;&amp; x);
+</pre>
+<blockquote>
+  <p><i>Returns:</i> <code>os &lt;&lt; x.value()</code>.</p>
+</blockquote>
+<pre>template &lt;class charT, class traits, order Order, class T,
+  std::size_t n_bits, align A&gt;
+std::basic_istream&lt;charT, traits&gt;&amp; <a name="extractor">operator&gt;&gt;</a>(std::basic_istream&lt;charT, traits&gt;&amp; is,
+  endian_buffer&lt;Order, T, n_bits, Align&gt;&amp; x);
+</pre>
+<blockquote>
+  <p><i>Effects: </i>As if:</p>
+  <blockquote>
+    <pre>T i;
+if (is &gt;&gt; i)
+  x = i;
+</pre>
+  </blockquote>
+  <p><i>Returns:</i> <code>is</code>.</p>
 </blockquote>
 <h2><a name="FAQ">FAQ</a></h2>
 
@@ -617,7 +650,7 @@ any Boost object libraries.</p>
 </ul>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->06 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38644" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->19 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38903" --></p>
 <p>© Copyright Beman Dawes, 2006-2009, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

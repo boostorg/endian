@@ -12,23 +12,9 @@
 
 <h1>Endian Library TODO List</h1>
 
-<p>Last revised:
-<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%d %B, %Y" startspan -->17 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38647" --></p>
-
-<p><b>August 12, 2014: The many items that have been completed should be 
-removed, after verifying that they are in fact taken care of.</b></p>
 <h2>To Do</h2>
-<ul>
-  <li>Develop the use-cases example programs, using plain integers and UDT's.</li>
-  <li>Review UDT examples.</li>
-  <li>Review buffer stream extractors and inserters, and how they work for 
-  arithmetic types. TEST. Make sure nothing got dropped on the floor during 
-  buffer decomposition.</li>
-  <li><span style="background-color: #FFFF00">Run inspect.</span> 
-  </li>
-</ul>
 <h2>Format Review Comments</h2>
-<h3 dir="ltr">Votes</h3>
+<h3 dir="ltr">Interesting</h3>
 <ul>
   <li dir="ltr">
   <p dir="ltr">John Filo - &quot;Absolutely. I'd like to see support for float and 
@@ -52,26 +38,6 @@ removed, after verifying that they are in fact taken care of.</b></p>
   Spirit with the reviewed version. All of Spirits regression tests still <br>
   pass. &quot;<br>
 &nbsp;</li>
-  <li dir="ltr">
-  <p dir="ltr">Robert Stewart - &quot;There are issues that keep me from saying yes 
-  at this time. &nbsp;There are too many suggested variations and ideas under 
-  consideration to accept the library in its present state. &nbsp;However, a 
-  mini-review should be sufficient to evaluate the final form, once Beman 
-  determines a course of action, and determine whether to accept it or not.&quot;<br>
-&nbsp;</li>
-  <li dir="ltr">
-  <p dir="ltr">Tim Blechmann - &quot;the library should be accepted, if<br>
-  <br>
-  (a) the interface of the conversion functions is changed<br>
-  (b) the performance can be improved<br>
-  (c) the documentation integrates better with the rest of the boost<br>
-  &nbsp; &nbsp;documentation.&quot;<br>
-&nbsp;</li>
-  <li dir="ltr">
-  <p dir="ltr">Vicente J. Botet Escriba - &quot;No in its current state.<br>
-  Once the library takes in account the requested modification (that Beman has 
-  already accepted) a mini-review will be necessary to improve the library 
-  before release.&quot;</li>
 </ul>
 <h3>Executive summary</h3>
 <ul>
@@ -109,37 +75,6 @@ removed, after verifying that they are in fact taken care of.</b></p>
 </ul>
 <h3>Docs</h3>
 <ul>
-  <li>Document use of endian integers with stream inserters and extractors.</li>
-  <li>Conversion in note mention similarity to htonl() , etc.</li>
-  <li>Conversion: add discussion of alignment, packing, etc. Bottom line; use at 
-  your own risk. Use Phil's example:<br>
-  struct S {<br>
-  &nbsp;uint16_t a;<br>
-  &nbsp;uint32_t b;<br>
-  } __attribute__ ((packed));</li>
-  <li>Requirements for template parameters. </li>
-  <li>UDTs<ul>
-  <li>Integers</li>
-  <li>Conversion</li>
-</ul>
-  </li>
-  <li>Distinguish use cases and recommendations for which approach (integers vs 
-  conversion) is appropriate.<ul>
-  <li><a href="http://lists.boost.org/Archives/boost/2011/09/185698.php">
-  http://lists.boost.org/Archives/boost/2011/09/185698.php</a></li>
-</ul>
-  </li>
-  <li>&gt; section `experience': this section gives no insights for people who use 
-  or<br>
-  &gt; read the code. it mainly tells: &quot;we are not the first and the domain of the<br>
-  &gt; library is important.&quot;. imo this section can be removed (maybe the part that<br>
-  &gt; it is not related to any c library can go to the `design considerations'<br>
-  &gt;<br>
-  &gt; section &quot;motivating use cases&quot;: this is more a marketing blurb/testimonial.<br>
-  &gt; maybe this could be changed to a section about possible use cases, listing<br>
-  &gt; `communicating between different devices' and `reading/writing of binary 
-  file<br>
-  &gt; formats'.</li>
   <li>one other point ... the help file seems to directly link to the c++ 
   headers.<br>
   this should be changed:<br>
@@ -157,75 +92,10 @@ removed, after verifying that they are in fact taken care of.</b></p>
   <br>
   so i'd suggest to completely remove the links to the c++ headers.<br>
 &nbsp;</li>
-  <li>
-  <div class="im">
-    &gt; explaining the other builting types are not considered. Why only 
-    big/little<br>
-    &gt; endianness has been taken in account?</div>
-  <p>I'll add FAQ and/or add more entries to the final docs.<br>
-  <br>
-  Only big/little endianness is taken into account because these are the<br>
-  only endian schemes that have any practical value. All the others are<br>
-  just historical curiosities.</li>
 </ul>
-<h3>Code</h3>
-<p>Also change docs if applicable.</p>
-<ul>
-  <li><span style="background-color: #FFCCFF">Beman: TODO</span><span style="background-color: #FFCCFF">:
-  </span><span style="background-color: #FFCCFF">Google</span><span style="background-color: #FFCCFF"> 
-  &quot;unaligned integer&quot;, look at various entries. For example, http://</span><span style="background-color: #FFCCFF">infocenter.arm.com</span><span style="background-color: #FFCCFF">/help/</span><span style="background-color: #FFCCFF">index.jsp?topic</span><span style="background-color: #FFCCFF">=/</span><span style="background-color: #FFCCFF">com.arm.doc.faqs</span><span style="background-color: #FFCCFF">/ka3544.html</span></li>
-  <li>Beman: Some platforms (compiler/processor taken together) don't require 
-  alignment for the conversion functions if code is inlined, although speed may 
-  suffer. (test to verify this assertion). On those platforms, conversion 
-  functions (perhaps in-place) can be used to implement unaligned integers.<ul>
-  <li>Microsoft <a href="http://msdn.microsoft.com/en-us/library/ms253978.aspx">
-  UNALIGNED / __unaligned</a> keywords for pointers. Also
-  <a href="http://msdn.microsoft.com/en-us/library/ms253935.aspx">Packing 
-  Structures</a>.</li>
-  <li>GCC
-  <a href="http://www.mailinglistarchive.com/gcc@gcc.gnu.org/msg21079.html">
-  http://www.mailinglistarchive.com/gcc@gcc.gnu.org/msg21079.html</a></li>
-  <li>Intel performs well on simple unaligned test. See
-  <a href="../test/unaligned_test.cpp">../test/unaligned_test.cpp</a></li>
-</ul>
-  </li>
-  <li>Beman: Does the use of the unrolling templates get in the way of processor 
-  specific optimization code?</li>
-  <li>Test use of endian integers with stream inserters and extractors.</li>
-  <li>Continue work on benchmarks and timings. Consider using use-case example 
-  programs as benchmarks.</li>
-  <li dir="ltr">
-  <div class="im">
-    &gt; The library should provide in addition endian conversion functions that 
-    have<br>
-    &gt; the endiannes as template parameters to make possible generic functions.</div>
-  <p dir="ltr">Compile time dispatch on an endianness enum was also requested in<br>
-  another review. That's fine with me, but I haven't had a chance to<br>
-  figure out the interface details.</li>
-</ul>
-<h3>Infrastructure</h3>
-<ul>
-  <li>
-  <div class="im">
-    &gt; endian_operations_test.cpp and endian_in_union_test.cpp ... maybe rename 
-    from<br>
-    &gt; _test.cpp to _compile_test.cpp? they don't seem to do any run-time tests. 
-    they<br>
-    &gt; also should not include &lt;cassert&gt; since no assertion statement is needed, 
-    this<br>
-    &gt; might speed up the compilation time of the testsuite by something like 
-    50ms ;)</div>
-  <p>Will do.</li>
-  <li>Make the bin() functionality available</li>
-</ul>
-
-<p>* I'm only willing to provide conversion.hpp FP support. Providing<br>
-types that mimic FP types is far beyond my knowledge of how to deal<br>
-with floating point's notorious arithmetic issues.</p>
-<p>Support IEEE754 format (32 bit, 64 bit) only.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->17 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38647" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->17 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38899" --></p>
 <p>© Copyright Beman Dawes, 2012</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/LICENSE_1_0.txt</a></p>

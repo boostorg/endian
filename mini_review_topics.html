@@ -9,34 +9,60 @@
 <link href="styles.css" rel="stylesheet">
 <body>
 
-<p>Here is what needs to be done to get the library ready for a mini-review:
+<table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%">
+  <tr>
+    <td width="339">
+<a href="../../../index.html">
+<img src="../../../boost.png" alt="Boost logo" align="middle" border="0" width="277" height="86"></a></td>
+    <td align="middle" width="1253">
+    <b>
+    <font size="6">Endian </font></b><font size="6"><b>Mini-Review</b></font></td>
+  </tr>
+</table>
 
+<table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse"
+  bordercolor="#111111" bgcolor="#D7EEFF" width="100%">
+  <tr>
+    <td><b>
+    <a href="index.html">Endian Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="conversion.html">Conversion Functions</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="arithmetic.html">Arithmetic Types</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="buffers.html">Buffer Types</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="choosing_approach.html">Choosing Approach</a></b></td>
+  </tr>
+</table>
+<p></p>
 
+<p>The results of the Boost.Endian formal review included a list of issues to be 
+resolved before a mini-review.</p>
 
-</p>
+<p>The issues are shown in <b>bold</b> below, with the resolution indicated.</p>
 
-  <p><b>Common use case scenarios should be developed.</b></p>
+  <p><b>1. Common use case scenarios should be developed.</b></p>
   <blockquote>
 
-  <p>Done. See <a href="index.html#Use-cases">Use cases</a>.</p>
+  <p>Done. The documentation have been refactored. A page is now devoted to
+  <a href="choosing_approach.html">Choosing the Approach</a> to endianness. See
+  <a href="choosing_approach.html#Use-cases">Use cases</a> for use case 
+  scenarios.</p>
   </blockquote>
-  <p><b>Example programs should be developed for the common use case scenarios.</b></p>
+  <p><b>2. Example programs should be developed for the common use case scenarios.</b></p>
   <blockquote>
-  <p>&nbsp;</p>
+  <p>Done. See <a href="choosing_approach.html">Choosing the Approach</a>. 
+  Example code has been added throughout.</p>
   </blockquote>
-  <p><b>Documentation should illuminate the differences between endian 
+  <p><b>3. Documentation should illuminate the differences between endian 
 integer/float type and endian conversion approaches to the common use 
 case scenarios, and provide guidelines for choosing the most appropriate 
 approach in user's applications.</b></p>
   <blockquote>
-  <p>Done. See <a href="index.html#Choosing">Choosing between endian conversion 
-  functions, endian buffer types, and endian arithmetic types</a>.</p>
+  <p>Done. See <a href="choosing_approach.html">Choosing the Approach</a>.</p>
   </blockquote>
-  <p><b>Conversion functions supplying results via return should be provided.</b></p>
+  <p><b>4 .Conversion functions supplying results via return should be provided.</b></p>
   <blockquote>
-  <p>Done. See <a href="conversion.html">conversion docs</a>.</p>
+  <p>Done. See <a href="conversion.html">ConversionFunctions</a>.</p>
   </blockquote>
-  <p><b>Platform specific performance enhancements such as use of compiler intrinsics or relaxed alignment requirements should be supported.</b></p>
+  <p><b>5. Platform specific performance enhancements such as use of compiler intrinsics or relaxed alignment requirements should be supported.</b></p>
   <blockquote>
   <p>Done. Compiler (Clang, GCC, VisualC++, etc.) intrinsics and built-in 
   functions are used in the implementation where appropriate, as requested. See
@@ -44,7 +70,7 @@ approach in user's applications.</b></p>
   <a href="index.html#Timings">Timings for Example 2</a> to gauge the impact of 
   intrinsics.</p>
   </blockquote>
-  <p><b>Endian integer (and floating) types should be implemented via the 
+  <p><b>6. Endian integer (and floating) types should be implemented via the 
 conversion functions. If that can't be done efficiently, consideration 
 should be given to expanding the conversion function signatures to 
 resolve the inefficiencies.</b></p>
@@ -52,7 +78,7 @@ resolve the inefficiencies.</b></p>
   <p>Done. For the endian types, the implementation uses the endian conversion 
   functions, and thus the intrinsics, as requested.</p>
   </blockquote>
-  <p><b>Benchmarks that measure performance should be provided. It should be 
+  <p><b>7. Benchmarks that measure performance should be provided. It should be 
 possible to compare platform specific performance enhancements against 
 portable base implementations, and to compare endian integer approaches 
 against endian conversion approaches for the common use case scenarios.</b></p>
@@ -60,7 +86,7 @@ against endian conversion approaches for the common use case scenarios.</b></p>
   <p>Done. See <a href="index.html#Timings">Timings for Example 2</a>. The <code>endian/test</code> directory 
   also contains several additional benchmark and speed test programs.</p>
   </blockquote>
-  <p><b>Float (32-bits) and double (64-bits) should be supported. IEEE 754 is 
+  <p><b>8. Float (32-bits) and double (64-bits) should be supported. IEEE 754 is 
 the primary use case.</b></p>
   <blockquote>
   <p>Done. The <a href="buffers.html">endian buffer types</a>,&nbsp;
@@ -68,12 +94,13 @@ the primary use case.</b></p>
   <a href="conversion.html">endian conversion functions</a> now support 32-bit (<code>float)</code> 
   and 64-bit <code>(double)</code> floating point, as requested.</p>
   </blockquote>
-  <p><b>Support for user defined types (UDTs) is desirable, and should be 
+  <p><b>9. Support for user defined types (UDTs) is desirable, and should be 
 provided where there would be no conflict with the other concerns.</b></p>
   <blockquote>
-  <p>Done. See <a href="conversion.html#Requirements">conversion requirements</a>.</p>
+  <p>Done. See <a href="conversion.html#Customization-points">Customization 
+  points for user-defined types (UDTs)</a>.</p>
   </blockquote>
-  <p><b>There is some concern that endian integer/float arithmetic operations 
+  <p><b>10. There is some concern that endian integer/float arithmetic operations 
 might used inadvertently or inappropriately. The impact of adding an endian_buffer 
   class without arithmetic operations should be investigated.</b></p>
   <blockquote>
@@ -83,23 +110,37 @@ might used inadvertently or inappropriately. The impact of adding an endian_buff
   <code>endian_buffer</code> is a public base class for <code>endian_arithmetic</code>, 
   and can also be used by users as a stand-alone class.</p>
   </blockquote>
-  <p><b>Stream insertion and extraction of the endian integer/float types should 
+  <p><b>11. Stream insertion and extraction of the endian integer/float types should 
   be documented and included in the test coverage.</b></p>
   <blockquote>
-  <p>Done. See <a href="types.html#Stream-inserter">Stream inserter</a> and
-  <a href="types.html#Stream-extractor">Stream extractor</a>.</p>
+  <p>Done. See <a href="buffers.html#Stream-inserter">Stream inserter</a> and
+  <a href="buffers.html#Stream-extractor">Stream extractor</a>.</p>
   </blockquote>
-  <p><b>Binary I/O support that was investigated during development of the Endian 
+  <p><b>12. Binary I/O support that was investigated during development of the Endian 
   library should be put up for mini-review for inclusion in the Boost I/O 
   library.</b></p>
   
 <blockquote>
-  <p>&nbsp;</p>
+  <p>Not done yet. Will be handled as a separate min-review soon after the 
+  Endian mini-review.</p>
   
+</blockquote>
+  <p><b>13. Other requested changes.</b></p>
+  
+<blockquote>
+  <ul>
+    <li>In addition to the named-endianness conversion functions, functions that perform 
+    compile-time (via template) and run-time (via function argument) dispatch 
+    are now provided.</li>
+    <li><code>order::native</code> is now a synonym for <code>order::big</code> 
+  or <code>order::little</code> according to the endianness of the platform. This reduces the number of template specializations required.</li>
+    <li>Headers have been reorganized to make them easier to read, 
+  with a synopsis at the front and implementation following.</li>
+  </ul>
 </blockquote>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->17 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38647" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->19 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38903" --></p>
 <p>© Copyright Beman Dawes, 2014</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

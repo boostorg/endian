@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
@@ -17,7 +17,7 @@
   <tr>
     <td>
 <a href="../../../index.html">
-<img src="http://www.boost.org/boost.png" alt="Boost logo" align="middle" border="0" width="277" height="86"></a></td>
+<img src="../../../boost.png" alt="Boost logo" align="middle" border="0" width="277" height="86"></a></td>
     <td align="middle">
     <b>
     <font size="6">Endian Arithmetic Types</font> </b>
@@ -27,11 +27,12 @@
 
 <table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" bgcolor="#D7EEFF" width="100%">
   <tr>
-    <td><b><a href="../../../index.htm">Boost Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <td><b>
     <a href="index.html">Endian Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="conversion.html">Conversion Functions</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="arithmetic.html">Arithmetic Types</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="buffers.html">Buffer Types</a></b></td>
+    <a href="buffers.html">Buffer Types</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="choosing_approach.html">Choosing Approach</a></b></td>
   </tr>
 </table>
 
@@ -64,17 +65,7 @@
       <a href="#Acknowledgements">Acknowledgements</a>
     </td>
   </tr>
-  <tr>
-    <td width="100%" bgcolor="#D7EEFF" align="center">
-      <b><i>Headers</i></b></td>
-  </tr>
-  <tr>
-    <td width="100%" bgcolor="#E8F5FF">
-      <a href="../include/boost/endian/conversion.hpp">&lt;boost/endian/conversion.hpp&gt;</a><br>
-      <a href="../include/boost/endian/buffers.hpp">&lt;boost/endian/buffers.hpp&gt;</a><br>
-      <a href="../include/boost/endian/arithmetic.hpp">&lt;boost/endian/arithmetic.hpp&gt;</a></td>
-  </tr>
-</table>
+  </table>
 <h2><a name="Introduction">Introduction</a></h2>
 <p>Header <a href="arithmetic.html">boost/endian/arithmetic.hpp</a> 
 provides integer and floating point binary types with control over 
@@ -118,10 +109,11 @@ using namespace boost::endian;
 
 namespace 
 {
-  //  This is an extract from a very widely used GIS file format. It seems odd
-  //  to mix big and little endians in the same file - but this is a real-world
-  //  format and users wishing to write low level code manipulating these files
-  //  must deal with the mixed endianness.
+  //  This is an extract from a very widely used GIS file format.
+  //  Why the designer decided to mix big and little endians in
+  //  the same file is not known. But this is a real-world format
+  //  and users wishing to write low level code manipulating these
+  //  files have to deal with the mixed endianness.
 
   struct header
   {
@@ -145,11 +137,13 @@ int main(int, char* [])
   h.version     = 1;
   h.shape_type  = 0x01020304;
 
-  //  Low-level I/O such as POSIX read/write or &lt;cstdio&gt; fread/fwrite is sometimes
-  //  used for binary file operations when ultimate efficiency is important. Such
-  //  I/O is often performed in some C++ wrapper class, but to drive home the
-  //  point that endian integers are often used in fairly low-level code that does
-  //  bulk I/O operations, &lt;cstdio&gt; fopen/fwrite is used for I/O in this example.
+  //  Low-level I/O such as POSIX read/write or &lt;cstdio&gt;
+  //  fread/fwrite is sometimes used for binary file operations
+  //  when ultimate efficiency is important. Such I/O is often
+  //  performed in some C++ wrapper class, but to drive home the
+  //  point that endian integers are often used in fairly
+  //  low-level code that does bulk I/O operations, &lt;cstdio&gt;
+  //  fopen/fwrite is used for I/O in this example.
 
   std::FILE* fi = std::fopen(filename, &quot;wb&quot;);  // MUST BE BINARY
   
@@ -214,8 +208,9 @@ enum class align {no, yes}; </pre>
 </blockquote>
 <p>One class template is provided:</p>
 <blockquote>
-  <pre>template &lt;order Order, typename T, std::size_t n_bits, align A = align::no&gt;
-  class endian_arithmetic;
+  <pre>template &lt;order Order, typename T, std::size_t n_bits,
+  align Align = align::no&gt;
+class endian_arithmetic;
 </pre>
 </blockquote>
 <p>Typedefs, such as <code>big_int32_t</code>, provide convenient naming 
@@ -375,9 +370,10 @@ usual operations on integers are supplied.</p>
 
     enum class <a name="alignment">align</a> {no, yes};            
 
-    template &lt;order Order, class T, std::size_t n_bits, align A = align::no&gt;
+    template &lt;order Order, class T, std::size_t n_bits,
+      align Align = align::no&gt;
     class endian_arithmetic
-      : public endian_buffer&lt;Order, T, n_bits, A&gt;
+      : public endian_buffer&lt;Order, T, n_bits, Align&gt;
     {
     public:
       typedef T value_type;
@@ -389,8 +385,8 @@ usual operations on integers are supplied.</p>
 
       endian_arithmetic&amp; <a href="#operator-eq">operator=</a>(T v) noexcept;
       <a href="#operator-T">operator value_type</a>() const noexcept;
-      value_type value() const noexcept;  // exposition only; see endian_buffer
-      const char* <a href="#data">data</a>() const noexcept;  // exposition only; see endian_buffer
+      value_type value() const noexcept; // for exposition; see endian_buffer
+      const char* <a href="#data">data</a>() const noexcept; // for exposition; see endian_buffer
 
       // arithmetic operations
       //   note that additional operations are provided by the value_type 
@@ -426,35 +422,35 @@ usual operations on integers are supplied.</p>
     // typedefs  
 
     // aligned big endian floating point types
-    typedef endian&lt;order::big, float, 32, align::yes&gt;       big_float32_t;
-    typedef endian&lt;order::big, double, 64, align::yes&gt;      big_float64_t;
+    typedef endian&lt;order::big, float, 32, align::yes&gt;     big_float32_t;
+    typedef endian&lt;order::big, double, 64, align::yes&gt;    big_float64_t;
 
     // aligned little endian floating point types
-    typedef endian&lt;order::little, float, 32, align::yes&gt;    little_float32_t;
-    typedef endian&lt;order::little, double, 64, align::yes&gt;   little_float64_t;
+    typedef endian&lt;order::little, float, 32, align::yes&gt;  little_float32_t;
+    typedef endian&lt;order::little, double, 64, align::yes&gt; little_float64_t;
 
     // unaligned big endian floating point types
-    typedef endian&lt;order::big, float, 32, align::no&gt;        big_float32un_t;
-    typedef endian&lt;order::big, double, 64, align::no&gt;       big_float64un_t;
+    typedef endian&lt;order::big, float, 32, align::no&gt;      big_float32_ut;
+    typedef endian&lt;order::big, double, 64, align::no&gt;     big_float64_ut;
   
     // unaligned little endian floating point types
-    typedef endian&lt;order::little, float, 32, align::no&gt;     little_float32un_t;
-    typedef endian&lt;order::little, double, 64, align::no&gt;    little_float64un_t;
+    typedef endian&lt;order::little, float, 32, align::no&gt;   little_float32_ut;
+    typedef endian&lt;order::little, double, 64, align::no&gt;  little_float64_ut;
   
     // aligned big endian signed integer types
-    typedef endian&lt;order::big, int16_t, 16, align::yes&gt;     big_int16_t;
-    typedef endian&lt;order::big, int32_t, 32, align::yes&gt;     big_int32_t;
-    typedef endian&lt;order::big, int64_t, 64, align::yes&gt;     big_int64_t;
+    typedef endian&lt;order::big, int16_t, 16, align::yes&gt;   big_int16_t;
+    typedef endian&lt;order::big, int32_t, 32, align::yes&gt;   big_int32_t;
+    typedef endian&lt;order::big, int64_t, 64, align::yes&gt;   big_int64_t;
 
     // aligned big endian unsigned integer types
-    typedef endian&lt;order::big, uint16_t, 16, align::yes&gt;    big_uint16_t;
-    typedef endian&lt;order::big, uint32_t, 32, align::yes&gt;    big_uint32_t;
-    typedef endian&lt;order::big, uint64_t, 64, align::yes&gt;    big_uint64_t;
+    typedef endian&lt;order::big, uint16_t, 16, align::yes&gt;  big_uint16_t;
+    typedef endian&lt;order::big, uint32_t, 32, align::yes&gt;  big_uint32_t;
+    typedef endian&lt;order::big, uint64_t, 64, align::yes&gt;  big_uint64_t;
 
     // aligned little endian signed integer types
-    typedef endian&lt;order::little, int16_t, 16, align::yes&gt;  little_int16_t;
-    typedef endian&lt;order::little, int32_t, 32, align::yes&gt;  little_int32_t;
-    typedef endian&lt;order::little, int64_t, 64, align::yes&gt;  little_int64_t;
+    typedef endian&lt;order::little, int16_t, 16, align::yes&gt; little_int16_t;
+    typedef endian&lt;order::little, int32_t, 32, align::yes&gt; little_int32_t;
+    typedef endian&lt;order::little, int64_t, 64, align::yes&gt; little_int64_t;
 
     // aligned little endian unsigned integer types
     typedef endian&lt;order::little, uint16_t, 16, align::yes&gt; little_uint16_t;
@@ -681,7 +677,7 @@ differs from endian representation size. Vicente Botet and other reviewers
 suggested supporting floating point types.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->05 December, 2014<!--webbot bot="Timestamp" endspan i-checksum="38642" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->19 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38903" --></p>
 <p>© Copyright Beman Dawes, 2006-2009, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
