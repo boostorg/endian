@@ -17,7 +17,7 @@
   <tr>
     <td>
 <a href="../../../index.html">
-<img src="http://www.boost.org/boost.png" alt="Boost logo" align="middle" border="0" width="277" height="86"></a></td>
+<img src="../../../boost.png" alt="Boost logo" align="middle" border="0" width="277" height="86"></a></td>
     <td align="middle">
     <b>
     <font size="6">Endian Buffer Types</font> </b>
@@ -195,8 +195,9 @@ enum class align {no, yes}; </pre>
 </blockquote>
 <p>One class template is provided:</p>
 <blockquote>
-  <pre>template &lt;order Order, typename T, std::size_t Nbits, align A = align::no&gt;
-  class endian_buffer;
+  <pre>template &lt;order Order, typename T, std::size_t Nbits,
+  align Align = align::no&gt;
+class endian_buffer;
 </pre>
 </blockquote>
 <p>Typedefs, such as <code>big_int32_buf_t</code>, provide convenient naming 
@@ -356,7 +357,8 @@ usual operations on integers are supplied.</p>
 
     enum class <a name="alignment">align</a> {no, yes};            
 
-    template &lt;order Order, class T, std::size_t Nbits, align Align = align::no&gt;
+    template &lt;order Order, class T, std::size_t Nbits,
+      align Align = align::no&gt;
     class endian_buffer
     {
     public:
@@ -648,7 +650,7 @@ any Boost object libraries.</p>
 </ul>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->17 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38899" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->19 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38903" --></p>
 <p>© Copyright Beman Dawes, 2006-2009, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

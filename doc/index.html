@@ -15,7 +15,7 @@
   <tr>
     <td width="339">
 <a href="../../../index.html">
-<img src="http://www.boost.org/boost.png" alt="Boost logo" align="middle" border="0" width="277" height="86"></a></td>
+<img src="../../../boost.png" alt="Boost logo" align="middle" border="0" width="277" height="86"></a></td>
     <td align="middle" width="1253">
     <b>
     <font size="6">Endian Library</font></b></td>
@@ -56,6 +56,7 @@
 requested by formal review</a><br>
 &nbsp;&nbsp; <a href="#Other-changes-since-formal-review">Other changes since 
 formal review</a><br>
+<a href="#Compatibility">Compatibility with interim releases</a><br>
 <a href="#Acknowledgements">Acknowledgements</a><br>
     </td>
   </tr>
@@ -445,8 +446,9 @@ page for details.</p>
 <h3><a name="Other-changes-since-formal-review">Other changes since formal 
 review</a></h3>
 <ul>
-  <li>Headers have been renamed to <code>endian/arithmetic.hpp</code> and 
-  <code>endian/conversion.hpp</code>. <code>endian/buffers.hpp</code> has been 
+  <li>Header <code>boost/endian/endian.hpp</code> has been renamed to <code>
+  boost/endian/arithmetic.hpp</code>. Headers 
+  <code>boost/endian/conversion.hpp</code> and <code>boost/endian/buffers.hpp</code> have been 
   added. 
   Infrastructure file names were changed accordingly.</li>
   <li>The endian arithmetic type aliases have been renamed, 
@@ -473,6 +475,23 @@ review</a></h3>
   <li>Acknowledgements have been updated.</li>
 </ul>
 
+<h2><a name="Compatibility">Compatibility</a> with interim releases</h2>
+
+<p dir="ltr">Prior to the official Boost release, class template <code>
+endian_arithmetic</code> has been used for a decade or more with the same 
+functionality but under the name <code>endian</code>. Other names also changed 
+in the official release. If the macro <code>BOOST_ENDIAN_DEPRECATED_NAMES</code> 
+is defined, those old now deprecated names are still supported. However, the 
+class template <code>endian</code> name is only provided for compilers 
+supporting C++11 template aliases. For C++03 compilers, the name will have to be 
+changed to <code>endian_arithmetic</code>.</p>
+
+<p>To support backward header compatibility, deprecated header <code>boost/endian/endian.hpp</code> 
+forwards to <code>boost/endian/arithmetic.hpp</code>. It requires <code>
+BOOST_ENDIAN_DEPRECATED_NAMES</code> be defined. It should only be used while 
+transitioning to the official Boost release of the library as it will be removed 
+in some future release.</p>
+
 <h2><a name="Acknowledgements">Acknowledgements</a></h2>
 <p>Comments and suggestions were received from Adder, Benaka Moorthi, 
 Christopher Kohlhoff, Cliff Green, Daniel James, Gennaro Proto, Giovanni Piero 
@@ -484,7 +503,7 @@ Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen and
 Vitaly Budovsk. Apologies if anyone has been missed.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->15 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38895" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->19 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38903" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
