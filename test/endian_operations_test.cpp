@@ -14,30 +14,18 @@
 
 //  See endian_test for tests of endianess correctness, size, and value.
 
-//----------------------------------------------------------------------------//
-//----------------------------------------------------------------------------//
-//----------------------------------------------------------------------------//
-//----------------------------------------------------------------------------//
-//
-//
-//  TODO: transition to BOOST_TEST; more testing can only help
-//
-//
-//----------------------------------------------------------------------------//
-//----------------------------------------------------------------------------//
-//----------------------------------------------------------------------------//
-//----------------------------------------------------------------------------//
-
 #define BOOST_ENDIAN_LOG
 
 #include <boost/endian/detail/disable_warnings.hpp>
 
 #ifdef _MSC_VER
-# pragma warning( disable : 4242 )  // conversion ..., possible loss of data
-# pragma warning( disable : 4244 )  // conversion ..., possible loss of data
-# pragma warning( disable : 4018 )  // signed/unsigned mismatch
-# pragma warning( disable : 4365 )  // signed/unsigned mismatch
-# pragma warning( disable : 4389 )  // signed/unsigned mismatch
+#  pragma warning( disable : 4242 )  // conversion ..., possible loss of data
+#  pragma warning( disable : 4244 )  // conversion ..., possible loss of data
+#  pragma warning( disable : 4018 )  // signed/unsigned mismatch
+#  pragma warning( disable : 4365 )  // signed/unsigned mismatch
+#  pragma warning( disable : 4389 )  // signed/unsigned mismatch
+#elif defined(__GNUC__)
+#  pragma GCC diagnostic ignored "-Wconversion"
 #endif
 
 #define BOOST_ENDIAN_LOG
@@ -90,7 +78,7 @@ struct construct
   static void test()
   {
     T2 o2(1);
-    T1 o1(o2);   // TODO: does this make sense for char types?
+    T1 o1(static_cast<T1>(o2));
     ++o1;  // quiet gcc unused variable warning
   }
 };

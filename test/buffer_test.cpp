@@ -30,89 +30,89 @@ namespace
   void check_size()
   {
 
-    BOOST_TEST_EQ(sizeof(big_float32_buf_t), 4);
-    BOOST_TEST_EQ(sizeof(big_float64_buf_t), 8);
-    BOOST_TEST_EQ(sizeof(little_float32_buf_t), 4);
-    BOOST_TEST_EQ(sizeof(little_float64_buf_t), 8);
-    BOOST_TEST_EQ(sizeof(native_float32_buf_t), 4);
-    BOOST_TEST_EQ(sizeof(native_float64_buf_t), 8);
+    BOOST_TEST_EQ(sizeof(big_float32_buf_t), 4u);
+    BOOST_TEST_EQ(sizeof(big_float64_buf_t), 8u);
+    BOOST_TEST_EQ(sizeof(little_float32_buf_t), 4u);
+    BOOST_TEST_EQ(sizeof(little_float64_buf_t), 8u);
+    BOOST_TEST_EQ(sizeof(native_float32_buf_t), 4u);
+    BOOST_TEST_EQ(sizeof(native_float64_buf_t), 8u);
 
-    BOOST_TEST_EQ(sizeof(big_float32_buf_ut), 4);
-    BOOST_TEST_EQ(sizeof(big_float64_buf_ut), 8);
-    BOOST_TEST_EQ(sizeof(little_float32_buf_ut), 4);
-    BOOST_TEST_EQ(sizeof(little_float64_buf_ut), 8);
-    BOOST_TEST_EQ(sizeof(native_float32_buf_ut), 4);
-    BOOST_TEST_EQ(sizeof(native_float64_buf_ut), 8);
+    BOOST_TEST_EQ(sizeof(big_float32_buf_ut), 4u);
+    BOOST_TEST_EQ(sizeof(big_float64_buf_ut), 8u);
+    BOOST_TEST_EQ(sizeof(little_float32_buf_ut), 4u);
+    BOOST_TEST_EQ(sizeof(little_float64_buf_ut), 8u);
+    BOOST_TEST_EQ(sizeof(native_float32_buf_ut), 4u);
+    BOOST_TEST_EQ(sizeof(native_float64_buf_ut), 8u);
 
-    BOOST_TEST_EQ(sizeof(big_int8_buf_ut), 1);
-    BOOST_TEST_EQ(sizeof(big_int16_buf_ut), 2);
-    BOOST_TEST_EQ(sizeof(big_int24_buf_ut), 3);
-    BOOST_TEST_EQ(sizeof(big_int32_buf_ut), 4);
-    BOOST_TEST_EQ(sizeof(big_int40_buf_ut), 5);
-    BOOST_TEST_EQ(sizeof(big_int48_buf_ut), 6);
-    BOOST_TEST_EQ(sizeof(big_int56_buf_ut), 7);
-    BOOST_TEST_EQ(sizeof(big_int64_buf_ut), 8);
+    BOOST_TEST_EQ(sizeof(big_int8_buf_ut), 1u);
+    BOOST_TEST_EQ(sizeof(big_int16_buf_ut), 2u);
+    BOOST_TEST_EQ(sizeof(big_int24_buf_ut), 3u);
+    BOOST_TEST_EQ(sizeof(big_int32_buf_ut), 4u);
+    BOOST_TEST_EQ(sizeof(big_int40_buf_ut), 5u);
+    BOOST_TEST_EQ(sizeof(big_int48_buf_ut), 6u);
+    BOOST_TEST_EQ(sizeof(big_int56_buf_ut), 7u);
+    BOOST_TEST_EQ(sizeof(big_int64_buf_ut), 8u);
 
-    BOOST_TEST_EQ(sizeof(big_uint8_buf_ut), 1);
-    BOOST_TEST_EQ(sizeof(big_uint16_buf_ut), 2);
-    BOOST_TEST_EQ(sizeof(big_uint24_buf_ut), 3);
-    BOOST_TEST_EQ(sizeof(big_uint32_buf_ut), 4);
-    BOOST_TEST_EQ(sizeof(big_uint40_buf_ut), 5);
-    BOOST_TEST_EQ(sizeof(big_uint48_buf_ut), 6);
-    BOOST_TEST_EQ(sizeof(big_uint56_buf_ut), 7);
-    BOOST_TEST_EQ(sizeof(big_uint64_buf_ut), 8);
+    BOOST_TEST_EQ(sizeof(big_uint8_buf_ut), 1u);
+    BOOST_TEST_EQ(sizeof(big_uint16_buf_ut), 2u);
+    BOOST_TEST_EQ(sizeof(big_uint24_buf_ut), 3u);
+    BOOST_TEST_EQ(sizeof(big_uint32_buf_ut), 4u);
+    BOOST_TEST_EQ(sizeof(big_uint40_buf_ut), 5u);
+    BOOST_TEST_EQ(sizeof(big_uint48_buf_ut), 6u);
+    BOOST_TEST_EQ(sizeof(big_uint56_buf_ut), 7u);
+    BOOST_TEST_EQ(sizeof(big_uint64_buf_ut), 8u);
 
-    BOOST_TEST_EQ(sizeof(little_int8_buf_ut), 1);
-    BOOST_TEST_EQ(sizeof(little_int16_buf_ut), 2);
-    BOOST_TEST_EQ(sizeof(little_int24_buf_ut), 3);
-    BOOST_TEST_EQ(sizeof(little_int32_buf_ut), 4);
-    BOOST_TEST_EQ(sizeof(little_int40_buf_ut), 5);
-    BOOST_TEST_EQ(sizeof(little_int48_buf_ut), 6);
-    BOOST_TEST_EQ(sizeof(little_int56_buf_ut), 7);
-    BOOST_TEST_EQ(sizeof(little_int64_buf_ut), 8);
+    BOOST_TEST_EQ(sizeof(little_int8_buf_ut), 1u);
+    BOOST_TEST_EQ(sizeof(little_int16_buf_ut), 2u);
+    BOOST_TEST_EQ(sizeof(little_int24_buf_ut), 3u);
+    BOOST_TEST_EQ(sizeof(little_int32_buf_ut), 4u);
+    BOOST_TEST_EQ(sizeof(little_int40_buf_ut), 5u);
+    BOOST_TEST_EQ(sizeof(little_int48_buf_ut), 6u);
+    BOOST_TEST_EQ(sizeof(little_int56_buf_ut), 7u);
+    BOOST_TEST_EQ(sizeof(little_int64_buf_ut), 8u);
 
-    BOOST_TEST_EQ(sizeof(little_uint8_buf_ut), 1);
-    BOOST_TEST_EQ(sizeof(little_uint16_buf_ut), 2);
-    BOOST_TEST_EQ(sizeof(little_uint24_buf_ut), 3);
-    BOOST_TEST_EQ(sizeof(little_uint32_buf_ut), 4);
-    BOOST_TEST_EQ(sizeof(little_uint40_buf_ut), 5);
-    BOOST_TEST_EQ(sizeof(little_uint48_buf_ut), 6);
-    BOOST_TEST_EQ(sizeof(little_uint56_buf_ut), 7);
-    BOOST_TEST_EQ(sizeof(little_uint64_buf_ut), 8);
+    BOOST_TEST_EQ(sizeof(little_uint8_buf_ut), 1u);
+    BOOST_TEST_EQ(sizeof(little_uint16_buf_ut), 2u);
+    BOOST_TEST_EQ(sizeof(little_uint24_buf_ut), 3u);
+    BOOST_TEST_EQ(sizeof(little_uint32_buf_ut), 4u);
+    BOOST_TEST_EQ(sizeof(little_uint40_buf_ut), 5u);
+    BOOST_TEST_EQ(sizeof(little_uint48_buf_ut), 6u);
+    BOOST_TEST_EQ(sizeof(little_uint56_buf_ut), 7u);
+    BOOST_TEST_EQ(sizeof(little_uint64_buf_ut), 8u);
 
-    BOOST_TEST_EQ(sizeof(native_int8_buf_ut), 1);
-    BOOST_TEST_EQ(sizeof(native_int16_buf_ut), 2);
-    BOOST_TEST_EQ(sizeof(native_int24_buf_ut), 3);
-    BOOST_TEST_EQ(sizeof(native_int32_buf_ut), 4);
-    BOOST_TEST_EQ(sizeof(native_int40_buf_ut), 5);
-    BOOST_TEST_EQ(sizeof(native_int48_buf_ut), 6);
-    BOOST_TEST_EQ(sizeof(native_int56_buf_ut), 7);
-    BOOST_TEST_EQ(sizeof(native_int64_buf_ut), 8);
+    BOOST_TEST_EQ(sizeof(native_int8_buf_ut), 1u);
+    BOOST_TEST_EQ(sizeof(native_int16_buf_ut), 2u);
+    BOOST_TEST_EQ(sizeof(native_int24_buf_ut), 3u);
+    BOOST_TEST_EQ(sizeof(native_int32_buf_ut), 4u);
+    BOOST_TEST_EQ(sizeof(native_int40_buf_ut), 5u);
+    BOOST_TEST_EQ(sizeof(native_int48_buf_ut), 6u);
+    BOOST_TEST_EQ(sizeof(native_int56_buf_ut), 7u);
+    BOOST_TEST_EQ(sizeof(native_int64_buf_ut), 8u);
 
-    BOOST_TEST_EQ(sizeof(native_uint8_buf_ut), 1);
-    BOOST_TEST_EQ(sizeof(native_uint16_buf_ut), 2);
-    BOOST_TEST_EQ(sizeof(native_uint24_buf_ut), 3);
-    BOOST_TEST_EQ(sizeof(native_uint32_buf_ut), 4);
-    BOOST_TEST_EQ(sizeof(native_uint40_buf_ut), 5);
-    BOOST_TEST_EQ(sizeof(native_uint48_buf_ut), 6);
-    BOOST_TEST_EQ(sizeof(native_uint56_buf_ut), 7);
-    BOOST_TEST_EQ(sizeof(native_uint64_buf_ut), 8);
+    BOOST_TEST_EQ(sizeof(native_uint8_buf_ut), 1u);
+    BOOST_TEST_EQ(sizeof(native_uint16_buf_ut), 2u);
+    BOOST_TEST_EQ(sizeof(native_uint24_buf_ut), 3u);
+    BOOST_TEST_EQ(sizeof(native_uint32_buf_ut), 4u);
+    BOOST_TEST_EQ(sizeof(native_uint40_buf_ut), 5u);
+    BOOST_TEST_EQ(sizeof(native_uint48_buf_ut), 6u);
+    BOOST_TEST_EQ(sizeof(native_uint56_buf_ut), 7u);
+    BOOST_TEST_EQ(sizeof(native_uint64_buf_ut), 8u);
 
-    BOOST_TEST_EQ(sizeof(big_int16_buf_t), 2);
-    BOOST_TEST_EQ(sizeof(big_int32_buf_t), 4);
-    BOOST_TEST_EQ(sizeof(big_int64_buf_t), 8);
+    BOOST_TEST_EQ(sizeof(big_int16_buf_t), 2u);
+    BOOST_TEST_EQ(sizeof(big_int32_buf_t), 4u);
+    BOOST_TEST_EQ(sizeof(big_int64_buf_t), 8u);
 
-    BOOST_TEST_EQ(sizeof(big_uint16_buf_t), 2);
-    BOOST_TEST_EQ(sizeof(big_uint32_buf_t), 4);
-    BOOST_TEST_EQ(sizeof(big_uint64_buf_t), 8);
+    BOOST_TEST_EQ(sizeof(big_uint16_buf_t), 2u);
+    BOOST_TEST_EQ(sizeof(big_uint32_buf_t), 4u);
+    BOOST_TEST_EQ(sizeof(big_uint64_buf_t), 8u);
 
-    BOOST_TEST_EQ(sizeof(little_int16_buf_t), 2);
-    BOOST_TEST_EQ(sizeof(little_int32_buf_t), 4);
-    BOOST_TEST_EQ(sizeof(little_int64_buf_t), 8);
+    BOOST_TEST_EQ(sizeof(little_int16_buf_t), 2u);
+    BOOST_TEST_EQ(sizeof(little_int32_buf_t), 4u);
+    BOOST_TEST_EQ(sizeof(little_int64_buf_t), 8u);
 
-    BOOST_TEST_EQ(sizeof(little_uint16_buf_t), 2);
-    BOOST_TEST_EQ(sizeof(little_uint32_buf_t), 4);
-    BOOST_TEST_EQ(sizeof(little_uint64_buf_t), 8);
+    BOOST_TEST_EQ(sizeof(little_uint16_buf_t), 2u);
+    BOOST_TEST_EQ(sizeof(little_uint32_buf_t), 4u);
+    BOOST_TEST_EQ(sizeof(little_uint64_buf_t), 8u);
   } // check_size
 
   //  test_inserter_and_extractor  -----------------------------------------------------//
