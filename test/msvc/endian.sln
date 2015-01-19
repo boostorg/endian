@@ -31,6 +31,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "associated-files", "associa
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "experiment", "experiment\experiment.vcxproj", "{CE9D8719-6E86-41D0-97CA-5BE5272594E9}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "deprecated_test", "deprecated_test\deprecated_test.vcxproj", "{DA4BC67F-9284-4D2C-81D5-407312C31BD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -145,6 +147,12 @@ Global
 		{CE9D8719-6E86-41D0-97CA-5BE5272594E9}.Release|Win32.ActiveCfg = Release|Win32
 		{CE9D8719-6E86-41D0-97CA-5BE5272594E9}.Release|Win32.Build.0 = Release|Win32
 		{CE9D8719-6E86-41D0-97CA-5BE5272594E9}.Release|x64.ActiveCfg = Release|Win32
+		{DA4BC67F-9284-4D2C-81D5-407312C31BD7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DA4BC67F-9284-4D2C-81D5-407312C31BD7}.Debug|Win32.Build.0 = Debug|Win32
+		{DA4BC67F-9284-4D2C-81D5-407312C31BD7}.Debug|x64.ActiveCfg = Debug|Win32
+		{DA4BC67F-9284-4D2C-81D5-407312C31BD7}.Release|Win32.ActiveCfg = Release|Win32
+		{DA4BC67F-9284-4D2C-81D5-407312C31BD7}.Release|Win32.Build.0 = Release|Win32
+		{DA4BC67F-9284-4D2C-81D5-407312C31BD7}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

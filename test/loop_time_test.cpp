@@ -16,11 +16,19 @@
 #include <boost/endian/arithmetic.hpp>
 #include <boost/cstdint.hpp>
 #include <boost/timer/timer.hpp>
-#include <boost/lexical_cast.hpp>
 #include <iostream>
 #include <cstdlib>
 #include <string>
 #include <boost/detail/lightweight_main.hpp>
+
+#ifdef _MSC_VER
+#  pragma warning (push)
+#  pragma warning (disable : 4459)
+#endif
+#include <boost/lexical_cast.hpp>
+#ifdef _MSC_VER
+#  pragma warning (pop)
+#endif
 
 using namespace boost;
 using namespace boost::endian;
@@ -245,6 +253,7 @@ int cpp_main(int argc, char* argv[])
   
   cout
     << "<html>\n<head>\n<title>Endian Loop Time Test</title>\n</head>\n<body>\n"
+    << "<!-- boost-no-inspect -->\n" 
     << "<div align=\"center\"> <center>\n"
     << "<table border=\"1\" cellpadding=\"5\" cellspacing=\"0\""
     << "style=\"border-collapse: collapse\" bordercolor=\"#111111\">\n"

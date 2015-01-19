@@ -40,7 +40,7 @@
 #include <boost/type_traits/is_signed.hpp>
 #include <boost/cstdint.hpp>
 #include <boost/static_assert.hpp>
-#include <boost/detail/scoped_enum_emulation.hpp>
+#include <boost/core/scoped_enum.hpp>
 #include <iosfwd>
 #include <climits>
 
@@ -65,19 +65,12 @@ namespace boost
 namespace endian
 {
 
-#ifndef BOOST_ENDIAN_ORDER_ENUM_DEFINED
-  BOOST_SCOPED_ENUM_START(order)
-  {
-    big, little,
-# ifdef  BOOST_BIG_ENDIAN
-    native = big
-# else
-    native = little
-# endif
+  BOOST_SCOPED_ENUM_START(align)
+  {no, yes
+#   ifdef BOOST_ENDIAN_DEPRECATED_NAMES
+      , unaligned = no, aligned = yes
+#   endif
   }; BOOST_SCOPED_ENUM_END
-# define BOOST_ENDIAN_ORDER_ENUM_DEFINED
-#endif
-  BOOST_SCOPED_ENUM_START(align) {no, yes}; BOOST_SCOPED_ENUM_END
 
   template <BOOST_SCOPED_ENUM(order) Order, class T, std::size_t n_bits,
     BOOST_SCOPED_ENUM(align) A = align::no>
@@ -239,15 +232,8 @@ namespace endian
     return is;
   }
 
-}  // namespace boost
-}  // namespace endian
-
 //----------------------------------  end synopsis  ------------------------------------//
 
-namespace boost
-{
-namespace endian
-{
   namespace detail
   {
 

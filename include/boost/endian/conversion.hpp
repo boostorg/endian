@@ -12,7 +12,7 @@
 #include <boost/predef/detail/endian_compat.h>
 #include <boost/cstdint.hpp>
 #include <boost/endian/detail/intrinsic.hpp>
-#include <boost/detail/scoped_enum_emulation.hpp>
+#include <boost/core/scoped_enum.hpp>
 #include <boost/static_assert.hpp>
 #include <algorithm>
 #include <cstring>  // for memcpy
