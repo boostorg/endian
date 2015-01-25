@@ -57,6 +57,7 @@ requested by formal review</a><br>
 &nbsp;&nbsp; <a href="#Other-changes-since-formal-review">Other changes since 
 formal review</a><br>
 <a href="#Compatibility">Compatibility with interim releases</a><br>
+<a href="#C++03-support">C++03 support for C++11 features</a><br>
 <a href="#Acknowledgements">Acknowledgements</a><br>
     </td>
   </tr>
@@ -164,8 +165,9 @@ integers. The types may be aligned.</p>
 
 </blockquote>
 
-<p>Boost Endian is a header-only library. C++03 compilers are supported. C++11 features 
-affecting interfaces, such as <code>noexcept</code>, are  used only if available.</p>
+<p>Boost Endian is a header-only library. C++11 features 
+affecting interfaces, such as <code>noexcept</code>, are  used only if available. 
+See <a href="#C++03-support">C++03 support for C++11 features</a> for details.</p>
 
 <h2><a name="Choosing">Choosing</a> between  conversion functions,  buffer types, 
 and  arithmetic types</h2>
@@ -492,18 +494,51 @@ BOOST_ENDIAN_DEPRECATED_NAMES</code> be defined. It should only be used while
 transitioning to the official Boost release of the library as it will be removed 
 in some future release.</p>
 
+<h2><a name="C++03-support">C++03 support</a> for C++11 features</h2>
+
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
+  <tr>
+    <td><b>C++11 Feature</b></td>
+    <td><b>Action with C++03 Compilers </b></td>
+  </tr>
+  <tr>
+    <td>Scoped enums </td>
+    <td>Uses header <code class="computeroutput">
+    <a href="http://www.boost.org/libs/core/doc/html/core/scoped_enum.html">
+    <span class="identifier">boost</span><span class="special">/</span><span class="identifier">core</span><span class="special">/</span><span class="identifier">scoped_enum</span><span class="special">.</span><span class="identifier">hpp</span></a></code><span class="identifier"> 
+    to emulate C++11 scoped enums.</span></td>
+  </tr>
+  <tr>
+    <td><code>noexcept</code></td>
+    <td><span class="identifier">Uses BOOST_NOEXCEPT macro, which is defined as 
+    null for C++03.</span></td>
+  </tr>
+  <tr>
+    <td>C++11 PODs (<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2342.htm">N2342</a>)</td>
+    <td><span class="identifier">Takes advantage of C++03 compilers often 
+    relaxing C++03 POD rules, but see Limitations
+    <a href="buffers.html#Limitations">here</a> and
+    <a href="arithmetic.html#Limitations">here</a>. Also see macros for explicit 
+    POD control <a href="buffers.html#Compilation">here</a> and
+    <a href="arithmetic.html#Compilation">here</a>.</span></td>
+  </tr>
+</table>
+
 <h2><a name="Acknowledgements">Acknowledgements</a></h2>
 <p>Comments and suggestions were received from Adder, Benaka Moorthi, 
 Christopher Kohlhoff, Cliff Green, Daniel James, Gennaro Proto, Giovanni Piero 
 Deretta, Gordon Woodhull, dizzy, Hartmut Kaiser, Jeff Flinn, Jeremy Maitin-Shepard, John Filo, John 
 Maddock, Kim Barrett, Marsh Ray, Martin Bonner, Mathias Gaunard, Matias 
-Capeletto, Neil Mayhew, Paul Bristow, Pierre Talbot, Phil Endecott, Pyry Jahkola, 
+Capeletto, Neil Mayhew, Paul Bristow, Peter Dimov, Pierre Talbot, Phil Endecott, 
+<span class="gI">
+<span email="philip@blastbay.com" name="Philip Bennefall" class="gD">Philip 
+Bennefall,</span></span> Pyry Jahkola, 
 Rene Rivera, Robert Stewart, Roland Schwarz, Scott McMurray, Sebastian Redl, Tim 
 Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen and 
 Vitaly Budovsk. Apologies if anyone has been missed.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->19 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38903" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->25 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38896" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
