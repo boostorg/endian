@@ -58,6 +58,7 @@ requested by formal review</a><br>
 formal review</a><br>
 <a href="#Compatibility">Compatibility with interim releases</a><br>
 <a href="#C++03-support">C++03 support for C++11 features</a><br>
+<a href="#Future-directions">Future directions</a><br>
 <a href="#Acknowledgements">Acknowledgements</a><br>
     </td>
   </tr>
@@ -511,12 +512,12 @@ in some future release.</p>
   <tr>
     <td><code>noexcept</code></td>
     <td><span class="identifier">Uses BOOST_NOEXCEPT macro, which is defined as 
-    null for C++03.</span></td>
+    null for compilers not supporting this C++11 feature.</span></td>
   </tr>
   <tr>
     <td>C++11 PODs (<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2342.htm">N2342</a>)</td>
-    <td><span class="identifier">Takes advantage of C++03 compilers often 
-    relaxing C++03 POD rules, but see Limitations
+    <td><span class="identifier">Takes advantage of C++03 compilers that 
+    relax C++03 POD rules, but see Limitations
     <a href="buffers.html#Limitations">here</a> and
     <a href="arithmetic.html#Limitations">here</a>. Also see macros for explicit 
     POD control <a href="buffers.html#Compilation">here</a> and
@@ -524,21 +525,46 @@ in some future release.</p>
   </tr>
 </table>
 
+<h2><a name="Future-directions">Future directions</a></h2>
+
+<p><b>Standardization.</b> The plan is to submit Boost.Endian to the C++ 
+standards committee for possible inclusion in a Technical Specification or the 
+C++ standard itself.</p>
+
+<p dir="ltr"><b>Specializations for <code>numeric_limits</code>.</b> Roger Leigh 
+requested that all <code>boost::endian</code> types provide <code>numeric_limits</code> 
+specializations. See <a href="https://github.com/boostorg/endian/issues/4">
+GitHub issue 4</a>.</p>
+
+<p dir="ltr"><b>Character buffer support.</b> Peter Dimov pointed out during the 
+mini-review that getting and setting basic arithmetic types (or <code>&lt;cstdint&gt;</code> 
+equivalents) from/to an offset into an array of unsigned char is a common need. 
+See <a href="http://lists.boost.org/Archives/boost/2015/01/219574.php">
+Boost.Endian mini-review posting</a>.</p>
+
+<p><b>Out-of-range detection.</b> Peter Dimov pointed suggested during the 
+mini-review that throwing an exception on buffer values being out-of-range might 
+be desirable. See the end of
+<a href="http://lists.boost.org/Archives/boost/2015/01/219659.php">this posting</a> 
+and subsequent replies.</p>
+
 <h2><a name="Acknowledgements">Acknowledgements</a></h2>
 <p>Comments and suggestions were received from Adder, Benaka Moorthi, 
 Christopher Kohlhoff, Cliff Green, Daniel James, Gennaro Proto, Giovanni Piero 
 Deretta, Gordon Woodhull, dizzy, Hartmut Kaiser, Jeff Flinn, Jeremy Maitin-Shepard, John Filo, John 
 Maddock, Kim Barrett, Marsh Ray, Martin Bonner, Mathias Gaunard, Matias 
-Capeletto, Neil Mayhew, Paul Bristow, Peter Dimov, Pierre Talbot, Phil Endecott, 
+Capeletto, Neil Mayhew, <span class="gI">
+<span email="ml@vdspek.org" name="Olaf van der Spek" class="gD">Olaf van der 
+Spek, </span></span>Paul Bristow, Peter Dimov, Pierre Talbot, Phil Endecott, 
 <span class="gI">
 <span email="philip@blastbay.com" name="Philip Bennefall" class="gD">Philip 
 Bennefall,</span></span> Pyry Jahkola, 
-Rene Rivera, Robert Stewart, Roland Schwarz, Scott McMurray, Sebastian Redl, Tim 
+Rene Rivera, Robert Stewart, Roger Leigh, Roland Schwarz, Scott McMurray, Sebastian Redl, Tim 
 Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen and 
 Vitaly Budovsk. Apologies if anyone has been missed.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->25 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38896" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->27 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38900" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
