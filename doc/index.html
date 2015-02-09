@@ -417,6 +417,28 @@ and the other middle endian approaches are interesting historical curiosities
 but have no relevance to today&#39;s C++ developers.</p>
 </blockquote>
 
+<p><b>Why do both the buffer and arithmetic types exist?</b></p>
+<blockquote>
+<p>Conversions in the buffer types are explicit. Conversions in the arithmetic 
+types are implicit. This fundamental difference is a deliberate design feature 
+that would be lost if the inheritance hierarchy were collapsed.</p>
+<p>The original design provided only arithmetic types. Buffer types were 
+requested during formal review by those wishing total control over when 
+conversion occurs. They also felt that buffer types would be less likely to be 
+misused by maintenance programmers not familiar with the implications of 
+performing a lot of arithmetic operations on the endian arithmetic types.</p>
+</blockquote>
+<p><b>What is gained by using the buffer types rather than always just using the 
+arithmetic types?</b></p>
+<blockquote>
+<p>Assurance than hidden conversions are not performed. This is of overriding 
+importance to users concerned about achieving the ultimate in terms of speed. </p>
+<p>&quot;Always just using the arithmetic types&quot; is fine for other users. When the 
+ultimate in speed needs to be ensured, the arithmetic types can be used in the 
+same design patterns or idioms that would be used for buffer types, resulting in 
+the same code being generated for either types.</p>
+</blockquote>
+
 <p><b>What are the limitations of floating point support?</b></p>
 
 <blockquote>
@@ -480,7 +502,7 @@ review</a></h3>
 
 <h2><a name="Compatibility">Compatibility</a> with interim releases</h2>
 
-<p dir="ltr">Prior to the official Boost release, class template <code>
+<p>Prior to the official Boost release, class template <code>
 endian_arithmetic</code> has been used for a decade or more with the same 
 functionality but under the name <code>endian</code>. Other names also changed 
 in the official release. If the macro <code>BOOST_ENDIAN_DEPRECATED_NAMES</code> 
@@ -531,12 +553,12 @@ in some future release.</p>
 standards committee for possible inclusion in a Technical Specification or the 
 C++ standard itself.</p>
 
-<p dir="ltr"><b>Specializations for <code>numeric_limits</code>.</b> Roger Leigh 
+<p><b>Specializations for <code>numeric_limits</code>.</b> Roger Leigh 
 requested that all <code>boost::endian</code> types provide <code>numeric_limits</code> 
 specializations. See <a href="https://github.com/boostorg/endian/issues/4">
 GitHub issue 4</a>.</p>
 
-<p dir="ltr"><b>Character buffer support.</b> Peter Dimov pointed out during the 
+<p><b>Character buffer support.</b> Peter Dimov pointed out during the 
 mini-review that getting and setting basic arithmetic types (or <code>&lt;cstdint&gt;</code> 
 equivalents) from/to an offset into an array of unsigned char is a common need. 
 See <a href="http://lists.boost.org/Archives/boost/2015/01/219574.php">
@@ -551,20 +573,17 @@ and subsequent replies.</p>
 <h2><a name="Acknowledgements">Acknowledgements</a></h2>
 <p>Comments and suggestions were received from Adder, Benaka Moorthi, 
 Christopher Kohlhoff, Cliff Green, Daniel James, Gennaro Proto, Giovanni Piero 
-Deretta, Gordon Woodhull, dizzy, Hartmut Kaiser, Jeff Flinn, Jeremy Maitin-Shepard, John Filo, John 
+Deretta, Gordon Woodhull, dizzy, Hartmut Kaiser, Jason Newton, Jeff Flinn, Jeremy Maitin-Shepard, John Filo, John 
 Maddock, Kim Barrett, Marsh Ray, Martin Bonner, Mathias Gaunard, Matias 
-Capeletto, Neil Mayhew, <span class="gI">
-<span email="ml@vdspek.org" name="Olaf van der Spek" class="gD">Olaf van der 
-Spek, </span></span>Paul Bristow, Peter Dimov, Pierre Talbot, Phil Endecott, 
-<span class="gI">
-<span email="philip@blastbay.com" name="Philip Bennefall" class="gD">Philip 
-Bennefall,</span></span> Pyry Jahkola, 
+Capeletto, Neil Mayhew, Nevin Liber, 
+Olaf van der Spek, Paul Bristow, Peter Dimov, Pierre Talbot, Phil Endecott, 
+Philip Bennefall, Pyry Jahkola, 
 Rene Rivera, Robert Stewart, Roger Leigh, Roland Schwarz, Scott McMurray, Sebastian Redl, Tim 
 Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen and 
 Vitaly Budovsk. Apologies if anyone has been missed.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->27 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38900" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->09 February, 2015<!--webbot bot="Timestamp" endspan i-checksum="40544" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
