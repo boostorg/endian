@@ -66,8 +66,9 @@ ordering. User defined types are also supported.</p>
 
 <h2><a name="Reference">Reference</a></h2>
 
-<p>Functions are implemented <code>inline</code> if appropriate.<code> noexcept</code> is 
-elided for compilers that do not support it. 
+<p>Functions are implemented <code>inline</code> if appropriate.<code> </code>
+For C++03 compilers, <code> noexcept</code> is 
+elided  . 
 Boost scoped enum emulation is used so that the library still works for compilers that do not support scoped enums.</p>
 
 <p>&nbsp;</p>
@@ -76,7 +77,8 @@ Boost scoped enum emulation is used so that the library still works for compiler
 Header <code>&lt;boost/endian/conversion.hpp&gt;</code>
 <a name="Synopsis">Synopsis</a></h3>
 
-<pre>#define BOOST_ENDIAN_INTRINSIC_MSG &quot;<b><font face="Arial"><i>message describing presence or absence of intrinsics</i></font></b>&quot;
+<pre>#define BOOST_ENDIAN_INTRINSIC_MSG \
+   &quot;<b><font face="Arial"><i>message describing presence or absence of intrinsics</i></font></b>&quot;
 
 namespace boost
 {
@@ -166,7 +168,7 @@ modifiable lvalue of type <code>T</code>.</p>
     <td> <code>T</code> is an endian type or a class type.<p>If <code>T</code> is 
     an endian type, returns the value of <code>x</code> with the order of bytes 
     reversed.</p>
-    <p>If <code>T</code> is an class type, the function:</p>
+    <p>If <code>T</code> is a class type, the function:</p>
     <ul>
       <li>Returns the value of <code>x</code> 
     with the order of bytes reversed for all data members of types or arrays of 
@@ -191,7 +193,7 @@ can be found by argument dependent lookup (ADL). </li>
     <td valign="top"><code>endian_reverse_inplace(mlx)</code></td>
     <td> <code>T</code> is an endian type or a class type.<p>If <code>T</code> is 
     an endian type, reverses the order of bytes in <code>mlx</code>.</p>
-    <p>If <code>T</code> is an class type, the function:</p>
+    <p>If <code>T</code> is a class type, the function:</p>
     <ul>
       <li>Reverses the order of bytes of all data members of <code>mlx</code> 
       that have types or arrays of 
@@ -208,7 +210,7 @@ can be found by argument dependent lookup (ADL).&nbsp; </li>
 that calls <code>endian_reverse</code>, only <code>endian_reverse</code> 
 is required for a user-defined type to meet the <code>EndianReversibleInplace</code> 
 requirements. Although User-defined types are not required to supply an <code>endian_reverse_inplace</code> 
-function, doing so may improved efficiency. <i>&nbsp;&mdash;end note</i>]</p>
+function, doing so may improve efficiency. <i>&nbsp;&mdash;end note</i>]</p>
 
 <h4> <a name="Customization-points">Customization points</a> for user-defined types (<a name="UDT">UDT</a>s)</h4>
 
@@ -239,7 +241,7 @@ double   endian_reverse(double x) noexcept;</pre>
 <blockquote>
   <p dir="ltr"><i>Returns:</i> <i><code>x</code></i>, with the order of its 
   constituent bytes reversed.</p>
-  <p><i>Remarks:</i> Meet the <code>EndianReversible</code> requirements.</p>
+  <p><i>Remarks:</i> The type of <i><code>x</code></i> meets the <code>EndianReversible</code> requirements.</p>
   <p>[<i>Note:</i> The Boost.Endian library does not provide overloads for the C++ standard library 
     supplied types. <i>&mdash;end note</i>]</p>
 </blockquote>
@@ -367,7 +369,7 @@ Pierre Talbot provided the <code>int8_t endian_reverse()</code> and templated
 <code>endian_reverse_inplace()</code> implementations.</p>
 <hr>
 <p>Last revised: 
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->19 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38903" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->09 February, 2015<!--webbot bot="Timestamp" endspan i-checksum="40544" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
 
