@@ -98,18 +98,22 @@ namespace
     BOOST_TEST_EQ(sizeof(native_uint56_buf_ut), 7u);
     BOOST_TEST_EQ(sizeof(native_uint64_buf_ut), 8u);
 
+    BOOST_TEST_EQ(sizeof(big_int8_buf_t), 1u);
     BOOST_TEST_EQ(sizeof(big_int16_buf_t), 2u);
     BOOST_TEST_EQ(sizeof(big_int32_buf_t), 4u);
     BOOST_TEST_EQ(sizeof(big_int64_buf_t), 8u);
 
+    BOOST_TEST_EQ(sizeof(big_uint8_buf_t), 1u);
     BOOST_TEST_EQ(sizeof(big_uint16_buf_t), 2u);
     BOOST_TEST_EQ(sizeof(big_uint32_buf_t), 4u);
     BOOST_TEST_EQ(sizeof(big_uint64_buf_t), 8u);
 
+    BOOST_TEST_EQ(sizeof(little_int8_buf_t), 1u);
     BOOST_TEST_EQ(sizeof(little_int16_buf_t), 2u);
     BOOST_TEST_EQ(sizeof(little_int32_buf_t), 4u);
     BOOST_TEST_EQ(sizeof(little_int64_buf_t), 8u);
 
+    BOOST_TEST_EQ(sizeof(little_uint8_buf_t), 1u);
     BOOST_TEST_EQ(sizeof(little_uint16_buf_t), 2u);
     BOOST_TEST_EQ(sizeof(little_uint32_buf_t), 4u);
     BOOST_TEST_EQ(sizeof(little_uint64_buf_t), 8u);

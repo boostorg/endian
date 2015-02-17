@@ -96,21 +96,25 @@ namespace endian
   typedef endian_arithmetic<order::little, double, 64, align::no>    little_float64_ut;
 
   // big endian signed integer aligned types
+  typedef endian_arithmetic<order::big, int8_t, 8, align::yes>        big_int8_t;
   typedef endian_arithmetic<order::big, int16_t, 16, align::yes>      big_int16_t;
   typedef endian_arithmetic<order::big, int32_t, 32, align::yes>      big_int32_t;
   typedef endian_arithmetic<order::big, int64_t, 64, align::yes>      big_int64_t;
 
   // big endian unsigned integer aligned types
+  typedef endian_arithmetic<order::big, uint8_t, 8, align::yes>       big_uint8_t;
   typedef endian_arithmetic<order::big, uint16_t, 16, align::yes>     big_uint16_t;
   typedef endian_arithmetic<order::big, uint32_t, 32, align::yes>     big_uint32_t;
   typedef endian_arithmetic<order::big, uint64_t, 64, align::yes>     big_uint64_t;
 
   // little endian signed integer aligned types
+  typedef endian_arithmetic<order::little, int8_t, 8, align::yes>     little_int8_t;
   typedef endian_arithmetic<order::little, int16_t, 16, align::yes>   little_int16_t;
   typedef endian_arithmetic<order::little, int32_t, 32, align::yes>   little_int32_t;
   typedef endian_arithmetic<order::little, int64_t, 64, align::yes>   little_int64_t;
 
   // little endian unsigned integer aligned types
+  typedef endian_arithmetic<order::little, uint8_t, 8, align::yes>    little_uint8_t;
   typedef endian_arithmetic<order::little, uint16_t, 16, align::yes>  little_uint16_t;
   typedef endian_arithmetic<order::little, uint32_t, 32, align::yes>  little_uint32_t;
   typedef endian_arithmetic<order::little, uint64_t, 64, align::yes>  little_uint64_t;

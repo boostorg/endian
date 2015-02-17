@@ -402,19 +402,23 @@ namespace
     VERIFY_SIZE( sizeof( native_uint56_ut ), 7 );
     VERIFY_SIZE( sizeof( native_uint64_ut ), 8 );
 
-    VERIFY_SIZE( sizeof( big_int16_t ), 2 );
+    VERIFY_SIZE(sizeof(big_int8_t), 1);
+    VERIFY_SIZE(sizeof(big_int16_t), 2);
     VERIFY_SIZE( sizeof( big_int32_t ), 4 );
     VERIFY_SIZE( sizeof( big_int64_t ), 8 );
 
-    VERIFY_SIZE( sizeof( big_uint16_t ), 2 );
+    VERIFY_SIZE(sizeof(big_uint8_t), 1);
+    VERIFY_SIZE(sizeof(big_uint16_t), 2);
     VERIFY_SIZE( sizeof( big_uint32_t ), 4 );
     VERIFY_SIZE( sizeof( big_uint64_t ), 8 );
 
-    VERIFY_SIZE( sizeof( little_int16_t ), 2 );
+    VERIFY_SIZE(sizeof(little_int8_t), 1);
+    VERIFY_SIZE(sizeof(little_int16_t), 2);
     VERIFY_SIZE( sizeof( little_int32_t ), 4 );
     VERIFY_SIZE( sizeof( little_int64_t ), 8 );
 
-    VERIFY_SIZE( sizeof( little_uint16_t ), 2 );
+    VERIFY_SIZE(sizeof(little_uint8_t), 1);
+    VERIFY_SIZE(sizeof(little_uint16_t), 2);
     VERIFY_SIZE( sizeof( little_uint32_t ), 4 );
     VERIFY_SIZE( sizeof( little_uint64_t ), 8 );
   } // check_size
