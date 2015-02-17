@@ -384,7 +384,7 @@ usual operations on integers are supplied.</p>
     public:
       typedef T value_type;
 
-      // if BOOST_ENDIAN_FORCE_PODNESS is defined &amp;&amp; C++11 POD's are not
+      // if BOOST_ENDIAN_FORCE_PODNESS is defined &amp;&amp; C++11 PODs are not
       // available then these two constructors will not be present
       <a href="#endian">endian_arithmetic</a>() noexcept = default;
       <a href="#explicit-endian">endian_arithmetic</a>(T v) noexcept;
@@ -599,9 +599,9 @@ FAQ.</p>
 conversion for every object involved in I/O. Endian integers require no 
 conversion or copying. They are already in the desired format for binary I/O. 
 Thus they can be read or written in bulk.</p>
-<p><b>Are endian types POD's?</b> Yes for C++11. No for C++03, although several
+<p><b>Are endian types PODs?</b> Yes for C++11. No for C++03, although several
 <a href="#Compilation">macros</a> are available to force PODness in all cases.</p>
-<p><b>What are the implications of endian integer types not being POD's with C++03 
+<p><b>What are the implications of endian integer types not being PODs with C++03 
 compilers?</b> They 
 can't be used in unions. Also, compilers aren't required to align or lay 
 out storage in portable ways, although this potential problem hasn't prevented 
@@ -657,14 +657,14 @@ places. Using Boost.Endian simplifies and cleans the code wonderfully.&quot;</p>
 <p>The availability of the C++11
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2346.htm">
 Defaulted Functions</a> feature is detected automatically, and will be used if 
-present to ensure that objects of <code>class endian</code> are trivial, and 
-thus POD's.</p>
+present to ensure that objects of <code>class endian_arithmetic</code> are trivial, and 
+thus PODs.</p>
 <h2><a name="Compilation">Compilation</a></h2>
 <p>Boost.Endian is implemented entirely within headers, with no need to link to 
 any Boost object libraries.</p>
 <p>Several macros allow user control over features:</p>
 <ul>
-  <li>BOOST_ENDIAN_NO_CTORS causes <code>class endian</code> to have no 
+  <li>BOOST_ENDIAN_NO_CTORS causes <code>class endian_arithmetic</code> to have no 
   constructors. The intended use is for compiling user code that must be 
   portable between compilers regardless of C++11
   <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2346.htm">
@@ -673,13 +673,14 @@ any Boost object libraries.</p>
   <li>BOOST_ENDIAN_FORCE_PODNESS causes BOOST_ENDIAN_NO_CTORS to be defined if 
   the compiler does not support C++11
   <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2346.htm">
-  Defaulted Functions</a>. This is ensures that , and so can be used in unions. 
-  In C++11, <code>class endian</code> objects are POD's even though they have 
-  constructors.</li>
+  Defaulted Functions</a>. This is ensures that objects of <code>class endian_arithmetic</code> 
+  are PODs, and so can be used in C++03 unions. 
+  In C++11, <code>class endian_arithmetic</code> objects are PODs, even though they have 
+  constructors, so can always be used in unions.</li>
 </ul>
 <h2><a name="Acknowledgements">Acknowledgements</a></h2>
 <p>Original design developed by Darin Adler based on classes developed by Mark 
-Borgerding. Four original class templates combined into a single <code>endian</code> 
+Borgerding. Four original class templates combined into a single <code>endian_arithmetic</code> 
 class template by Beman Dawes, who put the library together, provided 
 documentation,  added the typedefs, and also added the <code>unrolled_byte_loops</code> 
 sign partial specialization to correctly extend the sign when cover integer size 
@@ -687,7 +688,7 @@ differs from endian representation size. Vicente Botet and other reviewers
 suggested supporting floating point types.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->12 February, 2015<!--webbot bot="Timestamp" endspan i-checksum="40531" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->17 February, 2015<!--webbot bot="Timestamp" endspan i-checksum="40541" --></p>
 <p>© Copyright Beman Dawes, 2006-2009, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

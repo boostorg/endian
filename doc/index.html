@@ -125,7 +125,7 @@ Jonathan Swift</a>'s satirical novel <i>
 <a href="http://en.wikipedia.org/wiki/Gulliver's_Travels" title="Gulliver's Travels">
 Gulliver’s Travels</a></i>, where rival kingdoms opened their soft-boiled eggs 
 at different ends.</p>
-<p>See the Wikipedia's
+<p>See Wikipedia's
 <a href="http://en.wikipedia.org/wiki/Endianness">Endianness</a> article for an 
 extensive discussion of endianness.</p>
 <p>Programmers can usually ignore endianness, except when reading a core 
@@ -248,7 +248,7 @@ native_to_big_inplace(x);
 </div>
 
 <p><b>There will be no performance difference between the two approaches in 
-release builds, 
+optimized builds, 
 regardless of the native endianness of the machine.</b> That&#39;s because optimizing compilers will  generate exactly the same code for each. That conclusion was confirmed by 
 studying the generated assembly code for GCC and Visual C++. Furthermore, time 
 spent doing I/O will determine the speed of this application.</p>
@@ -404,18 +404,18 @@ inserters and extractors?</b></p>
 <p>Data interchange formats often specify binary arithmetic data.</p>
 <p>Binary arithmetic data is smaller and therefore I/O is faster and file sizes 
 are smaller. Transfer between systems is less expensive.</p>
-<p>Furthermore, binary arithmetic data is of fixed size, and so fixed-size disk 
-records are possible without padding, easing sorting and allowing direct access. 
-Disadvantages, such as the inability to use text utilities on the resulting 
-files, limit usefulness to applications where the binary I/O advantages are 
-paramount.</p>
+<p dir="ltr">Furthermore, binary arithmetic data is of fixed size, and so fixed-size disk 
+records are possible without padding, easing sorting and allowing random access.</p>
+<p dir="ltr">Disadvantages, such as the inability to use text utilities on the 
+resulting files, limit usefulness to applications where the binary I/O 
+advantages are paramount.</p>
 </blockquote>
 
 <p><b>Which is better, big-endian or little-endian?</b></p>
 <blockquote>
 <p>Big-endian tends to be preferred in a networking environment and is a bit 
 more of an industry standard, but little-endian may be preferred for 
-applications that run primarily on x86, x64, and other little-endian 
+applications that run primarily on x86, x86-64, and other little-endian 
 CPU's. The <a href="http://en.wikipedia.org/wiki/Endian">Wikipedia</a> article 
 gives more pros and cons.</p>
 </blockquote>
@@ -456,7 +456,7 @@ the same code being generated for either types.</p>
 <p>The only supported types are four-byte <code>float</code> and eight-byte
 <code>double</code>. Even after endianness has been accounted for, floating 
 point values will not be portable between systems that use different floating 
-point formats. Systems where  integer endianness differs from floating point 
+point formats. Systems on which  integer endianness differs from floating point 
 endianness are not supported.</p>
 
 </blockquote>
@@ -467,9 +467,9 @@ endianness are not supported.</p>
 
 <p>Tests have only been 
 performed on machines that  use two's complement arithmetic. The Endian 
-conversion functions support 16, 32, and 64-bit aligned integers only. The 
-Endian types support 8, 16, 24, 32, 40, 48, 56, and 64-bit unaligned integers 
-and 16, 32, and 64-bit aligned integers.</p>
+conversion functions only support 16, 32, and 64-bit aligned integers. The 
+endian types only support 8, 16, 24, 32, 40, 48, 56, and 64-bit unaligned integers, 
+and 8, 16, 32, and 64-bit aligned integers.</p>
 
 </blockquote>
 
@@ -593,7 +593,7 @@ Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen and
 Vitaly Budovsk. Apologies if anyone has been missed.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->12 February, 2015<!--webbot bot="Timestamp" endspan i-checksum="40531" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->17 February, 2015<!--webbot bot="Timestamp" endspan i-checksum="40541" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
