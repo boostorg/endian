@@ -200,128 +200,128 @@ enum class align {no, yes}; </pre>
 class endian_buffer;
 </pre>
 </blockquote>
-<p>Typedefs, such as <code>big_int32_buf_t</code>, provide convenient naming 
+<p>Typedefs, such as <code>big_int32_buf_ut</code>, provide convenient naming 
 conventions for common use cases:</p>
 <blockquote>
 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="49%">
   <tr>
     <td width="18%" align="center"><b><i>Name</i></b></td>
+    <td width="49%" align="center"><b><i>Alignment</i></b></td>
     <td width="10%" align="center"><b><i>Endianness</i></b></td>
     <td width="10%" align="center"><b><i>Sign</i></b></td>
     <td width="15%" align="center"><b><i>Sizes in bits (n)</i></b></td>
-    <td width="49%" align="center"><b><i>Alignment</i></b></td>
   </tr>
   <tr>
+    <td width="18%" dir="ltr"><code>big_int</code><b><i>n</i></b><code>_buf_ut</code></td>
+    <td width="49%" align="center" dir="ltr"><code>no</code></td>
+    <td width="10%" align="center" dir="ltr"><code>big</code></td>
+    <td width="10%" align="center" dir="ltr">signed</td>
+    <td width="15%" dir="ltr">8,16,24,32,40,48,56,64</td>
+    </tr>
+  <tr>
+    <td width="18%" dir="ltr"><code>big_uint</code><i><b>n</b></i><code>_buf_ut</code></td>
+    <td width="49%" align="center" dir="ltr"><code>no</code></td>
+    <td width="10%" align="center" dir="ltr"><code>big</code></td>
+    <td width="10%" align="center" dir="ltr">unsigned</td>
+    <td width="15%" dir="ltr">8,16,24,32,40,48,56,64</td>
+    </tr>
+  <tr>
+    <td width="18%" dir="ltr"><code>big_float</code><i><b>n</b></i><code>_buf_ut</code></td>
+    <td width="49%" align="center" dir="ltr"><code>no</code></td>
+    <td width="10%" align="center" dir="ltr"><code>big</code></td>
+    <td width="10%" align="center" dir="ltr">signed</td>
+    <td width="15%" dir="ltr">32,64</td>
+    </tr>
+  <tr>
+    <td width="18%"><code>little_int</code><i><b>n</b></i><code>_buf_ut</code></td>
+    <td width="49%" align="center"><code>no</code></td>
+    <td width="10%" align="center"><code>little</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">8,16,24,32,40,48,56,64</td>
+    </tr>
+  <tr>
+    <td width="18%"><code>little_uint</code><i><b>n</b></i><code>_buf_ut</code></td>
+    <td width="49%" align="center"><code>no</code></td>
+    <td width="10%" align="center"><code>little</code></td>
+    <td width="10%" align="center">unsigned</td>
+    <td width="15%">8,16,24,32,40,48,56,64</td>
+    </tr>
+  <tr>
+    <td width="18%"><code>little_float</code><i><b>n</b></i><code>_buf_ut</code></td>
+    <td width="49%" align="center"><code>no</code></td>
+    <td width="10%" align="center"><code>little</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">32,64</td>
+    </tr>
+  <tr>
+    <td width="18%"><code>native_int</code><i><b>n</b></i><code>_buf_ut</code></td>
+    <td width="49%" align="center"><code>no</code></td>
+    <td width="10%" align="center"><code>native</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">8,16,24,32,40,48,56,64</td>
+    </tr>
+  <tr>
+    <td width="18%"><code>native_uint</code><i><b>n</b></i><code>_buf_ut</code></td>
+    <td width="49%" align="center"><code>no</code></td>
+    <td width="10%" align="center"><code>native</code></td>
+    <td width="10%" align="center">unsigned</td>
+    <td width="15%">8,16,24,32,40,48,56,64</td>
+    </tr>
+  <tr>
+    <td width="18%"><code>native_float</code><i><b>n</b></i><code>_buf_ut</code></td>
+    <td width="49%" align="center"><code>no</code></td>
+    <td width="10%" align="center"><code>native</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">32,64</td>
+    </tr>
+  <tr>
     <td width="18%"><code>big_int</code><i><b>n</b></i><code>_buf_t</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
     <td width="10%" align="center"><code>big</code></td>
     <td width="10%" align="center">signed</td>
-    <td width="15%">16,32,64</td>
-    <td width="49%" align="center"><code>yes</code></td>
+    <td width="15%">8,16,32,64</td>
   </tr>
   <tr>
     <td width="18%"><code>big_uint</code><i><b>n</b></i><code>_</code><code>buf_</code><code>t</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
     <td width="10%" align="center"><code>big</code></td>
     <td width="10%" align="center">unsigned</td>
-    <td width="15%">16,32,64</td>
-    <td width="49%" align="center"><code>yes</code></td>
+    <td width="15%">8,16,32,64</td>
   </tr>
   <tr>
     <td width="18%"><code>big_float</code><i><b>n</b></i><code>_</code><code>buf_</code><code>t</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
     <td width="10%" align="center"><code>big</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">32,64</td>
-    <td width="49%" align="center"><code>yes</code></td>
   </tr>
   <tr>
-    <td width="18%"><code>big_int</code><b><i>n</i></b><code>_</code><code>buf_</code><code>ut</code></td>
-    <td width="10%" align="center"><code>big</code></td>
-    <td width="10%" align="center">signed</td>
-    <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%" align="center"><code>no</code></td>
-    </tr>
-  <tr>
-    <td width="18%"><code>big_uint</code><i><b>n</b></i><code>_</code><code>buf_</code><code>ut</code></td>
-    <td width="10%" align="center"><code>big</code></td>
-    <td width="10%" align="center">unsigned</td>
-    <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%" align="center"><code>no</code></td>
-    </tr>
-  <tr>
-    <td width="18%"><code>big_float</code><i><b>n</b></i><code>_</code><code>buf_</code><code>ut</code></td>
-    <td width="10%" align="center"><code>big</code></td>
-    <td width="10%" align="center">signed</td>
-    <td width="15%">32,64</td>
-    <td width="49%" align="center"><code>no</code></td>
-    </tr>
-  <tr>
     <td width="18%"><code>little_int</code><i><b>n</b></i><code>_</code><code>buf_</code><code>t</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
     <td width="10%" align="center"><code>little</code></td>
     <td width="10%" align="center">signed</td>
-    <td width="15%">16,32,64</td>
-    <td width="49%" align="center"><code>yes</code></td>
+    <td width="15%">8,16,32,64</td>
   </tr>
   <tr>
     <td width="18%"><code>little_uint</code><i><b>n</b></i><code>_</code><code>buf_</code><code>t</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
     <td width="10%" align="center"><code>little</code></td>
     <td width="10%" align="center">unsigned</td>
-    <td width="15%">16,32,64</td>
-    <td width="49%" align="center"><code>yes</code></td>
+    <td width="15%">8,16,32,64</td>
   </tr>
   <tr>
     <td width="18%"><code>little_float</code><i><b>n</b></i><code>_</code><code>buf_</code><code>t</code></td>
-    <td width="10%" align="center"><code>little</code></td>
-    <td width="10%" align="center">signed</td>
-    <td width="15%">32,64</td>
     <td width="49%" align="center"><code>yes</code></td>
-  </tr>
-  <tr>
-    <td width="18%"><code>little_int</code><i><b>n</b></i><code>_</code><code>buf_</code><code>ut</code></td>
-    <td width="10%" align="center"><code>little</code></td>
-    <td width="10%" align="center">signed</td>
-    <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%" align="center"><code>no</code></td>
-  </tr>
-  <tr>
-    <td width="18%"><code>little_uint</code><i><b>n</b></i><code>_</code><code>buf_</code><code>ut</code></td>
-    <td width="10%" align="center"><code>little</code></td>
-    <td width="10%" align="center">unsigned</td>
-    <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%" align="center"><code>no</code></td>
-  </tr>
-  <tr>
-    <td width="18%"><code>little_float</code><i><b>n</b></i><code>_</code><code>buf_</code><code>ut</code></td>
     <td width="10%" align="center"><code>little</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">32,64</td>
-    <td width="49%" align="center"><code>no</code></td>
   </tr>
   <tr>
     <td width="18%"><code>native_float</code><i><b>n</b></i><code>_</code><code>buf_</code><code>t</code></td>
-    <td width="10%" align="center"><code>native</code></td>
-    <td width="10%" align="center">signed</td>
-    <td width="15%">32,64</td>
     <td width="49%" align="center"><code>yes</code></td>
-    </tr>
-  <tr>
-    <td width="18%"><code>native_int</code><i><b>n</b></i><code>_</code><code>buf_</code><code>ut</code></td>
-    <td width="10%" align="center"><code>native</code></td>
-    <td width="10%" align="center">signed</td>
-    <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%" align="center"><code>no</code></td>
-  </tr>
-  <tr>
-    <td width="18%"><code>native_uint</code><i><b>n</b></i><code>_</code><code>buf_</code><code>ut</code></td>
-    <td width="10%" align="center"><code>native</code></td>
-    <td width="10%" align="center">unsigned</td>
-    <td width="15%">8,16,24,32,40,48,56,64</td>
-    <td width="49%" align="center"><code>no</code></td>
-  </tr>
-  <tr>
-    <td width="18%"><code>native_float</code><i><b>n</b></i><code>_</code><code>buf_</code><code>ut</code></td>
     <td width="10%" align="center"><code>native</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">32,64</td>
-    <td width="49%" align="center"><code>no</code></td>
     </tr>
   </table>
 </blockquote>
@@ -333,15 +333,16 @@ Code that uses a</span>ligned types is possibly non-portable because alignment
 requirements vary between hardware architectures and because alignment may be 
 affected by compiler switches or pragmas. For example, alignment of an 64-bit 
 integer may be to a 32-bit boundary on a 32-bit machine. Furthermore, aligned types 
-are only available on architectures with 16, 32, and 64-bit integer types. </p>
+are only available on architectures with 8, 16, 32, and 64-bit integer types. </p>
+<p><i><b>Recommendation:</b></i> Prefer unaligned endian types.</p>
 <p><i><b>Recommendation:</b></i> Protect yourself against alignment ills. For 
 example:</p>
 <blockquote>
   <pre>static_assert(sizeof(containing_struct) == 12, &quot;sizeof(containing_struct) is wrong&quot;); </pre>
 </blockquote>
 <p><b><i>Note:</i></b> One-byte big and little buffer types 
-have identical 
-functionality. They are provided to improve code readability and searchability.</p>
+never actually reverse endianness. They are provided to enable generic code, and 
+to improve code readability and searchability.</p>
 <h2><a name="Class_template_endian">Class template <code>endian</code></a><code>_buffer</code></h2>
 <p>An <code>endian_buffer</code> is an integer byte-holder with user-specified <a href="#endianness">
 endianness</a>, value type, size, and <a href="#alignment">alignment</a>. The 
@@ -655,7 +656,7 @@ any Boost object libraries.</p>
 </ul>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->25 January, 2015<!--webbot bot="Timestamp" endspan i-checksum="38896" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->12 February, 2015<!--webbot bot="Timestamp" endspan i-checksum="40531" --></p>
 <p>© Copyright Beman Dawes, 2006-2009, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

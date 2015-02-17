@@ -118,7 +118,7 @@ the least-significant byte first, while SPARC CPUs place the most-significant
 byte first. Some CPUs, such as the PowerPC, allow the operating system to 
 choose which ordering applies.</p>
 <p><a name="definition"></a>Most-significant-byte-first ordering is traditionally called &quot;big endian&quot; 
-ordering and the least-significant-byte-first is traditionally called 
+ordering and  least-significant-byte-first is traditionally called 
 &quot;little-endian&quot; ordering. The names are derived from
 <a href="http://en.wikipedia.org/wiki/Jonathan_Swift" title="Jonathan Swift">
 Jonathan Swift</a>'s satirical novel <i>
@@ -135,7 +135,7 @@ And programmers may also want to use the library when minimizing either internal
 external data sizes is advantageous.</p>
 <h2><a name="Introduction">Introduction</a> to the Boost.Endian library</h2>
 
-<p>The Boost.Endian library provides three different approaches to dealing with 
+<p>Boost.Endian provides three different approaches to dealing with 
  
 endianness. All three approaches support integers, floating point types 
 except&nbsp; <code>long double</code>, and user-define types (UDTs).</p>
@@ -154,15 +154,22 @@ conditional variants.</p>
 <p><b><a href="buffers.html">Endian buffer types</a> -</b> The application uses the provided endian 
 buffer types 
 to hold values, and explicitly converts to and from the built-in integer and 
-floating point types to perform arithmetic.  Buffer lengths of 1 through 8 bytes 
-are supported, rather than just 2, 4, and 8 bytes. The types may be aligned or 
-unaligned.</p>
+floating point types.  Buffer sizes of 8, 16, 24, 32, 40, 48, 56, and 64 bits (i.e. 
+1, 2, 3, 4, 5, 6, 7, and 8 bytes) are provided. Unaligned integer buffer types 
+are provided for all sizes, unaligned floating point buffer types are provided 
+for 32 and 64 bit sizes, and aligned buffer types are provided for 16, 32, and 
+64-bit sizes. The provided specific types are typedefs for a generic class 
+template that may be used directly for less common use cases.</p>
 
-<p><b><a href="arithmetic.html">Endian arithmetic types</a> -</b> The application uses the provided endian 
-arithmetic types, which supply the same operations as the built-in C++ 
-arithmetic types. All conversions are implicit. Arithmetic integer types with 
-lengths of 1 through 8 bytes are supported, rather than just 2, 4, and 8 byte 
-integers. The types may be aligned.</p>
+<p><b><a href="arithmetic.html">Endian arithmetic types</a> -</b> The 
+application uses the provided endian arithmetic types, which supply the same 
+operations as the built-in C++ arithmetic types. All conversions are implicit. 
+Arithmetic sizes of 8, 16, 24, 32, 40, 48, 56, and 64 bits (i.e. 1, 2, 3, 4, 5, 
+6, 7, and 8 bytes) are provided. Unaligned integer types are provided for all 
+sizes, unaligned floating point types are provided for 32 and 64 bit sizes, and aligned 
+arithmetic types are provided for 16, 32, and 64-bit sizes. The provided 
+specific types are typedefs for a generic class template that may be used 
+directly for less common use cases.</p>
 
 </blockquote>
 
@@ -178,15 +185,16 @@ Choosing the Approach</a> page. </p>
 
 <h2>Built-in support for <a name="Intrinsic">Intrinsic</a>s</h2>
 <p>Most compilers, including GCC, Clang, and Visual C++, supply  built-in support for byte swapping intrinsics. 
-The Endian library uses these intrinsics when available since they may result in smaller and faster generated code, particularly for release 
+The Endian library uses these intrinsics when available since they may result in smaller and faster generated code, particularly for 
+optimized 
 builds.</p>
 <p>Defining the macro <code>BOOST_ENDIAN_NO_INTRINSICS</code> will suppress use 
-of the intrinsics. Useful when intrinsic headers such as 
-<code>byteswap.h </code>are not being found by your compiler, perhaps because it 
+of the intrinsics. This is useful when a compiler has no intrinsic support or 
+fails to locate the appropriate header, perhaps because it 
 is an older release or has very limited supporting libraries.</p>
 <p>The macro <code>BOOST_ENDIAN_INTRINSIC_MSG</code> is defined as 
 either <code>&quot;no byte swap intrinsics&quot;</code> or a string describing the 
-particular set of intrinsics being used. Useful for eliminating missing 
+particular set of intrinsics being used. This is useful for eliminating missing 
 intrinsics as a source of performance issues.</p>
 
 <h2><a name="Performance">Performance</a></h2>
@@ -385,8 +393,10 @@ setup.</p>
 <p><b>Does endianness have any uses outside of portable binary file or network 
 I/O formats?</b> </p>
 <blockquote>
-<p>Using the unaligned integer types to save internal or external 
-memory space is a minor secondary use.</p>
+<p>Using the unaligned integer types with a size tailored to the application&#39;s 
+needs is a minor secondary use that saves internal or external memory space. For 
+example, using <code>big_int40_buf_ut</code> or <code>big_int40_ut</code> in a 
+large array saves a lot of space compared to one of the 64-bit types.</p>
 </blockquote>
 <p><b>Why bother with binary I/O? Why not just use C++ Standard Library stream 
 inserters and extractors?</b></p>
@@ -583,7 +593,7 @@ Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen and
 Vitaly Budovsk. Apologies if anyone has been missed.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->09 February, 2015<!--webbot bot="Timestamp" endspan i-checksum="40544" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->12 February, 2015<!--webbot bot="Timestamp" endspan i-checksum="40531" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
