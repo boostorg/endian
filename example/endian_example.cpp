@@ -38,9 +38,9 @@ namespace
 
 int main(int, char* [])
 {
-  BOOST_STATIC_ASSERT(sizeof(header) == 16U);  // reality check
-  
   header h;
+  
+  BOOST_STATIC_ASSERT(sizeof(h) == 16U);  // reality check
 
   h.file_code   = 0x01020304;
   h.file_length = sizeof(header);
