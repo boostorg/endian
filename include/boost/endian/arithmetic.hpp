@@ -18,8 +18,8 @@
 
 // TODO: When a compiler supporting constexpr becomes available, try possible uses.
 
-#ifndef BOOST_ENDIAN_HPP
-#define BOOST_ENDIAN_HPP
+#ifndef BOOST_ENDIAN_ARITHMETIC_HPP
+#define BOOST_ENDIAN_ARITHMETIC_HPP
 
 #if defined(_MSC_VER)  
 # pragma warning(push)  
@@ -510,4 +510,4 @@ namespace endian
 # pragma warning(pop)  
 #endif 
 
-#endif // BOOST_ENDIAN_HPP
+#endif // BOOST_ENDIAN_ARITHMETIC_HPP
