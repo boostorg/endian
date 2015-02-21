@@ -184,7 +184,7 @@ will no longer be relying on unspecified behavior.</p>
   <li>Signed | unsigned</li>
   <li>Unaligned | aligned</li>
   <li>Integer | floating point</li>
-  <li>1-8 byte (unaligned) | 2, 4, 8 byte (aligned)</li>
+  <li>1-8 byte (unaligned) | 1, 2, 4, 8 byte (aligned)</li>
   <li>Choice of  value type</li>
 </ul>
 <h2>Enums and t<a name="Types">ypedefs</a></h2>
@@ -336,7 +336,7 @@ affected by compiler switches or pragmas. For example, alignment of an 64-bit
 integer may be to a 32-bit boundary on a 32-bit machine and to a 64-bit boundary 
 on a 64-bit machine. Furthermore, aligned types 
 are only available on architectures with 8, 16, 32, and 64-bit integer types. </p>
-<p><i><b>Recommendation:</b></i> Prefer unaligned endian types.</p>
+<p><i><b>Recommendation:</b></i> Prefer unaligned buffer types.</p>
 <p><i><b>Recommendation:</b></i> Protect yourself against alignment ills. For 
 example:</p>
 <blockquote>
@@ -415,21 +415,25 @@ usual operations on integers are supplied.</p>
     typedef endian_buffer&lt;order::little, double, 64, align::no&gt;   little_float64_buf_ut;
   
     // aligned big endian signed integer buffers
+    typedef endian_buffer&lt;order::big, int8_t, 8, align::yes&gt;       big_int8_buf_t;
     typedef endian_buffer&lt;order::big, int16_t, 16, align::yes&gt;     big_int16_buf_t;
     typedef endian_buffer&lt;order::big, int32_t, 32, align::yes&gt;     big_int32_buf_t;
     typedef endian_buffer&lt;order::big, int64_t, 64, align::yes&gt;     big_int64_buf_t;
   
     // aligned big endian unsigned integer buffers
+    typedef endian_buffer&lt;order::big, uint8_t, 8, align::yes&gt;      big_uint8_buf_t;
     typedef endian_buffer&lt;order::big, uint16_t, 16, align::yes&gt;    big_uint16_buf_t;
     typedef endian_buffer&lt;order::big, uint32_t, 32, align::yes&gt;    big_uint32_buf_t;
     typedef endian_buffer&lt;order::big, uint64_t, 64, align::yes&gt;    big_uint64_buf_t;
   
     // aligned little endian signed integer buffers
+    typedef endian_buffer&lt;order::little, int8_t, 8, align::yes&gt;    little_int8_buf_t;
     typedef endian_buffer&lt;order::little, int16_t, 16, align::yes&gt;  little_int16_buf_t;
     typedef endian_buffer&lt;order::little, int32_t, 32, align::yes&gt;  little_int32_buf_t;
     typedef endian_buffer&lt;order::little, int64_t, 64, align::yes&gt;  little_int64_buf_t;
   
     // aligned little endian unsigned integer buffers
+    typedef endian_buffer&lt;order::little, uint8_t, 8, align::yes&gt;   little_uint8_buf_t;
     typedef endian_buffer&lt;order::little, uint16_t, 16, align::yes&gt; little_uint16_buf_t;
     typedef endian_buffer&lt;order::little, uint32_t, 32, align::yes&gt; little_uint32_buf_t;
     typedef endian_buffer&lt;order::little, uint64_t, 64, align::yes&gt; little_uint64_buf_t;
@@ -546,7 +550,7 @@ boost::endian::endian_reverse</code>.</p>
 </blockquote>
 <pre>value_type <a name="value">value</a>()<code> const noexcept;</code></pre>
 <blockquote>
-<p><i>Returns:</i> <code>endian_value</code>, converted to <code>value_type</code> 
+<p><i>Returns:</i> <code>endian_value</code>, converted to <code>value_type</code>, 
 if required, and having the endianness of the native platform.</p>
 <p><i>Remarks:</i> If <code>Align</code> is <code>align::yes</code> then 
 endianness conversion, if required, is performed by <code>

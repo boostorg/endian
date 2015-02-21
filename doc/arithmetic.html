@@ -86,19 +86,25 @@ endian</b></i> and <i><b>little endian</b></i>.</p>
 <p>Boost endian integers provide the same full set of C++ assignment, 
 arithmetic, and relational operators&nbsp;as C++ standard integral types, with 
 the standard semantics.</p>
-<p>Unary arithmetic operators are <code>+</code>, <code>-</code>, <code>~</code>,
-<code>!</code>, prefix and postfix <code>--</code> and <code>++</code>. Binary 
-arithmetic operators are <code>+</code>, <code>+=</code>, <code>-</code>, <code>
--=</code>, <code>*</code>, <code>*=</code>, <code>/</code>, <code>/=</code>,
-<code>%/ %=</code>, <code>&amp;</code>, <code>&amp;=</code>, <code>|</code>, <code>|=</code>,
-<code>^</code>, <code>^=</code>, <code>&lt;&lt;</code>, <code>&lt;&lt;=</code>, <code>&gt;&gt;</code>,
-<code>&gt;&gt;=</code>. Binary relational operators are <code>==</code>, <code>!=</code>,
-<code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>.</p>
-<p>Automatic implicit conversion to the underlying value type is provided. A 
-conversion constructor from the underlying value type is provided. </p>
+<p>Unary arithmetic operators are <b> <code><font face="Courier New">+</font></code></b>,
+<b> <code>-</code></b>, <b> <code>~</code></b>, <b>
+<code>!</code></b>, plus both prefix and postfix <b> <code>--</code></b> and <b> <code>++</code></b>. Binary 
+arithmetic operators are <b> <code>+</code></b>, <b> <code>+=</code></b>, <b> <code>-</code></b>,
+<b> <code>
+-=</code></b>, <b> <code>*</code></b>, <b> <code>*=</code></b>, <b> <code>/</code></b>,
+<b> <code>/=</code></b>, <b> <code>&amp;</code></b>, <b> <code>&amp;=</code></b>,
+<b> <code>|</code></b>, <b> <code>|=</code></b>, <b>
+<code>^</code></b>, <b> <code>^=</code></b>, <b> <code>&lt;&lt;</code></b>, <b> <code>&lt;&lt;=</code></b>, <code>
+<b>&gt;&gt;</b></code>, and <b>
+<code>&gt;&gt;=</code></b>. Binary relational operators are <b> <code>==</code></b>,
+<b> <code>!=</code></b>, <b>
+<code>&lt;</code></b>, <b> <code>&lt;=</code></b>, <b> <code>&gt;</code></b>, 
+and <b> <code>&gt;=</code></b>.</p>
+<p>Implicit conversion to the underlying value type is provided. An implicit 
+constructor converting from the underlying value type is provided. </p>
 <h2><a name="Example">Example</a></h2>
 <p>The <a href="../example/endian_example.cpp">endian_example.cpp</a> program writes a 
-binary file containing four byte big-endian and little-endian integers:</p>
+binary file containing four-byte, big-endian and little-endian integers:</p>
 <blockquote>
   <pre>#include &lt;iostream&gt;
 #include &lt;cstdio&gt;
@@ -128,10 +134,10 @@ namespace
 
 int main(int, char* [])
 {
-  BOOST_STATIC_ASSERT(sizeof(header) == 16U);  // reality check
-  
   header h;
 
+  BOOST_STATIC_ASSERT(sizeof(h) == 16U);  // reality check
+  
   h.file_code   = 0x01020304;
   h.file_length = sizeof(header);
   h.version     = 1;
@@ -181,14 +187,14 @@ is some other value, compilation will result in an <code>#error</code>. This
 restriction is in place because the design, implementation, testing, and 
 documentation has only considered issues related to 8-bit bytes, and there have 
 been no real-world use cases presented for other sizes.</p>
-<p>In C++03, <code>endian</code> does not meet the requirements for POD types 
+<p>In C++03, <code>endian_arithmetic</code> does not meet the requirements for POD types 
 because it has constructors, private data members, and a base class. This means 
 that common use cases are relying on unspecified behavior in that the C++ 
 Standard does not guarantee memory layout for non-POD types. This has not been a 
-problem in practice since all known C++ compilers do layout memory as if <code>
+problem in practice since all known C++ compilers  lay out memory as if <code>
 endian</code> were a POD type. In C++11, it is possible to specify the 
-default constructor as trivial, and private data members and base classes will 
-no longer disqualify a type from being a POD. Thus under C++11, <code>endian</code> 
+default constructor as trivial, and private data members and base classes  no longer disqualify a type from being a POD 
+type. Thus under C++11, <code>endian_arithmetic</code> 
 will no longer be relying on unspecified behavior.</p>
 <h2><a name="Feature-set">Feature set</a></h2>
 <ul>
@@ -196,7 +202,7 @@ will no longer be relying on unspecified behavior.</p>
   <li>Signed | unsigned</li>
   <li>Unaligned | aligned</li>
   <li>Integer | floating point</li>
-  <li>1-8 byte (unaligned) | 2, 4, 8 byte (aligned)</li>
+  <li>1-8 byte (unaligned) | 1, 2, 4, 8 byte (aligned)</li>
   <li>Choice of  value type</li>
 </ul>
 <h2>Enums and t<a name="Types">ypedefs</a></h2>
@@ -347,14 +353,14 @@ requirements vary between hardware architectures and because alignment may be
 affected by compiler switches or pragmas. For example, alignment of an 64-bit 
 integer may be to a 32-bit boundary on a 32-bit machine. Furthermore, aligned types 
 are only available on architectures with 8, 16, 32, and 64-bit integer types.</p>
-<p><i><b>Recommendation:</b></i> Prefer unaligned endian types.</p>
+<p><i><b>Recommendation:</b></i> Prefer unaligned arithmetic types.</p>
 <p><i><b>Recommendation:</b></i> Protect yourself against alignment ills. For 
 example:</p>
 <blockquote>
   <pre>static_assert(sizeof(containing_struct) == 12, &quot;sizeof(containing_struct) is wrong&quot;); </pre>
 </blockquote>
-<p><b><i>Note:</i></b> One-byte big and little buffer types 
-never actually reverse endianness. They are provided to enable generic code, and 
+<p><b><i>Note:</i></b> <b><i>Note:</i></b> One-byte arithmetic types 
+have identical layout on all platforms, so they never actually reverse endianness. They are provided to enable generic code, and 
 to improve code readability and searchability.</p>
 <h2><a name="Class_template_endian">Class template <code>endian</code></a><code>_arithmetic</code></h2>
 <p>An endian is an integer byte-holder with user-specified <a href="#endianness">
@@ -540,11 +546,11 @@ platform.</p>
   <pre><code><a name="endian">endian</a>() = default;  // C++03: endian(){}</code></pre>
 </div>
 <blockquote>
-<p><i>Effects:</i> Constructs an object of type <code>endian&lt;E, T, n_bits, A&gt;</code>.</p>
+<p><i>Effects:</i> Constructs an uninitialized object of type <code>endian_arithmetic&lt;E, T, n_bits, A&gt;</code>.</p>
 </blockquote>
 <pre><code><a name="explicit-endian">endian</a>(T v);</code></pre>
 <blockquote>
-<p><i>Effects:</i> Constructs an object of type <code>endian&lt;E, T, n_bits, A&gt;</code>.</p>
+<p><i>Effects:</i> Constructs an object of type <code>endian_arithmetic&lt;E, T, n_bits, A&gt;</code>.</p>
 <p><i>Postcondition:</i> <code>x == v,</code> where <code>x</code> is the 
 constructed object.</p>
 </blockquote>
