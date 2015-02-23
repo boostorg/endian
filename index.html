@@ -1,4 +1,4 @@
-<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40">
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40">
 
 <head>
 <meta name="GENERATOR" content="Microsoft FrontPage 5.0">
@@ -219,7 +219,7 @@ intrinsics as a source of performance issues.</p>
   </tr>
   <tr>
     <td valign="top">
-    <pre>big_int32_t x;
+    <pre>big_int32_at x;
 
 ... read into x from a file ...
 
@@ -273,7 +273,7 @@ spent doing I/O will determine the speed of this application.</p>
   </tr>
   <tr>
     <td valign="top">
-    <pre>big_int32_t x;
+    <pre>big_int32_at x;
 
 ... read into x from a file ...
 
@@ -395,7 +395,7 @@ I/O formats?</b> </p>
 <blockquote>
 <p>Using the unaligned integer types with a size tailored to the application&#39;s 
 needs is a minor secondary use that saves internal or external memory space. For 
-example, using <code>big_int40_buf_ut</code> or <code>big_int40_ut</code> in a 
+example, using <code>big_int40_buf_t</code> or <code>big_int40_t</code> in a 
 large array saves a lot of space compared to one of the 64-bit types.</p>
 </blockquote>
 <p><b>Why bother with binary I/O? Why not just use C++ Standard Library stream 
@@ -489,12 +489,8 @@ review</a></h3>
   <li>The endian arithmetic type aliases have been renamed, 
   using a naming pattern that is consistent for both integer and floating point, 
   and a consistent set of aliases supplied for the endian buffer types.</li>
-  <li>The aligned-type alias names now have the <code>_t</code> suffix, for 
-  consistency with the standard library integer type aliases and because use of 
-  aligned types is much more common than unaligned types.</li>
-  <li>The unaligned-type alias names now have the <code>_ut</code> suffix. This 
-  is short, yet stands out enough to alert the reader than unusual types are 
-  involved.</li>
+  <li>The unaligned-type alias names still have the <code>_t</code> suffix, but 
+  the aligned-type alias names now have an <code>_at</code> suffix..</li>
   <li><code>endian_reverse()</code> overloads for <code>int8_t</code> and <code>
   uint8_t</code> have been added for improved generality. (Pierre Talbot)</li>
   <li>Overloads of <code>endian_reverse_inplace()</code> have been replaced with a single <code>
@@ -593,7 +589,7 @@ Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen and
 Vitaly Budovsk. Apologies if anyone has been missed.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->17 February, 2015<!--webbot bot="Timestamp" endspan i-checksum="40541" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->23 February, 2015<!--webbot bot="Timestamp" endspan i-checksum="40534" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
