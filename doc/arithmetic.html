@@ -123,10 +123,10 @@ namespace
 
   struct header
   {
-    big_int32_at     file_code;
-    big_int32_at     file_length;
-    little_int32_at  version;
-    little_int32_at  shape_type;
+    big_int32_t     file_code;
+    big_int32_t     file_length;
+    little_int32_t  version;
+    little_int32_t  shape_type;
   };
 
   const char* filename = &quot;test.dat&quot;;
@@ -433,49 +433,6 @@ usual operations on integers are supplied.</p>
 
     // typedefs  
 
-    // aligned big endian floating point types
-    typedef endian&lt;order::big, float, 32, align::yes&gt;     big_float32_at;
-    typedef endian&lt;order::big, double, 64, align::yes&gt;    big_float64_at;
-
-    // aligned little endian floating point types
-    typedef endian&lt;order::little, float, 32, align::yes&gt;  little_float32_at;
-    typedef endian&lt;order::little, double, 64, align::yes&gt; little_float64_at;
-
-    // unaligned big endian floating point types
-    typedef endian&lt;order::big, float, 32, align::no&gt;      big_float32_t;
-    typedef endian&lt;order::big, double, 64, align::no&gt;     big_float64_t;
-  
-    // unaligned little endian floating point types
-    typedef endian&lt;order::little, float, 32, align::no&gt;   little_float32_t;
-    typedef endian&lt;order::little, double, 64, align::no&gt;  little_float64_t;
-  
-    // aligned big endian signed integer types
-    typedef endian&lt;order::big, int8_t, 8, align::yes&gt;     big_int8_at;
-    typedef endian&lt;order::big, int16_t, 16, align::yes&gt;   big_int16_at;
-    typedef endian&lt;order::big, int32_t, 32, align::yes&gt;   big_int32_at;
-    typedef endian&lt;order::big, int64_t, 64, align::yes&gt;   big_int64_at;
-
-    // aligned big endian unsigned integer types
-    typedef endian&lt;order::big, uint8_t, 8, align::yes&gt;    big_uint8_at;
-    typedef endian&lt;order::big, uint16_t, 16, align::yes&gt;  big_uint16_at;
-    typedef endian&lt;order::big, uint32_t, 32, align::yes&gt;  big_uint32_at;
-    typedef endian&lt;order::big, uint64_t, 64, align::yes&gt;  big_uint64_at;
-
-    // aligned little endian signed integer types
-    typedef endian&lt;order::little, int8_t, 8, align::yes&gt;   little_int8_at;
-    typedef endian&lt;order::little, int16_t, 16, align::yes&gt; little_int16_at;
-    typedef endian&lt;order::little, int32_t, 32, align::yes&gt; little_int32_at;
-    typedef endian&lt;order::little, int64_t, 64, align::yes&gt; little_int64_at;
-
-    // aligned little endian unsigned integer types
-    typedef endian&lt;order::little, uint8_t, 8, align::yes&gt;   little_uint8_at;
-    typedef endian&lt;order::little, uint16_t, 16, align::yes&gt; little_uint16_at;
-    typedef endian&lt;order::little, uint32_t, 32, align::yes&gt; little_uint32_at;
-    typedef endian&lt;order::little, uint64_t, 64, align::yes&gt; little_uint64_at;
-
-    // aligned native endian typedefs are not provided because
-    // &lt;cstdint&gt; types are superior for that use case
-  
     // unaligned big endian signed integer types
     typedef endian&lt;order::big, int_least8_t, 8&gt;        big_int8_t;
     typedef endian&lt;order::big, int_least16_t, 16&gt;      big_int16_t;
@@ -496,6 +453,10 @@ usual operations on integers are supplied.</p>
     typedef endian&lt;order::big, uint_least64_t, 56&gt;     big_uint56_t;
     typedef endian&lt;order::big, uint_least64_t, 64&gt;     big_uint64_t;
   
+    // unaligned big endian floating point types
+    typedef endian&lt;order::big, float, 32&gt;              big_float32_t;
+    typedef endian&lt;order::big, double, 64&gt;             big_float64_t;
+
     // unaligned little endian signed integer types
     typedef endian&lt;order::little, int_least8_t, 8&gt;     little_int8_t;
     typedef endian&lt;order::little, int_least16_t, 16&gt;   little_int16_t;
@@ -516,7 +477,11 @@ usual operations on integers are supplied.</p>
     typedef endian&lt;order::little, uint_least64_t, 56&gt;  little_uint56_t;
     typedef endian&lt;order::little, uint_least64_t, 64&gt;  little_uint64_t;
   
-  // unaligned native endian signed integer types
+    // unaligned little endian floating point types
+    typedef endian&lt;order::little, float, 32, align::no&gt;   little_float32_t;
+    typedef endian&lt;order::little, double, 64, align::no&gt;  little_float64_t;
+
+    // unaligned native endian signed integer types
     typedef <b><i>implementation-defined</i></b>_int8_t   native_int8_t;
     typedef <b><i>implementation-defined</i></b>_int16_t  native_int16_t;
     typedef <b><i>implementation-defined</i></b>_int24_t  native_int24_t;
@@ -526,7 +491,7 @@ usual operations on integers are supplied.</p>
     typedef <b><i>implementation-defined</i></b>_int56_t  native_int56_t;
     typedef <b><i>implementation-defined</i></b>_int64_t  native_int64_t;
 
-  // unaligned native endian unsigned integer types
+    // unaligned native endian unsigned integer types
     typedef <b><i>implementation-defined</i></b>_uint8_t   native_uint8_t;
     typedef <b><i>implementation-defined</i></b>_uint16_t  native_uint16_t;
     typedef <b><i>implementation-defined</i></b>_uint24_t  native_uint24_t;
@@ -535,7 +500,42 @@ usual operations on integers are supplied.</p>
     typedef <b><i>implementation-defined</i></b>_uint48_t  native_uint48_t;
     typedef <b><i>implementation-defined</i></b>_uint56_t  native_uint56_t;
     typedef <b><i>implementation-defined</i></b>_uint64_t  native_uint64_t;
+    
+    // aligned big endian signed integer types
+    typedef endian&lt;order::big, int8_t, 8, align::yes&gt;       big_int8_at;
+    typedef endian&lt;order::big, int16_t, 16, align::yes&gt;     big_int16_at;
+    typedef endian&lt;order::big, int32_t, 32, align::yes&gt;     big_int32_at;
+    typedef endian&lt;order::big, int64_t, 64, align::yes&gt;     big_int64_at;
 
+    // aligned big endian unsigned integer types
+    typedef endian&lt;order::big, uint8_t, 8, align::yes&gt;      big_uint8_at;
+    typedef endian&lt;order::big, uint16_t, 16, align::yes&gt;    big_uint16_at;
+    typedef endian&lt;order::big, uint32_t, 32, align::yes&gt;    big_uint32_at;
+    typedef endian&lt;order::big, uint64_t, 64, align::yes&gt;    big_uint64_at;
+
+    // aligned big endian floating point types
+    typedef endian&lt;order::big, float, 32, align::yes&gt;       big_float32_at;
+    typedef endian&lt;order::big, double, 64, align::yes&gt;      big_float64_at;
+
+    // aligned little endian signed integer types
+    typedef endian&lt;order::little, int8_t, 8, align::yes&gt;    little_int8_at;
+    typedef endian&lt;order::little, int16_t, 16, align::yes&gt;  little_int16_at;
+    typedef endian&lt;order::little, int32_t, 32, align::yes&gt;  little_int32_at;
+    typedef endian&lt;order::little, int64_t, 64, align::yes&gt;  little_int64_at;
+
+    // aligned little endian unsigned integer types
+    typedef endian&lt;order::little, uint8_t, 8, align::yes&gt;   little_uint8_at;
+    typedef endian&lt;order::little, uint16_t, 16, align::yes&gt; little_uint16_at;
+    typedef endian&lt;order::little, uint32_t, 32, align::yes&gt; little_uint32_at;
+    typedef endian&lt;order::little, uint64_t, 64, align::yes&gt; little_uint64_at;
+
+    // aligned little endian floating point types
+    typedef endian&lt;order::little, float, 32, align::yes&gt;    little_float32_at;
+    typedef endian&lt;order::little, double, 64, align::yes&gt;   little_float64_at;
+
+    // aligned native endian typedefs are not provided because
+    // &lt;cstdint&gt; types are superior for that use case
+  
   } // namespace endian
 } // namespace boost</pre>
 <p>The <i><b><code>implementation-defined</code></b></i> text above is either
@@ -619,8 +619,7 @@ programming.</p>
 <p><b>Why bother with the aligned endian types?</b> Aligned integer operations 
 may be faster (as much as 10 to 20 times faster) if the endianness and alignment of 
 the type matches the endianness and alignment requirements of the machine. The code, 
-however, is 
-likely to be somewhat less portable than with the unaligned types.</p>
+however, will be somewhat less portable than with the unaligned types.</p>
 <p><b>Why provide the arithmetic operations?</b> Providing a full set of operations reduces program 
 clutter and makes code both easier to write and to read. Consider 
 incrementing a variable in a record. It is very convenient to write:</p>
@@ -694,7 +693,7 @@ differs from endian representation size. Vicente Botet and other reviewers
 suggested supporting floating point types.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->17 February, 2015<!--webbot bot="Timestamp" endspan i-checksum="40541" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->23 February, 2015<!--webbot bot="Timestamp" endspan i-checksum="40534" --></p>
 <p>© Copyright Beman Dawes, 2006-2009, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

@@ -489,12 +489,8 @@ review</a></h3>
   <li>The endian arithmetic type aliases have been renamed, 
   using a naming pattern that is consistent for both integer and floating point, 
   and a consistent set of aliases supplied for the endian buffer types.</li>
-  <li>The aligned-type alias names now have the <code>_t</code> suffix, for 
-  consistency with the standard library integer type aliases and because use of 
-  aligned types is much more common than unaligned types.</li>
-  <li>The unaligned-type alias names now have the <code>_ut</code> suffix. This 
-  is short, yet stands out enough to alert the reader than unusual types are 
-  involved.</li>
+  <li>The unaligned-type alias names still have the <code>_t</code> suffix, but 
+  the aligned-type alias names now have an <code>_at</code> suffix..</li>
   <li><code>endian_reverse()</code> overloads for <code>int8_t</code> and <code>
   uint8_t</code> have been added for improved generality. (Pierre Talbot)</li>
   <li>Overloads of <code>endian_reverse_inplace()</code> have been replaced with a single <code>
@@ -593,7 +589,7 @@ Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen and
 Vitaly Budovsk. Apologies if anyone has been missed.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->17 February, 2015<!--webbot bot="Timestamp" endspan i-checksum="40541" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->23 February, 2015<!--webbot bot="Timestamp" endspan i-checksum="40534" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>

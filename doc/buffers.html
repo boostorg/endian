@@ -283,42 +283,42 @@ conventions for common use cases:</p>
     <td width="15%">8,16,32,64</td>
   </tr>
   <tr>
-    <td width="18%"><code>big_uint</code><i><b>n</b></i><code>_</code><code>buf_</code><code>t</code></td>
+    <td width="18%"><code>big_uint</code><i><b>n</b></i><code>_</code><code>buf_at</code></td>
     <td width="49%" align="center"><code>yes</code></td>
     <td width="10%" align="center"><code>big</code></td>
     <td width="10%" align="center">unsigned</td>
     <td width="15%">8,16,32,64</td>
   </tr>
   <tr>
-    <td width="18%"><code>big_float</code><i><b>n</b></i><code>_</code><code>buf_</code><code>t</code></td>
+    <td width="18%"><code>big_float</code><i><b>n</b></i><code>_</code><code>buf_at</code></td>
     <td width="49%" align="center"><code>yes</code></td>
     <td width="10%" align="center"><code>big</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">32,64</td>
   </tr>
   <tr>
-    <td width="18%"><code>little_int</code><i><b>n</b></i><code>_</code><code>buf_</code><code>t</code></td>
+    <td width="18%"><code>little_int</code><i><b>n</b></i><code>_</code><code>buf_at</code></td>
     <td width="49%" align="center"><code>yes</code></td>
     <td width="10%" align="center"><code>little</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">8,16,32,64</td>
   </tr>
   <tr>
-    <td width="18%"><code>little_uint</code><i><b>n</b></i><code>_</code><code>buf_</code><code>t</code></td>
+    <td width="18%"><code>little_uint</code><i><b>n</b></i><code>_</code><code>buf_at</code></td>
     <td width="49%" align="center"><code>yes</code></td>
     <td width="10%" align="center"><code>little</code></td>
     <td width="10%" align="center">unsigned</td>
     <td width="15%">8,16,32,64</td>
   </tr>
   <tr>
-    <td width="18%"><code>little_float</code><i><b>n</b></i><code>_</code><code>buf_</code><code>t</code></td>
+    <td width="18%"><code>little_float</code><i><b>n</b></i><code>_</code><code>buf_at</code></td>
     <td width="49%" align="center"><code>yes</code></td>
     <td width="10%" align="center"><code>little</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">32,64</td>
   </tr>
   <tr>
-    <td width="18%"><code>native_float</code><i><b>n</b></i><code>_</code><code>buf_</code><code>t</code></td>
+    <td width="18%"><code>native_float</code><i><b>n</b></i><code>_</code><code>buf_at</code></td>
     <td width="49%" align="center"><code>yes</code></td>
     <td width="10%" align="center"><code>native</code></td>
     <td width="10%" align="center">signed</td>
@@ -398,49 +398,6 @@ usual operations on integers are supplied.</p>
 
     // typedefs  
 
-    // aligned big endian floating point buffers
-    typedef endian_buffer&lt;order::big, float, 32, align::yes&gt;      big_float32_buf_at;
-    typedef endian_buffer&lt;order::big, double, 64, align::yes&gt;     big_float64_buf_at;
-  
-    // aligned little endian floating point buffers
-    typedef endian_buffer&lt;order::little, float, 32, align::yes&gt;   little_float32_buf_at;
-    typedef endian_buffer&lt;order::little, double, 64, align::yes&gt;  little_float64_buf_at;
-  
-    // unaligned big endian floating point buffers
-    typedef endian_buffer&lt;order::big, float, 32, align::no&gt;       big_float32_buf_t;
-    typedef endian_buffer&lt;order::big, double, 64, align::no&gt;      big_float64_buf_t;
-  
-    // unaligned little endian floating point buffers
-    typedef endian_buffer&lt;order::little, float, 32, align::no&gt;    little_float32_buf_t;
-    typedef endian_buffer&lt;order::little, double, 64, align::no&gt;   little_float64_buf_t;
-  
-    // aligned big endian signed integer buffers
-    typedef endian_buffer&lt;order::big, int8_t, 8, align::yes&gt;       big_int8_buf_at;
-    typedef endian_buffer&lt;order::big, int16_t, 16, align::yes&gt;     big_int16_buf_at;
-    typedef endian_buffer&lt;order::big, int32_t, 32, align::yes&gt;     big_int32_buf_at;
-    typedef endian_buffer&lt;order::big, int64_t, 64, align::yes&gt;     big_int64_buf_at;
-  
-    // aligned big endian unsigned integer buffers
-    typedef endian_buffer&lt;order::big, uint8_t, 8, align::yes&gt;      big_uint8_buf_at;
-    typedef endian_buffer&lt;order::big, uint16_t, 16, align::yes&gt;    big_uint16_buf_at;
-    typedef endian_buffer&lt;order::big, uint32_t, 32, align::yes&gt;    big_uint32_buf_at;
-    typedef endian_buffer&lt;order::big, uint64_t, 64, align::yes&gt;    big_uint64_buf_at;
-  
-    // aligned little endian signed integer buffers
-    typedef endian_buffer&lt;order::little, int8_t, 8, align::yes&gt;    little_int8_buf_at;
-    typedef endian_buffer&lt;order::little, int16_t, 16, align::yes&gt;  little_int16_buf_at;
-    typedef endian_buffer&lt;order::little, int32_t, 32, align::yes&gt;  little_int32_buf_at;
-    typedef endian_buffer&lt;order::little, int64_t, 64, align::yes&gt;  little_int64_buf_at;
-  
-    // aligned little endian unsigned integer buffers
-    typedef endian_buffer&lt;order::little, uint8_t, 8, align::yes&gt;   little_uint8_buf_at;
-    typedef endian_buffer&lt;order::little, uint16_t, 16, align::yes&gt; little_uint16_buf_at;
-    typedef endian_buffer&lt;order::little, uint32_t, 32, align::yes&gt; little_uint32_buf_at;
-    typedef endian_buffer&lt;order::little, uint64_t, 64, align::yes&gt; little_uint64_buf_at;
-  
-    // aligned native endian typedefs are not provided because
-    // &lt;cstdint&gt; types are superior for this use case
-  
     // unaligned big endian signed integer buffers
     typedef endian_buffer&lt;order::big, int_least8_t, 8&gt;        big_int8_buf_t;
     typedef endian_buffer&lt;order::big, int_least16_t, 16&gt;      big_int16_buf_t;
@@ -460,6 +417,10 @@ usual operations on integers are supplied.</p>
     typedef endian_buffer&lt;order::big, uint_least64_t, 48&gt;     big_uint48_buf_t;
     typedef endian_buffer&lt;order::big, uint_least64_t, 56&gt;     big_uint56_buf_t;
     typedef endian_buffer&lt;order::big, uint_least64_t, 64&gt;     big_uint64_buf_t;
+  
+    // unaligned big endian floating point buffers
+    typedef endian_buffer&lt;order::big, float, 32&gt;              big_float32_buf_t;
+    typedef endian_buffer&lt;order::big, double, 64&gt;             big_float64_buf_t;
   
     // unaligned little endian signed integer buffers
     typedef endian_buffer&lt;order::little, int_least8_t, 8&gt;     little_int8_buf_t;
@@ -481,6 +442,10 @@ usual operations on integers are supplied.</p>
     typedef endian_buffer&lt;order::little, uint_least64_t, 56&gt;  little_uint56_buf_t;
     typedef endian_buffer&lt;order::little, uint_least64_t, 64&gt;  little_uint64_buf_t;
   
+    // unaligned little endian floating point buffers
+    typedef endian_buffer&lt;order::little, float, 32&gt;           little_float32_buf_t;
+    typedef endian_buffer&lt;order::little, double, 64&gt;          little_float64_buf_t;
+
     // unaligned native endian signed integer types
     typedef <b><i>implementation-defined</i></b>_int8_buf_t   native_int8_buf_t;
     typedef <b><i>implementation-defined</i></b>_int16_buf_t  native_int16_buf_t;
@@ -500,7 +465,42 @@ usual operations on integers are supplied.</p>
     typedef <b><i>implementation-defined</i></b>_uint48_buf_t  native_uint48_buf_t;
     typedef <b><i>implementation-defined</i></b>_uint56_buf_t  native_uint56_buf_t;
     typedef <b><i>implementation-defined</i></b>_uint64_buf_t  native_uint64_buf_t;
+    
+    // aligned big endian signed integer buffers
+    typedef endian_buffer&lt;order::big, int8_t, 8, align::yes&gt;       big_int8_buf_at;
+    typedef endian_buffer&lt;order::big, int16_t, 16, align::yes&gt;     big_int16_buf_at;
+    typedef endian_buffer&lt;order::big, int32_t, 32, align::yes&gt;     big_int32_buf_at;
+    typedef endian_buffer&lt;order::big, int64_t, 64, align::yes&gt;     big_int64_buf_at;
+  
+    // aligned big endian unsigned integer buffers
+    typedef endian_buffer&lt;order::big, uint8_t, 8, align::yes&gt;      big_uint8_buf_at;
+    typedef endian_buffer&lt;order::big, uint16_t, 16, align::yes&gt;    big_uint16_buf_at;
+    typedef endian_buffer&lt;order::big, uint32_t, 32, align::yes&gt;    big_uint32_buf_at;
+    typedef endian_buffer&lt;order::big, uint64_t, 64, align::yes&gt;    big_uint64_buf_at;
+  
+    // aligned big endian floating point buffers
+    typedef endian_buffer&lt;order::big, float, 32, align::yes&gt;       big_float32_buf_at;
+    typedef endian_buffer&lt;order::big, double, 64, align::yes&gt;      big_float64_buf_at;
+  
+    // aligned little endian signed integer buffers
+    typedef endian_buffer&lt;order::little, int8_t, 8, align::yes&gt;    little_int8_buf_at;
+    typedef endian_buffer&lt;order::little, int16_t, 16, align::yes&gt;  little_int16_buf_at;
+    typedef endian_buffer&lt;order::little, int32_t, 32, align::yes&gt;  little_int32_buf_at;
+    typedef endian_buffer&lt;order::little, int64_t, 64, align::yes&gt;  little_int64_buf_at;
+  
+    // aligned little endian unsigned integer buffers
+    typedef endian_buffer&lt;order::little, uint8_t, 8, align::yes&gt;   little_uint8_buf_at;
+    typedef endian_buffer&lt;order::little, uint16_t, 16, align::yes&gt; little_uint16_buf_at;
+    typedef endian_buffer&lt;order::little, uint32_t, 32, align::yes&gt; little_uint32_buf_at;
+    typedef endian_buffer&lt;order::little, uint64_t, 64, align::yes&gt; little_uint64_buf_at;
+  
+    // aligned little endian floating point buffers
+    typedef endian_buffer&lt;order::little, float, 32, align::yes&gt;    little_float32_buf_at;
+    typedef endian_buffer&lt;order::little, double, 64, align::yes&gt;   little_float64_buf_at;
 
+    // aligned native endian typedefs are not provided because
+    // &lt;cstdint&gt; types are superior for this use case
+  
   } // namespace endian
 } // namespace boost</pre>
 <p>The <i><b><code>implementation-defined</code></b></i> text in typedefs above is either
@@ -663,7 +663,7 @@ any Boost object libraries.</p>
 </ul>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->17 February, 2015<!--webbot bot="Timestamp" endspan i-checksum="40541" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->23 February, 2015<!--webbot bot="Timestamp" endspan i-checksum="40534" --></p>
 <p>© Copyright Beman Dawes, 2006-2009, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
