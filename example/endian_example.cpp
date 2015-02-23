@@ -27,10 +27,10 @@ namespace
 
   struct header
   {
-    big_int32_buf_t     file_code;
-    big_int32_buf_t     file_length;
-    little_int32_buf_t  version;
-    little_int32_buf_t  shape_type;
+    big_int32_buf_at     file_code;
+    big_int32_buf_at     file_length;
+    little_int32_buf_at  version;
+    little_int32_buf_at  shape_type;
   };
 
   const char* filename = "test.dat";

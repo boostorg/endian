@@ -1,4 +1,4 @@
-<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40">
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40">
 
 <head>
 <meta name="GENERATOR" content="Microsoft FrontPage 5.0">
@@ -219,7 +219,7 @@ intrinsics as a source of performance issues.</p>
   </tr>
   <tr>
     <td valign="top">
-    <pre>big_int32_t x;
+    <pre>big_int32_at x;
 
 ... read into x from a file ...
 
@@ -273,7 +273,7 @@ spent doing I/O will determine the speed of this application.</p>
   </tr>
   <tr>
     <td valign="top">
-    <pre>big_int32_t x;
+    <pre>big_int32_at x;
 
 ... read into x from a file ...
 
@@ -395,7 +395,7 @@ I/O formats?</b> </p>
 <blockquote>
 <p>Using the unaligned integer types with a size tailored to the application&#39;s 
 needs is a minor secondary use that saves internal or external memory space. For 
-example, using <code>big_int40_buf_ut</code> or <code>big_int40_ut</code> in a 
+example, using <code>big_int40_buf_t</code> or <code>big_int40_t</code> in a 
 large array saves a lot of space compared to one of the 64-bit types.</p>
 </blockquote>
 <p><b>Why bother with binary I/O? Why not just use C++ Standard Library stream 

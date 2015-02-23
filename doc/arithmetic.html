@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
@@ -123,10 +123,10 @@ namespace
 
   struct header
   {
-    big_int32_t     file_code;
-    big_int32_t     file_length;
-    little_int32_t  version;
-    little_int32_t  shape_type;
+    big_int32_at     file_code;
+    big_int32_at     file_length;
+    little_int32_at  version;
+    little_int32_at  shape_type;
   };
 
   const char* filename = &quot;test.dat&quot;;
@@ -219,7 +219,7 @@ enum class align {no, yes}; </pre>
 class endian_arithmetic;
 </pre>
 </blockquote>
-<p>Typedefs, such as <code>big_int32_ut</code>, provide convenient naming 
+<p>Typedefs, such as <code>big_int32_t</code>, provide convenient naming 
 conventions for common use cases:</p>
 <blockquote>
 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="49%">
@@ -231,112 +231,112 @@ conventions for common use cases:</p>
     <td width="15%" align="center"><b><i>Sizes in bits (n)</i></b></td>
   </tr>
   <tr>
-    <td width="18%"><code>big_int</code><b><i>n</i></b><code>_ut</code></td>
+    <td width="18%"><code>big_int</code><b><i>n</i></b><code>_t</code></td>
     <td width="49%" align="center"><code>no</code></td>
     <td width="10%" align="center"><code>big</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">8,16,24,32,40,48,56,64</td>
     </tr>
-  <tr>
-    <td width="18%"><code>big_uint</code><i><b>n</b></i><code>_ut</code></td>
-    <td width="49%" align="center"><code>no</code></td>
-    <td width="10%" align="center"><code>big</code></td>
-    <td width="10%" align="center">unsigned</td>
-    <td width="15%">8,16,24,32,40,48,56,64</td>
-    </tr>
-  <tr>
-    <td width="18%"><code>big_float</code><i><b>n</b></i><code>_ut</code></td>
-    <td width="49%" align="center"><code>no</code></td>
-    <td width="10%" align="center"><code>big</code></td>
-    <td width="10%" align="center">signed</td>
-    <td width="15%">32,64</td>
-    </tr>
-  <tr>
-    <td width="18%"><code>little_int</code><i><b>n</b></i><code>_ut</code></td>
-    <td width="49%" align="center"><code>no</code></td>
-    <td width="10%" align="center"><code>little</code></td>
-    <td width="10%" align="center">signed</td>
-    <td width="15%">8,16,24,32,40,48,56,64</td>
-  </tr>
-  <tr>
-    <td width="18%"><code>little_uint</code><i><b>n</b></i><code>_ut</code></td>
-    <td width="49%" align="center"><code>no</code></td>
-    <td width="10%" align="center"><code>little</code></td>
-    <td width="10%" align="center">unsigned</td>
-    <td width="15%">8,16,24,32,40,48,56,64</td>
-  </tr>
-  <tr>
-    <td width="18%"><code>little_float</code><i><b>n</b></i><code>_ut</code></td>
-    <td width="49%" align="center"><code>no</code></td>
-    <td width="10%" align="center"><code>little</code></td>
-    <td width="10%" align="center">signed</td>
-    <td width="15%">32,64</td>
-  </tr>
-  <tr>
-    <td width="18%"><code>native_int</code><i><b>n</b></i><code>_ut</code></td>
-    <td width="49%" align="center"><code>no</code></td>
-    <td width="10%" align="center"><code>native</code></td>
-    <td width="10%" align="center">signed</td>
-    <td width="15%">8,16,24,32,40,48,56,64</td>
-  </tr>
-  <tr>
-    <td width="18%"><code>native_uint</code><i><b>n</b></i><code>_ut</code></td>
-    <td width="49%" align="center"><code>no</code></td>
-    <td width="10%" align="center"><code>native</code></td>
-    <td width="10%" align="center">unsigned</td>
-    <td width="15%">8,16,24,32,40,48,56,64</td>
-  </tr>
-  <tr>
-    <td width="18%"><code>native_float</code><i><b>n</b></i><code>_ut</code></td>
-    <td width="49%" align="center"><code>no</code></td>
-    <td width="10%" align="center"><code>native</code></td>
-    <td width="10%" align="center">signed</td>
-    <td width="15%">32,64</td>
-    </tr>
-  <tr>
-    <td width="18%"><code>big_int</code><i><b>n</b></i><code>_t</code></td>
-    <td width="49%" align="center"><code>yes</code></td>
-    <td width="10%" align="center"><code>big</code></td>
-    <td width="10%" align="center">signed</td>
-    <td width="15%">8,16,32,64</td>
-  </tr>
   <tr>
     <td width="18%"><code>big_uint</code><i><b>n</b></i><code>_t</code></td>
+    <td width="49%" align="center"><code>no</code></td>
+    <td width="10%" align="center"><code>big</code></td>
+    <td width="10%" align="center">unsigned</td>
+    <td width="15%">8,16,24,32,40,48,56,64</td>
+    </tr>
+  <tr>
+    <td width="18%"><code>big_float</code><i><b>n</b></i><code>_t</code></td>
+    <td width="49%" align="center"><code>no</code></td>
+    <td width="10%" align="center"><code>big</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">32,64</td>
+    </tr>
+  <tr>
+    <td width="18%"><code>little_int</code><i><b>n</b></i><code>_t</code></td>
+    <td width="49%" align="center"><code>no</code></td>
+    <td width="10%" align="center"><code>little</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">8,16,24,32,40,48,56,64</td>
+  </tr>
+  <tr>
+    <td width="18%"><code>little_uint</code><i><b>n</b></i><code>_t</code></td>
+    <td width="49%" align="center"><code>no</code></td>
+    <td width="10%" align="center"><code>little</code></td>
+    <td width="10%" align="center">unsigned</td>
+    <td width="15%">8,16,24,32,40,48,56,64</td>
+  </tr>
+  <tr>
+    <td width="18%"><code>little_float</code><i><b>n</b></i><code>_t</code></td>
+    <td width="49%" align="center"><code>no</code></td>
+    <td width="10%" align="center"><code>little</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">32,64</td>
+  </tr>
+  <tr>
+    <td width="18%"><code>native_int</code><i><b>n</b></i><code>_t</code></td>
+    <td width="49%" align="center"><code>no</code></td>
+    <td width="10%" align="center"><code>native</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">8,16,24,32,40,48,56,64</td>
+  </tr>
+  <tr>
+    <td width="18%"><code>native_uint</code><i><b>n</b></i><code>_t</code></td>
+    <td width="49%" align="center"><code>no</code></td>
+    <td width="10%" align="center"><code>native</code></td>
+    <td width="10%" align="center">unsigned</td>
+    <td width="15%">8,16,24,32,40,48,56,64</td>
+  </tr>
+  <tr>
+    <td width="18%"><code>native_float</code><i><b>n</b></i><code>_t</code></td>
+    <td width="49%" align="center"><code>no</code></td>
+    <td width="10%" align="center"><code>native</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">32,64</td>
+    </tr>
+  <tr>
+    <td width="18%"><code>big_int</code><i><b>n</b></i><code>_at</code></td>
+    <td width="49%" align="center"><code>yes</code></td>
+    <td width="10%" align="center"><code>big</code></td>
+    <td width="10%" align="center">signed</td>
+    <td width="15%">8,16,32,64</td>
+  </tr>
+  <tr>
+    <td width="18%"><code>big_uint</code><i><b>n</b></i><code>_at</code></td>
     <td width="49%" align="center"><code>yes</code></td>
     <td width="10%" align="center"><code>big</code></td>
     <td width="10%" align="center">unsigned</td>
     <td width="15%">8,16,32,64</td>
   </tr>
   <tr>
-    <td width="18%"><code>big_float</code><i><b>n</b></i><code>_t</code></td>
+    <td width="18%"><code>big_float</code><i><b>n</b></i><code>_at</code></td>
     <td width="49%" align="center"><code>yes</code></td>
     <td width="10%" align="center"><code>big</code></td>
     <td width="10%" align="center">signed</td>
     <td width="15%">32,64</td>
   </tr>
   <tr>
-    <td width="18%" dir="ltr"><code>little_int</code><i><b>n</b></i><code>_t</code></td>
+    <td width="18%" dir="ltr"><code>little_int</code><i><b>n</b></i><code>_at</code></td>
     <td width="49%" align="center" dir="ltr"><code>yes</code></td>
     <td width="10%" align="center" dir="ltr"><code>little</code></td>
     <td width="10%" align="center" dir="ltr">signed</td>
     <td width="15%" dir="ltr">8,16,32,64</td>
   </tr>
   <tr>
-    <td width="18%" dir="ltr"><code>little_uint</code><i><b>n</b></i><code>_t</code></td>
+    <td width="18%" dir="ltr"><code>little_uint</code><i><b>n</b></i><code>_at</code></td>
     <td width="49%" align="center" dir="ltr"><code>yes</code></td>
     <td width="10%" align="center" dir="ltr"><code>little</code></td>
     <td width="10%" align="center" dir="ltr">unsigned</td>
     <td width="15%" dir="ltr">8,16,32,64</td>
   </tr>
   <tr>
-    <td width="18%" dir="ltr"><code>little_float</code><i><b>n</b></i><code>_t</code></td>
+    <td width="18%" dir="ltr"><code>little_float</code><i><b>n</b></i><code>_at</code></td>
     <td width="49%" align="center" dir="ltr"><code>yes</code></td>
     <td width="10%" align="center" dir="ltr"><code>little</code></td>
     <td width="10%" align="center" dir="ltr">signed</td>
     <td width="15%" dir="ltr">32,64</td>
   </tr>
   <tr>
-    <td width="18%"><code>native_float</code><i><b>n</b></i><code>_t</code></td>
+    <td width="18%"><code>native_float</code><i><b>n</b></i><code>_at</code></td>
     <td width="49%" align="center"><code>yes</code></td>
     <td width="10%" align="center"><code>native</code></td>
     <td width="10%" align="center">signed</td>
@@ -434,107 +434,107 @@ usual operations on integers are supplied.</p>
     // typedefs  
 
     // aligned big endian floating point types
-    typedef endian&lt;order::big, float, 32, align::yes&gt;     big_float32_t;
-    typedef endian&lt;order::big, double, 64, align::yes&gt;    big_float64_t;
+    typedef endian&lt;order::big, float, 32, align::yes&gt;     big_float32_at;
+    typedef endian&lt;order::big, double, 64, align::yes&gt;    big_float64_at;
 
     // aligned little endian floating point types
-    typedef endian&lt;order::little, float, 32, align::yes&gt;  little_float32_t;
-    typedef endian&lt;order::little, double, 64, align::yes&gt; little_float64_t;
+    typedef endian&lt;order::little, float, 32, align::yes&gt;  little_float32_at;
+    typedef endian&lt;order::little, double, 64, align::yes&gt; little_float64_at;
 
     // unaligned big endian floating point types
-    typedef endian&lt;order::big, float, 32, align::no&gt;      big_float32_ut;
-    typedef endian&lt;order::big, double, 64, align::no&gt;     big_float64_ut;
+    typedef endian&lt;order::big, float, 32, align::no&gt;      big_float32_t;
+    typedef endian&lt;order::big, double, 64, align::no&gt;     big_float64_t;
   
     // unaligned little endian floating point types
-    typedef endian&lt;order::little, float, 32, align::no&gt;   little_float32_ut;
-    typedef endian&lt;order::little, double, 64, align::no&gt;  little_float64_ut;
+    typedef endian&lt;order::little, float, 32, align::no&gt;   little_float32_t;
+    typedef endian&lt;order::little, double, 64, align::no&gt;  little_float64_t;
   
     // aligned big endian signed integer types
-    typedef endian&lt;order::big, int8_t, 8, align::yes&gt;     big_int8_t;
-    typedef endian&lt;order::big, int16_t, 16, align::yes&gt;   big_int16_t;
-    typedef endian&lt;order::big, int32_t, 32, align::yes&gt;   big_int32_t;
-    typedef endian&lt;order::big, int64_t, 64, align::yes&gt;   big_int64_t;
+    typedef endian&lt;order::big, int8_t, 8, align::yes&gt;     big_int8_at;
+    typedef endian&lt;order::big, int16_t, 16, align::yes&gt;   big_int16_at;
+    typedef endian&lt;order::big, int32_t, 32, align::yes&gt;   big_int32_at;
+    typedef endian&lt;order::big, int64_t, 64, align::yes&gt;   big_int64_at;
 
     // aligned big endian unsigned integer types
-    typedef endian&lt;order::big, uint8_t, 8, align::yes&gt;    big_uint8_t;
-    typedef endian&lt;order::big, uint16_t, 16, align::yes&gt;  big_uint16_t;
-    typedef endian&lt;order::big, uint32_t, 32, align::yes&gt;  big_uint32_t;
-    typedef endian&lt;order::big, uint64_t, 64, align::yes&gt;  big_uint64_t;
+    typedef endian&lt;order::big, uint8_t, 8, align::yes&gt;    big_uint8_at;
+    typedef endian&lt;order::big, uint16_t, 16, align::yes&gt;  big_uint16_at;
+    typedef endian&lt;order::big, uint32_t, 32, align::yes&gt;  big_uint32_at;
+    typedef endian&lt;order::big, uint64_t, 64, align::yes&gt;  big_uint64_at;
 
     // aligned little endian signed integer types
-    typedef endian&lt;order::little, int8_t, 8, align::yes&gt;   little_int8_t;
-    typedef endian&lt;order::little, int16_t, 16, align::yes&gt; little_int16_t;
-    typedef endian&lt;order::little, int32_t, 32, align::yes&gt; little_int32_t;
-    typedef endian&lt;order::little, int64_t, 64, align::yes&gt; little_int64_t;
+    typedef endian&lt;order::little, int8_t, 8, align::yes&gt;   little_int8_at;
+    typedef endian&lt;order::little, int16_t, 16, align::yes&gt; little_int16_at;
+    typedef endian&lt;order::little, int32_t, 32, align::yes&gt; little_int32_at;
+    typedef endian&lt;order::little, int64_t, 64, align::yes&gt; little_int64_at;
 
     // aligned little endian unsigned integer types
-    typedef endian&lt;order::little, uint8_t, 8, align::yes&gt;   little_uint8_t;
-    typedef endian&lt;order::little, uint16_t, 16, align::yes&gt; little_uint16_t;
-    typedef endian&lt;order::little, uint32_t, 32, align::yes&gt; little_uint32_t;
-    typedef endian&lt;order::little, uint64_t, 64, align::yes&gt; little_uint64_t;
+    typedef endian&lt;order::little, uint8_t, 8, align::yes&gt;   little_uint8_at;
+    typedef endian&lt;order::little, uint16_t, 16, align::yes&gt; little_uint16_at;
+    typedef endian&lt;order::little, uint32_t, 32, align::yes&gt; little_uint32_at;
+    typedef endian&lt;order::little, uint64_t, 64, align::yes&gt; little_uint64_at;
 
     // aligned native endian typedefs are not provided because
     // &lt;cstdint&gt; types are superior for that use case
   
     // unaligned big endian signed integer types
-    typedef endian&lt;order::big, int_least8_t, 8&gt;        big_int8_ut;
-    typedef endian&lt;order::big, int_least16_t, 16&gt;      big_int16_ut;
-    typedef endian&lt;order::big, int_least32_t, 24&gt;      big_int24_ut;
-    typedef endian&lt;order::big, int_least32_t, 32&gt;      big_int32_ut;
-    typedef endian&lt;order::big, int_least64_t, 40&gt;      big_int40_ut;
-    typedef endian&lt;order::big, int_least64_t, 48&gt;      big_int48_ut;
-    typedef endian&lt;order::big, int_least64_t, 56&gt;      big_int56_ut;
-    typedef endian&lt;order::big, int_least64_t, 64&gt;      big_int64_ut;
+    typedef endian&lt;order::big, int_least8_t, 8&gt;        big_int8_t;
+    typedef endian&lt;order::big, int_least16_t, 16&gt;      big_int16_t;
+    typedef endian&lt;order::big, int_least32_t, 24&gt;      big_int24_t;
+    typedef endian&lt;order::big, int_least32_t, 32&gt;      big_int32_t;
+    typedef endian&lt;order::big, int_least64_t, 40&gt;      big_int40_t;
+    typedef endian&lt;order::big, int_least64_t, 48&gt;      big_int48_t;
+    typedef endian&lt;order::big, int_least64_t, 56&gt;      big_int56_t;
+    typedef endian&lt;order::big, int_least64_t, 64&gt;      big_int64_t;
   
     // unaligned big endian unsigned integer types
-    typedef endian&lt;order::big, uint_least8_t, 8&gt;       big_uint8_ut;
-    typedef endian&lt;order::big, uint_least16_t, 16&gt;     big_uint16_ut;
-    typedef endian&lt;order::big, uint_least32_t, 24&gt;     big_uint24_ut;
-    typedef endian&lt;order::big, uint_least32_t, 32&gt;     big_uint32_ut;
-    typedef endian&lt;order::big, uint_least64_t, 40&gt;     big_uint40_ut;
-    typedef endian&lt;order::big, uint_least64_t, 48&gt;     big_uint48_ut;
-    typedef endian&lt;order::big, uint_least64_t, 56&gt;     big_uint56_ut;
-    typedef endian&lt;order::big, uint_least64_t, 64&gt;     big_uint64_ut;
+    typedef endian&lt;order::big, uint_least8_t, 8&gt;       big_uint8_t;
+    typedef endian&lt;order::big, uint_least16_t, 16&gt;     big_uint16_t;
+    typedef endian&lt;order::big, uint_least32_t, 24&gt;     big_uint24_t;
+    typedef endian&lt;order::big, uint_least32_t, 32&gt;     big_uint32_t;
+    typedef endian&lt;order::big, uint_least64_t, 40&gt;     big_uint40_t;
+    typedef endian&lt;order::big, uint_least64_t, 48&gt;     big_uint48_t;
+    typedef endian&lt;order::big, uint_least64_t, 56&gt;     big_uint56_t;
+    typedef endian&lt;order::big, uint_least64_t, 64&gt;     big_uint64_t;
   
     // unaligned little endian signed integer types
-    typedef endian&lt;order::little, int_least8_t, 8&gt;     little_int8_ut;
-    typedef endian&lt;order::little, int_least16_t, 16&gt;   little_int16_ut;
-    typedef endian&lt;order::little, int_least32_t, 24&gt;   little_int24_ut;
-    typedef endian&lt;order::little, int_least32_t, 32&gt;   little_int32_ut;
-    typedef endian&lt;order::little, int_least64_t, 40&gt;   little_int40_ut;
-    typedef endian&lt;order::little, int_least64_t, 48&gt;   little_int48_ut;
-    typedef endian&lt;order::little, int_least64_t, 56&gt;   little_int56_ut;
-    typedef endian&lt;order::little, int_least64_t, 64&gt;   little_int64_ut;
+    typedef endian&lt;order::little, int_least8_t, 8&gt;     little_int8_t;
+    typedef endian&lt;order::little, int_least16_t, 16&gt;   little_int16_t;
+    typedef endian&lt;order::little, int_least32_t, 24&gt;   little_int24_t;
+    typedef endian&lt;order::little, int_least32_t, 32&gt;   little_int32_t;
+    typedef endian&lt;order::little, int_least64_t, 40&gt;   little_int40_t;
+    typedef endian&lt;order::little, int_least64_t, 48&gt;   little_int48_t;
+    typedef endian&lt;order::little, int_least64_t, 56&gt;   little_int56_t;
+    typedef endian&lt;order::little, int_least64_t, 64&gt;   little_int64_t;
   
     // unaligned little endian unsigned integer types
-    typedef endian&lt;order::little, uint_least8_t, 8&gt;    little_uint8_ut;
-    typedef endian&lt;order::little, uint_least16_t, 16&gt;  little_uint16_ut;
-    typedef endian&lt;order::little, uint_least32_t, 24&gt;  little_uint24_ut;
-    typedef endian&lt;order::little, uint_least32_t, 32&gt;  little_uint32_ut;
-    typedef endian&lt;order::little, uint_least64_t, 40&gt;  little_uint40_ut;
-    typedef endian&lt;order::little, uint_least64_t, 48&gt;  little_uint48_ut;
-    typedef endian&lt;order::little, uint_least64_t, 56&gt;  little_uint56_ut;
-    typedef endian&lt;order::little, uint_least64_t, 64&gt;  little_uint64_ut;
+    typedef endian&lt;order::little, uint_least8_t, 8&gt;    little_uint8_t;
+    typedef endian&lt;order::little, uint_least16_t, 16&gt;  little_uint16_t;
+    typedef endian&lt;order::little, uint_least32_t, 24&gt;  little_uint24_t;
+    typedef endian&lt;order::little, uint_least32_t, 32&gt;  little_uint32_t;
+    typedef endian&lt;order::little, uint_least64_t, 40&gt;  little_uint40_t;
+    typedef endian&lt;order::little, uint_least64_t, 48&gt;  little_uint48_t;
+    typedef endian&lt;order::little, uint_least64_t, 56&gt;  little_uint56_t;
+    typedef endian&lt;order::little, uint_least64_t, 64&gt;  little_uint64_t;
   
   // unaligned native endian signed integer types
-    typedef <b><i>implementation-defined</i></b>_int8_t   native_int8_ut;
-    typedef <b><i>implementation-defined</i></b>_int16_t  native_int16_ut;
-    typedef <b><i>implementation-defined</i></b>_int24_t  native_int24_ut;
-    typedef <b><i>implementation-defined</i></b>_int32_t  native_int32_ut;
-    typedef <b><i>implementation-defined</i></b>_int40_t  native_int40_ut;
-    typedef <b><i>implementation-defined</i></b>_int48_t  native_int48_ut;
-    typedef <b><i>implementation-defined</i></b>_int56_t  native_int56_ut;
-    typedef <b><i>implementation-defined</i></b>_int64_t  native_int64_ut;
+    typedef <b><i>implementation-defined</i></b>_int8_t   native_int8_t;
+    typedef <b><i>implementation-defined</i></b>_int16_t  native_int16_t;
+    typedef <b><i>implementation-defined</i></b>_int24_t  native_int24_t;
+    typedef <b><i>implementation-defined</i></b>_int32_t  native_int32_t;
+    typedef <b><i>implementation-defined</i></b>_int40_t  native_int40_t;
+    typedef <b><i>implementation-defined</i></b>_int48_t  native_int48_t;
+    typedef <b><i>implementation-defined</i></b>_int56_t  native_int56_t;
+    typedef <b><i>implementation-defined</i></b>_int64_t  native_int64_t;
 
   // unaligned native endian unsigned integer types
-    typedef <b><i>implementation-defined</i></b>_uint8_t   native_uint8_ut;
-    typedef <b><i>implementation-defined</i></b>_uint16_t  native_uint16_ut;
-    typedef <b><i>implementation-defined</i></b>_uint24_t  native_uint24_ut;
-    typedef <b><i>implementation-defined</i></b>_uint32_t  native_uint32_ut;
-    typedef <b><i>implementation-defined</i></b>_uint40_t  native_uint40_ut;
-    typedef <b><i>implementation-defined</i></b>_uint48_t  native_uint48_ut;
-    typedef <b><i>implementation-defined</i></b>_uint56_t  native_uint56_ut;
-    typedef <b><i>implementation-defined</i></b>_uint64_t  native_uint64_ut;
+    typedef <b><i>implementation-defined</i></b>_uint8_t   native_uint8_t;
+    typedef <b><i>implementation-defined</i></b>_uint16_t  native_uint16_t;
+    typedef <b><i>implementation-defined</i></b>_uint24_t  native_uint24_t;
+    typedef <b><i>implementation-defined</i></b>_uint32_t  native_uint32_t;
+    typedef <b><i>implementation-defined</i></b>_uint40_t  native_uint40_t;
+    typedef <b><i>implementation-defined</i></b>_uint48_t  native_uint48_t;
+    typedef <b><i>implementation-defined</i></b>_uint56_t  native_uint56_t;
+    typedef <b><i>implementation-defined</i></b>_uint64_t  native_uint64_t;
 
   } // namespace endian
 } // namespace boost</pre>
