@@ -30,12 +30,36 @@ namespace
   {
     cout << "\nHeader <limits> values for std::numeric_limits<" << type << ">\n\n";
     cout << "  is_specialized " << numeric_limits<T>::is_specialized << "\n";
+    cout << "  is_signed " << numeric_limits<T>::is_signed << "\n";
+    cout << "  is_integer " << numeric_limits<T>::is_integer << "\n";
+    cout << "  is_exact " << numeric_limits<T>::is_exact << "\n";
+    cout << "  is_iec559 " << numeric_limits<T>::is_iec559 << "\n";
+    cout << "  is_bounded " << numeric_limits<T>::is_bounded << "\n";
+    cout << "  is_modulo " << numeric_limits<T>::is_modulo << "\n";
+    cout << "  traps " << numeric_limits<T>::traps << "\n";
+    cout << "  tinyness_before " << numeric_limits<T>::tinyness_before << "\n";
+    cout << "  round_style " << numeric_limits<T>::round_style << "\n";
+    cout << "  has_infinity " << numeric_limits<T>::has_infinity << "\n";
+    cout << "  has_quiet_NaN " << numeric_limits<T>::has_quiet_NaN << "\n";
+    cout << "  has_signaling_NaN " << numeric_limits<T>::has_signaling_NaN << "\n";
+    cout << "  has_denorm " << numeric_limits<T>::has_denorm << "\n";
     cout << "  min() " << numeric_limits<T>::min() << "\n";
     cout << "  max() " << numeric_limits<T>::max() << "\n";
     cout << "  lowest() " << numeric_limits<T>::lowest() << "\n";
     cout << "  digits " << numeric_limits<T>::digits << "\n";
     cout << "  digits10 " << numeric_limits<T>::digits10 << "\n";
     cout << "  max_digits10 " << numeric_limits<T>::max_digits10 << "\n";
+    cout << "  radix " << numeric_limits<T>::radix << "\n";
+    cout << "  epsilon() " << numeric_limits<T>::epsilon() << "\n";
+    cout << "  round_error() " << numeric_limits<T>::round_error() << "\n";
+    cout << "  min_exponent " << numeric_limits<T>::min_exponent << "\n";
+    cout << "  min_exponent10 " << numeric_limits<T>::min_exponent10 << "\n";
+    cout << "  max_exponent " << numeric_limits<T>::max_exponent << "\n";
+    cout << "  max_exponent10 " << numeric_limits<T>::max_exponent10 << "\n";
+    cout << "  infinity() " << numeric_limits<T>::infinity() << "\n";
+    cout << "  quiet_NaN() " << numeric_limits<T>::quiet_NaN() << "\n";
+    cout << "  signaling_NaN() " << numeric_limits<T>::signaling_NaN() << "\n";
+    cout << "  denorm_min() " << numeric_limits<T>::denorm_min() << "\n";
   }
 
 }  // unnamed namespace
