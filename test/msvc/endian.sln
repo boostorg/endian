@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22310.1
+VisualStudioVersion = 14.0.22512.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "endian_test", "endian_test\endian_test.vcxproj", "{74C201F3-8308-40BE-BC0F-24974DEAF405}"
 EndProject
@@ -32,6 +32,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "experiment", "experiment\experiment.vcxproj", "{CE9D8719-6E86-41D0-97CA-5BE5272594E9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "deprecated_test", "deprecated_test\deprecated_test.vcxproj", "{DA4BC67F-9284-4D2C-81D5-407312C31BD7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "float_test", "float_test\float_test.vcxproj", "{27E8FDC5-9669-4940-B24F-94B21FFEE649}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -153,6 +155,12 @@ Global
 		{DA4BC67F-9284-4D2C-81D5-407312C31BD7}.Release|Win32.ActiveCfg = Release|Win32
 		{DA4BC67F-9284-4D2C-81D5-407312C31BD7}.Release|Win32.Build.0 = Release|Win32
 		{DA4BC67F-9284-4D2C-81D5-407312C31BD7}.Release|x64.ActiveCfg = Release|Win32
+		{27E8FDC5-9669-4940-B24F-94B21FFEE649}.Debug|Win32.ActiveCfg = Debug|Win32
+		{27E8FDC5-9669-4940-B24F-94B21FFEE649}.Debug|Win32.Build.0 = Debug|Win32
+		{27E8FDC5-9669-4940-B24F-94B21FFEE649}.Debug|x64.ActiveCfg = Debug|Win32
+		{27E8FDC5-9669-4940-B24F-94B21FFEE649}.Release|Win32.ActiveCfg = Release|Win32
+		{27E8FDC5-9669-4940-B24F-94B21FFEE649}.Release|Win32.Build.0 = Release|Win32
+		{27E8FDC5-9669-4940-B24F-94B21FFEE649}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
