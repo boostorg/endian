@@ -14,7 +14,7 @@
 #define BOOST_ENDIAN_DEPRECATED_NAMES
 #include <boost/endian/endian.hpp>
 #include <boost/detail/lightweight_main.hpp>
-#include <boost/detail/lightweight_test.hpp>
+#include <boost/core/lightweight_test.hpp>
 #include <iostream>
 #include <sstream>
 

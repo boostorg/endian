@@ -5,8 +5,8 @@
 //  Distributed under the Boost Software License, Version 1.0.
 //  http://www.boost.org/LICENSE_1_0.txt
 
-#ifndef BOOST_ENDIAN_CONVERTERS_HPP
-#define BOOST_ENDIAN_CONVERTERS_HPP
+#ifndef BOOST_ENDIAN_CONVERSION_HPP
+#define BOOST_ENDIAN_CONVERSION_HPP
 
 #include <boost/config.hpp>
 #include <boost/predef/detail/endian_compat.h>
@@ -505,4 +505,4 @@ namespace endian
 }  // namespace endian
 }  // namespace boost
 
-#endif // BOOST_ENDIAN_CONVERTERS_HPP
+#endif // BOOST_ENDIAN_CONVERSION_HPP

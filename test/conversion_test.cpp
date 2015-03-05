@@ -11,7 +11,7 @@
 
 #include <boost/endian/conversion.hpp>
 #include <boost/detail/lightweight_main.hpp>
-#include <boost/detail/lightweight_test.hpp>
+#include <boost/core/lightweight_test.hpp>
 #include <iostream>
 #include <cstring>
 

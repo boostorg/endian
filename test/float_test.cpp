@@ -12,9 +12,9 @@
 #include <boost/endian/detail/disable_warnings.hpp>
 
 //#define BOOST_ENDIAN_LOG
-#include <boost/endian/buffers.hpp>
+#include <boost/endian/conversion.hpp>
 #include <boost/detail/lightweight_main.hpp>
-#include <boost/detail/lightweight_test.hpp>
+#include <boost/endian/detail/lightweight_test.hpp>
 #include <iostream>
 #include <sstream>
 
@@ -22,6 +22,7 @@ using namespace boost::endian;
 using std::cout;
 using std::endl;
 using std::numeric_limits;
+
 
 namespace
 {
@@ -62,6 +63,30 @@ namespace
     cout << "  denorm_min() " << numeric_limits<T>::denorm_min() << "\n";
   }
 
+  template <class T>
+  void round_trip_test(const char* type)
+  {
+    BOOST_TEST_MEMCMP_EQ(static_cast<T>(1.0), static_cast<T>(1.0));  // reality check
+    BOOST_TEST_MEMCMP_EQ(endian_reverse(endian_reverse(numeric_limits<T>::min())),
+      numeric_limits<T>::min());
+    BOOST_TEST_MEMCMP_EQ(endian_reverse(endian_reverse(numeric_limits<T>::max())),
+      numeric_limits<T>::max());
+    BOOST_TEST_MEMCMP_EQ(endian_reverse(endian_reverse(numeric_limits<T>::lowest())),
+      numeric_limits<T>::lowest());
+    BOOST_TEST_MEMCMP_EQ(endian_reverse(endian_reverse(numeric_limits<T>::epsilon())),
+      numeric_limits<T>::epsilon());
+    BOOST_TEST_MEMCMP_EQ(endian_reverse(endian_reverse(numeric_limits<T>::round_error())),
+      numeric_limits<T>::round_error());
+    BOOST_TEST_MEMCMP_EQ(endian_reverse(endian_reverse(numeric_limits<T>::infinity())),
+      numeric_limits<T>::infinity());
+    BOOST_TEST_MEMCMP_EQ(endian_reverse(endian_reverse(numeric_limits<T>::quiet_NaN())),
+      numeric_limits<T>::quiet_NaN());
+    BOOST_TEST_MEMCMP_EQ(endian_reverse(endian_reverse(numeric_limits<T>::signaling_NaN())),
+      numeric_limits<T>::signaling_NaN());
+    BOOST_TEST_MEMCMP_EQ(endian_reverse(endian_reverse(numeric_limits<T>::denorm_min())),
+      numeric_limits<T>::denorm_min());
+  }
+
 }  // unnamed namespace
 
 //--------------------------------------------------------------------------------------//
@@ -70,12 +95,22 @@ int cpp_main(int, char *[])
 {
   cout << "byte swap intrinsics: " BOOST_ENDIAN_INTRINSIC_MSG << endl;
 
+//#define BOOST_ENDIAN_FORCE_ERROR
+#ifdef BOOST_ENDIAN_FORCE_ERROR
+  BOOST_TEST_MEMCMP_EQ(1.0f, 1.0);
+  BOOST_TEST_MEMCMP_EQ(1.0f, 1.1f);
+  BOOST_TEST_MEMCMP_EQ(1.0, 1.1);
+#endif
+
   report_limits<float>("float");
+  round_trip_test<float>("float");
+
   report_limits<double>("double");
+  round_trip_test<double>("double");
 
   cout << "\n  done" << endl;
 
-  return ::boost::report_errors();
+  return ::boost::endian::report_errors();
 }
 
 #include <boost/endian/detail/disable_warnings_pop.hpp>
