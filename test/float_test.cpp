@@ -16,16 +16,45 @@
 #include <boost/detail/lightweight_main.hpp>
 #include <boost/endian/detail/lightweight_test.hpp>
 #include <iostream>
+#include <iomanip>
 #include <sstream>
 
 using namespace boost::endian;
 using std::cout;
 using std::endl;
+using std::hex;
+using std::dec;
 using std::numeric_limits;
 
 
 namespace
 {
+  std::string to_hex(const float& x)
+  {
+    std::stringstream stream;
+    stream << "0x"
+      << std::setfill('0') << std::setw(sizeof(float) * 2)
+      << std::hex << *reinterpret_cast<const uint32_t*>(&x);
+    return stream.str();
+  }
+
+  std::string to_hex(const double& x)
+  {
+    std::stringstream stream;
+    stream << "0x"
+      << std::setfill('0') << std::setw(sizeof(double) * 2)
+      << std::hex << *reinterpret_cast<const uint64_t*>(&x);
+    return stream.str();
+  }
+
+  template <class T>
+  void show_value(const char* desc, const T& value)
+  {
+    cout << "  " << desc << " " << value 
+      << ", big " << to_hex(native_to_big(value))
+      << ", little " << to_hex(native_to_little(value)) << "\n";
+  }
+
   template <class T>
   void report_limits(const char* type)
   {
@@ -44,23 +73,35 @@ namespace
     cout << "  has_quiet_NaN " << numeric_limits<T>::has_quiet_NaN << "\n";
     cout << "  has_signaling_NaN " << numeric_limits<T>::has_signaling_NaN << "\n";
     cout << "  has_denorm " << numeric_limits<T>::has_denorm << "\n";
-    cout << "  min() " << numeric_limits<T>::min() << "\n";
-    cout << "  max() " << numeric_limits<T>::max() << "\n";
-    cout << "  lowest() " << numeric_limits<T>::lowest() << "\n";
     cout << "  digits " << numeric_limits<T>::digits << "\n";
     cout << "  digits10 " << numeric_limits<T>::digits10 << "\n";
     cout << "  max_digits10 " << numeric_limits<T>::max_digits10 << "\n";
     cout << "  radix " << numeric_limits<T>::radix << "\n";
-    cout << "  epsilon() " << numeric_limits<T>::epsilon() << "\n";
-    cout << "  round_error() " << numeric_limits<T>::round_error() << "\n";
     cout << "  min_exponent " << numeric_limits<T>::min_exponent << "\n";
     cout << "  min_exponent10 " << numeric_limits<T>::min_exponent10 << "\n";
     cout << "  max_exponent " << numeric_limits<T>::max_exponent << "\n";
     cout << "  max_exponent10 " << numeric_limits<T>::max_exponent10 << "\n";
-    cout << "  infinity() " << numeric_limits<T>::infinity() << "\n";
-    cout << "  quiet_NaN() " << numeric_limits<T>::quiet_NaN() << "\n";
-    cout << "  signaling_NaN() " << numeric_limits<T>::signaling_NaN() << "\n";
-    cout << "  denorm_min() " << numeric_limits<T>::denorm_min() << "\n";
+    //cout << "  min() " << numeric_limits<T>::min() << ", " << to_hex(numeric_limits<T>::min()) << "\n";
+    //cout << "  max() " << numeric_limits<T>::max() << "\n";
+    //cout << "  lowest() " << numeric_limits<T>::lowest() << "\n";
+    //cout << "  epsilon() " << numeric_limits<T>::epsilon() << "\n";
+    //cout << "  round_error() " << numeric_limits<T>::round_error() << "\n";
+    //cout << "  infinity() " << numeric_limits<T>::infinity() << "\n";
+    //cout << "  quiet_NaN() " << numeric_limits<T>::quiet_NaN() << "\n";
+    //cout << "  signaling_NaN() " << numeric_limits<T>::signaling_NaN() << "\n";
+    //cout << "  denorm_min() " << numeric_limits<T>::denorm_min() << "\n";
+    show_value("min()", numeric_limits<T>::min());
+    show_value("max()", numeric_limits<T>::max());
+    show_value("lowest()", numeric_limits<T>::lowest());
+    show_value("epsilon()", numeric_limits<T>::epsilon());
+    show_value("round_error()", numeric_limits<T>::round_error());
+    show_value("infinity()", numeric_limits<T>::infinity());
+    show_value("-infinity()", -numeric_limits<T>::infinity());
+    show_value("quiet_NaN()", numeric_limits<T>::quiet_NaN());
+    show_value("signaling_NaN()", numeric_limits<T>::signaling_NaN());
+    show_value("denorm_min()", numeric_limits<T>::denorm_min());
+    show_value("0.0", static_cast<T>(0.0));
+    show_value("1.0", static_cast<T>(1.0));
   }
 
   template <class T>
