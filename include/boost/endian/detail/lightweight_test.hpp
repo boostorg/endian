@@ -175,7 +175,7 @@ inline int report_errors()
 #define BOOST_TEST_NE(expr1,expr2) \
   ( ::boost::endian::detail::test_ne_impl(#expr1, #expr2, __FILE__, __LINE__, BOOST_CURRENT_FUNCTION, expr1, expr2) )
 
-#define BOOST_TEST_MEMCMP_EQ(expr1,expr2) \
+#define BOOST_TEST_MEM_EQ(expr1,expr2) \
   (::boost::endian::detail::test_memcmp_eq_impl(#expr1, #expr2, __FILE__, __LINE__, BOOST_CURRENT_FUNCTION, expr1, expr2))
 
 #ifndef BOOST_NO_EXCEPTIONS

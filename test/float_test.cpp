@@ -107,25 +107,40 @@ namespace
   template <class T>
   void round_trip_test(const char* type)
   {
-    BOOST_TEST_MEMCMP_EQ(static_cast<T>(1.0), static_cast<T>(1.0));  // reality check
-    BOOST_TEST_MEMCMP_EQ(endian_reverse(endian_reverse(numeric_limits<T>::min())),
+    cout << type << " round trip test..." << endl;
+    BOOST_TEST_MEM_EQ(static_cast<T>(1.0), static_cast<T>(1.0));  // reality check
+    BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::min())),
       numeric_limits<T>::min());
-    BOOST_TEST_MEMCMP_EQ(endian_reverse(endian_reverse(numeric_limits<T>::max())),
+    BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::max())),
       numeric_limits<T>::max());
-    BOOST_TEST_MEMCMP_EQ(endian_reverse(endian_reverse(numeric_limits<T>::lowest())),
+    BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::lowest())),
       numeric_limits<T>::lowest());
-    BOOST_TEST_MEMCMP_EQ(endian_reverse(endian_reverse(numeric_limits<T>::epsilon())),
+    BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::epsilon())),
       numeric_limits<T>::epsilon());
-    BOOST_TEST_MEMCMP_EQ(endian_reverse(endian_reverse(numeric_limits<T>::round_error())),
+    BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::round_error())),
       numeric_limits<T>::round_error());
-    BOOST_TEST_MEMCMP_EQ(endian_reverse(endian_reverse(numeric_limits<T>::infinity())),
+    BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::infinity())),
       numeric_limits<T>::infinity());
-    BOOST_TEST_MEMCMP_EQ(endian_reverse(endian_reverse(numeric_limits<T>::quiet_NaN())),
+    BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::quiet_NaN())),
       numeric_limits<T>::quiet_NaN());
-    BOOST_TEST_MEMCMP_EQ(endian_reverse(endian_reverse(numeric_limits<T>::signaling_NaN())),
+    BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::signaling_NaN())),
       numeric_limits<T>::signaling_NaN());
-    BOOST_TEST_MEMCMP_EQ(endian_reverse(endian_reverse(numeric_limits<T>::denorm_min())),
+    BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::denorm_min())),
       numeric_limits<T>::denorm_min());
+  }
+
+  void float_value_test()
+  {
+    cout << "float value test..." << endl;
+    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::min()), 0x00008000);
+    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::min()), 0x00800000);
+  }
+
+  void double_value_test()
+  {
+    cout << "double value test..." << endl;
+    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::min()), 0x0000000000001000);
+    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::min()), 0x0010000000000000);
   }
 
 }  // unnamed namespace
@@ -138,15 +153,17 @@ int cpp_main(int, char *[])
 
 //#define BOOST_ENDIAN_FORCE_ERROR
 #ifdef BOOST_ENDIAN_FORCE_ERROR
-  BOOST_TEST_MEMCMP_EQ(1.0f, 1.0);
-  BOOST_TEST_MEMCMP_EQ(1.0f, 1.1f);
-  BOOST_TEST_MEMCMP_EQ(1.0, 1.1);
+  BOOST_TEST_MEM_EQ(1.0f, 1.0);
+  BOOST_TEST_MEM_EQ(1.0f, 1.1f);
+  BOOST_TEST_MEM_EQ(1.0, 1.1);
 #endif
 
   report_limits<float>("float");
+  float_value_test();
   round_trip_test<float>("float");
 
   report_limits<double>("double");
+  double_value_test();
   round_trip_test<double>("double");
 
   cout << "\n  done" << endl;

@@ -24,4 +24,5 @@ project
          [ run endian_operations_test.cpp ]
          [ run endian_in_union_test.cpp ]
          [ run conversion_test.cpp ]
+         [ run float_test.cpp ]
        ;
