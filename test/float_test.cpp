@@ -18,6 +18,7 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <algorithm>
 
 using namespace boost::endian;
 using std::cout;
@@ -29,30 +30,51 @@ using std::numeric_limits;
 
 namespace
 {
-  std::string to_hex(const float& x)
+  // to_big() and to_little() provide convenient independent functions for
+  // creating test values of known endianness.
+
+  template <class T>
+  T to_big(T x)
   {
-    std::stringstream stream;
-    stream << "0x"
-      << std::setfill('0') << std::setw(sizeof(float) * 2)
-      << std::hex << *reinterpret_cast<const uint32_t*>(&x);
-    return stream.str();
+# ifdef BOOST_LITTLE_ENDIAN
+    std::reverse(reinterpret_cast<char*>(&x), reinterpret_cast<char*>(&x) + sizeof(T));
+# endif
+    return x;
   }
 
-  std::string to_hex(const double& x)
+  template <class T>
+  T to_little(T x)
   {
-    std::stringstream stream;
-    stream << "0x"
-      << std::setfill('0') << std::setw(sizeof(double) * 2)
-      << std::hex << *reinterpret_cast<const uint64_t*>(&x);
-    return stream.str();
+# ifdef BOOST_BIG_ENDIAN
+    std::reverse(reinterpret_cast<char*>(&x), reinterpret_cast<char*>(&x) + sizeof(T));
+# endif
+    return x;
+  }
+
+
+  template <class T>
+  std::string to_hex(const T& x)
+  {
+    const char hex[] = { '0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f' };
+    std::string tmp;
+    const unsigned char* p = reinterpret_cast<const unsigned char*>(&x);
+    const unsigned char* e = p + sizeof(T);
+
+    for (; p < e; ++p)
+    {
+      tmp += hex[*p >> 4];    // high-order nibble
+      tmp += hex[*p & 0x0f];  // low-order nibble
+    }
+    return tmp;
   }
 
   template <class T>
   void show_value(const char* desc, const T& value)
   {
     cout << "  " << desc << " " << value 
-      << ", big " << to_hex(native_to_big(value))
-      << ", little " << to_hex(native_to_little(value)) << "\n";
+      << ", native 0x" << to_hex(value)
+      << ", big 0x" << to_hex(native_to_big(value))
+      << ", little 0x" << to_hex(native_to_little(value)) << "\n";
   }
 
   template <class T>
@@ -81,15 +103,6 @@ namespace
     cout << "  min_exponent10 " << numeric_limits<T>::min_exponent10 << "\n";
     cout << "  max_exponent " << numeric_limits<T>::max_exponent << "\n";
     cout << "  max_exponent10 " << numeric_limits<T>::max_exponent10 << "\n";
-    //cout << "  min() " << numeric_limits<T>::min() << ", " << to_hex(numeric_limits<T>::min()) << "\n";
-    //cout << "  max() " << numeric_limits<T>::max() << "\n";
-    //cout << "  lowest() " << numeric_limits<T>::lowest() << "\n";
-    //cout << "  epsilon() " << numeric_limits<T>::epsilon() << "\n";
-    //cout << "  round_error() " << numeric_limits<T>::round_error() << "\n";
-    //cout << "  infinity() " << numeric_limits<T>::infinity() << "\n";
-    //cout << "  quiet_NaN() " << numeric_limits<T>::quiet_NaN() << "\n";
-    //cout << "  signaling_NaN() " << numeric_limits<T>::signaling_NaN() << "\n";
-    //cout << "  denorm_min() " << numeric_limits<T>::denorm_min() << "\n";
     show_value("min()", numeric_limits<T>::min());
     show_value("max()", numeric_limits<T>::max());
     show_value("lowest()", numeric_limits<T>::lowest());
@@ -132,15 +145,60 @@ namespace
   void float_value_test()
   {
     cout << "float value test..." << endl;
-    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::min()), 0x00008000);
-    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::min()), 0x00800000);
+    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::min()), to_big(0x00800000));
+    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::min()), to_little(0x00800000));
+    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::max()), to_big(0x7f7fffff));
+    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::max()), to_little(0x7f7fffff));
+    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::lowest()), to_big(0xff7fffff));
+    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::lowest()), to_little(0xff7fffff));
+    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::epsilon()), to_big(0x34000000));
+    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::epsilon()), to_little(0x34000000));
+    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::round_error()), to_big(0x3f000000));
+    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::round_error()), to_little(0x3f000000));
+    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::infinity()), to_big(0x7f800000));
+    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::infinity()), to_little(0x7f800000));
+    BOOST_TEST_MEM_EQ(native_to_big(-numeric_limits<float>::infinity()), to_big(0xff800000));
+    BOOST_TEST_MEM_EQ(native_to_little(-numeric_limits<float>::infinity()), to_little(0xff800000));
+    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::quiet_NaN()), to_big(0x7fc00000));
+    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::quiet_NaN()), to_little(0x7fc00000));
+    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::signaling_NaN()), to_big(0x7fc00001));
+    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::signaling_NaN()), to_little(0x7fc00001));
+    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::denorm_min()), to_big(0x00000001));
+    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::denorm_min()), to_little(0x00000001));
+    BOOST_TEST_MEM_EQ(native_to_big(0.0f), to_big(0x00000000));
+    BOOST_TEST_MEM_EQ(native_to_little(0.0f), to_little(0x00000000));
+    BOOST_TEST_MEM_EQ(native_to_big(1.0f), to_big(0x3f800000));
+    BOOST_TEST_MEM_EQ(native_to_little(1.0f), to_little(0x3f800000));
   }
 
   void double_value_test()
   {
     cout << "double value test..." << endl;
-    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::min()), 0x0000000000001000);
-    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::min()), 0x0010000000000000);
+    BOOST_TEST_MEM_EQ(to_big(numeric_limits<double>::min()), to_big(0x0010000000000000));
+    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::min()), to_big(0x0010000000000000));
+    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::min()), to_little(0x0010000000000000));
+    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::max()), to_big(0x7fefffffffffffff)); 
+    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::max()), to_little(0x7fefffffffffffff));
+    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::lowest()), to_big(0xffefffffffffffff));
+    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::lowest()), to_little(0xffefffffffffffff));
+    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::epsilon()), to_big(0x3cb0000000000000));
+    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::epsilon()), to_little(0x3cb0000000000000));
+    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::round_error()), to_big(0x3fe0000000000000));
+    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::round_error()), to_little(0x3fe0000000000000));
+    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::infinity()), to_big(0x7ff0000000000000));
+    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::infinity()), to_little(0x7ff0000000000000));
+    BOOST_TEST_MEM_EQ(native_to_big(-numeric_limits<double>::infinity()), to_big(0xfff0000000000000));
+    BOOST_TEST_MEM_EQ(native_to_little(-numeric_limits<double>::infinity()), to_little(0xfff0000000000000));
+    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::quiet_NaN()), to_big(0x7ff8000000000000));
+    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::quiet_NaN()), to_little(0x7ff8000000000000));
+    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::signaling_NaN()), to_big(0x7ff8000000000001));
+    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::signaling_NaN()), to_little(0x7ff8000000000001));
+    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::denorm_min()), to_big(0x0000000000000001ULL));
+    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::denorm_min()), to_little(0x0000000000000001ULL));
+    BOOST_TEST_MEM_EQ(native_to_big(0.0), to_big(0x0000000000000000ULL));
+    BOOST_TEST_MEM_EQ(native_to_little(0.0), to_little(0x0000000000000000ULL));
+    BOOST_TEST_MEM_EQ(native_to_big(1.0), to_big(0x3ff0000000000000ULL));
+    BOOST_TEST_MEM_EQ(native_to_little(1.0), to_little(0x3ff0000000000000ULL));
   }
 
 }  // unnamed namespace

@@ -120,10 +120,27 @@ template<class T, class U> inline void test_ne_impl( char const * expr1, char co
     }
 }
 
+template <class T>
+std::string to_hex(const T& x)
+{
+  const char hex[] = { '0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f' };
+  std::string tmp;
+  const unsigned char* p = reinterpret_cast<const unsigned char*>(&x);
+  const unsigned char* e = p + sizeof(T);
+
+  for (; p < e; ++p)
+  {
+    tmp += hex[*p >> 4];    // high-order nibble
+    tmp += hex[*p & 0x0f];  // low-order nibble
+  }
+  return tmp;
+}
+
 template<class T, class U> inline void test_memcmp_eq_impl(char const * expr1,
   char const * expr2, char const * file, int line, char const * function, T const & t,
   U const & u)
 {
+  BOOST_ASSERT(sizeof(T) == sizeof(U));
   if (sizeof(T) == sizeof(U)
     && std::memcmp(&t, &u, sizeof(T)) == 0)
   {
@@ -134,7 +151,7 @@ template<class T, class U> inline void test_memcmp_eq_impl(char const * expr1,
     BOOST_LIGHTWEIGHT_TEST_OSTREAM
       << file << "(" << line << "): test 'std::memcmp(" << expr1 << ", " << expr2
       << ") == 0' fails in function '" << function << "': "
-      << " with values '" << t << "' and '" << u << "'" << std::endl;
+      << " with values '" << to_hex(t) << "' and '" << to_hex(u) << "'" << std::endl;
     ++test_errors();
   }
 }
