@@ -19,6 +19,7 @@
 #include <iomanip>
 #include <sstream>
 #include <algorithm>
+#include <limits>
 
 using namespace boost::endian;
 using std::cout;
@@ -97,7 +98,7 @@ namespace
     cout << "  has_denorm " << numeric_limits<T>::has_denorm << "\n";
     cout << "  digits " << numeric_limits<T>::digits << "\n";
     cout << "  digits10 " << numeric_limits<T>::digits10 << "\n";
-    cout << "  max_digits10 " << numeric_limits<T>::max_digits10 << "\n";
+//    cout << "  max_digits10 " << numeric_limits<T>::max_digits10 << "\n";
     cout << "  radix " << numeric_limits<T>::radix << "\n";
     cout << "  min_exponent " << numeric_limits<T>::min_exponent << "\n";
     cout << "  min_exponent10 " << numeric_limits<T>::min_exponent10 << "\n";
@@ -105,8 +106,8 @@ namespace
     cout << "  max_exponent10 " << numeric_limits<T>::max_exponent10 << "\n";
     show_value("min()", numeric_limits<T>::min());
     show_value("max()", numeric_limits<T>::max());
-    show_value("lowest()", numeric_limits<T>::lowest());
-    show_value("epsilon()", numeric_limits<T>::epsilon());
+//    show_value("lowest()", numeric_limits<T>::lowest());
+//    show_value("epsilon()", numeric_limits<T>::epsilon());
     show_value("round_error()", numeric_limits<T>::round_error());
     show_value("infinity()", numeric_limits<T>::infinity());
     show_value("-infinity()", -numeric_limits<T>::infinity());
@@ -126,8 +127,8 @@ namespace
       numeric_limits<T>::min());
     BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::max())),
       numeric_limits<T>::max());
-    BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::lowest())),
-      numeric_limits<T>::lowest());
+//    BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::lowest())),
+//      numeric_limits<T>::lowest());
     BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::epsilon())),
       numeric_limits<T>::epsilon());
     BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::round_error())),
@@ -149,8 +150,8 @@ namespace
     BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::min()), to_little(0x00800000));
     BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::max()), to_big(0x7f7fffff));
     BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::max()), to_little(0x7f7fffff));
-    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::lowest()), to_big(0xff7fffff));
-    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::lowest()), to_little(0xff7fffff));
+//    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::lowest()), to_big(0xff7fffff));
+//    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::lowest()), to_little(0xff7fffff));
     BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::epsilon()), to_big(0x34000000));
     BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::epsilon()), to_little(0x34000000));
     BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::round_error()), to_big(0x3f000000));
@@ -179,8 +180,8 @@ namespace
     BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::min()), to_little(0x0010000000000000));
     BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::max()), to_big(0x7fefffffffffffff)); 
     BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::max()), to_little(0x7fefffffffffffff));
-    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::lowest()), to_big(0xffefffffffffffff));
-    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::lowest()), to_little(0xffefffffffffffff));
+//    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::lowest()), to_big(0xffefffffffffffff));
+//    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::lowest()), to_little(0xffefffffffffffff));
     BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::epsilon()), to_big(0x3cb0000000000000));
     BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::epsilon()), to_little(0x3cb0000000000000));
     BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::round_error()), to_big(0x3fe0000000000000));
