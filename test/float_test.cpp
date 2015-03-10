@@ -162,8 +162,8 @@ namespace
     BOOST_TEST_MEM_EQ(native_to_little(-numeric_limits<float>::infinity()), to_little(0xff800000));
     BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::quiet_NaN()), to_big(0x7fc00000));
     BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::quiet_NaN()), to_little(0x7fc00000));
-    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::signaling_NaN()), to_big(0x7fc00001));
-    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::signaling_NaN()), to_little(0x7fc00001));
+//    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::signaling_NaN()), to_big(0x7fc00001));
+//    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::signaling_NaN()), to_little(0x7fc00001));
     BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::denorm_min()), to_big(0x00000001));
     BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::denorm_min()), to_little(0x00000001));
     BOOST_TEST_MEM_EQ(native_to_big(0.0f), to_big(0x00000000));
@@ -192,8 +192,8 @@ namespace
     BOOST_TEST_MEM_EQ(native_to_little(-numeric_limits<double>::infinity()), to_little(0xfff0000000000000));
     BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::quiet_NaN()), to_big(0x7ff8000000000000));
     BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::quiet_NaN()), to_little(0x7ff8000000000000));
-    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::signaling_NaN()), to_big(0x7ff8000000000001));
-    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::signaling_NaN()), to_little(0x7ff8000000000001));
+//    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::signaling_NaN()), to_big(0x7ff8000000000001));
+//    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::signaling_NaN()), to_little(0x7ff8000000000001));
     BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::denorm_min()), to_big(0x0000000000000001ULL));
     BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::denorm_min()), to_little(0x0000000000000001ULL));
     BOOST_TEST_MEM_EQ(native_to_big(0.0), to_big(0x0000000000000000ULL));
