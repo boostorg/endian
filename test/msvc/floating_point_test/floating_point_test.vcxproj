@@ -14,6 +14,7 @@
     <ProjectGuid>{27E8FDC5-9669-4940-B24F-94B21FFEE649}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>float_test</RootNamespace>
+    <ProjectName>floating_point_test</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -80,7 +81,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\float_test.cpp" />
+    <ClCompile Include="..\..\floating_point_test.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
