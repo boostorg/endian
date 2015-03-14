@@ -260,90 +260,6 @@ namespace
     show_value("pi()", pi<T>());
   }
 
-  template <class T>
-  void round_trip_test(const char* type)
-  {
-    cout << type << " round trip test..." << endl;
-    BOOST_TEST_MEM_EQ(static_cast<T>(1.0), static_cast<T>(1.0));  // reality check
-    BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::min())),
-      numeric_limits<T>::min());
-    BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::max())),
-      numeric_limits<T>::max());
-//    BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::lowest())),
-//      numeric_limits<T>::lowest());
-    BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::epsilon())),
-      numeric_limits<T>::epsilon());
-    BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::round_error())),
-      numeric_limits<T>::round_error());
-    BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::infinity())),
-      numeric_limits<T>::infinity());
-    BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::quiet_NaN())),
-      numeric_limits<T>::quiet_NaN());
-    BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::signaling_NaN())),
-      numeric_limits<T>::signaling_NaN());
-    BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(numeric_limits<T>::denorm_min())),
-      numeric_limits<T>::denorm_min());
-  }
-
-  void float_value_test()
-  {
-    cout << "float value test..." << endl;
-    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::min()), to_big(0x00800000));
-    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::min()), to_little(0x00800000));
-    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::max()), to_big(0x7f7fffff));
-    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::max()), to_little(0x7f7fffff));
-//    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::lowest()), to_big(0xff7fffff));
-//    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::lowest()), to_little(0xff7fffff));
-    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::epsilon()), to_big(0x34000000));
-    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::epsilon()), to_little(0x34000000));
-    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::round_error()), to_big(0x3f000000));
-    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::round_error()), to_little(0x3f000000));
-    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::infinity()), to_big(0x7f800000));
-    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::infinity()), to_little(0x7f800000));
-    BOOST_TEST_MEM_EQ(native_to_big(-numeric_limits<float>::infinity()), to_big(0xff800000));
-    BOOST_TEST_MEM_EQ(native_to_little(-numeric_limits<float>::infinity()), to_little(0xff800000));
-    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::quiet_NaN()), to_big(0x7fc00000));
-    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::quiet_NaN()), to_little(0x7fc00000));
-//    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::signaling_NaN()), to_big(0x7fc00001));
-//    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::signaling_NaN()), to_little(0x7fc00001));
-    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<float>::denorm_min()), to_big(0x00000001));
-    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<float>::denorm_min()), to_little(0x00000001));
-    BOOST_TEST_MEM_EQ(native_to_big(0.0f), to_big(0x00000000));
-    BOOST_TEST_MEM_EQ(native_to_little(0.0f), to_little(0x00000000));
-    BOOST_TEST_MEM_EQ(native_to_big(1.0f), to_big(0x3f800000));
-    BOOST_TEST_MEM_EQ(native_to_little(1.0f), to_little(0x3f800000));
-  }
-
-  void double_value_test()
-  {
-    cout << "double value test..." << endl;
-    BOOST_TEST_MEM_EQ(to_big(numeric_limits<double>::min()), to_big(0x0010000000000000));
-    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::min()), to_big(0x0010000000000000));
-    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::min()), to_little(0x0010000000000000));
-    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::max()), to_big(0x7fefffffffffffff)); 
-    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::max()), to_little(0x7fefffffffffffff));
-//    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::lowest()), to_big(0xffefffffffffffff));
-//    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::lowest()), to_little(0xffefffffffffffff));
-    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::epsilon()), to_big(0x3cb0000000000000));
-    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::epsilon()), to_little(0x3cb0000000000000));
-    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::round_error()), to_big(0x3fe0000000000000));
-    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::round_error()), to_little(0x3fe0000000000000));
-    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::infinity()), to_big(0x7ff0000000000000));
-    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::infinity()), to_little(0x7ff0000000000000));
-    BOOST_TEST_MEM_EQ(native_to_big(-numeric_limits<double>::infinity()), to_big(0xfff0000000000000));
-    BOOST_TEST_MEM_EQ(native_to_little(-numeric_limits<double>::infinity()), to_little(0xfff0000000000000));
-    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::quiet_NaN()), to_big(0x7ff8000000000000));
-    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::quiet_NaN()), to_little(0x7ff8000000000000));
-//    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::signaling_NaN()), to_big(0x7ff8000000000001));
-//    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::signaling_NaN()), to_little(0x7ff8000000000001));
-    BOOST_TEST_MEM_EQ(native_to_big(numeric_limits<double>::denorm_min()), to_big(0x0000000000000001ULL));
-    BOOST_TEST_MEM_EQ(native_to_little(numeric_limits<double>::denorm_min()), to_little(0x0000000000000001ULL));
-    BOOST_TEST_MEM_EQ(native_to_big(0.0), to_big(0x0000000000000000ULL));
-    BOOST_TEST_MEM_EQ(native_to_little(0.0), to_little(0x0000000000000000ULL));
-    BOOST_TEST_MEM_EQ(native_to_big(1.0), to_big(0x3ff0000000000000ULL));
-    BOOST_TEST_MEM_EQ(native_to_little(1.0), to_little(0x3ff0000000000000ULL));
-  }
-
 template <class T>
 void auto_test(const char* msg, const boost::array<test_case<T>, n_test_cases>& cases)
 {
@@ -354,6 +270,7 @@ void auto_test(const char* msg, const boost::array<test_case<T>, n_test_cases>& 
     cout << "  " << cases[i].desc << endl;
     BOOST_TEST_EQ(to_hex(native_to_big(cases[i].value)), cases[i].big);
     BOOST_TEST_EQ(to_hex(native_to_little(cases[i].value)), cases[i].little);
+    BOOST_TEST_MEM_EQ(endian_reverse(endian_reverse(cases[i].value)), cases[i].value);
   }
 }
 
@@ -372,16 +289,12 @@ int cpp_main(int, char *[])
   BOOST_TEST_MEM_EQ(1.0, 1.1);
 #endif
 
+  build_auto_test_cases();
+
   report_limits<float>("float");
-  float_value_test();
-  round_trip_test<float>("float");
+  auto_test<float>("float", float_test_cases);
 
   report_limits<double>("double");
-  double_value_test();
-  round_trip_test<double>("double");
-
-  build_auto_test_cases();
-  auto_test<float>("float", float_test_cases);
   auto_test<double>("double", double_test_cases);
 
   cout << "\n  done" << endl;
