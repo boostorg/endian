@@ -116,7 +116,7 @@ namespace
     return tmp;
   }
 
-  const std::size_t n_test_cases = 10;
+  const std::size_t n_test_cases = 16;
   boost::array<test_case<float>, n_test_cases> float_test_cases;
   boost::array<test_case<double>, n_test_cases> double_test_cases;
 
@@ -124,6 +124,10 @@ namespace
   {
     using namespace boost::math::constants;
     int i = 0;
+
+//  template for cut-and-paste of new values 
+//    float_test_cases[i].assign("", , "", "");
+//    double_test_cases[i++].assign("", , "", "");
 
     float_test_cases[i].assign("numeric_limits<float>::min()",
       numeric_limits<float>::min(), "00800000", "00008000");
@@ -134,6 +138,16 @@ namespace
       numeric_limits<float>::max(), "7f7fffff", "ffff7f7f");
     double_test_cases[i++].assign("numeric_limits<double>::max()",
       numeric_limits<double>::max(), "7fefffffffffffff", "ffffffffffffef7f");
+
+    float_test_cases[i].assign("numeric_limits<float>::lowest()",
+      numeric_limits<float>::lowest(), "ff7fffff", "ffff7fff");
+    double_test_cases[i++].assign("numeric_limits<double>::lowest()",
+      numeric_limits<double>::lowest(), "ffefffffffffffff", "ffffffffffffefff");
+
+    float_test_cases[i].assign("numeric_limits<float>::epsilon()",
+      numeric_limits<float>::epsilon(), "34000000", "00000034");
+    double_test_cases[i++].assign("numeric_limits<double>::epsilon()",
+      numeric_limits<double>::epsilon(), "3cb0000000000000", "000000000000b03c");
 
     float_test_cases[i].assign("numeric_limits<float>::round_error()",
       numeric_limits<float>::round_error(), "3f000000", "0000003f");
@@ -165,10 +179,17 @@ namespace
     double_test_cases[i++].assign("numeric_limits<double>::denorm_min()",
       numeric_limits<double>::denorm_min(), "0000000000000001", "0100000000000000");
 
-    float_test_cases[i].assign("pi<float>()",
-      pi<float>(), "40490fdb", "db0f4940");
-    double_test_cases[i++].assign("pi<double>()",
-      pi<double>(), "400921fb54442d18", "182d4454fb210940");
+    float_test_cases[i].assign("0.0f", 0.0f, "00000000", "00000000");
+    double_test_cases[i++].assign("0.0", 0.0, "0000000000000000", "0000000000000000");
+
+    float_test_cases[i].assign("-0.0f", -0.0f, "80000000", "00000080");
+    double_test_cases[i++].assign("-0.0", -0.0, "8000000000000000", "0000000000000080");
+
+    float_test_cases[i].assign("1.0f", 1.0f, "3f800000", "0000803f");
+    double_test_cases[i++].assign("1.0", 1.0, "3ff0000000000000", "000000000000f03f");
+
+    float_test_cases[i].assign("-1.0f", -1.0f, "bf800000", "000080bf");
+    double_test_cases[i++].assign("-1.0", -1.0, "bff0000000000000", "000000000000f0bf");
 
     uint32_t vf1 (0x12345678U);
     float_test_cases[i].assign("native uint32_t 0x12345678U as float",
@@ -176,6 +197,11 @@ namespace
     uint64_t vd1 (0x0123456789abcdefULL);
     double_test_cases[i++].assign("native uint64_t 0x0123456789abcdefULL as double",
       *reinterpret_cast<const double*>(&vd1), "0123456789abcdef", "efcdab8967452301");
+
+    float_test_cases[i].assign("pi<float>()",
+      pi<float>(), "40490fdb", "db0f4940");
+    double_test_cases[i++].assign("pi<double>()",
+      pi<double>(), "400921fb54442d18", "182d4454fb210940");
 
     BOOST_ASSERT(i == n_test_cases);
   }   
@@ -211,7 +237,7 @@ namespace
     cout << "  has_denorm " << numeric_limits<T>::has_denorm << "\n";
     cout << "  digits " << numeric_limits<T>::digits << "\n";
     cout << "  digits10 " << numeric_limits<T>::digits10 << "\n";
-//    cout << "  max_digits10 " << numeric_limits<T>::max_digits10 << "\n";
+    cout << "  max_digits10 " << numeric_limits<T>::max_digits10 << "\n";
     cout << "  radix " << numeric_limits<T>::radix << "\n";
     cout << "  min_exponent " << numeric_limits<T>::min_exponent << "\n";
     cout << "  min_exponent10 " << numeric_limits<T>::min_exponent10 << "\n";
@@ -219,8 +245,8 @@ namespace
     cout << "  max_exponent10 " << numeric_limits<T>::max_exponent10 << "\n";
     show_value("min()", numeric_limits<T>::min());
     show_value("max()", numeric_limits<T>::max());
-//    show_value("lowest()", numeric_limits<T>::lowest());
-//    show_value("epsilon()", numeric_limits<T>::epsilon());
+    show_value("lowest()", numeric_limits<T>::lowest());
+    show_value("epsilon()", numeric_limits<T>::epsilon());
     show_value("round_error()", numeric_limits<T>::round_error());
     show_value("infinity()", numeric_limits<T>::infinity());
     show_value("-infinity()", -numeric_limits<T>::infinity());
@@ -228,7 +254,9 @@ namespace
     show_value("signaling_NaN()", numeric_limits<T>::signaling_NaN());
     show_value("denorm_min()", numeric_limits<T>::denorm_min());
     show_value("0.0", static_cast<T>(0.0));
+    show_value("-0.0", static_cast<T>(-0.0));
     show_value("1.0", static_cast<T>(1.0));
+    show_value("-1.0", static_cast<T>(-1.0));
     show_value("pi()", pi<T>());
   }
 
