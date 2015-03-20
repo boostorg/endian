@@ -171,8 +171,8 @@ namespace endian
     {
       T tmp(x);
       std::reverse(
-        reinterpret_cast<char*>(&tmp),
-        reinterpret_cast<char*>(&tmp) + sizeof(T));
+        reinterpret_cast<unsigned char*>(&tmp),
+        reinterpret_cast<unsigned char*>(&tmp) + sizeof(T));
       return tmp;
     }
 
