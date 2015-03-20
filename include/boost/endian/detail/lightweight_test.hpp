@@ -11,7 +11,7 @@
 
 //
 //  Copyright (c) 2002, 2009, 2014 Peter Dimov
-//  Copyright (2) Beman Dawes 2010, 2011
+//  Copyright (2) Beman Dawes 2010, 2011, 2015
 //  Copyright (3) Ion Gaztanaga 2013
 //
 //  Distributed under the Boost Software License, Version 1.0.
@@ -136,7 +136,7 @@ std::string to_hex(const T& x)
   return tmp;
 }
 
-template<class T, class U> inline void test_memcmp_eq_impl(char const * expr1,
+template<class T, class U> inline bool test_memcmp_eq_impl(char const * expr1,
   char const * expr2, char const * file, int line, char const * function, T const & t,
   U const & u)
 {
@@ -145,6 +145,7 @@ template<class T, class U> inline void test_memcmp_eq_impl(char const * expr1,
     && std::memcmp(&t, &u, sizeof(T)) == 0)
   {
     report_errors_remind();
+    return true;
   }
   else
   {
@@ -153,6 +154,7 @@ template<class T, class U> inline void test_memcmp_eq_impl(char const * expr1,
       << ") == 0' fails in function '" << function << "': "
       << " with values '" << to_hex(t) << "' and '" << to_hex(u) << "'" << std::endl;
     ++test_errors();
+    return false;
   }
 }
 
@@ -180,6 +182,11 @@ inline int report_errors()
 
 } // namespace endian
 } // namespace boost
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//  TODO: Should all test macros return bool?  See BOOST_TEST_MEM_EQ usage in fp_exaustive_test,cpp
+//////////////////////////////////////////////////////////////////////////////////////////
+
 
 #define BOOST_TEST(expr) \
   ((expr)? (void)0: ::boost::endian::detail::test_failed_impl(#expr, __FILE__, __LINE__, BOOST_CURRENT_FUNCTION))
