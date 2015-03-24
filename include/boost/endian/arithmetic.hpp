@@ -79,22 +79,6 @@ namespace endian
     BOOST_SCOPED_ENUM(align) A = align::no>
       class endian_arithmetic;
 
-  // big endian floating point aligned types
-  typedef endian_arithmetic<order::big, float, 32, align::yes>       big_float32_at;
-  typedef endian_arithmetic<order::big, double, 64, align::yes>      big_float64_at;
-
-  // little endian floating point aligned types
-  typedef endian_arithmetic<order::little, float, 32, align::yes>    little_float32_at;
-  typedef endian_arithmetic<order::little, double, 64, align::yes>   little_float64_at;
-
-  // big endian floating point unaligned types
-  typedef endian_arithmetic<order::big, float, 32, align::no>        big_float32_t;
-  typedef endian_arithmetic<order::big, double, 64, align::no>       big_float64_t;
-
-  // little endian floating point unaligned types
-  typedef endian_arithmetic<order::little, float, 32, align::no>     little_float32_t;
-  typedef endian_arithmetic<order::little, double, 64, align::no>    little_float64_t;
-
   // big endian signed integer aligned types
   typedef endian_arithmetic<order::big, int8_t, 8, align::yes>        big_int8_at;
   typedef endian_arithmetic<order::big, int16_t, 16, align::yes>      big_int16_at;
@@ -182,12 +166,6 @@ namespace endian
   typedef big_uint48_t  native_uint48_t;
   typedef big_uint56_t  native_uint56_t;
   typedef big_uint64_t  native_uint64_t;
-
-  // native endian floating point types
-  typedef big_float32_t native_float32_t;
-  typedef big_float64_t native_float64_t;
-  typedef big_float32_at native_float32_at;
-  typedef big_float64_at native_float64_at;
 # else
   // native endian signed integer unaligned types
   typedef little_int8_t   native_int8_t;
@@ -208,12 +186,6 @@ namespace endian
   typedef little_uint48_t  native_uint48_t;
   typedef little_uint56_t  native_uint56_t;
   typedef little_uint64_t  native_uint64_t;
-
-  // native endian floating point types
-  typedef little_float32_t native_float32_t;
-  typedef little_float64_t native_float64_t;
-  typedef little_float32_at native_float32_at;
-  typedef little_float64_at native_float64_at;
 # endif
 
 # ifdef BOOST_ENDIAN_DEPRECATED_NAMES
@@ -338,78 +310,6 @@ namespace endian
 #     endif
         endian_arithmetic& operator=(T val) BOOST_NOEXCEPT
           { detail::store_big_endian<T, n_bits/8>(this->m_value, val); return *this; }
-        operator value_type() const BOOST_NOEXCEPT { return this->value(); }
-    };
- 
-    //  unaligned float big endian specialization
-    template <>
-    class endian_arithmetic< order::big, float, 32, align::no >
-      : public endian_buffer< order::big, float, 32, align::no >,
-        cover_operators< endian_arithmetic< order::big, float, 32 >, float >
-    {
-      public:
-        typedef float value_type;
-#     ifndef BOOST_ENDIAN_NO_CTORS
-        endian_arithmetic() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic(value_type val) BOOST_NOEXCEPT
-          { detail::big_reverse_copy(val, this->m_value); }
-#     endif
-        endian_arithmetic& operator=(value_type val) BOOST_NOEXCEPT
-          { detail::big_reverse_copy(val, this->m_value); return *this; }
-        operator value_type() const BOOST_NOEXCEPT { return this->value(); }
-    };
-
-    //  unaligned double big endian specialization
-    template <>
-    class endian_arithmetic< order::big, double, 64, align::no >
-      : public endian_buffer< order::big, double, 64, align::no >,
-        cover_operators< endian_arithmetic< order::big, double, 64 >, double >
-    {
-      public:
-        typedef double value_type;
-#     ifndef BOOST_ENDIAN_NO_CTORS
-        endian_arithmetic() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic(value_type val) BOOST_NOEXCEPT
-          { detail::big_reverse_copy(val, this->m_value); }
-#     endif
-        endian_arithmetic& operator=(value_type val) BOOST_NOEXCEPT
-          { detail::big_reverse_copy(val, this->m_value); return *this; }
-        operator value_type() const BOOST_NOEXCEPT { return this->value(); }
-    };
- 
-    //  unaligned float little endian specialization
-    template <>
-    class endian_arithmetic< order::little, float, 32, align::no >
-      : public endian_buffer< order::little, float, 32, align::no >,
-        cover_operators< endian_arithmetic< order::little, float, 32 >, float >
-    {
-      public:
-        typedef float value_type;
-#     ifndef BOOST_ENDIAN_NO_CTORS
-        endian_arithmetic() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic(value_type val) BOOST_NOEXCEPT
-          { detail::little_reverse_copy(val, this->m_value); }
-#     endif
-        endian_arithmetic& operator=(value_type val) BOOST_NOEXCEPT
-          { detail::little_reverse_copy(val, this->m_value); return *this; }
-        operator value_type() const BOOST_NOEXCEPT { return this->value(); }
-    };
-
-    //  unaligned double little endian specialization
-    template <>
-    class endian_arithmetic< order::little, double, 64, align::no >
-      : public endian_buffer< order::little, double, 64, align::no >,
-        cover_operators< endian_arithmetic< order::little, double, 64 >, double >
-    {
-      public:
-        typedef double value_type;
-#     ifndef BOOST_ENDIAN_NO_CTORS
-        endian_arithmetic() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic(value_type val) BOOST_NOEXCEPT
-          { detail::little_reverse_copy(val, this->m_value); }
-#     endif
-        endian_arithmetic& operator=(value_type val) BOOST_NOEXCEPT
-          { detail::little_reverse_copy(val, this->m_value); return *this; }
         operator value_type() const BOOST_NOEXCEPT { return this->value(); }
     };
 

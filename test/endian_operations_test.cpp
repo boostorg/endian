@@ -57,9 +57,6 @@ template<> struct value_type<long>  { typedef long type; };
 template<> struct value_type<unsigned long>  { typedef unsigned long type; };
 template<> struct value_type<long long>  { typedef long long type; };
 template<> struct value_type<unsigned long long>  { typedef unsigned long long type; };
-template<> struct value_type<float>  { typedef float type; };
-template<> struct value_type<double>  { typedef double type; };
-template<> struct value_type<long double>  { typedef long double type; };
 
 template <class T1,  class T2>
 struct default_construct

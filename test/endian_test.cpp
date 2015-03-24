@@ -223,38 +223,6 @@ namespace
     little_uint32_at little_align_uint32;
     little_uint64_at little_align_uint64;
 
-    big_float32_at big_align_float32;
-    big_float64_at big_align_float64;
-    little_float32_at little_align_float32;
-    little_float64_at little_align_float64;
-    native_float32_at native_align_float32;
-    native_float64_at native_align_float64;
-
-    VERIFY(big_align_float32.data() == reinterpret_cast<const char *>(&big_align_float32));
-    VERIFY(big_align_float64.data() == reinterpret_cast<const char *>(&big_align_float64));
-
-    VERIFY(little_align_float32.data() == reinterpret_cast<const char *>(&little_align_float32));
-    VERIFY(little_align_float64.data() == reinterpret_cast<const char *>(&little_align_float64));
-
-    VERIFY(native_align_float32.data() == reinterpret_cast<const char *>(&native_align_float32));
-    VERIFY(native_align_float64.data() == reinterpret_cast<const char *>(&native_align_float64));
-
-    big_float32_t big_float32;
-    big_float64_t big_float64;
-    little_float32_t little_float32;
-    little_float64_t little_float64;
-    native_float32_t native_float32;
-    native_float64_t native_float64;
-
-    VERIFY(big_float32.data() == reinterpret_cast<const char *>(&big_float32));
-    VERIFY(big_float64.data() == reinterpret_cast<const char *>(&big_float64));
-
-    VERIFY(little_float32.data() == reinterpret_cast<const char *>(&little_float32));
-    VERIFY(little_float64.data() == reinterpret_cast<const char *>(&little_float64));
-
-    VERIFY(native_float32.data() == reinterpret_cast<const char *>(&native_float32));
-    VERIFY(native_float64.data() == reinterpret_cast<const char *>(&native_float64));
-
     VERIFY(big_8.data() == reinterpret_cast<const char *>(&big_8));
     VERIFY(big_16.data() == reinterpret_cast<const char *>(&big_16));
     VERIFY(big_24.data() == reinterpret_cast<const char *>(&big_24));
@@ -333,20 +301,6 @@ namespace
   {
     VERIFY( numeric_limits<signed char>::digits == 7 );
     VERIFY( numeric_limits<unsigned char>::digits == 8 );
-
-    VERIFY_SIZE(sizeof( big_float32_at ), 4 );
-    VERIFY_SIZE(sizeof( big_float64_at ), 8 );
-    VERIFY_SIZE(sizeof(little_float32_at), 4);
-    VERIFY_SIZE(sizeof(little_float64_at), 8);
-    VERIFY_SIZE(sizeof(native_float32_at), 4);
-    VERIFY_SIZE(sizeof(native_float64_at), 8);
-
-    VERIFY_SIZE(sizeof( big_float32_t ), 4 );
-    VERIFY_SIZE(sizeof( big_float64_t ), 8 );
-    VERIFY_SIZE(sizeof(little_float32_t), 4);
-    VERIFY_SIZE(sizeof(little_float64_t), 8);
-    VERIFY_SIZE(sizeof(native_float32_t), 4);
-    VERIFY_SIZE(sizeof(native_float64_t), 8);
 
     VERIFY_SIZE( sizeof( big_int8_t ), 1 );
     VERIFY_SIZE( sizeof( big_int16_t ), 2 );
@@ -520,42 +474,6 @@ namespace
       native_uint64_t    v31;
     };
 
-    struct big_float_struct
-    {
-      int16_t v0;
-      big_float32_at v1;
-    };
-
-    struct big_unaligned_float_struct
-    {
-      int16_t v0;
-      big_float32_t v1;
-    };
-
-    struct little_float_struct
-    {
-      int16_t v0;
-      little_float32_at v1;
-    };
-
-    struct little_unaligned_float_struct
-    {
-      int16_t v0;
-      little_float32_t v1;
-    };
-
-    struct native_float_struct
-    {
-      int16_t v0;
-      native_float32_at v1;
-    };
-
-    struct native_unaligned_float_struct
-    {
-      int16_t v0;
-      native_float32_t v1;
-    };
-
     //  aligned test cases
   
     struct big_aligned_struct
@@ -586,12 +504,6 @@ namespace
     VERIFY_SIZE( sizeof(native_u_struct), 39 );
     VERIFY( sizeof(big_aligned_struct) <= 24 );
     VERIFY( sizeof(little_aligned_struct) <= 24 );
-    VERIFY_SIZE(sizeof(big_float_struct), 8);
-    VERIFY_SIZE(sizeof(big_unaligned_float_struct), 6);
-    VERIFY_SIZE(sizeof(little_float_struct), 8);
-    VERIFY_SIZE(sizeof(little_unaligned_float_struct), 6);
-    VERIFY_SIZE(sizeof(native_float_struct), 8);
-    VERIFY_SIZE(sizeof(native_unaligned_float_struct), 6);
 
     if ( saved_err_count == err_count )
     { 
@@ -604,86 +516,6 @@ namespace
 
   void check_representation_and_range_and_ops()
   {
-    // aligned floating point types
-    float big_float32_expected = (std::numeric_limits<float>::max) ();
-    boost::endian::native_to_big_inplace(big_float32_expected);
-    big_float32_at big_float32((std::numeric_limits<float>::max) ());
-    VERIFY(std::memcmp(big_float32.data(),
-      reinterpret_cast<const char*>(&big_float32_expected), sizeof(float)) == 0);
-
-    float little_float32_expected = (std::numeric_limits<float>::max) ();
-    boost::endian::native_to_little_inplace(little_float32_expected);
-    little_float32_at little_float32((std::numeric_limits<float>::max) ());
-    VERIFY(std::memcmp(little_float32.data(),
-      reinterpret_cast<const char*>(&little_float32_expected), sizeof(float)) == 0);
-
-    double big_float64_expected = (std::numeric_limits<double>::max) ();
-    boost::endian::native_to_big_inplace(big_float64_expected);
-    big_float64_at big_float64((std::numeric_limits<double>::max) ());
-    VERIFY(std::memcmp(big_float64.data(),
-      reinterpret_cast<const char*>(&big_float64_expected), sizeof(double)) == 0);
-
-    double little_float64_expected = (std::numeric_limits<double>::max) ();
-    boost::endian::native_to_little_inplace(little_float64_expected);
-    little_float64_at little_float64((std::numeric_limits<double>::max) ());
-    VERIFY(std::memcmp(little_float64.data(),
-      reinterpret_cast<const char*>(&little_float64_expected), sizeof(double)) == 0);
-
-    VERIFY_VALUE_AND_OPS( big_float32_at, float,  (std::numeric_limits<float>::max) () );
-    VERIFY_VALUE_AND_OPS( big_float32_at, float, (std::numeric_limits<float>::min) () );
-    VERIFY_VALUE_AND_OPS( big_float64_at, double,  (std::numeric_limits<double>::max) () );
-    VERIFY_VALUE_AND_OPS( big_float64_at, double, (std::numeric_limits<double>::min) () );
-
-    VERIFY_VALUE_AND_OPS( little_float32_at, float,  (std::numeric_limits<float>::max) () );
-    VERIFY_VALUE_AND_OPS( little_float32_at, float, (std::numeric_limits<float>::min) () );
-    VERIFY_VALUE_AND_OPS( little_float64_at, double,  (std::numeric_limits<double>::max) () );
-    VERIFY_VALUE_AND_OPS( little_float64_at, double, (std::numeric_limits<double>::min) () );
-
-    // unaligned floating point types
-    float big_float32un_expected = (std::numeric_limits<float>::max) ();
-    boost::endian::native_to_big_inplace(big_float32un_expected);
-    big_float32_t big_float32un((std::numeric_limits<float>::max) ());
-    VERIFY(std::memcmp(big_float32un.data(),
-      reinterpret_cast<const char*>(&big_float32un_expected), sizeof(float)) == 0);
-
-    float little_float32un_expected = (std::numeric_limits<float>::max) ();
-    boost::endian::native_to_little_inplace(little_float32un_expected);
-    little_float32_t little_float32un((std::numeric_limits<float>::max) ());
-    VERIFY(std::memcmp(little_float32un.data(),
-      reinterpret_cast<const char*>(&little_float32un_expected), sizeof(float)) == 0);
-
-    double big_float64un_expected = (std::numeric_limits<double>::max) ();
-    boost::endian::native_to_big_inplace(big_float64un_expected);
-    big_float64_t big_float64un((std::numeric_limits<double>::max) ());
-    VERIFY(std::memcmp(big_float64un.data(),
-      reinterpret_cast<const char*>(&big_float64un_expected), sizeof(double)) == 0);
-
-    double little_float64un_expected = (std::numeric_limits<double>::max) ();
-    boost::endian::native_to_little_inplace(little_float64un_expected);
-    little_float64_t little_float64un((std::numeric_limits<double>::max) ());
-    VERIFY(std::memcmp(little_float64un.data(),
-      reinterpret_cast<const char*>(&little_float64un_expected), sizeof(double)) == 0);
-
-    VERIFY_VALUE_AND_OPS( big_float32_t, float, (std::numeric_limits<float>::max) () );
-    VERIFY_VALUE_AND_OPS( big_float32_t, float, (std::numeric_limits<float>::min) () );
-    VERIFY_VALUE_AND_OPS( big_float64_t, double, (std::numeric_limits<double>::max) () );
-    VERIFY_VALUE_AND_OPS( big_float64_t, double, (std::numeric_limits<double>::min) () );
-
-    VERIFY_VALUE_AND_OPS( little_float32_t, float, (std::numeric_limits<float>::max) () );
-    VERIFY_VALUE_AND_OPS( little_float32_t, float, (std::numeric_limits<float>::min) () );
-    VERIFY_VALUE_AND_OPS( little_float64_t, double, (std::numeric_limits<double>::max) () );
-    VERIFY_VALUE_AND_OPS( little_float64_t, double, (std::numeric_limits<double>::min) () );
-
-    float a = 1.0F;
-    big_float32_at b(1.0F);
-    big_float32_t c(1.0F);
-    little_float32_at d(1.0F);
-    little_float32_t e(1.0F);
-    VERIFY(a==b);
-    VERIFY(a==c);
-    VERIFY(a==d);
-    VERIFY(a==e);
-
     // unaligned integer types
     VERIFY_BIG_REPRESENTATION( big_int8_t );
     VERIFY_VALUE_AND_OPS( big_int8_t, int_least8_t,  0x7f );

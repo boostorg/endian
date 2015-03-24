@@ -30,20 +30,6 @@ namespace
   void check_size()
   {
 
-    BOOST_TEST_EQ(sizeof(big_float32_buf_at), 4u);
-    BOOST_TEST_EQ(sizeof(big_float64_buf_at), 8u);
-    BOOST_TEST_EQ(sizeof(little_float32_buf_at), 4u);
-    BOOST_TEST_EQ(sizeof(little_float64_buf_at), 8u);
-    BOOST_TEST_EQ(sizeof(native_float32_buf_at), 4u);
-    BOOST_TEST_EQ(sizeof(native_float64_buf_at), 8u);
-
-    BOOST_TEST_EQ(sizeof(big_float32_buf_t), 4u);
-    BOOST_TEST_EQ(sizeof(big_float64_buf_t), 8u);
-    BOOST_TEST_EQ(sizeof(little_float32_buf_t), 4u);
-    BOOST_TEST_EQ(sizeof(little_float64_buf_t), 8u);
-    BOOST_TEST_EQ(sizeof(native_float32_buf_t), 4u);
-    BOOST_TEST_EQ(sizeof(native_float64_buf_t), 8u);
-
     BOOST_TEST_EQ(sizeof(big_int8_buf_t), 1u);
     BOOST_TEST_EQ(sizeof(big_int16_buf_t), 2u);
     BOOST_TEST_EQ(sizeof(big_int24_buf_t), 3u);

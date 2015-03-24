@@ -33,10 +33,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "experiment", "experiment\ex
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "deprecated_test", "deprecated_test\deprecated_test.vcxproj", "{DA4BC67F-9284-4D2C-81D5-407312C31BD7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "floating_point_test", "floating_point_test\floating_point_test.vcxproj", "{27E8FDC5-9669-4940-B24F-94B21FFEE649}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fp_exhaustive_test", "fp_exhaustive_test\fp_exhaustive_test.vcxproj", "{E19A89FE-D728-4705-A060-B85E7239984C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -157,18 +153,6 @@ Global
 		{DA4BC67F-9284-4D2C-81D5-407312C31BD7}.Release|Win32.ActiveCfg = Release|Win32
 		{DA4BC67F-9284-4D2C-81D5-407312C31BD7}.Release|Win32.Build.0 = Release|Win32
 		{DA4BC67F-9284-4D2C-81D5-407312C31BD7}.Release|x64.ActiveCfg = Release|Win32
-		{27E8FDC5-9669-4940-B24F-94B21FFEE649}.Debug|Win32.ActiveCfg = Debug|Win32
-		{27E8FDC5-9669-4940-B24F-94B21FFEE649}.Debug|Win32.Build.0 = Debug|Win32
-		{27E8FDC5-9669-4940-B24F-94B21FFEE649}.Debug|x64.ActiveCfg = Debug|Win32
-		{27E8FDC5-9669-4940-B24F-94B21FFEE649}.Release|Win32.ActiveCfg = Release|Win32
-		{27E8FDC5-9669-4940-B24F-94B21FFEE649}.Release|Win32.Build.0 = Release|Win32
-		{27E8FDC5-9669-4940-B24F-94B21FFEE649}.Release|x64.ActiveCfg = Release|Win32
-		{E19A89FE-D728-4705-A060-B85E7239984C}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E19A89FE-D728-4705-A060-B85E7239984C}.Debug|Win32.Build.0 = Debug|Win32
-		{E19A89FE-D728-4705-A060-B85E7239984C}.Debug|x64.ActiveCfg = Debug|Win32
-		{E19A89FE-D728-4705-A060-B85E7239984C}.Release|Win32.ActiveCfg = Release|Win32
-		{E19A89FE-D728-4705-A060-B85E7239984C}.Release|Win32.Build.0 = Release|Win32
-		{E19A89FE-D728-4705-A060-B85E7239984C}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

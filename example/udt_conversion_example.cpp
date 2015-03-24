@@ -17,23 +17,24 @@ using namespace boost::endian;
 using std::cout;
 using std::endl;
 using boost::int32_t;
+using boost::int64_t;
 
 namespace user
 {
   class UDT
   {
   public:
-    UDT() : id_(0), value_(0.0) {desc_[0] = '\0';}
-    UDT(int32_t id, float value, const char* desc) : id_(id), value_(value)
+    UDT() : id_(0), value_(0) {desc_[0] = '\0';}
+    UDT(int32_t id, int64_t value, const char* desc) : id_(id), value_(value)
     {
       std::strncpy(desc_, desc, sizeof(desc_)-1);
       desc_[sizeof(desc_)-1] = '\0';
     }
     int32_t     id() const          {return id_;}
-    float       value() const       {return value_;}
+    int64_t     value() const       {return value_;}
     const char* desc() const        {return desc_;}
     void        id(int32_t x)       {id_ = x;}
-    void        value(float v)      {value_ = v;}
+    void        value(int64_t v)    {value_ = v;}
     void        desc(const char* s)
     {
       std::strncpy(desc_, s, sizeof(desc_)-1);
@@ -44,7 +45,7 @@ namespace user
 
   private:
     int32_t id_;
-    float   value_;
+    int64_t value_;
     char    desc_[56];  // '/0'
   };
 
@@ -57,7 +58,7 @@ namespace user
 
 int main(int, char* [])
 {
-  user::UDT x(1, 1.2345f, "Bingo!");
+  user::UDT x(1, 123456789012345LL, "Bingo!");
 
   //cout << std::hex;
   cout << "(1) " << x.id() << ' ' << x.value() << ' ' << x.desc() << endl;

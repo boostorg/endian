@@ -88,43 +88,6 @@ namespace
   void little_value(uint64_t& x) {x = static_cast<uint64_t>(0xF1E2D3C444231201ULL);}
 # endif
 
-  const float float_value = -1.234F;
-  const double double_value = -1.234567;
-
-  void native_value(float& x) {std::memcpy(&x, &float_value, sizeof(float));}
-  void native_value(double& x) {memcpy(&x, &double_value, sizeof(double));}
-# ifdef BOOST_BIG_ENDIAN
-  void big_value(float& x) {memcpy(&x, &float_value, sizeof(float));}
-  void big_value(double& x) {memcpy(&x, &double_value, sizeof(double));}
-  void little_value(float& x)
-  {
-    memcpy(&x, &float_value, sizeof(float));
-    std::reverse(reinterpret_cast<char*>(&x),
-      reinterpret_cast<char*>(&x)+sizeof(float));
-  }
-  void little_value(double& x)
-  {
-    memcpy(&x, &double_value, sizeof(double));
-    std::reverse(reinterpret_cast<char*>(&x),
-      reinterpret_cast<char*>(&x)+sizeof(double));
-  }
-# else
-  void big_value(float& x)
-  {
-    memcpy(&x, &float_value, sizeof(float));
-    std::reverse(reinterpret_cast<char*>(&x),
-      reinterpret_cast<char*>(&x)+sizeof(float));
-  }
-  void big_value(double& x)
-  {
-    memcpy(&x, &double_value, sizeof(double));
-    std::reverse(reinterpret_cast<char*>(&x),
-      reinterpret_cast<char*>(&x)+sizeof(double));
-  }
-  void little_value(float& x) {memcpy(&x, &float_value, sizeof(float));}
-  void little_value(double& x) {memcpy(&x, &double_value, sizeof(double));}
-# endif
-
   template <class T>
   void test()
   {
@@ -390,11 +353,6 @@ int cpp_main(int, char * [])
   test<int64_t>();
   cout << "uint64_t" << endl;
   test<uint64_t>();
-
-  cout << "float" << endl;
-  test<float>();
-  cout << "double" << endl;
-  test<double>();
 
   cout << "UDT 1" << endl;
   udt_test<user::UDT1>();
