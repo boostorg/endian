@@ -1,4 +1,4 @@
-<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40">
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40">
 
 <head>
 <meta name="GENERATOR" content="Microsoft FrontPage 5.0">
@@ -59,8 +59,8 @@
 
 <p>Header <a href="../include/boost/endian/conversion.hpp">boost/endian/conversion.hpp</a> 
 provides byte order reversal and conversion functions that convert objects of 
-the  built-in 
-integer types, and also types <code>float</code> and <code>double,</code> 
+the built-in 
+integer types 
 between native, big, or little endian byte 
 ordering. User defined types are also supported.</p>
 
@@ -99,8 +99,6 @@ namespace endian
   uint16_t <a href="#endian_reverse">endian_reverse</a>(uint16_t x) noexcept;
   uint32_t <a href="#endian_reverse">endian_reverse</a>(uint32_t x) noexcept;
   uint64_t <a href="#endian_reverse">endian_reverse</a>(uint64_t x) noexcept;
-  float    <a href="#endian_reverse">endian_reverse</a>(float x) noexcept;
-  double   <a href="#endian_reverse">endian_reverse</a>(double x) noexcept;
 
   template &lt;class EndianReversible&gt;
     EndianReversible big_to_native(EndianReversible x) noexcept;
@@ -141,8 +139,7 @@ constant <code>native</code> as
 endian platforms.</p>
 <h3 dir="ltr"><a name="Definitions">Definitions</a></h3>
 <p dir="ltr">The standard integral types (C++std 3.9.1) except <code>bool</code>, 
-and the floating point types <code>float</code> and <code>double</code> are 
-collectively called the <i>endian types</i>.</p>
+are collectively called the <i>endian types</i>.</p>
 <h3><a name="Requirements">Requirements</a></h3>
 <h4><a name="Template-argument-requirements">Template argument requirements</a></h4>
 <p dir="ltr">The template definitions in the <code>boost/endian/conversion.hpp</code> 
@@ -235,9 +232,7 @@ int64_t  endian_reverse(int64_t x) noexcept;
 uint8_t  endian_reverse(uint8_t x) noexcept;
 uint16_t endian_reverse(uint16_t x) noexcept;
 uint32_t endian_reverse(uint32_t x) noexcept;
-uint64_t endian_reverse(uint64_t x) noexcept;
-float    endian_reverse(float x) noexcept;
-double   endian_reverse(double x) noexcept;</pre>
+uint64_t endian_reverse(uint64_t x) noexcept;</pre>
 <blockquote>
   <p dir="ltr"><i>Returns:</i> <i><code>x</code></i>, with the order of its 
   constituent bytes reversed.</p>
@@ -250,8 +245,7 @@ double   endian_reverse(double x) noexcept;</pre>
 EndianReversible big_to_native(EndianReversible x) noexcept;</pre>
     <blockquote>
         <p>
-            <i>Returns:</i> <code>conditional_reverse&lt;order::big, 
-            order::native&gt;(x)</code>.</p>
+            <i>Returns:</i> <code>conditional_reverse&lt;order::big, order::native&gt;(x)</code>.</p>
     </blockquote>
 <pre>template &lt;class EndianReversible&gt;
 EndianReversible native_to_big(EndianReversible x) noexcept; </pre>
@@ -271,10 +265,8 @@ EndianReversible native_to_little(EndianReversible x) noexcept; </pre>
 <pre>template &lt;order O1, order O2, class EndianReversible&gt;
 EndianReversible conditional_reverse(EndianReversible x) noexcept; </pre>
     <blockquote>
-        <p><i>Returns:</i> <code>x</code> if <code>O1 == O2,</code> otherwise
-        <code>endian_reverse(x)</code>.</p>
-        <p><i>Remarks: </i>Whether <code>x</code> or <code>endian_reverse(x)</code> 
-        is to be returned shall be determined at compile time.</p>
+        <p><i>Returns:</i> <code>x</code> if <code>O1 == O2,</code> otherwise <code>endian_reverse(x)</code>.</p>
+        <p><i>Remarks: </i>Whether <code>x</code> or <code>endian_reverse(x)</code> is to be returned shall be determined at compile time.</p>
     </blockquote>
 <pre>template &lt;class EndianReversible&gt;
 EndianReversible conditional_reverse(EndianReversible x,
@@ -294,15 +286,13 @@ void endian_reverse_inplace(EndianReversible&amp; x) noexcept; </pre>
 void big_to_native_inplace(EndianReversibleInplace&amp; x) noexcept; </pre>
 <blockquote>
         <p>
-            <i>Effects:</i> <code>conditional_reverse_inplace&lt;order::big, 
-            order::native&gt;(x)</code>.</p>
+            <i>Effects:</i> <code>conditional_reverse_inplace&lt;order::big, order::native&gt;(x)</code>.</p>
     </blockquote>
 <pre>template &lt;class EndianReversibleInplace&gt;
 void native_to_big_inplace(EndianReversibleInplace&amp; x) noexcept; </pre>
 <blockquote>
         <p>
-            <i>Effects:</i> <code>conditional_reverse_inplace&lt;order::native, 
-            order::big&gt;(x)</code>.</p>
+            <i>Effects:</i> <code>conditional_reverse_inplace&lt;order::native, order::big&gt;(x)</code>.</p>
     </blockquote>
 <pre>template &lt;class EndianReversibleInplace&gt;
 void little_to_native_inplace(EndianReversibleInplace&amp; x) noexcept; </pre>
@@ -314,14 +304,12 @@ void little_to_native_inplace(EndianReversibleInplace&amp; x) noexcept; </pre>
 void native_to_little_inplace(EndianReversibleInplace&amp; x) noexcept; </pre>
 <blockquote>
         <p>
-            <i>Effects:</i> <code>conditional_reverse_inplace&lt;order::native, 
-            order::little&gt;(x)</code>.</p>
+            <i>Effects:</i> <code>conditional_reverse_inplace&lt;order::native, order::little&gt;(x)</code>.</p>
     </blockquote>
 <pre>template &lt;order O1, order O2, class EndianReversibleInplace&gt;
 void conditional_reverse_inplace(EndianReversibleInplace&amp; x) noexcept; </pre> 
 <blockquote>
-        <p><i>Effects:</i> None if <code>O1 == O2,</code> otherwise
-        <code>endian_reverse_inplace(x)</code>.</p>
+        <p><i>Effects:</i> None if <code>O1 == O2,</code> otherwise <code>endian_reverse_inplace(x)</code>.</p>
         <p><i>Remarks: </i>Which effect applies shall be determined at compile time.</p>
     </blockquote>
 <pre>template &lt;class EndianReversibleInplace&gt;
@@ -362,14 +350,21 @@ portability for both programs and data.</p>
 
 </blockquote>
 
-<h2><a name="Acknowledgements">Acknowledgements</a></h2><p>Tomas Puverle was instrumental in identifying and articulating the need to 
-support endian conversion as separate from endian integer types. Phil Endecott suggested the form of the value returning signatures. Vicente Botet and other reviewers suggested supporting floating point types and user defined types. General reverse template implementation approach using std::reverse suggested by Mathias Gaunard. Portable implementation approach for 16, 32, and 64-bit integers suggested by tymofey, with avoidance of undefined behavior as suggested by Giovanni Piero Deretta, and a further refinement suggested by Pyry Jahkola. Intrinsic builtins implementation approach for 16, 32, and 64-bit integers suggested by several reviewers, and by David Stone, who provided his Boost licensed macro implementation that became the starting point for
-<b><code>boost/endian/detail/intrinsic.hpp</code></b>. 
+<h2><a name="Acknowledgements">Acknowledgements</a></h2><p>Tomas Puverle was instrumental
+in identifying and articulating the need to support endian conversion as separate from
+endian integer types. Phil Endecott suggested the form of the value returning signatures.
+Vicente Botet and other reviewers suggested supporting  user defined types.
+General reverse template implementation approach using std::reverse suggested by Mathias Gaunard.
+Portable implementation approach for 16, 32, and 64-bit integers suggested by tymofey,
+with avoidance of undefined behavior as suggested by Giovanni Piero Deretta,
+and a further refinement suggested by Pyry Jahkola.
+Intrinsic builtins implementation approach for 16, 32, and 64-bit integers suggested by
+several reviewers, and by David Stone, who provided his Boost licensed macro implementation
+that became the starting point for <b><code>boost/endian/detail/intrinsic.hpp</code></b>. 
 Pierre Talbot provided the <code>int8_t endian_reverse()</code> and templated
 <code>endian_reverse_inplace()</code> implementations.</p>
 <hr>
-<p>Last revised: 
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->09 February, 2015<!--webbot bot="Timestamp" endspan i-checksum="40544" --></p>
+<p>Last revised: <!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->25 March, 2015<!--webbot bot="Timestamp" endspan i-checksum="28920" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
 

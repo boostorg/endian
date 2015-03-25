@@ -67,10 +67,9 @@ formal review</a><br>
 <h2><a name="Abstract">Abstract</a></h2>
 
 <p>Boost.Endian provides facilities to manipulate the 
-<a href="#Introduction-to-endianness">endianness</a> of integers, 
-floating point numbers, and user-defined types.</p>
+<a href="#Introduction-to-endianness">endianness</a> of integers and user-defined types.</p>
 <ul>
-  <li>Three  approaches to  endianness are supported. Each has a 
+  <li>Three approaches to endianness are supported. Each has a 
   long history of successful use, and each approach has use cases where it is 
   preferred over the other approaches.<br>
 &nbsp;</li>
@@ -137,8 +136,7 @@ external data sizes is advantageous.</p>
 
 <p>Boost.Endian provides three different approaches to dealing with 
  
-endianness. All three approaches support integers, floating point types 
-except&nbsp; <code>long double</code>, and user-define types (UDTs).</p>
+endianness. All three approaches support integers and user-define types (UDTs).</p>
 
 <p>Each approach has a long history of successful use, and each approach has use 
 cases where it is preferred to the other approaches.</p>
@@ -146,18 +144,16 @@ cases where it is preferred to the other approaches.</p>
 <blockquote>
 
 <p><b><a href="conversion.html">Endian conversion functions</a> -</b> The 
-application uses the built-in integer and floating point types to hold values, and calls the 
+application uses the built-in integer types to hold values, and calls the 
 provided conversion functions to convert byte ordering as needed. Both mutating 
 and non-mutating conversions are supplied, and each comes in unconditional and 
 conditional variants.</p>
 
 <p><b><a href="buffers.html">Endian buffer types</a> -</b> The application uses the provided endian 
 buffer types 
-to hold values, and explicitly converts to and from the built-in integer and 
-floating point types.  Buffer sizes of 8, 16, 24, 32, 40, 48, 56, and 64 bits (i.e. 
+to hold values, and explicitly converts to and from the built-in integer types.  Buffer sizes of 8, 16, 24, 32, 40, 48, 56, and 64 bits (i.e. 
 1, 2, 3, 4, 5, 6, 7, and 8 bytes) are provided. Unaligned integer buffer types 
-are provided for all sizes, unaligned floating point buffer types are provided 
-for 32 and 64 bit sizes, and aligned buffer types are provided for 16, 32, and 
+are provided for all sizes, and aligned buffer types are provided for 16, 32, and 
 64-bit sizes. The provided specific types are typedefs for a generic class 
 template that may be used directly for less common use cases.</p>
 
@@ -166,10 +162,10 @@ application uses the provided endian arithmetic types, which supply the same
 operations as the built-in C++ arithmetic types. All conversions are implicit. 
 Arithmetic sizes of 8, 16, 24, 32, 40, 48, 56, and 64 bits (i.e. 1, 2, 3, 4, 5, 
 6, 7, and 8 bytes) are provided. Unaligned integer types are provided for all 
-sizes, unaligned floating point types are provided for 32 and 64 bit sizes, and aligned 
+sizes and aligned 
 arithmetic types are provided for 16, 32, and 64-bit sizes. The provided 
 specific types are typedefs for a generic class template that may be used 
-directly for less common use cases.</p>
+directly in generic code of for less common use cases.</p>
 
 </blockquote>
 
@@ -453,11 +449,15 @@ the same code being generated for either types.</p>
 
 <blockquote>
 
-<p>The only supported types are four-byte <code>float</code> and eight-byte
-<code>double</code>. Even after endianness has been accounted for, floating 
-point values will not be portable between systems that use different floating 
-point formats. Systems on which  integer endianness differs from floating point 
-endianness are not supported.</p>
+<p><strike>The only supported types are four-byte <code>float</code> and eight-byte
+<code>double</code>. The only supported format is
+<a href="http://en.wikipedia.org/wiki/IEEE_floating_point">IEEE 754</a> (also 
+know as ISO/IEC/IEEE 60559). Systems on which  integer endianness differs from floating point 
+endianness are not supported.</strike></p>
+
+<p>Support for floating point types was removed from Boost 1.58.0 because there 
+was not enough time to resolve reliability concerns. It is expected that 
+floating point support will be available in Boost 1.59.0.</p>
 
 </blockquote>
 
@@ -589,7 +589,7 @@ Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen and
 Vitaly Budovsk. Apologies if anyone has been missed.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->23 February, 2015<!--webbot bot="Timestamp" endspan i-checksum="40534" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->25 March, 2015<!--webbot bot="Timestamp" endspan i-checksum="28920" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
