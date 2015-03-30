@@ -22,9 +22,4 @@ exe "loop_time_test"
        : <toolset>gcc:<cxxflags>-march=native 
        ;
 
-exe "fp_exhaustive_test"  
-       : fp_exhaustive_test.cpp 
-       : <toolset>gcc:<cxxflags>-march=native 
-       ;
-
-install bin : speed_test loop_time_test fp_exhaustive_test ;
+install bin : speed_test loop_time_test ;
