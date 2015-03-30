@@ -15,6 +15,7 @@
 #include <boost/endian/buffers.hpp>
 #include <boost/detail/lightweight_main.hpp>
 #include <boost/core/lightweight_test.hpp>
+#include <boost/cstdint.hpp>
 #include <iostream>
 #include <sstream>
 
@@ -114,7 +115,7 @@ namespace
     big_uint64_buf_t bu64(0x010203040506070ULL);
     little_uint64_buf_t lu64(0x010203040506070ULL);
 
-    uint64_t x;
+    boost::uint64_t x;
 
     std::stringstream ss;
 
