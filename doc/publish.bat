@@ -1,4 +1,4 @@
-copy /y c:\boost\modular\develop\libs\endian\doc\* d:\boost\endian-gh-pages
+copy /y c:\boost\develop\libs\endian\doc\* d:\boost\endian-gh-pages
 pushd d:\boost\endian-gh-pages
 git commit -a -m "copy from develop"
 git push

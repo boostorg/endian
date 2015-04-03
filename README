@@ -1,21 +1,26 @@
 Boost Endian library
 
+The Endian library is included in Boost release 1.58.0 and later.
+
+See http://boostorg.github.io/endian to browse the documentation without having to
+download the library or install Boost.
+
 To experiment with the Endian library, various other boost libraries must be
-available. So you need to clone a current version of boost if you
-have not already done so.
+available. So you need to install Boost or clone a current version of boostorg/boost
+if you have not already done so.
 
 Boost.Endian is a header-only library, so there is no need to run a build
 for it, although you may need to do a "b2 headers".
 
 If your clone of boost is already in place, please remember to:
 
-  cd modular-boost
+  cd boost
   git pull
   git submodule update --init
   git submodule update
   ./b2 headers
   
-On Windows, change the "./" is omitted.  
+On Windows, "./" is unnecessary.  
 
 ---------------------------
 Copyright Beman Dawes, 2013
