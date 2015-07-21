@@ -348,6 +348,17 @@ portability for both programs and data.</p>
 
 </blockquote>
 
+<p><b>Why not use the Linux names (htobe16, htole16, be16toh, le16toh, etc.) ?</b></p>
+
+<blockquote>
+
+<p>Those names are non-standard and vary even between POSIX-like operating 
+systems. A C++ library TS was going to use those names, but found they were 
+sometimes implemented as macros. Since macros do not respect scoping and 
+namespace rules, to use them would be very error prone.</p>
+
+</blockquote>
+
 <h2><a name="Acknowledgements">Acknowledgements</a></h2><p>Tomas Puverle was instrumental
 in identifying and articulating the need to support endian conversion as separate from
 endian integer types. Phil Endecott suggested the form of the value returning signatures.
@@ -362,7 +373,7 @@ that became the starting point for <b><code>boost/endian/detail/intrinsic.hpp</c
 Pierre Talbot provided the <code>int8_t endian_reverse()</code> and templated
 <code>endian_reverse_inplace()</code> implementations.</p>
 <hr>
-<p>Last revised: <!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->26 March, 2015<!--webbot bot="Timestamp" endspan i-checksum="28922" --></p>
+<p>Last revised: <!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->21 July, 2015<!--webbot bot="Timestamp" endspan i-checksum="21136" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
 
