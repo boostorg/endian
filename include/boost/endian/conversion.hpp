@@ -16,6 +16,7 @@
 #include <boost/static_assert.hpp>
 #include <algorithm>
 #include <cstring>  // for memcpy
+#include <type_traits> // for std::is_signed
 
 //------------------------------------- synopsis ---------------------------------------//
 
@@ -53,14 +54,8 @@ namespace endian
 //--------------------------------------------------------------------------------------//
   
   //  customization for exact-length arithmetic types. See doc/conversion.html/#FAQ
-  inline int8_t   endian_reverse(int8_t x) BOOST_NOEXCEPT;
-  inline int16_t  endian_reverse(int16_t x) BOOST_NOEXCEPT;
-  inline int32_t  endian_reverse(int32_t x) BOOST_NOEXCEPT;
-  inline int64_t  endian_reverse(int64_t x) BOOST_NOEXCEPT;
-  inline uint8_t  endian_reverse(uint8_t x) BOOST_NOEXCEPT;
-  inline uint16_t endian_reverse(uint16_t x) BOOST_NOEXCEPT;
-  inline uint32_t endian_reverse(uint32_t x) BOOST_NOEXCEPT;
-  inline uint64_t endian_reverse(uint64_t x) BOOST_NOEXCEPT;
+  template < class EndianReversible >
+  inline EndianReversible endian_reverse(EndianReversible x) BOOST_NOEXCEPT;
 
   //  reverse byte order unless native endianness is big
   template <class EndianReversible >
@@ -193,89 +188,126 @@ namespace endian
 //       his Boost licensed macro implementation (detail/intrinsic.hpp)                 //
 //                                                                                      //
 //--------------------------------------------------------------------------------------//
+  namespace detail {
+  template < size_t Size, bool sign >
+  struct bytes;
 
-  inline int8_t endian_reverse(int8_t x) BOOST_NOEXCEPT
-  {
-    return x;
-  }
-                                                
-  inline int16_t endian_reverse(int16_t x) BOOST_NOEXCEPT
-  {
-# ifdef BOOST_ENDIAN_NO_INTRINSICS  
-    return (static_cast<uint16_t>(x) << 8)
-      | (static_cast<uint16_t>(x) >> 8);
-# else
-    return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_2(static_cast<uint16_t>(x));
-# endif
-  }
+  template <>
+  struct bytes<sizeof(int8_t), true> {
+  	static inline int8_t
+  	reverse(int8_t x)
+  	{
+  		return x;
+  	}
+  };
+  template <>
+  struct bytes<sizeof(int8_t), false> {
+  	static inline uint8_t
+  	reverse(uint8_t x)
+  	{
+  		return x;
+  	}
+  };
 
-  inline int32_t endian_reverse(int32_t x) BOOST_NOEXCEPT
-  {
-# ifdef BOOST_ENDIAN_NO_INTRINSICS  
-    uint32_t step16;
-    step16 = static_cast<uint32_t>(x) << 16 | static_cast<uint32_t>(x) >> 16;
-    return
-        ((static_cast<uint32_t>(step16) << 8) & 0xff00ff00)
-      | ((static_cast<uint32_t>(step16) >> 8) & 0x00ff00ff);
-# else
-    return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_4(static_cast<uint32_t>(x));
-# endif
-  }
+  template <>
+  struct bytes< sizeof(int16_t), true > {
+  	static inline int16_t
+  	reverse(int16_t x)
+  	{
+  # ifdef BOOST_ENDIAN_NO_INTRINSICS
+  		return (static_cast<uint16_t>(x) << 8) | (static_cast<uint16_t>(x) >> 8);
+  # else
+  		return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_2(static_cast<uint16_t>(x));
+  # endif
+  	}
+  };
+  template <>
+  struct bytes< sizeof(int16_t), false > {
+  	static inline uint16_t
+  	reverse(uint16_t x)
+  	{
+  # ifdef BOOST_ENDIAN_NO_INTRINSICS
+  		return (x << 8) | (x >> 8);
+  # else
+  		return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_2(x);
+  # endif
+  	}
+  };
 
-  inline int64_t endian_reverse(int64_t x) BOOST_NOEXCEPT
-  {
-# ifdef BOOST_ENDIAN_NO_INTRINSICS  
-    uint64_t step32, step16;
-    step32 = static_cast<uint64_t>(x) << 32 | static_cast<uint64_t>(x) >> 32;
-    step16 = (step32 & 0x0000FFFF0000FFFFULL) << 16
-           | (step32 & 0xFFFF0000FFFF0000ULL) >> 16;
-    return static_cast<int64_t>((step16 & 0x00FF00FF00FF00FFULL) << 8
-           | (step16 & 0xFF00FF00FF00FF00ULL) >> 8);
-# else
-    return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_8(static_cast<uint64_t>(x));
-# endif
-  }
-  
-  inline uint8_t endian_reverse(uint8_t x) BOOST_NOEXCEPT
-  {
-    return x;
-  }
+  template <>
+  struct bytes< sizeof(int32_t), true > {
+  	static inline int32_t
+  	reverse(int32_t x)
+  	{
+  # ifdef BOOST_ENDIAN_NO_INTRINSICS
+  		uint32_t step16;
+  		step16 = static_cast<uint32_t>(x) << 16 | static_cast<uint32_t>(x) >> 16;
+  		return
+  			((static_cast<uint32_t>(step16) << 8) & 0xff00ff00)
+  		  | ((static_cast<uint32_t>(step16) >> 8) & 0x00ff00ff);
+  # else
+      	return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_4(static_cast<uint32_t>(x));
+  # endif
+  	}
+  };
+  template <>
+  struct bytes< sizeof(int32_t), false > {
+  	static inline uint32_t
+  	reverse(uint32_t x)
+  	{
+  # ifdef BOOST_ENDIAN_NO_INTRINSICS
+  		uint32_t step16 = x << 16 | x >> 16;
+  		return
+  			((step16 << 8) & 0xff00ff00)
+  		  | ((step16 >> 8) & 0x00ff00ff);
+  # else
+      	return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_4(static_cast<uint32_t>(x));
+  # endif
+  	}
+  };
 
-  inline uint16_t endian_reverse(uint16_t x) BOOST_NOEXCEPT
-  {
-# ifdef BOOST_ENDIAN_NO_INTRINSICS  
-    return (x << 8)
-      | (x >> 8);
-# else
-    return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_2(x);
-# endif
-  }
+  template <>
+  struct bytes< sizeof(int64_t), true > {
+  	static inline int64_t
+  	reverse(int64_t x)
+  	{
+  # ifdef BOOST_ENDIAN_NO_INTRINSICS
+  		uint64_t step32, step16;
+  		step32 = static_cast<uint64_t>(x) << 32 | static_cast<uint64_t>(x) >> 32;
+  		step16 = (step32 & 0x0000FFFF0000FFFFULL) << 16
+  			   | (step32 & 0xFFFF0000FFFF0000ULL) >> 16;
+  		return static_cast<int64_t>((step16 & 0x00FF00FF00FF00FFULL) << 8
+  			   | (step16 & 0xFF00FF00FF00FF00ULL) >> 8);
+  # else
+      	return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_8(static_cast<uint64_t>(x));
+  # endif
+  	}
+  };
+  template <>
+  struct bytes< sizeof(int64_t), false > {
+  	static inline uint64_t
+  	reverse(uint64_t x)
+  	{
+  # ifdef BOOST_ENDIAN_NO_INTRINSICS
+  		uint64_t step32, step16;
+  		step32 = x << 32 | x >> 32;
+  		step16 = (step32 & 0x0000FFFF0000FFFFULL) << 16
+  			   | (step32 & 0xFFFF0000FFFF0000ULL) >> 16;
+  		return (step16 & 0x00FF00FF00FF00FFULL) << 8
+  			   | (step16 & 0xFF00FF00FF00FF00ULL) >> 8;
+  # else
+      	return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_8(static_cast<uint64_t>(x));
+  # endif
+  	}
+  };
 
-  inline uint32_t endian_reverse(uint32_t x) BOOST_NOEXCEPT                           
-  {
-# ifdef BOOST_ENDIAN_NO_INTRINSICS  
-    uint32_t step16;
-    step16 = x << 16 | x >> 16;
-    return
-        ((step16 << 8) & 0xff00ff00)
-      | ((step16 >> 8) & 0x00ff00ff);
-# else
-    return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_4(x);
-# endif
-  }
+  }  // namespace detail
 
-  inline uint64_t endian_reverse(uint64_t x) BOOST_NOEXCEPT
+  template < class EndianReversible >
+  inline EndianReversible endian_reverse( EndianReversible x ) BOOST_NOEXCEPT
   {
-# ifdef BOOST_ENDIAN_NO_INTRINSICS  
-    uint64_t step32, step16;
-    step32 = x << 32 | x >> 32;
-    step16 = (step32 & 0x0000FFFF0000FFFFULL) << 16
-           | (step32 & 0xFFFF0000FFFF0000ULL) >> 16;
-    return (step16 & 0x00FF00FF00FF00FFULL) << 8
-           | (step16 & 0xFF00FF00FF00FF00ULL) >> 8;
-# else
-    return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_8(x);
-# endif
+	  return detail::bytes< sizeof(EndianReversible),
+			  std::is_signed< EndianReversible >::value >::reverse(x);
   }
 
   template <class EndianReversible >
