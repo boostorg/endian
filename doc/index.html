@@ -436,12 +436,12 @@ gives more pros and cons.</p>
 <p><b>Why are only big and little native endianness supported?</b></p>
 <blockquote>
 <p>These are the only endian schemes that have any practical value today. PDP-11 
-and the other middle endian approaches are interesting historical curiosities 
-but have no relevance to today&#39;s C++ developers. The
+and the other middle endian approaches are interesting  curiosities 
+but have no relevance for today&#39;s C++ developers. The same is true for 
+architectures that allow runtime endianness switching. The
 <a href="conversion.html#native-order-specification">specification for native 
-ordering</a> has been carefully crafted to allow support for other 
-orderings in the future, should the need arise. Thanks to Howard Hinnant for 
-suggesting draft standarese. </p>
+ordering</a> has been carefully crafted to allow support for such orderings in 
+the future, should the need arise. Thanks to Howard Hinnant for suggesting this. </p>
 </blockquote>
 
 <p><b>Why do both the buffer and arithmetic types exist?</b></p>
