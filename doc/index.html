@@ -433,11 +433,14 @@ CPU's. The <a href="http://en.wikipedia.org/wiki/Endian">Wikipedia</a> article
 gives more pros and cons.</p>
 </blockquote>
 
-<p><b>Why are only big, little, and native endianness supported?</b></p>
+<p><b>Why are only big and little native endianness supported?</b></p>
 <blockquote>
 <p>These are the only endian schemes that have any practical value today. PDP-11 
 and the other middle endian approaches are interesting historical curiosities 
-but have no relevance to today&#39;s C++ developers.</p>
+but have no relevance to today&#39;s C++ developers. The
+<a href="conversion.html#native-order-specification">specification for native 
+ordering</a> is carefully crafted to allow implementations to support other 
+orderings, thanks to Howard Hinnant. </p>
 </blockquote>
 
 <p><b>Why do both the buffer and arithmetic types exist?</b></p>
@@ -596,7 +599,7 @@ and subsequent replies.</p>
 <h2><a name="Acknowledgements">Acknowledgements</a></h2>
 <p>Comments and suggestions were received from Adder, Benaka Moorthi, 
 Christopher Kohlhoff, Cliff Green, Daniel James, Dave Handley, Gennaro Proto, Giovanni Piero 
-Deretta, Gordon Woodhull, dizzy, Hartmut Kaiser, Jason Newton, Jeff Flinn, Jeremy Maitin-Shepard, John Filo, John 
+Deretta, Gordon Woodhull, dizzy, Hartmut Kaiser, Howard Hinnant, Jason Newton, Jeff Flinn, Jeremy Maitin-Shepard, John Filo, John 
 Maddock, Kim Barrett, Marsh Ray, Martin Bonner, Mathias Gaunard, Matias 
 Capeletto, Neil Mayhew, Nevin Liber, 
 Olaf van der Spek, Paul Bristow, Peter Dimov, Pierre Talbot, Phil Endecott, 
@@ -606,7 +609,7 @@ Blechmann, Tim Moore, tymofey, Tomas Puverle, Vincente Botet, Yuval Ronen and
 Vitaly Budovsk. Apologies if anyone has been missed.</p>
 <hr>
 <p>Last revised:
-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->10 April, 2015<!--webbot bot="Timestamp" endspan i-checksum="29949" --></p>
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->14 October, 2015<!--webbot bot="Timestamp" endspan i-checksum="38874" --></p>
 <p>© Copyright Beman Dawes, 2011, 2013</p>
 <p>Distributed under the Boost Software License, Version 1.0. See
 <a href="http://www.boost.org/LICENSE_1_0.txt">www.boost.org/ LICENSE_1_0.txt</a></p>
