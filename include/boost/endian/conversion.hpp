@@ -50,7 +50,7 @@ namespace endian
 //--------------------------------------------------------------------------------------//
   
   //  customization for exact-length arithmetic types. See doc/conversion.html/#FAQ.
-  //  Note: The omission of an overloads for the arithmetic type (typically long, or
+  //  Note: The omission of a overloads for the arithmetic type (typically long, or
   //  long long) not assigned to one of the exact length typedefs is a deliberate
   //  design decision. Such overloads would be non-portable and thus error prone.
      
