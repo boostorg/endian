@@ -98,7 +98,7 @@ namespace endian
   //------------------------------------------------------------------------------------//
 
 
-  //  Q: What happended to bswap, htobe, and the other synonym functions based on names
+  //  Q: What happened to bswap, htobe, and the other synonym functions based on names
   //     popularized by BSD, OS X, and Linux?
   //  A: Turned out these may be implemented as macros on some systems. Ditto POSIX names
   //     for such functionality. Since macros would cause endless problems with functions
