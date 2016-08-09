@@ -206,7 +206,8 @@ namespace endian
     return (static_cast<uint16_t>(x) << 8)
       | (static_cast<uint16_t>(x) >> 8);
 # else
-    return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_2(static_cast<uint16_t>(x));
+    return static_cast<int16_t>(
+      BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_2(static_cast<uint16_t>(x)));
 # endif
   }
 
@@ -219,7 +220,8 @@ namespace endian
         ((static_cast<uint32_t>(step16) << 8) & 0xff00ff00)
       | ((static_cast<uint32_t>(step16) >> 8) & 0x00ff00ff);
 # else
-    return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_4(static_cast<uint32_t>(x));
+    return static_cast<int32_t>(
+      BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_4(static_cast<uint32_t>(x)));
 # endif
   }
 
@@ -233,7 +235,8 @@ namespace endian
     return static_cast<int64_t>((step16 & 0x00FF00FF00FF00FFULL) << 8
            | (step16 & 0xFF00FF00FF00FF00ULL) >> 8);
 # else
-    return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_8(static_cast<uint64_t>(x));
+    return static_cast<int64_t>(
+      BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_8(static_cast<uint64_t>(x)));
 # endif
   }
   
