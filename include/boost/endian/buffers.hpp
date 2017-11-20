@@ -374,6 +374,7 @@ namespace endian
           return detail::load_big_endian<T, n_bits/8>(m_value);
         }
         const char* data() const BOOST_NOEXCEPT  { return m_value; }
+        char* data() BOOST_NOEXCEPT  { return m_value; }
       protected:
         char m_value[n_bits/8];
     };
@@ -409,6 +410,7 @@ namespace endian
           return detail::load_little_endian<T, n_bits/8>(m_value);
         }
         const char* data() const BOOST_NOEXCEPT  { return m_value; }
+        char* data() BOOST_NOEXCEPT  { return m_value; }
       protected:
         char m_value[n_bits/8];
     };
@@ -456,6 +458,8 @@ namespace endian
         }
         const char* data() const BOOST_NOEXCEPT
           {return reinterpret_cast<const char*>(&m_value);}
+        char* data() BOOST_NOEXCEPT
+          {return reinterpret_cast<char*>(&m_value);}
       protected:
         T m_value;
     };
@@ -497,6 +501,8 @@ namespace endian
         }
         const char* data() const BOOST_NOEXCEPT
           {return reinterpret_cast<const char*>(&m_value);}
+        char* data() BOOST_NOEXCEPT
+          {return reinterpret_cast<char*>(&m_value);}
       protected:
         T m_value;
     };
