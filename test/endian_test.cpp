@@ -59,7 +59,7 @@ namespace
     cout << " A structure with an expected sizeof() " << expected
          << " had an actual sizeof() " << actual
          << "\n This will cause uses of endian types to fail\n";
-  } 
+  }
 
   template <class Endian, class Base>
   void verify_value_and_ops( const Base & expected, int line )
@@ -112,13 +112,13 @@ namespace
   void detect_order()
   {
     union View
-    { 
+    {
       long long i;
       unsigned char c[8];
     };
 
     View v = { 0x0102030405060708LL };  // initialize v.i
-    
+
     if ( memcmp( v.c, "\x8\7\6\5\4\3\2\1", 8) == 0 )
     {
       cout << "This machine is little-endian.\n";
@@ -128,7 +128,7 @@ namespace
           "Please report this problem to the Boost mailing list.\n";
         exit(1);
   #   endif
-    } 
+    }
     else if ( memcmp( v.c, "\1\2\3\4\5\6\7\x8", 8) == 0 )
     {
       cout << "This machine is big-endian.\n";
@@ -140,7 +140,7 @@ namespace
   #   endif
     }
     else
-    { 
+    {
       cout << "This machine is neither strict big-endian nor strict little-endian\n"
         "The Boost Endian library must be revised to work correctly on this system.\n"
           "Please report this problem to the Boost mailing list.\n";
@@ -292,7 +292,7 @@ namespace
     VERIFY(little_align_uint16.data() == reinterpret_cast<const char *>(&little_align_uint16));
     VERIFY(little_align_uint32.data() == reinterpret_cast<const char *>(&little_align_uint32));
     VERIFY(little_align_uint64.data() == reinterpret_cast<const char *>(&little_align_uint64));
- 
+
   }
 
   //  check_size  ------------------------------------------------------------//
@@ -475,7 +475,7 @@ namespace
     };
 
     //  aligned test cases
-  
+
     struct big_aligned_struct
     {
       big_int16_at    v0;
@@ -484,7 +484,7 @@ namespace
       // on a 32-bit system, the padding here may be 3 rather than 7 bytes
       big_int64_at    v4;
     };
-  
+
     struct little_aligned_struct
     {
       little_int16_at    v0;
@@ -506,7 +506,7 @@ namespace
     VERIFY( sizeof(little_aligned_struct) <= 24 );
 
     if ( saved_err_count == err_count )
-    { 
+    {
       cout <<
         "Size and alignment for structures of endian types are as expected.\n";
     }
@@ -760,7 +760,7 @@ namespace
   }
 
   long iterations = 10000;
-  
+
   template< class Endian >
   Endian timing_test( const char * s)
   {

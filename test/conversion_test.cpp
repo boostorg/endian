@@ -210,16 +210,16 @@ namespace
       be::conditional_reverse_inplace(x, be::order::big, be::order::native);
       BOOST_TEST_EQ(x, native);
     x = little;
-      be::conditional_reverse_inplace(x, be::order::little, be::order::big); 
+      be::conditional_reverse_inplace(x, be::order::little, be::order::big);
       BOOST_TEST_EQ(x, big);
     x = little;
-      be::conditional_reverse_inplace(x, be::order::little, be::order::native); 
+      be::conditional_reverse_inplace(x, be::order::little, be::order::native);
       BOOST_TEST_EQ(x, native);
     x = native;
-      be::conditional_reverse_inplace(x, be::order::native, be::order::big); 
+      be::conditional_reverse_inplace(x, be::order::native, be::order::big);
       BOOST_TEST_EQ(x, big);
     x = native;
-      be::conditional_reverse_inplace(x, be::order::native, be::order::little); 
+      be::conditional_reverse_inplace(x, be::order::native, be::order::little);
       BOOST_TEST_EQ(x, little);
 
   }
@@ -270,8 +270,8 @@ namespace
 
 //--------------------------------------------------------------------------------------//
 
-  //  User-defined types 
-  
+  //  User-defined types
+
   namespace user
   {
     //  UDT1 supplies both endian_reverse and endian_reverse_inplace
@@ -331,7 +331,7 @@ namespace
 int cpp_main(int, char * [])
 {
   cout << "byte swap intrinsics: " BOOST_ENDIAN_INTRINSIC_MSG << endl;
-  
+
   //std::cerr << std::hex;
 
   cout << "int8_t" << endl;
