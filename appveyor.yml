@@ -46,7 +46,7 @@ install:
   - xcopy /s /e /q %APPVEYOR_BUILD_FOLDER% libs\endian
   - python tools/boostdep/depinst/depinst.py endian
   - cmd /c bootstrap
-  - b2 headers
+  - b2 -d0 headers
 
 build: off
 
