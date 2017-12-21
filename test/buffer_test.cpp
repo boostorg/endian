@@ -144,6 +144,60 @@ namespace
 
   }
 
+  template<class T> void test_buffer_type( typename T::value_type v1, typename T::value_type v2 )
+  {
+    T buffer( v1 );
+    BOOST_TEST_EQ( buffer.value(), v1 );
+
+    buffer = v2;
+    BOOST_TEST_EQ( buffer.value(), v2 );
+  }
+
+  void test_construction_and_assignment()
+  {
+    std::cout << "test construction and assignment..." << std::endl;
+
+    test_buffer_type< big_int8_buf_at>( 0x01, -0x01 );
+    test_buffer_type<big_int16_buf_at>( 0x0102, -0x0102 );
+    test_buffer_type<big_int32_buf_at>( 0x01020304, -0x01020304 );
+    test_buffer_type<big_int64_buf_at>( 0x0102030405060708LL, -0x0102030405060708LL );
+
+    test_buffer_type< big_uint8_buf_at>( 0x01, 0xFE );
+    test_buffer_type<big_uint16_buf_at>( 0x0102, 0xFE02 );
+    test_buffer_type<big_uint32_buf_at>( 0x01020304, 0xFE020304 );
+    test_buffer_type<big_uint64_buf_at>( 0x0102030405060708ULL, 0xFE02030405060708LL );
+
+    test_buffer_type< little_int8_buf_at>( 0x01, -0x01 );
+    test_buffer_type<little_int16_buf_at>( 0x0102, -0x0102 );
+    test_buffer_type<little_int32_buf_at>( 0x01020304, -0x01020304 );
+    test_buffer_type<little_int64_buf_at>( 0x0102030405060708LL, -0x0102030405060708LL );
+
+    test_buffer_type< little_uint8_buf_at>( 0x01, 0xFE );
+    test_buffer_type<little_uint16_buf_at>( 0x0102, 0xFE02 );
+    test_buffer_type<little_uint32_buf_at>( 0x01020304, 0xFE020304 );
+    test_buffer_type<little_uint64_buf_at>( 0x0102030405060708ULL, 0xFE02030405060708LL );
+
+    test_buffer_type< big_int8_buf_t>( 0x01, -0x01 );
+    test_buffer_type<big_int16_buf_t>( 0x0102, -0x0102 );
+    test_buffer_type<big_int24_buf_t>( 0x010203, -0x010203 );
+    test_buffer_type<big_int32_buf_t>( 0x01020304, -0x01020304 );
+    test_buffer_type<big_int40_buf_t>( 0x0102030405LL, -0x0102030405LL );
+    test_buffer_type<big_int48_buf_t>( 0x010203040506LL, -0x010203040506LL );
+    test_buffer_type<big_int56_buf_t>( 0x01020304050607LL, -0x01020304050607LL );
+    test_buffer_type<big_int64_buf_t>( 0x0102030405060708LL, -0x0102030405060708LL );
+
+    test_buffer_type< little_uint8_buf_t>( 0x01, 0xFE );
+    test_buffer_type<little_uint16_buf_t>( 0x0102, 0xFE02 );
+    test_buffer_type<little_uint24_buf_t>( 0x010203, 0xFE0203 );
+    test_buffer_type<little_uint32_buf_t>( 0x01020304, 0xFE020304 );
+    test_buffer_type<little_uint40_buf_t>( 0x0102030405ULL, 0xFE02030405ULL );
+    test_buffer_type<little_uint48_buf_t>( 0x010203040506ULL, 0xFE0203040506ULL );
+    test_buffer_type<little_uint56_buf_t>( 0x01020304050607ULL, 0xFE020304050607ULL );
+    test_buffer_type<little_uint64_buf_t>( 0x0102030405060708ULL, 0xFE02030405060708LL );
+
+    std::cout << "test construction and assignment" << std::endl;
+  }
+
 }  // unnamed namespace
 
 //--------------------------------------------------------------------------------------//
@@ -174,6 +228,7 @@ int cpp_main(int, char *[])
 
   check_size();
   test_inserter_and_extractor();
+  test_construction_and_assignment();
 
   cout << "  done" << endl;
 
