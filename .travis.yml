@@ -196,6 +196,10 @@ matrix:
       compiler: clang++
       env: TOOLSET=clang COMPILER=clang++ CXXSTD=03,11,14,1z
 
+    - os: osx
+      compiler: clang++
+      env: UBSAN=1 TOOLSET=clang COMPILER=clang++ CXXSTD=03,11,14,1z
+
 install:
   - BOOST_BRANCH=develop && [ "$TRAVIS_BRANCH" == "master" ] && BOOST_BRANCH=master || true
   - cd ..
