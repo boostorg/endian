@@ -196,26 +196,32 @@ namespace
     test_buffer_type<little_uint56_buf_t>( 0x01020304050607ULL, 0xFE020304050607ULL );
     test_buffer_type<little_uint64_buf_t>( 0x0102030405060708ULL, 0xFE02030405060708LL );
 
-    std::cout << "test construction and assignment" << std::endl;
+    std::cout << "test construction and assignment complete" << std::endl;
   }
 
   template <typename Int>
+  void test_boundary_values_()
+  {
+    test_buffer_type< endian_buffer<order::big, Int, sizeof(Int) * CHAR_BIT, align::no> >( std::numeric_limits<Int>::min(), std::numeric_limits<Int>::max() );
+    test_buffer_type< endian_buffer<order::big, Int, sizeof(Int) * CHAR_BIT, align::no> >( std::numeric_limits<Int>::min(), std::numeric_limits<Int>::max() );
+    test_buffer_type< endian_buffer<order::big, Int, sizeof(Int) * CHAR_BIT, align::yes> >( std::numeric_limits<Int>::min(), std::numeric_limits<Int>::max() );
+    test_buffer_type< endian_buffer<order::big, Int, sizeof(Int) * CHAR_BIT, align::yes> >( std::numeric_limits<Int>::min(), std::numeric_limits<Int>::max() );
+  }
+
   void test_boundary_values()
   {
-    endian_buffer<order::big, Int, sizeof(Int) * CHAR_BIT, align::no> bmax(
-      std::numeric_limits<Int>::max());
-    endian_buffer<order::big, Int, sizeof(Int) * CHAR_BIT, align::no> bmin(
-      std::numeric_limits<Int>::min());
-    endian_buffer<order::little, Int, sizeof(Int) * CHAR_BIT, align::no> lmax(
-      std::numeric_limits<Int>::max());
-    endian_buffer<order::little, Int, sizeof(Int) * CHAR_BIT, align::no> lmin(
-      std::numeric_limits<Int>::min());
+    std::cout << "test boundary values..." << std::endl;
 
-    BOOST_TEST(bmax.value() == std::numeric_limits<Int>::max());
-    BOOST_TEST(bmin.value() == std::numeric_limits<Int>::min());
-    BOOST_TEST(lmax.value() == std::numeric_limits<Int>::max());
-    BOOST_TEST(lmin.value() == std::numeric_limits<Int>::min());
+    test_boundary_values_<signed int>();
+    test_boundary_values_<unsigned int>();
+    test_boundary_values_<signed short>();
+    test_boundary_values_<unsigned short>();
+    test_boundary_values_<signed char>();
+    test_boundary_values_<unsigned char>();
+
+    std::cout << "test boundary values complete" << std::endl;
   }
+
 }  // unnamed namespace
 
 //--------------------------------------------------------------------------------------//
@@ -247,13 +253,7 @@ int cpp_main(int, char *[])
   check_size();
   test_inserter_and_extractor();
   test_construction_and_assignment();
-
-  test_boundary_values<signed int>();
-  test_boundary_values<unsigned int>();
-  test_boundary_values<signed short>();
-  test_boundary_values<unsigned short>();
-  test_boundary_values<signed char>();
-  test_boundary_values<unsigned char>();
+  test_boundary_values();
 
   cout << "  done" << endl;
 
