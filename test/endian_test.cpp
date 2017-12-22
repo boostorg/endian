@@ -74,7 +74,9 @@ namespace
     ++v; // verify integer_cover_operators being applied to this type -
          // will fail to compile if no endian<> specialization is present
 
-    Endian x(static_cast<typename Endian::value_type>(v+v));
+    Endian v3( static_cast<Base>( 1 ) );
+
+    Endian x(static_cast<typename Endian::value_type>(v+v3));
     if ( x == x ) // silence warning
       return;
   }
@@ -518,35 +520,35 @@ namespace
   {
     // unaligned integer types
     VERIFY_BIG_REPRESENTATION( big_int8_t );
-    VERIFY_VALUE_AND_OPS( big_int8_t, int_least8_t,  0x7f );
+    VERIFY_VALUE_AND_OPS( big_int8_t, int_least8_t,  0x7e );
     VERIFY_VALUE_AND_OPS( big_int8_t, int_least8_t, -0x80 );
 
     VERIFY_BIG_REPRESENTATION( big_int16_t );
-    VERIFY_VALUE_AND_OPS( big_int16_t, int_least16_t,  0x7fff );
+    VERIFY_VALUE_AND_OPS( big_int16_t, int_least16_t,  0x7ffe );
     VERIFY_VALUE_AND_OPS( big_int16_t, int_least16_t, -0x8000 );
 
     VERIFY_BIG_REPRESENTATION( big_int24_t );
-    VERIFY_VALUE_AND_OPS( big_int24_t, int_least32_t,  0x7fffff );
+    VERIFY_VALUE_AND_OPS( big_int24_t, int_least32_t,  0x7ffffe );
     VERIFY_VALUE_AND_OPS( big_int24_t, int_least32_t, -0x800000 );
 
     VERIFY_BIG_REPRESENTATION( big_int32_t );
-    VERIFY_VALUE_AND_OPS( big_int32_t, int_least32_t,  0x7fffffff );
+    VERIFY_VALUE_AND_OPS( big_int32_t, int_least32_t,  0x7ffffffe );
     VERIFY_VALUE_AND_OPS( big_int32_t, int_least32_t, -0x7fffffff-1 );
 
     VERIFY_BIG_REPRESENTATION( big_int40_t );
-    VERIFY_VALUE_AND_OPS( big_int40_t, int_least64_t,  0x7fffffffffLL );
+    VERIFY_VALUE_AND_OPS( big_int40_t, int_least64_t,  0x7ffffffffeLL );
     VERIFY_VALUE_AND_OPS( big_int40_t, int_least64_t, -0x8000000000LL );
 
     VERIFY_BIG_REPRESENTATION( big_int48_t );
-    VERIFY_VALUE_AND_OPS( big_int48_t, int_least64_t,  0x7fffffffffffLL );
+    VERIFY_VALUE_AND_OPS( big_int48_t, int_least64_t,  0x7ffffffffffeLL );
     VERIFY_VALUE_AND_OPS( big_int48_t, int_least64_t, -0x800000000000LL );
 
     VERIFY_BIG_REPRESENTATION( big_int56_t );
-    VERIFY_VALUE_AND_OPS( big_int56_t, int_least64_t,  0x7fffffffffffffLL );
+    VERIFY_VALUE_AND_OPS( big_int56_t, int_least64_t,  0x7ffffffffffffeLL );
     VERIFY_VALUE_AND_OPS( big_int56_t, int_least64_t, -0x80000000000000LL );
 
     VERIFY_BIG_REPRESENTATION( big_int64_t );
-    VERIFY_VALUE_AND_OPS( big_int64_t, int_least64_t,  0x7fffffffffffffffLL );
+    VERIFY_VALUE_AND_OPS( big_int64_t, int_least64_t,  0x7ffffffffffffffeLL );
     VERIFY_VALUE_AND_OPS( big_int64_t, int_least64_t, -0x7fffffffffffffffLL-1 );
 
     VERIFY_BIG_REPRESENTATION( big_uint8_t );
@@ -574,35 +576,35 @@ namespace
     VERIFY_VALUE_AND_OPS( big_uint64_t, uint_least64_t, 0xffffffffffffffffULL );
 
     VERIFY_LITTLE_REPRESENTATION( little_int8_t );
-    VERIFY_VALUE_AND_OPS( little_int8_t, int_least8_t,   0x7f );
+    VERIFY_VALUE_AND_OPS( little_int8_t, int_least8_t,   0x7e );
     VERIFY_VALUE_AND_OPS( little_int8_t, int_least8_t,  -0x80 );
 
     VERIFY_LITTLE_REPRESENTATION( little_int16_t );
-    VERIFY_VALUE_AND_OPS( little_int16_t, int_least16_t,  0x7fff );
+    VERIFY_VALUE_AND_OPS( little_int16_t, int_least16_t,  0x7ffe );
     VERIFY_VALUE_AND_OPS( little_int16_t, int_least16_t, -0x8000 );
 
     VERIFY_LITTLE_REPRESENTATION( little_int24_t );
-    VERIFY_VALUE_AND_OPS( little_int24_t, int_least32_t,  0x7fffff );
+    VERIFY_VALUE_AND_OPS( little_int24_t, int_least32_t,  0x7ffffe );
     VERIFY_VALUE_AND_OPS( little_int24_t, int_least32_t, -0x800000 );
 
     VERIFY_LITTLE_REPRESENTATION( little_int32_t );
-    VERIFY_VALUE_AND_OPS( little_int32_t, int_least32_t,  0x7fffffff );
+    VERIFY_VALUE_AND_OPS( little_int32_t, int_least32_t,  0x7ffffffe );
     VERIFY_VALUE_AND_OPS( little_int32_t, int_least32_t, -0x7fffffff-1 );
 
     VERIFY_LITTLE_REPRESENTATION( little_int40_t );
-    VERIFY_VALUE_AND_OPS( little_int40_t, int_least64_t,  0x7fffffffffLL );
+    VERIFY_VALUE_AND_OPS( little_int40_t, int_least64_t,  0x7ffffffffeLL );
     VERIFY_VALUE_AND_OPS( little_int40_t, int_least64_t, -0x8000000000LL );
 
     VERIFY_LITTLE_REPRESENTATION( little_int48_t );
-    VERIFY_VALUE_AND_OPS( little_int48_t, int_least64_t,  0x7fffffffffffLL );
+    VERIFY_VALUE_AND_OPS( little_int48_t, int_least64_t,  0x7ffffffffffeLL );
     VERIFY_VALUE_AND_OPS( little_int48_t, int_least64_t, -0x800000000000LL );
 
     VERIFY_LITTLE_REPRESENTATION( little_int56_t );
-    VERIFY_VALUE_AND_OPS( little_int56_t, int_least64_t,  0x7fffffffffffffLL );
+    VERIFY_VALUE_AND_OPS( little_int56_t, int_least64_t,  0x7ffffffffffffeLL );
     VERIFY_VALUE_AND_OPS( little_int56_t, int_least64_t, -0x80000000000000LL );
 
     VERIFY_LITTLE_REPRESENTATION( little_int64_t );
-    VERIFY_VALUE_AND_OPS( little_int64_t, int_least64_t,  0x7fffffffffffffffLL );
+    VERIFY_VALUE_AND_OPS( little_int64_t, int_least64_t,  0x7ffffffffffffffeLL );
     VERIFY_VALUE_AND_OPS( little_int64_t, int_least64_t, -0x7fffffffffffffffLL-1 );
 
     VERIFY_LITTLE_REPRESENTATION( little_uint8_t );
@@ -630,35 +632,35 @@ namespace
     VERIFY_VALUE_AND_OPS( little_uint64_t, uint_least64_t, 0xffffffffffffffffULL );
 
     VERIFY_NATIVE_REPRESENTATION( native_int8_t );
-    VERIFY_VALUE_AND_OPS( native_int8_t, int_least8_t,   0x7f );
+    VERIFY_VALUE_AND_OPS( native_int8_t, int_least8_t,   0x7e );
     VERIFY_VALUE_AND_OPS( native_int8_t, int_least8_t,  -0x80 );
 
     VERIFY_NATIVE_REPRESENTATION( native_int16_t );
-    VERIFY_VALUE_AND_OPS( native_int16_t, int_least16_t,  0x7fff );
+    VERIFY_VALUE_AND_OPS( native_int16_t, int_least16_t,  0x7ffe );
     VERIFY_VALUE_AND_OPS( native_int16_t, int_least16_t, -0x8000 );
 
     VERIFY_NATIVE_REPRESENTATION( native_int24_t );
-    VERIFY_VALUE_AND_OPS( native_int24_t, int_least32_t,  0x7fffff );
+    VERIFY_VALUE_AND_OPS( native_int24_t, int_least32_t,  0x7ffffe );
     VERIFY_VALUE_AND_OPS( native_int24_t, int_least32_t, -0x800000 );
 
     VERIFY_NATIVE_REPRESENTATION( native_int32_t );
-    VERIFY_VALUE_AND_OPS( native_int32_t, int_least32_t,  0x7fffffff );
+    VERIFY_VALUE_AND_OPS( native_int32_t, int_least32_t,  0x7ffffffe );
     VERIFY_VALUE_AND_OPS( native_int32_t, int_least32_t, -0x7fffffff-1 );
 
     VERIFY_NATIVE_REPRESENTATION( native_int40_t );
-    VERIFY_VALUE_AND_OPS( native_int40_t, int_least64_t,  0x7fffffffffLL );
+    VERIFY_VALUE_AND_OPS( native_int40_t, int_least64_t,  0x7ffffffffeLL );
     VERIFY_VALUE_AND_OPS( native_int40_t, int_least64_t, -0x8000000000LL );
 
     VERIFY_NATIVE_REPRESENTATION( native_int48_t );
-    VERIFY_VALUE_AND_OPS( native_int48_t, int_least64_t,  0x7fffffffffffLL );
+    VERIFY_VALUE_AND_OPS( native_int48_t, int_least64_t,  0x7ffffffffffeLL );
     VERIFY_VALUE_AND_OPS( native_int48_t, int_least64_t, -0x800000000000LL );
 
     VERIFY_NATIVE_REPRESENTATION( native_int56_t );
-    VERIFY_VALUE_AND_OPS( native_int56_t, int_least64_t,  0x7fffffffffffffLL );
+    VERIFY_VALUE_AND_OPS( native_int56_t, int_least64_t,  0x7ffffffffffffeLL );
     VERIFY_VALUE_AND_OPS( native_int56_t, int_least64_t, -0x80000000000000LL );
 
     VERIFY_NATIVE_REPRESENTATION( native_int64_t );
-    VERIFY_VALUE_AND_OPS( native_int64_t, int_least64_t,  0x7fffffffffffffffLL );
+    VERIFY_VALUE_AND_OPS( native_int64_t, int_least64_t,  0x7ffffffffffffffeLL );
     VERIFY_VALUE_AND_OPS( native_int64_t, int_least64_t, -0x7fffffffffffffffLL-1 );
 
     VERIFY_NATIVE_REPRESENTATION( native_uint8_t );
@@ -687,15 +689,15 @@ namespace
 
     // aligned integer types
     VERIFY_BIG_REPRESENTATION( big_int16_at );
-    VERIFY_VALUE_AND_OPS( big_int16_at, int_least16_t,  0x7fff );
+    VERIFY_VALUE_AND_OPS( big_int16_at, int_least16_t,  0x7ffe );
     VERIFY_VALUE_AND_OPS( big_int16_at, int_least16_t, -0x8000 );
 
     VERIFY_BIG_REPRESENTATION( big_int32_at );
-    VERIFY_VALUE_AND_OPS( big_int32_at, int_least32_t,  0x7fffffff );
+    VERIFY_VALUE_AND_OPS( big_int32_at, int_least32_t,  0x7ffffffe );
     VERIFY_VALUE_AND_OPS( big_int32_at, int_least32_t, -0x7fffffff-1 );
 
     VERIFY_BIG_REPRESENTATION( big_int64_at );
-    VERIFY_VALUE_AND_OPS( big_int64_at, int_least64_t,  0x7fffffffffffffffLL );
+    VERIFY_VALUE_AND_OPS( big_int64_at, int_least64_t,  0x7ffffffffffffffeLL );
     VERIFY_VALUE_AND_OPS( big_int64_at, int_least64_t, -0x7fffffffffffffffLL-1 );
 
     VERIFY_BIG_REPRESENTATION( big_uint16_at );
@@ -708,15 +710,15 @@ namespace
     VERIFY_VALUE_AND_OPS( big_uint64_at, uint_least64_t, 0xffffffffffffffffULL );
 
     VERIFY_LITTLE_REPRESENTATION( little_int16_at );
-    VERIFY_VALUE_AND_OPS( little_int16_at, int_least16_t,  0x7fff );
+    VERIFY_VALUE_AND_OPS( little_int16_at, int_least16_t,  0x7ffe );
     VERIFY_VALUE_AND_OPS( little_int16_at, int_least16_t, -0x8000 );
 
     VERIFY_LITTLE_REPRESENTATION( little_int32_at );
-    VERIFY_VALUE_AND_OPS( little_int32_at, int_least32_t,  0x7fffffff );
+    VERIFY_VALUE_AND_OPS( little_int32_at, int_least32_t,  0x7ffffffe );
     VERIFY_VALUE_AND_OPS( little_int32_at, int_least32_t, -0x7fffffff-1 );
 
     VERIFY_LITTLE_REPRESENTATION( little_int64_at );
-    VERIFY_VALUE_AND_OPS( little_int64_at, int_least64_t,  0x7fffffffffffffffLL );
+    VERIFY_VALUE_AND_OPS( little_int64_at, int_least64_t,  0x7ffffffffffffffeLL );
     VERIFY_VALUE_AND_OPS( little_int64_at, int_least64_t, -0x7fffffffffffffffLL-1 );
 
     VERIFY_LITTLE_REPRESENTATION( little_uint16_at );
