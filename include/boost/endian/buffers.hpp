@@ -38,6 +38,10 @@
 #include <boost/predef/detail/endian_compat.h>
 #include <boost/endian/conversion.hpp>
 #include <boost/type_traits/is_signed.hpp>
+#include <boost/type_traits/make_unsigned.hpp>
+#include <boost/type_traits/conditional.hpp>
+#include <boost/type_traits/is_integral.hpp>
+#include <boost/type_traits/type_identity.hpp>
 #include <boost/cstdint.hpp>
 #include <boost/static_assert.hpp>
 #include <boost/core/scoped_enum.hpp>
@@ -221,20 +225,27 @@ namespace endian
     {
       typedef unrolled_byte_loops<T, n_bytes - 1, sign> next;
 
+      // shifting a negative number is flagged by -fsanitize=undefined
+      // so use the corresponding unsigned type for the shifts
+
+      typedef typename boost::conditional<
+        boost::is_integral<T>::value,
+        boost::make_unsigned<T>, boost::type_identity<T> >::type::type U;
+
       static T load_big(const unsigned char* bytes) BOOST_NOEXCEPT
-        { return static_cast<T>(*(bytes - 1) | (next::load_big(bytes - 1) << 8)); }
+        { return static_cast<T>(*(bytes - 1) | (static_cast<U>(next::load_big(bytes - 1)) << 8)); }
       static T load_little(const unsigned char* bytes) BOOST_NOEXCEPT
-        { return static_cast<T>(*bytes | (next::load_little(bytes + 1) << 8)); }
+        { return static_cast<T>(*bytes | (static_cast<U>(next::load_little(bytes + 1)) << 8)); }
 
       static void store_big(char* bytes, T value) BOOST_NOEXCEPT
         {
           *(bytes - 1) = static_cast<char>(value);
-          next::store_big(bytes - 1, static_cast<T>(value >> 8));
+          next::store_big(bytes - 1, static_cast<T>(static_cast<U>(value) >> 8));
         }
       static void store_little(char* bytes, T value) BOOST_NOEXCEPT
         {
           *bytes = static_cast<char>(value);
-          next::store_little(bytes + 1, static_cast<T>(value >> 8));
+          next::store_little(bytes + 1, static_cast<T>(static_cast<U>(value) >> 8));
         }
     };
 
