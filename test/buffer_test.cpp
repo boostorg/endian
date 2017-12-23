@@ -145,6 +145,12 @@ namespace
 
   }
 
+  template<class T> struct unaligned
+  {
+    char x;
+    T y;
+  };
+
   template<class T> void test_buffer_type( typename T::value_type v1, typename T::value_type v2 )
   {
     T buffer( v1 );
@@ -152,6 +158,12 @@ namespace
 
     buffer = v2;
     BOOST_TEST_EQ( buffer.value(), v2 );
+
+    unaligned<T> buffer2 = { 0, T( v1 ) };
+    BOOST_TEST_EQ( buffer2.y.value(), v1 );
+
+    buffer2.y = v2;
+    BOOST_TEST_EQ( buffer2.y.value(), v2 );
   }
 
   void test_construction_and_assignment()
