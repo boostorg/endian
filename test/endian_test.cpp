@@ -76,7 +76,7 @@ namespace
 
     Endian v3( static_cast<Base>( 1 ) );
 
-    Endian x(static_cast<typename Endian::value_type>(v+v3));
+    Endian x(static_cast<typename Endian::value_type>(v2+v3));
     if ( x == x ) // silence warning
       return;
   }
