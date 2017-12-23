@@ -47,6 +47,7 @@
 #include <boost/core/scoped_enum.hpp>
 #include <iosfwd>
 #include <climits>
+#include <cstring>
 
 # if CHAR_BIT != 8
 #   error Platforms with CHAR_BIT != 8 are not supported
@@ -295,7 +296,12 @@ namespace endian
                                  // case since sizeof(T) and n_bytes are known at compile
                                  // time.
       {
-        return *reinterpret_cast<T const *>(bytes);
+        // Avoids -fsanitize=undefined violations due to unaligned loads
+        // All major x86 compilers optimize a short-sized memcpy into a single instruction
+
+        T t;
+        std::memcpy( &t, bytes, sizeof(T) );
+        return t;
       }
 #   endif
       return unrolled_byte_loops<T, n_bytes>::load_little
@@ -321,7 +327,10 @@ namespace endian
                                  // case since sizeof(T) and n_bytes are known at compile
                                  // time.
       {
-        *reinterpret_cast<T *>(bytes) = value;
+        // Avoids -fsanitize=undefined violations due to unaligned stores
+        // All major x86 compilers optimize a short-sized memcpy into a single instruction
+
+        std::memcpy( bytes, &value, sizeof(T) );
         return;
       }
 #     endif
