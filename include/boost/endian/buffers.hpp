@@ -35,6 +35,7 @@
 #endif
 
 #include <boost/config.hpp>
+#include <boost/config/workaround.hpp>
 #include <boost/predef/other/endian.h>
 #include <boost/endian/conversion.hpp>
 #include <boost/type_traits/is_signed.hpp>
@@ -59,7 +60,8 @@
 #   define BOOST_ENDIAN_DEFAULT_CONSTRUCT = default;  // C++0x
 # endif
 
-# if defined(BOOST_NO_CXX11_DEFAULTED_FUNCTIONS) && defined(BOOST_ENDIAN_FORCE_PODNESS)
+// g++ pre-4.6 does not support unrestricted unions, but we have no Config macro for that
+# if (defined(BOOST_NO_CXX11_DEFAULTED_FUNCTIONS) || BOOST_WORKAROUND(BOOST_GCC, < 40600)) && defined(BOOST_ENDIAN_FORCE_PODNESS)
 #   define BOOST_ENDIAN_NO_CTORS
 # endif
 
