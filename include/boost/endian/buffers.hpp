@@ -240,14 +240,14 @@ namespace endian
       static T load_little(const unsigned char* bytes) BOOST_NOEXCEPT
         { return static_cast<T>(*bytes | (static_cast<U>(next::load_little(bytes + 1)) << 8)); }
 
-      static void store_big(char* bytes, T value) BOOST_NOEXCEPT
+      static void store_big(unsigned char* bytes, T value) BOOST_NOEXCEPT
         {
-          *(bytes - 1) = static_cast<char>(value);
+          *(bytes - 1) = static_cast<unsigned char>(value);
           next::store_big(bytes - 1, static_cast<T>(static_cast<U>(value) >> 8));
         }
-      static void store_little(char* bytes, T value) BOOST_NOEXCEPT
+      static void store_little(unsigned char* bytes, T value) BOOST_NOEXCEPT
         {
-          *bytes = static_cast<char>(value);
+          *bytes = static_cast<unsigned char>(value);
           next::store_little(bytes + 1, static_cast<T>(static_cast<U>(value) >> 8));
         }
     };
@@ -259,10 +259,10 @@ namespace endian
         { return *(bytes - 1); }
       static T load_little(const unsigned char* bytes) BOOST_NOEXCEPT
         { return *bytes; }
-      static void store_big(char* bytes, T value) BOOST_NOEXCEPT
-        { *(bytes - 1) = static_cast<char>(value); }
-      static void store_little(char* bytes, T value) BOOST_NOEXCEPT
-        { *bytes = static_cast<char>(value); }
+      static void store_big(unsigned char* bytes, T value) BOOST_NOEXCEPT
+        { *(bytes - 1) = static_cast<unsigned char>(value); }
+      static void store_little(unsigned char* bytes, T value) BOOST_NOEXCEPT
+        { *bytes = static_cast<unsigned char>(value); }
 
     };
 
@@ -273,10 +273,10 @@ namespace endian
         { return *reinterpret_cast<const signed char*>(bytes - 1); }
       static T load_little(const unsigned char* bytes) BOOST_NOEXCEPT
         { return *reinterpret_cast<const signed char*>(bytes); }
-      static void store_big(char* bytes, T value)  BOOST_NOEXCEPT
-        { *(bytes - 1) = static_cast<char>(value); }
-      static void store_little(char* bytes, T value) BOOST_NOEXCEPT
-        { *bytes = static_cast<char>(value); }
+      static void store_big(unsigned char* bytes, T value)  BOOST_NOEXCEPT
+        { *(bytes - 1) = static_cast<unsigned char>(value); }
+      static void store_little(unsigned char* bytes, T value) BOOST_NOEXCEPT
+        { *bytes = static_cast<unsigned char>(value); }
     };
 
     template <typename T, std::size_t n_bytes>
@@ -330,7 +330,7 @@ namespace endian
       }
 #     endif
       unrolled_byte_loops<T, n_bytes>::store_big
-        (static_cast<char*>(bytes) + n_bytes, value);
+        (static_cast<unsigned char*>(bytes) + n_bytes, value);
     }
 
     template <typename T, std::size_t n_bytes>
@@ -349,7 +349,7 @@ namespace endian
       }
 #     endif
       unrolled_byte_loops<T, n_bytes>::store_little
-        (static_cast<char*>(bytes), value);
+        (static_cast<unsigned char*>(bytes), value);
     }
 
   } // namespace detail
