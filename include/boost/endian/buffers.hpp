@@ -283,6 +283,21 @@ namespace endian
     inline
     T load_big_endian(const void* bytes) BOOST_NOEXCEPT
     {
+#   if defined(__x86_64__) || defined(_M_X64) || defined(__i386) || defined(_M_IX86)
+      // On x86 (which is little endian), unaligned loads are permitted
+      if (sizeof(T) == n_bytes)  // GCC 4.9, VC++ 14.0, and probably others, elide this
+                                 // test and generate code only for the applicable return
+                                 // case since sizeof(T) and n_bytes are known at compile
+                                 // time.
+      {
+        // Avoids -fsanitize=undefined violations due to unaligned loads
+        // All major x86 compilers optimize a short-sized memcpy into a single instruction
+
+        T t = 0;
+        std::memcpy( &t, bytes, sizeof(T) );
+        return big_to_native(t);
+      }
+#   endif
       return unrolled_byte_loops<T, n_bytes>::load_big
         (static_cast<const unsigned char*>(bytes) + n_bytes);
     }
@@ -314,6 +329,21 @@ namespace endian
     inline
     void store_big_endian(void* bytes, T value) BOOST_NOEXCEPT
     {
+#     if defined(__x86_64__) || defined(_M_X64) || defined(__i386) || defined(_M_IX86)
+      // On x86 (which is little endian), unaligned stores are permitted
+      if (sizeof(T) == n_bytes)  // GCC 4.9, VC++ 14.0, and probably others, elide this
+                                 // test and generate code only for the applicable return
+                                 // case since sizeof(T) and n_bytes are known at compile
+                                 // time.
+      {
+        // Avoids -fsanitize=undefined violations due to unaligned stores
+        // All major x86 compilers optimize a short-sized memcpy into a single instruction
+
+        boost::endian::native_to_big_inplace(value);
+        std::memcpy( bytes, &value, sizeof(T) );
+        return;
+      }
+#     endif
       unrolled_byte_loops<T, n_bytes>::store_big
         (static_cast<char*>(bytes) + n_bytes, value);
     }
