@@ -736,7 +736,7 @@ namespace
   {
     int32_t mx;
   public:
-    MyInt(int32_t x) : mx(x) {}
+    MyInt(int32_t x = 0) : mx(x) {}
     operator int32_t() const {return mx;}
 
     //friend int32_t operator+(const MyInt& x) {return x;}
@@ -747,6 +747,25 @@ namespace
     typedef boost::endian::endian_arithmetic< order::big, MyInt, 32 >  mybig_int32_ut;
 
     mybig_int32_ut v(10);
+    cout << "+v is " << +v << endl;
+    v += 1;
+    cout << "v is " << +v << endl;
+    v -= 2;
+    cout << "v is " << +v << endl;
+    v *= 2;
+    cout << "v is " << +v << endl;
+    ++v;
+    cout << "v is " << +v << endl;
+    --v;
+    cout << "v is " << +v << endl;
+//    cout << "v+v is " << +(v+v) << endl;
+  }
+
+  void check_udt_le()
+  {
+    typedef boost::endian::endian_arithmetic< order::little, MyInt, 32 >  mylittle_int32_ut;
+
+    mylittle_int32_ut v(10);
     cout << "+v is " << +v << endl;
     v += 1;
     cout << "v is " << +v << endl;
@@ -801,6 +820,7 @@ int cpp_main( int argc, char * argv[] )
   check_representation_and_range_and_ops();
   check_data();
   check_udt();
+  check_udt_le();
 
   //timing_test<big_int32_t> ( "big_int32_t" );
   //timing_test<big_int32_at>( "big_int32_at" );
