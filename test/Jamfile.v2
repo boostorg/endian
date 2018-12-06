@@ -11,8 +11,17 @@
 import testing ;
 
 run buffer_test.cpp ;
+run buffer_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : buffer_test_ni ;
+
 run endian_test.cpp ;
+run endian_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : endian_test_ni ;
+
 run endian_operations_test.cpp ;
+run endian_operations_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : endian_operations_test_ni ;
+
 run endian_in_union_test.cpp ;
+
 run conversion_test.cpp ;
+run conversion_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : conversion_test_ni ;
+
 run intrinsic_test.cpp ;
