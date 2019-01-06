@@ -8,23 +8,31 @@ project(cmake_subdir_test LANGUAGES CXX)
 
 add_subdirectory(../.. boostorg/endian)
 
+# boost_add_subdir
+
+function(boost_add_subdir name)
+
+    add_subdirectory(../../../${name} boostorg/${name})
+
+endfunction()
+
 # primary dependencies
 
-add_subdirectory(../../../assert boostorg/assert)
-add_subdirectory(../../../config boostorg/config)
-add_subdirectory(../../../core boostorg/core)
-add_subdirectory(../../../predef boostorg/predef)
-add_subdirectory(../../../static_assert boostorg/static_assert)
-add_subdirectory(../../../type_traits boostorg/type_traits)
-add_subdirectory(../../../utility boostorg/utility)
+boost_add_subdir(assert)
+boost_add_subdir(config)
+boost_add_subdir(core)
+boost_add_subdir(predef)
+boost_add_subdir(static_assert)
+boost_add_subdir(type_traits)
+boost_add_subdir(utility)
 
 # secondary dependencies
 
-add_subdirectory(../../../container_hash boostorg/container_hash)
-add_subdirectory(../../../preprocessor boostorg/preprocessor)
-add_subdirectory(../../../throw_exception boostorg/throw_exception)
-add_subdirectory(../../../detail boostorg/detail)
-add_subdirectory(../../../integer boostorg/integer)
+boost_add_subdir(container_hash)
+boost_add_subdir(preprocessor)
+boost_add_subdir(throw_exception)
+boost_add_subdir(detail)
+boost_add_subdir(integer)
 
 # --target check
 
