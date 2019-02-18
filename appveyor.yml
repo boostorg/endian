@@ -51,4 +51,4 @@ build: off
 test_script:
   - PATH=%ADDPATH%%PATH%
   - if not "%CXXSTD%" == "" set CXXSTD=cxxstd=%CXXSTD%
-  - b2 -j3 libs/endian/test toolset=%TOOLSET% %CXXSTD%
+  - b2 -j3 libs/endian/test toolset=%TOOLSET% %CXXSTD% variant=debug,release warnings=all warnings-as-errors=on
