@@ -10,7 +10,21 @@
 
 import testing ;
 
-project : default-build <warnings>all <warnings-as-errors>on ;
+project
+  : default-build
+
+    <warnings>all
+
+  : requirements
+
+    <toolset>msvc:<warnings-as-errors>on
+
+    <toolset>gcc:<cxxflags>-Wno-long-long
+    <toolset>gcc:<warnings-as-errors>on
+
+    <toolset>clang:<cxxflags>-Wno-long-long
+    <toolset>clang:<warnings-as-errors>on
+  ;
 
 run buffer_test.cpp ;
 run buffer_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : buffer_test_ni ;
