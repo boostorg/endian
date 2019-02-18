@@ -10,6 +10,8 @@
 
 import testing ;
 
+project : default-build <warnings>all <warnings-as-errors>on ;
+
 run buffer_test.cpp ;
 run buffer_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : buffer_test_ni ;
 
