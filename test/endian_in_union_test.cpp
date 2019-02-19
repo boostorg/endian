@@ -14,8 +14,6 @@
 #include <boost/endian/detail/disable_warnings.hpp>
 
 #include <boost/endian/arithmetic.hpp>
-#include <boost/detail/lightweight_main.hpp>
-#include <cassert>
 
 using namespace boost::endian;
 
@@ -78,9 +76,6 @@ union U
 
 U foo;
 
-int cpp_main(int, char * [])
+int main()
 {
-
-  return 0;
 }
-
