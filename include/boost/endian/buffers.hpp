@@ -37,6 +37,7 @@
 #include <boost/config.hpp>
 #include <boost/config/workaround.hpp>
 #include <boost/predef/other/endian.h>
+#include <boost/endian/detail/endian_load.hpp>
 #include <boost/endian/conversion.hpp>
 #include <boost/type_traits/is_signed.hpp>
 #include <boost/type_traits/make_unsigned.hpp>
@@ -283,36 +284,14 @@ namespace endian
     inline
     T load_big_endian(const void* bytes) BOOST_NOEXCEPT
     {
-#   if defined(__x86_64__) || defined(_M_X64) || defined(__i386) || defined(_M_IX86)
-      // All major x86 compilers elide this test and optimize out memcpy
-      // (the x86 architecture allows unaligned loads, but -fsanitize=undefined does not)
-      if (sizeof(T) == n_bytes)
-      {
-        T t;
-        std::memcpy( &t, bytes, sizeof(T) );
-        return endian::big_to_native(t);
-      }
-#   endif
-      return unrolled_byte_loops<T, n_bytes>::load_big
-        (static_cast<const unsigned char*>(bytes) + n_bytes);
+        return endian::endian_load<T, n_bytes, order::big>( static_cast<unsigned char const*>( bytes ) );
     }
 
     template <typename T, std::size_t n_bytes>
     inline
     T load_little_endian(const void* bytes) BOOST_NOEXCEPT
     {
-#   if defined(__x86_64__) || defined(_M_X64) || defined(__i386) || defined(_M_IX86)
-      // All major x86 compilers elide this test and optimize out memcpy
-      // (the x86 architecture allows unaligned loads, but -fsanitize=undefined does not)
-      if (sizeof(T) == n_bytes)
-      {
-        T t;
-        std::memcpy( &t, bytes, sizeof(T) );
-        return t; // or endian::little_to_native(t) if we ever extend the #ifdef to non-x86
-      }
-#   endif
-      return unrolled_byte_loops<T, n_bytes>::load_little
-        (static_cast<const unsigned char*>(bytes));
+        return endian::endian_load<T, n_bytes, order::little>( static_cast<unsigned char const*>( bytes ) );
     }
 
     template <typename T, std::size_t n_bytes>
