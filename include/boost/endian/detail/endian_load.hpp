@@ -6,6 +6,7 @@
 // Distributed under the Boost Software License, Version 1.0.
 // http://www.boost.org/LICENSE_1_0.txt
 
+#include <boost/endian/detail/integral_by_size.hpp>
 #include <boost/endian/conversion.hpp>
 #include <boost/type_traits/is_signed.hpp>
 #include <cstddef>
@@ -33,30 +34,6 @@ inline T endian_load( unsigned char const * p ) BOOST_NOEXCEPT
 
 namespace detail
 {
-
-template<std::size_t N> struct integral_by_size
-{
-};
-
-template<> struct integral_by_size<1>
-{
-    typedef uint8_t type;
-};
-
-template<> struct integral_by_size<2>
-{
-    typedef uint16_t type;
-};
-
-template<> struct integral_by_size<4>
-{
-    typedef uint32_t type;
-};
-
-template<> struct integral_by_size<8>
-{
-    typedef uint64_t type;
-};
 
 // same endianness, same size
 

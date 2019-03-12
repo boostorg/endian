@@ -37,13 +37,9 @@
 #include <boost/config.hpp>
 #include <boost/config/workaround.hpp>
 #include <boost/predef/other/endian.h>
+#include <boost/endian/detail/endian_store.hpp>
 #include <boost/endian/detail/endian_load.hpp>
 #include <boost/endian/conversion.hpp>
-#include <boost/type_traits/is_signed.hpp>
-#include <boost/type_traits/make_unsigned.hpp>
-#include <boost/type_traits/conditional.hpp>
-#include <boost/type_traits/is_integral.hpp>
-#include <boost/type_traits/type_identity.hpp>
 #include <boost/cstdint.hpp>
 #include <boost/static_assert.hpp>
 #include <boost/core/scoped_enum.hpp>
@@ -221,65 +217,6 @@ namespace endian
   namespace detail
   {
 
-    // Unrolled loops for loading and storing streams of bytes.
-
-    template <typename T, std::size_t n_bytes,
-      bool sign=boost::is_signed<T>::value >
-    struct unrolled_byte_loops
-    {
-      typedef unrolled_byte_loops<T, n_bytes - 1, sign> next;
-
-      // shifting a negative number is flagged by -fsanitize=undefined
-      // so use the corresponding unsigned type for the shifts
-
-      typedef typename boost::conditional<
-        boost::is_integral<T>::value,
-        boost::make_unsigned<T>, boost::type_identity<T> >::type::type U;
-
-      static T load_big(const unsigned char* bytes) BOOST_NOEXCEPT
-        { return static_cast<T>(*(bytes - 1) | (static_cast<U>(next::load_big(bytes - 1)) << 8)); }
-      static T load_little(const unsigned char* bytes) BOOST_NOEXCEPT
-        { return static_cast<T>(*bytes | (static_cast<U>(next::load_little(bytes + 1)) << 8)); }
-
-      static void store_big(unsigned char* bytes, T value) BOOST_NOEXCEPT
-        {
-          *(bytes - 1) = static_cast<unsigned char>(value);
-          next::store_big(bytes - 1, static_cast<T>(static_cast<U>(value) >> 8));
-        }
-      static void store_little(unsigned char* bytes, T value) BOOST_NOEXCEPT
-        {
-          *bytes = static_cast<unsigned char>(value);
-          next::store_little(bytes + 1, static_cast<T>(static_cast<U>(value) >> 8));
-        }
-    };
-
-    template <typename T>
-    struct unrolled_byte_loops<T, 1, false>
-    {
-      static T load_big(const unsigned char* bytes) BOOST_NOEXCEPT
-        { return *(bytes - 1); }
-      static T load_little(const unsigned char* bytes) BOOST_NOEXCEPT
-        { return *bytes; }
-      static void store_big(unsigned char* bytes, T value) BOOST_NOEXCEPT
-        { *(bytes - 1) = static_cast<unsigned char>(value); }
-      static void store_little(unsigned char* bytes, T value) BOOST_NOEXCEPT
-        { *bytes = static_cast<unsigned char>(value); }
-
-    };
-
-    template <typename T>
-    struct unrolled_byte_loops<T, 1, true>
-    {
-      static T load_big(const unsigned char* bytes) BOOST_NOEXCEPT
-        { return *reinterpret_cast<const signed char*>(bytes - 1); }
-      static T load_little(const unsigned char* bytes) BOOST_NOEXCEPT
-        { return *reinterpret_cast<const signed char*>(bytes); }
-      static void store_big(unsigned char* bytes, T value)  BOOST_NOEXCEPT
-        { *(bytes - 1) = static_cast<unsigned char>(value); }
-      static void store_little(unsigned char* bytes, T value) BOOST_NOEXCEPT
-        { *bytes = static_cast<unsigned char>(value); }
-    };
-
     template <typename T, std::size_t n_bytes>
     inline
     T load_big_endian(const void* bytes) BOOST_NOEXCEPT
@@ -298,37 +235,14 @@ namespace endian
     inline
     void store_big_endian(void* bytes, T value) BOOST_NOEXCEPT
     {
-#     if defined(__x86_64__) || defined(_M_X64) || defined(__i386) || defined(_M_IX86)
-      // All major x86 compilers elide this test and optimize out memcpy
-      // (the x86 architecture allows unaligned loads, but -fsanitize=undefined does not)
-      if (sizeof(T) == n_bytes)
-      {
-        endian::native_to_big_inplace(value);
-        std::memcpy( bytes, &value, sizeof(T) );
-        return;
-      }
-#     endif
-      unrolled_byte_loops<T, n_bytes>::store_big
-        (static_cast<unsigned char*>(bytes) + n_bytes, value);
+        endian::endian_store<T, n_bytes, order::big>( value, static_cast<unsigned char*>( bytes ) );
     }
 
     template <typename T, std::size_t n_bytes>
     inline
     void store_little_endian(void* bytes, T value) BOOST_NOEXCEPT
     {
-#     if defined(__x86_64__) || defined(_M_X64) || defined(__i386) || defined(_M_IX86)
-      // All major x86 compilers elide this test and optimize out memcpy
-      // (the x86 architecture allows unaligned loads, but -fsanitize=undefined does not)
-      if (sizeof(T) == n_bytes)
-      {
-        // if we ever extend the #ifdef to non-x86:
-        //   endian::native_to_little_inplace(value);
-        std::memcpy( bytes, &value, sizeof(T) );
-        return;
-      }
-#     endif
-      unrolled_byte_loops<T, n_bytes>::store_little
-        (static_cast<unsigned char*>(bytes), value);
+        endian::endian_store<T, n_bytes, order::little>( value, static_cast<unsigned char*>( bytes ) );
     }
 
   } // namespace detail
