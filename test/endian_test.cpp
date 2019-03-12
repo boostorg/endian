@@ -732,6 +732,8 @@ namespace
 
   } // check_representation_and_range
 
+/*
+
   class MyInt
   {
     int32_t mx;
@@ -780,6 +782,8 @@ namespace
 //    cout << "v+v is " << +(v+v) << endl;
   }
 
+*/
+
   long iterations = 10000;
 
   template< class Endian >
@@ -819,8 +823,8 @@ int cpp_main( int argc, char * argv[] )
   check_alignment();
   check_representation_and_range_and_ops();
   check_data();
-  check_udt();
-  check_udt_le();
+  //check_udt();
+  //check_udt_le();
 
   //timing_test<big_int32_t> ( "big_int32_t" );
   //timing_test<big_int32_at>( "big_int32_at" );
