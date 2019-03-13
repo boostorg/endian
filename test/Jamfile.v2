@@ -44,4 +44,8 @@ run intrinsic_test.cpp ;
 
 run quick.cpp ;
 
-compile spirit_conflict_test.cpp ;
+compile spirit_conflict_test.cpp
+  : "-<toolset>msvc:<warnings-as-errors>on"
+    "-<toolset>gcc:<warnings-as-errors>on"
+    "-<toolset>clang:<warnings-as-errors>on"
+  ;
