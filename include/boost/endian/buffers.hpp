@@ -290,7 +290,7 @@ namespace endian
       {
         T t;
         std::memcpy( &t, bytes, sizeof(T) );
-        return endian::big_to_native(t);
+        return boost::endian::big_to_native(t);
       }
 #   endif
       return unrolled_byte_loops<T, n_bytes>::load_big
@@ -324,7 +324,7 @@ namespace endian
       // (the x86 architecture allows unaligned loads, but -fsanitize=undefined does not)
       if (sizeof(T) == n_bytes)
       {
-        endian::native_to_big_inplace(value);
+        boost::endian::native_to_big_inplace(value);
         std::memcpy( bytes, &value, sizeof(T) );
         return;
       }
