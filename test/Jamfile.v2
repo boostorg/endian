@@ -44,8 +44,13 @@ run intrinsic_test.cpp ;
 
 run quick.cpp ;
 
-compile spirit_conflict_test.cpp
-  : "-<toolset>msvc:<warnings-as-errors>on"
+local allow-warnings =
+    "-<toolset>msvc:<warnings-as-errors>on"
     "-<toolset>gcc:<warnings-as-errors>on"
-    "-<toolset>clang:<warnings-as-errors>on"
-  ;
+    "-<toolset>clang:<warnings-as-errors>on" ;
+
+compile spirit_conflict_test.cpp
+  : $(allow-warnings) ;
+
+run endian_reverse_test.cpp
+  : : : $(allow-warnings) ;
