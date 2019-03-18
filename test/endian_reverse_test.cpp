@@ -3,6 +3,10 @@
 // Distributed under the Boost Software License, Version 1.0.
 // http://www.boost.org/LICENSE_1_0.txt
 
+#if defined(_MSC_VER)
+# pragma warning( disable: 4309 ) // static_cast: truncation of constant value
+#endif
+
 #include <boost/endian/conversion.hpp>
 #include <boost/core/lightweight_test.hpp>
 #include <boost/config.hpp>
@@ -137,8 +141,8 @@ int main()
     // test<long>();
     // test<unsigned long>();
 
-    test<long long>();
-    test<unsigned long long>();
+    // test<long long>();
+    // test<unsigned long long>();
 
 #if !defined(BOOST_NO_CXX11_CHAR16_T)
     test<char16_t>();
