@@ -282,6 +282,20 @@ namespace endian
 # endif
   }
 
+  // overloads for char and char16_t, which otherwise use int32_t
+
+  inline char endian_reverse(char x) BOOST_NOEXCEPT
+  {
+    return static_cast<char>( endian_reverse( static_cast<uint8_t>(x) ) );
+  }
+
+#if !defined(BOOST_NO_CXX11_CHAR16_T)
+  inline char16_t endian_reverse(char16_t x) BOOST_NOEXCEPT
+  {
+    return static_cast<char16_t>( endian_reverse( static_cast<uint16_t>(x) ) );
+  }
+#endif
+
   template <class EndianReversible >
   inline EndianReversible  big_to_native(EndianReversible  x) BOOST_NOEXCEPT
   {
