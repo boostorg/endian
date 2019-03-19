@@ -52,5 +52,4 @@ local allow-warnings =
 compile spirit_conflict_test.cpp
   : $(allow-warnings) ;
 
-run endian_reverse_test.cpp
-  : : : $(allow-warnings) ;
+run endian_reverse_test.cpp ;
