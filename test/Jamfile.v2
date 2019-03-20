@@ -20,6 +20,7 @@ project
     <toolset>msvc:<warnings-as-errors>on
 
     <toolset>gcc:<cxxflags>-Wno-long-long
+    <toolset>gcc-4.4.7:<cxxflags>-Wno-strict-aliasing
     <toolset>gcc:<warnings-as-errors>on
 
     <toolset>clang:<cxxflags>-Wno-long-long
