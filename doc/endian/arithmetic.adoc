@@ -82,7 +82,7 @@ int main(int, char* [])
   //  Low-level I/O such as POSIX read/write or <cstdio>
   //  fread/fwrite is sometimes used for binary file operations
   //  when ultimate efficiency is important. Such I/O is often
-  //  performed in some {cpp} wrapper class, but to drive home the
+  //  performed in some C++ wrapper class, but to drive home the
   //  point that endian integers are often used in fairly
   //  low-level code that does bulk I/O operations, <cstdio>
   //  fopen/fwrite is used for I/O in this example.
@@ -196,7 +196,9 @@ and 64-bit integer types.
 TIP: Prefer unaligned arithmetic types.
 
 TIP: Protect yourself against alignment ills. For example:
-
+[none]
+{blank}::
++
 ```
 static_assert(sizeof(containing_struct) == 12, "sizeof(containing_struct) is wrong");
 ```
@@ -222,7 +224,7 @@ namespace boost
 {
   namespace endian
   {
-    //  {cpp}11 features emulated if not available
+    //  C++11 features emulated if not available
 
     enum class align {no, yes};
 
@@ -234,7 +236,7 @@ namespace boost
     public:
       typedef T value_type;
 
-      // if BOOST_ENDIAN_FORCE_PODNESS is defined && {cpp}11 PODs are not
+      // if BOOST_ENDIAN_FORCE_PODNESS is defined && C++11 PODs are not
       // available then these two constructors will not be present
       endian_arithmetic() noexcept = default;
       endian_arithmetic(T v) noexcept;
@@ -374,7 +376,7 @@ to the endianness of the platform.
 ### Members
 
 ```
-endian() = default;  // {cpp}03: endian(){}
+endian() = default;  // C++03: endian(){}
 ```
 [horizontal]
 Effects:: Constructs an uninitialized object of type
@@ -432,57 +434,53 @@ friend std::basic_istream<charT, traits>&
 ```
 [horizontal]
 Effects:: As if:
++
 ```
 T i;
 if (is >> i)
   x = i;
 ```
-[horizontal]
 Returns:: `is`.
 
 ## FAQ
 
 See the <<overview_faq,Endian home page>> FAQ for a library-wide FAQ.
 
-### Why not just use Boost.Serialization?
-
+Why not just use Boost.Serialization?::
 Serialization involves a conversion for every object involved in I/O. Endian
 integers require no conversion or copying. They are already in the desired
 format for binary I/O. Thus they can be read or written in bulk.
 
-### Are endian types PODs?
-
+Are endian types PODs?::
 Yes for {cpp}11. No for {cpp}03, although several
 <<arithmetic_compilation,macros>> are available to force PODness in all cases.
 
-### What are the implications of endian integer types not being PODs with {cpp}03
-compilers?
-
+What are the implications of endian integer types not being PODs with {cpp}03 compilers?::
 They can't be used in unions. Also, compilers aren't required to align or lay
 out storage in portable ways, although this potential problem hasn't prevented
 use of Boost.Endian with real compilers.
 
-### What good is native endianness?
-
+What good is native endianness?::
 It  provides alignment and size guarantees not available from the built-in
 types. It eases generic programming.
 
-### Why bother with the aligned endian types?
-
+Why bother with the aligned endian types?::
 Aligned integer operations may be faster (as much as 10 to 20 times faster)
 if the endianness and alignment of the type matches the endianness and
 alignment requirements of the machine. The code, however, will be somewhat less
 portable than with the unaligned types.
 
-### Why provide the arithmetic operations?
-
+Why provide the arithmetic operations?::
 Providing a full set of operations reduces program clutter and makes code
 both easier to write and to read. Consider incrementing a variable in a record.
 It is very convenient to write:
++
 ```
 ++record.foo;
 ```
++
 Rather than:
++
 ```
 int temp(record.foo);
 ++temp;

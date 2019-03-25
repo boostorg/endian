@@ -22,6 +22,8 @@ include::endian/conversion.adoc[]
 
 include::endian/arithmetic.adoc[]
 
+include::endian/buffers.adoc[]
+
 include::endian/choosing_approach.adoc[]
 
 include::endian/mini_review_topics.adoc[]
