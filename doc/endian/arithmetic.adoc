@@ -378,34 +378,44 @@ to the endianness of the platform.
 ```
 endian() = default;  // C++03: endian(){}
 ```
-[horizontal]
+[none]
+* {blank}
++
 Effects:: Constructs an uninitialized object of type
 `endian_arithmetic<E, T, n_bits, A>`.
 
 ```
 endian(T v);
 ```
-[horizontal]
+[none]
+* {blank}
++
 Effects:: Constructs an object of type `endian_arithmetic<E, T, n_bits, A>`.
 Postcondition:: `x == v,` where `x` is the constructed object.
 
 ```
 endian& operator=(T v);
 ```
-[horizontal]
+[none]
+* {blank}
++
 Postcondition:: `x == v,` where `x` is the constructed object.
 Returns:: `*this`.
 
 ```
 operator T() const;
 ```
-[horizontal]
+[none]
+* {blank}
++
 Returns:: The current value stored in `*this`, converted to `value_type`.
 
 ```
 const char* data() const;
 ```
-[horizontal]
+[none]
+* {blank}
++
 Returns:: A pointer to the first byte of the endian binary value stored in
 `*this`.
 
@@ -422,8 +432,11 @@ friend std::basic_ostream<charT, traits>&
   operator<<(std::basic_ostream<charT, traits>& os, const T& x);
 
 ```
-[horizontal]
-Returns:: `os << +x`.</p>
+[none]
+* {blank}
++
+Returns:: `os << +x`.
+[none]
 
 ### Stream extractor
 
@@ -432,7 +445,9 @@ template <class charT, class traits>
 friend std::basic_istream<charT, traits>&
   operator>>(std::basic_istream<charT, traits>& is, T& x);
 ```
-[horizontal]
+[none]
+* {blank}
++
 Effects:: As if:
 +
 ```

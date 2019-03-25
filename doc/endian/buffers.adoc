@@ -364,14 +364,18 @@ Template parameter `T` is required to be a standard integer type ({cpp}std,
 ```
 endian_buffer() noexcept = default;
 ```
-[horizontal]
+[none]
+* {blank}
++
 Effects:: Constructs an uninitialized object of type `endian_buffer<Order, T,
 Nbits, Align>`.
 
 ```
 explicit endian_buffer(T v) noexcept;
 ```
-[horizontal]
+[none]
+* {blank}
++
 Effects:: Constructs an object of type `endian_buffer<Order, T, Nbits, Align>`.
 Postcondition:: `value() == v & mask`, where `mask` is a constant of type
 `value_type` with `Nbits` low-order bits set to one.
@@ -381,7 +385,9 @@ is performed by `boost::endian::endian_reverse`.
 ```
 endian_buffer& operator=(T v) noexcept;
 ```
-[horizontal]
+[none]
+* {blank}
++
 Postcondition:: `value() == v & mask`, where `mask` is a constant of type
 `value_type` with `Nbits` low-order bits set to one.
 Returns:: `*this`.
@@ -391,7 +397,9 @@ performed by `boost::endian::endian_reverse`.
 ```
 value_type value() const noexcept;
 ```
-[horizontal]
+[none]
+* {blank}
++
 Returns:: `endian_value`, converted to `value_type`, if required, and having the
 endianness of the native platform.
 Remarks:: If `Align` is `align::yes` then endianness conversion, if required, is
@@ -400,8 +408,11 @@ performed by `boost::endian::endian_reverse`.
 ```
 const char* data</a>() const noexcept;
 ```
-[horizontal]
+[none]
+* {blank}
++
 Returns:: A pointer to the first byte of `endian_value`.
+[none]
 
 ### Non-member functions
 
@@ -411,7 +422,9 @@ template <class charT, class traits, order Order, class T,
 std::basic_ostream<charT, traits>& operator<<(std::basic_ostream<charT, traits>& os,
   const endian_buffer<Order, T, n_bits, Align>& x);
 ```
-[horizontal]
+[none]
+* {blank}
++
 Returns:: `os << x.value()`.
 
 ```
@@ -420,7 +433,9 @@ template <class charT, class traits, order Order, class T,
 std::basic_istream<charT, traits>& operator>>(std::basic_istream<charT, traits>& is,
   endian_buffer<Order, T, n_bits, Align>& x);
 ```
-[horizontal]
+[none]
+* {blank}
++
 Effects:: As if:
 +
 ```

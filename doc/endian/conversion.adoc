@@ -193,10 +193,12 @@ uint16_t endian_reverse(uint16_t x) noexcept;
 uint32_t endian_reverse(uint32_t x) noexcept;
 uint64_t endian_reverse(uint64_t x) noexcept;
 ```
-[horizontal]
+[none]
+* {blank}
++
 Returns:: `x`, with the order of its constituent bytes reversed.
 Remarks:: The type of `x` meets the `EndianReversible` requirements.
-
++
 NOTE: The Boost.Endian library does not provide overloads for the {cpp} standard
 library supplied types.
 
@@ -204,88 +206,111 @@ library supplied types.
 template <class EndianReversible>
 EndianReversible big_to_native(EndianReversible x) noexcept;
 ```
-[horizontal]
+[none]
+* {blank}
++
 Returns:: `conditional_reverse<order::big, order::native>(x)`.
 
 ```
 template <class EndianReversible>
 EndianReversible native_to_big(EndianReversible x) noexcept;
 ```
-[horizontal]
+[none]
+* {blank}
++
 Returns:: `conditional_reverse<order::native, order::big>(x)`.
 
 ```
 template <class EndianReversible>
 EndianReversible little_to_native(EndianReversible x) noexcept;
 ```
-[horizontal]
+[none]
+* {blank}
++
 Returns:: `conditional_reverse<order::little, order::native>(x)`.
 
 ```
 template <class EndianReversible>
 EndianReversible native_to_little(EndianReversible x) noexcept;
 ```
-[horizontal]
+[none]
+* {blank}
++
 Returns:: `conditional_reverse<order::native, order::little>(x)`.
 
 ```
 template <order O1, order O2, class EndianReversible>
 EndianReversible conditional_reverse(EndianReversible x) noexcept;
 ```
-[horizontal]
+[none]
+* {blank}
++
 Returns:: `x` if `O1 == O2,` otherwise `endian_reverse(x)`.
 Remarks:: Whether `x` or `endian_reverse(x)` is to be returned shall be
 determined at compile time.
-
 
 ```
 template <class EndianReversible>
 EndianReversible conditional_reverse(EndianReversible x,
      order order1, order order2) noexcept;
 ```
-[horizontal]
+[none]
+* {blank}
++
 Returns:: `order1 == order2 ? x : endian_reverse(x)`.
 
 ```
 template <class EndianReversible>
 void endian_reverse_inplace(EndianReversible& x) noexcept;
 ```
-[horizontal]
+[none]
+* {blank}
++
 Effects:: `x` `= endian_reverse(x)`.
 
 ```
 template <class EndianReversibleInplace>
 void big_to_native_inplace(EndianReversibleInplace& x) noexcept;
 ```
-[horizontal]
+[none]
+* {blank}
++
 Effects:: `conditional_reverse_inplace<order::big, order::native>(x)`.
 
 ```
 template <class EndianReversibleInplace>
 void native_to_big_inplace(EndianReversibleInplace& x) noexcept;
 ```
-[horizontal]
+[none]
+* {blank}
++
 Effects:: `conditional_reverse_inplace<order::native, order::big>(x)`.
 
 ```
 template <class EndianReversibleInplace>
 void little_to_native_inplace(EndianReversibleInplace& x) noexcept;
 ```
-[horizontal]
+[none]
+* {blank}
++
 Effects:: `conditional_reverse_inplace<order::little, order::native>(x)`.
 
 ```
 template <class EndianReversibleInplace>
 void native_to_little_inplace(EndianReversibleInplace& x) noexcept;
 ```
-[horizontal]
+[none]
+* {blank}
++
 Effects::  `conditional_reverse_inplace<order::native, order::little>(x)`.
 
 ```
 template <order O1, order O2, class EndianReversibleInplace>
 void conditional_reverse_inplace(EndianReversibleInplace& x) noexcept;
 ```
-[horizontal]
+[none]
+* {blank}
++
 Effects:: None if `O1 == O2,` otherwise `endian_reverse_inplace(x)`.
 Remarks:: Which effect applies shall be determined at compile time.
 
@@ -294,8 +319,11 @@ template <class EndianReversibleInplace>
 void conditional_reverse_inplace(EndianReversibleInplace& x,
      order order1, order order2) noexcept;
 ```
-[horizontal]
+[none]
+* {blank}
++
 Effects:: If `order1 == order2` then `endian_reverse_inplace(x)`.
+[none]
 
 ## FAQ
 
