@@ -52,7 +52,7 @@ namespace endian
   //  reverse byte order
   //  requires T to be a non-bool integral type
   //  in detail/endian_reverse.hpp
-  template<class T> inline T endian_load( T x ) BOOST_NOEXCEPT;
+  template<class T> inline T endian_reverse( T x ) BOOST_NOEXCEPT;
 
   //  reverse byte order unless native endianness is big
   template <class EndianReversible >
