@@ -55,14 +55,8 @@ namespace endian
     little = `see below`,
   };
 
-  int8_t   endian_reverse(int8_t x) noexcept;
-  int16_t  endian_reverse(int16_t x) noexcept;
-  int32_t  endian_reverse(int32_t x) noexcept;
-  int64_t  endian_reverse(int64_t x) noexcept;
-  uint8_t  endian_reverse(uint8_t x) noexcept;
-  uint16_t endian_reverse(uint16_t x) noexcept;
-  uint32_t endian_reverse(uint32_t x) noexcept;
-  uint64_t endian_reverse(uint64_t x) noexcept;
+  template <class Endian>
+    Endian endian_reverse(Endian x) noexcept;
 
   template <class EndianReversible>
     EndianReversible big_to_native(EndianReversible x) noexcept;
@@ -72,6 +66,7 @@ namespace endian
     EndianReversible little_to_native(EndianReversible x) noexcept;
   template <class EndianReversible>
     EndianReversible native_to_little(EndianReversible x) noexcept;
+
   template <order O1, order O2, class EndianReversible>
     EndianReversible conditional_reverse(EndianReversible x) noexcept;
   template <class EndianReversible>
@@ -89,6 +84,7 @@ namespace endian
     void little_to_native_inplace(EndianReversibleInplace& x) noexcept;
   template <class EndianReversibleInplace>
     void native_to_little_inplace(EndianReversibleInplace& x) noexcept;
+
   template <order O1, order O2, class EndianReversibleInplace>
     void conditional_reverse_inplace(EndianReversibleInplace& x) noexcept;
   template <class EndianReversibleInplace>
@@ -184,23 +180,14 @@ See `example/udt_conversion_example.cpp` for an example user-defined type.
 ### Functions
 
 ```
-int8_t   endian_reverse(int8_t x) noexcept;
-int16_t  endian_reverse(int16_t x) noexcept;
-int32_t  endian_reverse(int32_t x) noexcept;
-int64_t  endian_reverse(int64_t x) noexcept;
-uint8_t  endian_reverse(uint8_t x) noexcept;
-uint16_t endian_reverse(uint16_t x) noexcept;
-uint32_t endian_reverse(uint32_t x) noexcept;
-uint64_t endian_reverse(uint64_t x) noexcept;
+template <class Endian>
+Endian endian_reverse(Endian x) noexcept;
 ```
 [none]
 * {blank}
 +
+Requires:: `Endian` must be a standard integral type that is not `bool`.
 Returns:: `x`, with the order of its constituent bytes reversed.
-Remarks:: The type of `x` meets the `EndianReversible` requirements.
-+
-NOTE: The Boost.Endian library does not provide overloads for the {cpp} standard
-library supplied types.
 
 ```
 template <class EndianReversible>
@@ -336,13 +323,6 @@ that compute a value from an argument. Modify-in-place functions allow cleaner
 code in many real-world endian use cases and are more efficient for user-defined
 types that have members such as string data that do not need to be reversed.
 Thus both forms are provided.
-
-*Why are exact-length 8, 16, 32, and 64-bit integers supported rather than the
-built-in char, short, int, long, long long, etc?*
-
-* The primary use case, portable file or network data, needs these de facto
-standard sizes. Using types that vary with the platform would greatly limit
-portability for both programs and data.
 
 *Why not use the Linux names (htobe16, htole16, be16toh, le16toh, etc.) ?*
 
