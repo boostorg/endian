@@ -58,3 +58,6 @@ run endian_reverse_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : endian_re
 
 run endian_load_test.cpp ;
 run endian_load_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : endian_load_test_ni ;
+
+run endian_ld_st_roundtrip_test.cpp ;
+run endian_ld_st_roundtrip_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : endian_ld_st_roundtrip_test_ni ;
