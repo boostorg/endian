@@ -35,7 +35,7 @@ Consider the following code:
 ```
 int16_t i = 0x0102;
 FILE * file = fopen("test.bin", "wb"); // binary file!
-fwrite(&amp;i, sizeof(int16_t), 1, file);
+fwrite(&i, sizeof(int16_t), 1, file);
 fclose(file);
 ```
 
@@ -149,7 +149,9 @@ big_int32_at x;
 
 ... read into x from a file ...
 
+
 x += 100;
+
 
 ... write x to a file ...
 ----
@@ -188,8 +190,12 @@ big_int32_at x;
 
 ... read into x from a file ...
 
+
+
 for (int32_t i = 0; i < 1000000; ++i)
   x += i;
+
+
 
 ... write x to a file ...
 ----
@@ -228,7 +234,7 @@ See `test/loop_time_test.cpp` for the actual code and `benchmark/Jamfile.v2` for
 the build setup.
 
 #### GNU C++ version 4.8.2 on Linux virtual machine
-Iterations: 10'000'000'000, Intrinsics: __builtin_bswap16, etc.
+Iterations: 10'000'000'000, Intrinsics: `__builtin_bswap16`, etc.
 [%header,cols=3*]
 |===
 |Test Case |Endian arithmetic type |Endian conversion function
@@ -241,7 +247,7 @@ Iterations: 10'000'000'000, Intrinsics: __builtin_bswap16, etc.
 |===
 
 #### Microsoft Visual C++ version 14.0
-Iterations: 10'000'000'000, Intrinsics: cstdlib _byteswap_ushort, etc.
+Iterations: 10'000'000'000, Intrinsics: `<cstdlib>` `_byteswap_ushort`, etc.
 [%header,cols=3*]
 |===
 |Test Case |Endian arithmetic type |Endian conversion function
