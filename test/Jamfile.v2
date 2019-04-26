@@ -55,3 +55,6 @@ compile spirit_conflict_test.cpp
 
 run endian_reverse_test.cpp ;
 run endian_reverse_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : endian_reverse_test_ni ;
+
+run endian_load_test.cpp ;
+run endian_load_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : endian_load_test_ni ;
