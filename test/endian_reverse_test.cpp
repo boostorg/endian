@@ -138,11 +138,11 @@ int main()
     test<int>();
     test<unsigned int>();
 
-    // test<long>();
-    // test<unsigned long>();
+    test<long>();
+    test<unsigned long>();
 
-    // test<long long>();
-    // test<unsigned long long>();
+    test<long long>();
+    test<unsigned long long>();
 
 #if !defined(BOOST_NO_CXX11_CHAR16_T)
     test<char16_t>();

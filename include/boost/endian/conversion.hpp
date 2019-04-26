@@ -8,12 +8,12 @@
 #ifndef BOOST_ENDIAN_CONVERSION_HPP
 #define BOOST_ENDIAN_CONVERSION_HPP
 
-#include <boost/config.hpp>
-#include <boost/predef/other/endian.h>
-#include <boost/cstdint.hpp>
-#include <boost/endian/detail/intrinsic.hpp>
+#include <boost/endian/detail/endian_reverse.hpp>
 #include <boost/core/scoped_enum.hpp>
+#include <boost/predef/other/endian.h>
 #include <boost/static_assert.hpp>
+#include <boost/cstdint.hpp>
+#include <boost/config.hpp>
 #include <algorithm>
 #include <cstring>  // for memcpy
 
@@ -49,19 +49,10 @@ namespace endian
 //                                                                                      //
 //--------------------------------------------------------------------------------------//
 
-  //  customization for exact-length arithmetic types. See doc/conversion.html/#FAQ.
-  //  Note: The omission of a overloads for the arithmetic type (typically long, or
-  //  long long) not assigned to one of the exact length typedefs is a deliberate
-  //  design decision. Such overloads would be non-portable and thus error prone.
-
-  inline int8_t   endian_reverse(int8_t x) BOOST_NOEXCEPT;
-  inline int16_t  endian_reverse(int16_t x) BOOST_NOEXCEPT;
-  inline int32_t  endian_reverse(int32_t x) BOOST_NOEXCEPT;
-  inline int64_t  endian_reverse(int64_t x) BOOST_NOEXCEPT;
-  inline uint8_t  endian_reverse(uint8_t x) BOOST_NOEXCEPT;
-  inline uint16_t endian_reverse(uint16_t x) BOOST_NOEXCEPT;
-  inline uint32_t endian_reverse(uint32_t x) BOOST_NOEXCEPT;
-  inline uint64_t endian_reverse(uint64_t x) BOOST_NOEXCEPT;
+  //  reverse byte order
+  //  requires T to be a non-bool integral type
+  //  in detail/endian_reverse.hpp
+  template<class T> inline T endian_load( T x ) BOOST_NOEXCEPT;
 
   //  reverse byte order unless native endianness is big
   template <class EndianReversible >
@@ -123,6 +114,7 @@ namespace endian
   //------------------------------------------------------------------------------------//
 
   //  reverse in place
+  //  in detail/endian_reverse.hpp
   template <class EndianReversible>
     inline void endian_reverse_inplace(EndianReversible& x) BOOST_NOEXCEPT;
     //  Effects: x = endian_reverse(x)
@@ -182,119 +174,6 @@ namespace endian
     template <class T>
       inline void little_reverse_copy(const char* from, T& to) BOOST_NOEXCEPT;
   }  // namespace detail
-
-//--------------------------------------------------------------------------------------//
-//                                                                                      //
-//                            return-by-value implementation                            //
-//                                                                                      //
-//    -- portable approach suggested by tymofey, with avoidance of undefined behavior   //
-//       as suggested by Giovanni Piero Deretta, with a further refinement suggested    //
-//       by Pyry Jahkola.                                                               //
-//    -- intrinsic approach suggested by reviewers, and by David Stone, who provided    //
-//       his Boost licensed macro implementation (detail/intrinsic.hpp)                 //
-//                                                                                      //
-//--------------------------------------------------------------------------------------//
-
-  inline int8_t endian_reverse(int8_t x) BOOST_NOEXCEPT
-  {
-    return x;
-  }
-
-  inline int16_t endian_reverse(int16_t x) BOOST_NOEXCEPT
-  {
-# ifdef BOOST_ENDIAN_NO_INTRINSICS
-    return (static_cast<uint16_t>(x) << 8)
-      | (static_cast<uint16_t>(x) >> 8);
-# else
-    return static_cast<int16_t>(
-      BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_2(static_cast<uint16_t>(x)));
-# endif
-  }
-
-  inline int32_t endian_reverse(int32_t x) BOOST_NOEXCEPT
-  {
-# ifdef BOOST_ENDIAN_NO_INTRINSICS
-    uint32_t step16;
-    step16 = static_cast<uint32_t>(x) << 16 | static_cast<uint32_t>(x) >> 16;
-    return
-        ((static_cast<uint32_t>(step16) << 8) & 0xff00ff00)
-      | ((static_cast<uint32_t>(step16) >> 8) & 0x00ff00ff);
-# else
-    return static_cast<int32_t>(
-      BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_4(static_cast<uint32_t>(x)));
-# endif
-  }
-
-  inline int64_t endian_reverse(int64_t x) BOOST_NOEXCEPT
-  {
-# ifdef BOOST_ENDIAN_NO_INTRINSICS
-    uint64_t step32, step16;
-    step32 = static_cast<uint64_t>(x) << 32 | static_cast<uint64_t>(x) >> 32;
-    step16 = (step32 & 0x0000FFFF0000FFFFULL) << 16
-           | (step32 & 0xFFFF0000FFFF0000ULL) >> 16;
-    return static_cast<int64_t>((step16 & 0x00FF00FF00FF00FFULL) << 8
-           | (step16 & 0xFF00FF00FF00FF00ULL) >> 8);
-# else
-    return static_cast<int64_t>(
-      BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_8(static_cast<uint64_t>(x)));
-# endif
-  }
-
-  inline uint8_t endian_reverse(uint8_t x) BOOST_NOEXCEPT
-  {
-    return x;
-  }
-
-  inline uint16_t endian_reverse(uint16_t x) BOOST_NOEXCEPT
-  {
-# ifdef BOOST_ENDIAN_NO_INTRINSICS
-    return (x << 8)
-      | (x >> 8);
-# else
-    return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_2(x);
-# endif
-  }
-
-  inline uint32_t endian_reverse(uint32_t x) BOOST_NOEXCEPT
-  {
-# ifdef BOOST_ENDIAN_NO_INTRINSICS
-    uint32_t step16;
-    step16 = x << 16 | x >> 16;
-    return
-        ((step16 << 8) & 0xff00ff00)
-      | ((step16 >> 8) & 0x00ff00ff);
-# else
-    return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_4(x);
-# endif
-  }
-
-  inline uint64_t endian_reverse(uint64_t x) BOOST_NOEXCEPT
-  {
-# ifdef BOOST_ENDIAN_NO_INTRINSICS
-    uint64_t step32, step16;
-    step32 = x << 32 | x >> 32;
-    step16 = (step32 & 0x0000FFFF0000FFFFULL) << 16
-           | (step32 & 0xFFFF0000FFFF0000ULL) >> 16;
-    return (step16 & 0x00FF00FF00FF00FFULL) << 8
-           | (step16 & 0xFF00FF00FF00FF00ULL) >> 8;
-# else
-    return BOOST_ENDIAN_INTRINSIC_BYTE_SWAP_8(x);
-# endif
-  }
-
-  // overloads for char and char16_t, which otherwise use int32_t
-
-  inline char endian_reverse(char x) BOOST_NOEXCEPT
-  {
-    return static_cast<char>( endian_reverse( static_cast<uint8_t>(x) ) );
-  }
-
-#if !defined(BOOST_NO_CXX11_CHAR16_T)
-  inline char16_t endian_reverse(char16_t x) BOOST_NOEXCEPT
-  {
-    return static_cast<char16_t>( endian_reverse( static_cast<uint16_t>(x) ) );
-  }
-#endif
 
   template <class EndianReversible >
   inline EndianReversible  big_to_native(EndianReversible  x) BOOST_NOEXCEPT
@@ -375,13 +254,6 @@ namespace endian
 //--------------------------------------------------------------------------------------//
 //                           reverse-in-place implementation                            //
 //--------------------------------------------------------------------------------------//
-
-  //  reverse in place
-  template <class EndianReversible>
-  inline void endian_reverse_inplace(EndianReversible& x) BOOST_NOEXCEPT
-  {
-    x = endian_reverse(x);
-  }
 
   template <class EndianReversibleInplace>
 #   if BOOST_ENDIAN_BIG_BYTE
