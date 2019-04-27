@@ -2,6 +2,7 @@
 
 //  (C) Copyright Darin Adler 2000
 //  (C) Copyright Beman Dawes 2006, 2009, 2014
+//  (C) Copyright Peter Dimov 2019
 
 //  Distributed under the Boost Software License, Version 1.0.
 //  See http://www.boost.org/LICENSE_1_0.txt
@@ -26,24 +27,22 @@
 # pragma warning(disable:4365)  // conversion ... signed/unsigned mismatch
 #endif
 
-#if defined(__BORLANDC__) || defined( __CODEGEARC__)
-# pragma pack(push, 1)
-#endif
-
-#include <boost/config.hpp>
-#include <boost/config/workaround.hpp>
-#include <boost/predef/other/endian.h>
-#include <boost/endian/conversion.hpp>
 #include <boost/endian/buffers.hpp>
 #define  BOOST_ENDIAN_MINIMAL_COVER_OPERATORS
 #include <boost/endian/detail/cover_operators.hpp>
 #undef   BOOST_ENDIAN_MINIMAL_COVER_OPERATORS
-#include <boost/type_traits/is_signed.hpp>
-#include <boost/cstdint.hpp>
-#include <boost/static_assert.hpp>
 #include <boost/core/scoped_enum.hpp>
+#include <boost/predef/other/endian.h>
+#include <boost/static_assert.hpp>
+#include <boost/cstdint.hpp>
+#include <boost/config.hpp>
+#include <boost/config/workaround.hpp>
 #include <iosfwd>
 #include <climits>
+
+#if defined(__BORLANDC__) || defined( __CODEGEARC__)
+# pragma pack(push, 1)
+#endif
 
 # if CHAR_BIT != 8
 #   error Platforms with CHAR_BIT != 8 are not supported
@@ -74,7 +73,7 @@ namespace endian
 {
 
   template <BOOST_SCOPED_ENUM(order) Order, class T, std::size_t n_bits,
-    BOOST_SCOPED_ENUM(align) A = align::no>
+    BOOST_SCOPED_ENUM(align) Align = align::no>
       class endian_arithmetic;
 
   // big endian signed integer aligned types
@@ -279,107 +278,41 @@ namespace endian
 
 //----------------------------------  end synopsis  ------------------------------------//
 
-//  endian class template specializations  ---------------------------------------------//
+template <BOOST_SCOPED_ENUM(order) Order, class T, std::size_t n_bits,
+    BOOST_SCOPED_ENUM(align) Align>
+class endian_arithmetic:
+    public endian_buffer<Order, T, n_bits, Align>,
+    private cover_operators<endian_arithmetic<Order, T, n_bits, Align>, T>
+{
+private:
 
-    //  Specializations that represent unaligned bytes.
-    //  Taking an integer type as a parameter provides a nice way to pass both
-    //  the size and signness of the desired integer and get the appropriate
-    //  corresponding integer type for the interface.
+    typedef endian_buffer<Order, T, n_bits, Align> inherited;
 
-    //  unaligned integer big endian specialization
-    template <typename T, std::size_t n_bits>
-    class endian_arithmetic< order::big, T, n_bits, align::no >
-      : public endian_buffer< order::big, T, n_bits, align::no >,
-        cover_operators<endian_arithmetic<order::big, T, n_bits>, T>
+public:
+
+    typedef T value_type;
+
+#ifndef BOOST_ENDIAN_NO_CTORS
+
+    endian_arithmetic() BOOST_ENDIAN_DEFAULT_CONSTRUCT
+
+    BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic( T val ) BOOST_NOEXCEPT: inherited( val )
     {
-        BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
-        typedef endian_buffer< order::big, T, n_bits, align::no > inherited;
-      public:
-        typedef T value_type;
-#     ifndef BOOST_ENDIAN_NO_CTORS
-        endian_arithmetic() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic(T val) BOOST_NOEXCEPT: inherited( val )
-        {
-        }
-#     endif
-        endian_arithmetic& operator=(T val) BOOST_NOEXCEPT
-          { inherited::operator=( val ); return *this; }
-        operator value_type() const BOOST_NOEXCEPT { return this->value(); }
-    };
+    }
 
-    //  unaligned little endian specialization
-    template <typename T, std::size_t n_bits>
-    class endian_arithmetic< order::little, T, n_bits, align::no >
-      : public endian_buffer< order::little, T, n_bits, align::no >,
-        cover_operators< endian_arithmetic< order::little, T, n_bits >, T >
+#endif
+
+    endian_arithmetic& operator=( T val ) BOOST_NOEXCEPT
     {
-        BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
-        typedef endian_buffer< order::little, T, n_bits, align::no > inherited;
-      public:
-        typedef T value_type;
-#     ifndef BOOST_ENDIAN_NO_CTORS
-        endian_arithmetic() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic(T val) BOOST_NOEXCEPT: inherited( val )
-        {
-        }
-#     endif
-        endian_arithmetic& operator=(T val) BOOST_NOEXCEPT
-          { inherited::operator=( val ); return *this; }
-        operator value_type() const BOOST_NOEXCEPT { return this->value(); }
-    };
+        inherited::operator=( val );
+        return *this;
+    }
 
-  //  align::yes specializations; only n_bits == 16/32/64 supported
-
-    //  aligned big endian specialization
-    template <typename T, std::size_t n_bits>
-    class endian_arithmetic<order::big, T, n_bits, align::yes>
-      : public endian_buffer< order::big, T, n_bits, align::yes >,
-        cover_operators<endian_arithmetic<order::big, T, n_bits, align::yes>, T>
+    operator value_type() const BOOST_NOEXCEPT
     {
-        BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
-        BOOST_STATIC_ASSERT( sizeof(T) == n_bits/8 );
-        typedef endian_buffer< order::big, T, n_bits, align::yes > inherited;
-      public:
-        typedef T value_type;
-#     ifndef BOOST_ENDIAN_NO_CTORS
-        endian_arithmetic() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic(T val) BOOST_NOEXCEPT: inherited( val )
-        {
-        }
-
-#     endif
-        endian_arithmetic& operator=(T val) BOOST_NOEXCEPT
-        {
-          inherited::operator=( val );
-          return *this;
-        }
-        operator value_type() const BOOST_NOEXCEPT { return this->value(); }
-    };
-
-    //  aligned little endian specialization
-    template <typename T, std::size_t n_bits>
-    class endian_arithmetic<order::little, T, n_bits, align::yes>
-      : public endian_buffer< order::little, T, n_bits, align::yes >,
-        cover_operators<endian_arithmetic<order::little, T, n_bits, align::yes>, T>
-    {
-        BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
-        BOOST_STATIC_ASSERT( sizeof(T) == n_bits/8 );
-        typedef endian_buffer< order::little, T, n_bits, align::yes > inherited;
-      public:
-        typedef T value_type;
-#     ifndef BOOST_ENDIAN_NO_CTORS
-        endian_arithmetic() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic(T val) BOOST_NOEXCEPT: inherited( val )
-        {
-        }
-#     endif
-        endian_arithmetic& operator=(T val) BOOST_NOEXCEPT
-        {
-          inherited::operator=( val );
-          return *this;
-        }
-        operator value_type() const BOOST_NOEXCEPT { return this->value(); }
-    };
+        return this->value();
+    }
+};
 
 } // namespace endian
 } // namespace boost
