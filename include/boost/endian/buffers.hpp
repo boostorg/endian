@@ -27,10 +27,6 @@
 # pragma warning(disable: 4127)  // conditional expression is constant
 #endif
 
-#if defined(__BORLANDC__) || defined( __CODEGEARC__)
-# pragma pack(push, 1)
-#endif
-
 #include <boost/endian/detail/endian_store.hpp>
 #include <boost/endian/detail/endian_load.hpp>
 #include <boost/core/scoped_enum.hpp>
@@ -42,6 +38,10 @@
 #include <iosfwd>
 #include <climits>
 #include <cstring>
+
+#if defined(__BORLANDC__) || defined( __CODEGEARC__)
+# pragma pack(push, 1)
+#endif
 
 # if CHAR_BIT != 8
 #   error Platforms with CHAR_BIT != 8 are not supported
