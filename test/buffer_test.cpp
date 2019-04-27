@@ -210,25 +210,48 @@ namespace
     std::cout << "test construction and assignment complete" << std::endl;
   }
 
-  template <typename Int>
+  template <typename T>
   void test_boundary_values_()
   {
-    test_buffer_type< endian_buffer<order::big, Int, sizeof(Int) * CHAR_BIT, align::no> >( std::numeric_limits<Int>::min(), std::numeric_limits<Int>::max() );
-    test_buffer_type< endian_buffer<order::big, Int, sizeof(Int) * CHAR_BIT, align::no> >( std::numeric_limits<Int>::min(), std::numeric_limits<Int>::max() );
-    test_buffer_type< endian_buffer<order::big, Int, sizeof(Int) * CHAR_BIT, align::yes> >( std::numeric_limits<Int>::min(), std::numeric_limits<Int>::max() );
-    test_buffer_type< endian_buffer<order::big, Int, sizeof(Int) * CHAR_BIT, align::yes> >( std::numeric_limits<Int>::min(), std::numeric_limits<Int>::max() );
+    test_buffer_type< endian_buffer<order::big,    T, sizeof(T) * CHAR_BIT, align::no > >( std::numeric_limits<T>::min(), std::numeric_limits<T>::max() );
+    test_buffer_type< endian_buffer<order::little, T, sizeof(T) * CHAR_BIT, align::no > >( std::numeric_limits<T>::min(), std::numeric_limits<T>::max() );
+    test_buffer_type< endian_buffer<order::big,    T, sizeof(T) * CHAR_BIT, align::yes> >( std::numeric_limits<T>::min(), std::numeric_limits<T>::max() );
+    test_buffer_type< endian_buffer<order::little, T, sizeof(T) * CHAR_BIT, align::yes> >( std::numeric_limits<T>::min(), std::numeric_limits<T>::max() );
   }
 
   void test_boundary_values()
   {
     std::cout << "test boundary values..." << std::endl;
 
-    test_boundary_values_<signed int>();
-    test_boundary_values_<unsigned int>();
-    test_boundary_values_<signed short>();
-    test_boundary_values_<unsigned short>();
+    // integer types
+
     test_boundary_values_<signed char>();
     test_boundary_values_<unsigned char>();
+    test_boundary_values_<signed short>();
+    test_boundary_values_<unsigned short>();
+    test_boundary_values_<signed int>();
+    test_boundary_values_<unsigned int>();
+    test_boundary_values_<signed long>();
+    test_boundary_values_<unsigned long>();
+    test_boundary_values_<signed long long>();
+    test_boundary_values_<unsigned long long>();
+
+    // character types
+
+    test_boundary_values_<char>();
+
+#if !defined(BOOST_NO_CXX11_CHAR16_T)
+    test_boundary_values_<char16_t>();
+#endif
+
+#if !defined(BOOST_NO_CXX11_CHAR32_T)
+    test_boundary_values_<char32_t>();
+#endif
+
+    // floating-point types
+
+    test_boundary_values_<float>();
+    test_boundary_values_<double>();
 
     std::cout << "test boundary values complete" << std::endl;
   }
