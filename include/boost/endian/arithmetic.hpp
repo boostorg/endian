@@ -26,10 +26,6 @@
 # pragma warning(disable:4365)  // conversion ... signed/unsigned mismatch
 #endif
 
-#ifdef BOOST_ENDIAN_LOG
-# include <iostream>
-#endif
-
 #if defined(__BORLANDC__) || defined( __CODEGEARC__)
 # pragma pack(push, 1)
 #endif
@@ -303,10 +299,6 @@ namespace endian
         endian_arithmetic() BOOST_ENDIAN_DEFAULT_CONSTRUCT
         BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic(T val) BOOST_NOEXCEPT
         {
-#       ifdef BOOST_ENDIAN_LOG
-          if ( endian_log )
-            std::cout << "big, unaligned, " << n_bits << "-bits, construct(" << val << ")\n";
-#       endif
           detail::store_big_endian<T, n_bits/8>(this->m_value, val);
         }
 #     endif
@@ -328,10 +320,6 @@ namespace endian
         endian_arithmetic() BOOST_ENDIAN_DEFAULT_CONSTRUCT
         BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic(T val) BOOST_NOEXCEPT
         {
-#       ifdef BOOST_ENDIAN_LOG
-          if ( endian_log )
-            std::cout << "little, unaligned, " << n_bits << "-bits, construct(" << val << ")\n";
-#       endif
           detail::store_little_endian<T, n_bits/8>(this->m_value, val);
         }
 #     endif
@@ -356,10 +344,6 @@ namespace endian
         endian_arithmetic() BOOST_ENDIAN_DEFAULT_CONSTRUCT
         BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic(T val) BOOST_NOEXCEPT
         {
-#       ifdef BOOST_ENDIAN_LOG
-          if ( endian_log )
-            std::cout << "big, aligned, " << n_bits << "-bits, construct(" << val << ")\n";
-#       endif
           this->m_value = ::boost::endian::native_to_big(val);
         }
 
@@ -386,10 +370,6 @@ namespace endian
         endian_arithmetic() BOOST_ENDIAN_DEFAULT_CONSTRUCT
         BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic(T val) BOOST_NOEXCEPT
         {
-#       ifdef BOOST_ENDIAN_LOG
-          if ( endian_log )
-            std::cout << "little, aligned, " << n_bits << "-bits, construct(" << val << ")\n";
-#       endif
           this->m_value = ::boost::endian::native_to_little(val);
         }
 #     endif

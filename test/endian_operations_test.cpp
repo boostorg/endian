@@ -14,8 +14,6 @@
 
 //  See endian_test for tests of endianness correctness, size, and value.
 
-#define BOOST_ENDIAN_LOG
-
 #include <boost/endian/detail/disable_warnings.hpp>
 
 #ifdef _MSC_VER
@@ -27,8 +25,6 @@
 #elif defined(__GNUC__)
 #  pragma GCC diagnostic ignored "-Wconversion"
 #endif
-
-#define BOOST_ENDIAN_LOG
 
 #include <boost/endian/arithmetic.hpp>
 #include <boost/type_traits/is_signed.hpp>
@@ -372,19 +368,12 @@ void f_big_int32_ut(be::big_int32_t) {}
 
 int cpp_main(int, char * [])
 {
-  be::endian_log = false;
-
   //  make sure some simple things work
 
   be::big_int32_t o1(1);
   be::big_int32_t o2(2L);
   be::big_int32_t o3(3LL);
   be::big_int64_t o4(1);
-
-  //  use cases; if BOOST_ENDIAN_LOG is defined, will output to clog info on
-  //  what overloads and conversions are actually being performed.
-
-  be::endian_log = true;
 
   std::clog << "set up test values\n";
   be::big_int32_t      big(12345);
@@ -485,8 +474,6 @@ int cpp_main(int, char * [])
   std::clog << "\nu2 = u1 + u4\n";
   u2 = u1 + u4;
   std::clog << "\n";
-
-  be::endian_log = false;
 
   test_inserter_and_extractor();
 

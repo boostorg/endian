@@ -2,6 +2,7 @@
 
 //  (C) Copyright Darin Adler 2000
 //  (C) Copyright Beman Dawes 2006, 2009, 2014
+//  (C) Copyright Peter Dimov 2019
 
 //  Distributed under the Boost Software License, Version 1.0.
 //  See http://www.boost.org/LICENSE_1_0.txt
@@ -24,10 +25,6 @@
 #if defined(_MSC_VER)
 # pragma warning(push)
 # pragma warning(disable: 4127)  // conditional expression is constant
-#endif
-
-#ifdef BOOST_ENDIAN_LOG
-# include <iostream>
 #endif
 
 #if defined(__BORLANDC__) || defined( __CODEGEARC__)
@@ -247,10 +244,6 @@ namespace endian
 
   } // namespace detail
 
-# ifdef BOOST_ENDIAN_LOG
-    bool endian_log(true);
-# endif
-
 //  endian_buffer class template specializations  --------------------------------------//
 
     //  Specializations that represent unaligned bytes.
@@ -274,30 +267,16 @@ namespace endian
         endian_buffer() BOOST_ENDIAN_DEFAULT_CONSTRUCT
         explicit endian_buffer(T val) BOOST_NOEXCEPT
         {
-#       ifdef BOOST_ENDIAN_LOG
-          if ( endian_log )
-            std::cout << "big, unaligned, "
-              << n_bits << "-bits, construct(" << val << ")\n";
-#       endif
           detail::store_big_endian<T, n_bits/8>(m_value, val);
         }
 #     endif
         endian_buffer & operator=(T val) BOOST_NOEXCEPT
         {
-#       ifdef BOOST_ENDIAN_LOG
-          if (endian_log)
-            std::cout << "big, unaligned, " << n_bits << "-bits, assign(" << val << ")\n";
-#       endif
           detail::store_big_endian<T, n_bits/8>(m_value, val);
           return *this;
         }
         value_type value() const BOOST_NOEXCEPT
         {
-#       ifdef BOOST_ENDIAN_LOG
-          if ( endian_log )
-            std::cout << "big, unaligned, " << n_bits << "-bits, convert("
-              << detail::load_big_endian<T, n_bits/8>(m_value) << ")\n";
-#       endif
           return detail::load_big_endian<T, n_bits/8>(m_value);
         }
         const char* data() const BOOST_NOEXCEPT  { return m_value; }
@@ -316,11 +295,6 @@ namespace endian
         endian_buffer() BOOST_ENDIAN_DEFAULT_CONSTRUCT
         explicit endian_buffer(T val) BOOST_NOEXCEPT
         {
-#       ifdef BOOST_ENDIAN_LOG
-          if ( endian_log )
-            std::cout << "little, unaligned, " << n_bits << "-bits, construct("
-              << val << ")\n";
-#       endif
           detail::store_little_endian<T, n_bits/8>(m_value, val);
         }
 #     endif
@@ -328,11 +302,6 @@ namespace endian
           { detail::store_little_endian<T, n_bits/8>(m_value, val); return *this; }
         value_type value() const BOOST_NOEXCEPT
         {
-#       ifdef BOOST_ENDIAN_LOG
-          if ( endian_log )
-            std::cout << "little, unaligned, " << n_bits << "-bits, convert("
-              << detail::load_little_endian<T, n_bits/8>(m_value) << ")\n";
-#       endif
           return detail::load_little_endian<T, n_bits/8>(m_value);
         }
         const char* data() const BOOST_NOEXCEPT  { return m_value; }
@@ -354,11 +323,6 @@ namespace endian
         endian_buffer() BOOST_ENDIAN_DEFAULT_CONSTRUCT
         explicit endian_buffer(T val) BOOST_NOEXCEPT
         {
-#       ifdef BOOST_ENDIAN_LOG
-          if ( endian_log )
-            std::cout << "big, aligned, " << n_bits
-              << "-bits, construct(" << val << ")\n";
-#       endif
           m_value = ::boost::endian::native_to_big(val);
         }
 
@@ -374,11 +338,6 @@ namespace endian
         //}
         value_type value() const BOOST_NOEXCEPT
         {
-#       ifdef BOOST_ENDIAN_LOG
-          if ( endian_log )
-            std::cout << "big, aligned, " << n_bits << "-bits, convert("
-              << ::boost::endian::big_to_native(m_value) << ")\n";
-#       endif
           return ::boost::endian::big_to_native(m_value);
         }
         const char* data() const BOOST_NOEXCEPT
@@ -399,11 +358,6 @@ namespace endian
         endian_buffer() BOOST_ENDIAN_DEFAULT_CONSTRUCT
         explicit endian_buffer(T val) BOOST_NOEXCEPT
         {
-#       ifdef BOOST_ENDIAN_LOG
-          if ( endian_log )
-            std::cout << "little, aligned, " << n_bits
-              << "-bits, construct(" << val << ")\n";
-#       endif
           m_value = ::boost::endian::native_to_little(val);
         }
 
@@ -415,11 +369,6 @@ namespace endian
         }
         value_type value() const BOOST_NOEXCEPT
         {
-#       ifdef BOOST_ENDIAN_LOG
-          if ( endian_log )
-            std::cout << "little, aligned, " << n_bits << "-bits, convert("
-              << ::boost::endian::little_to_native(m_value) << ")\n";
-#       endif
           return ::boost::endian::little_to_native(m_value);
         }
         const char* data() const BOOST_NOEXCEPT
