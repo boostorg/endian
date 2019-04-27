@@ -65,3 +65,6 @@ run endian_store_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : endian_stor
 
 run endian_ld_st_roundtrip_test.cpp ;
 run endian_ld_st_roundtrip_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : endian_ld_st_roundtrip_test_ni ;
+
+run endian_arithmetic_test.cpp ;
+run endian_arithmetic_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : endian_arithmetic_test_ni ;
