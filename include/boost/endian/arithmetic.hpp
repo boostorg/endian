@@ -28,9 +28,6 @@
 #endif
 
 #include <boost/endian/buffers.hpp>
-#define  BOOST_ENDIAN_MINIMAL_COVER_OPERATORS
-#include <boost/endian/detail/cover_operators.hpp>
-#undef   BOOST_ENDIAN_MINIMAL_COVER_OPERATORS
 #include <boost/core/scoped_enum.hpp>
 #include <boost/predef/other/endian.h>
 #include <boost/static_assert.hpp>
@@ -281,8 +278,7 @@ namespace endian
 template <BOOST_SCOPED_ENUM(order) Order, class T, std::size_t n_bits,
     BOOST_SCOPED_ENUM(align) Align>
 class endian_arithmetic:
-    public endian_buffer<Order, T, n_bits, Align>,
-    private cover_operators<endian_arithmetic<Order, T, n_bits, Align>, T>
+    public endian_buffer<Order, T, n_bits, Align>
 {
 private:
 
@@ -311,6 +307,120 @@ public:
     operator value_type() const BOOST_NOEXCEPT
     {
         return this->value();
+    }
+
+    // operators
+
+    T operator+() const BOOST_NOEXCEPT
+    {
+        return this->value();
+    }
+
+    endian_arithmetic& operator+=( T y ) BOOST_NOEXCEPT
+    {
+        *this = static_cast<T>( this->value() + y );
+        return *this;
+    }
+
+    endian_arithmetic& operator-=( T y ) BOOST_NOEXCEPT
+    {
+        *this = static_cast<T>( this->value() - y );
+        return *this;
+    }
+
+    endian_arithmetic& operator*=( T y ) BOOST_NOEXCEPT
+    {
+        *this = static_cast<T>( this->value() * y );
+        return *this;
+    }
+
+    endian_arithmetic& operator/=( T y ) BOOST_NOEXCEPT
+    {
+        *this = static_cast<T>( this->value() / y );
+        return *this;
+    }
+
+    endian_arithmetic& operator%=( T y ) BOOST_NOEXCEPT
+    {
+        *this = static_cast<T>( this->value() % y );
+        return *this;
+    }
+
+    endian_arithmetic& operator&=( T y ) BOOST_NOEXCEPT
+    {
+        *this = static_cast<T>( this->value() & y );
+        return *this;
+    }
+
+    endian_arithmetic& operator|=( T y ) BOOST_NOEXCEPT
+    {
+        *this = static_cast<T>( this->value() | y );
+        return *this;
+    }
+
+    endian_arithmetic& operator^=( T y ) BOOST_NOEXCEPT
+    {
+        *this = static_cast<T>( this->value() ^ y );
+        return *this;
+    }
+
+    endian_arithmetic& operator<<=( T y ) BOOST_NOEXCEPT
+    {
+        *this = static_cast<T>( this->value() << y );
+        return *this;
+    }
+
+    endian_arithmetic& operator>>=( T y ) BOOST_NOEXCEPT
+    {
+        *this = static_cast<T>( this->value() >> y );
+        return *this;
+    }
+
+    endian_arithmetic& operator++() BOOST_NOEXCEPT
+    {
+        *this += 1;
+        return *this;
+    }
+
+    endian_arithmetic& operator--() BOOST_NOEXCEPT
+    {
+        *this -= 1;
+        return *this;
+    }
+
+    endian_arithmetic operator++(int) BOOST_NOEXCEPT
+    {
+        endian_arithmetic tmp( *this );
+        *this += 1;
+        return tmp;
+    }
+
+    endian_arithmetic operator--(int) BOOST_NOEXCEPT
+    {
+        endian_arithmetic tmp( *this );
+        *this -= 1;
+        return tmp;
+    }
+
+    template<class Ch, class Tr>
+    friend std::basic_ostream<Ch, Tr>&
+    operator<<( std::basic_ostream<Ch, Tr>& os, endian_arithmetic const& x )
+    {
+        return os << x.value();
+    }
+
+    template<class Ch, class Tr>
+    friend std::basic_istream<Ch, Tr>&
+    operator>>( std::basic_istream<Ch, Tr>& is, endian_arithmetic& x )
+    {
+        T i;
+
+        if( is >> i )
+        {
+            x = i;
+        }
+
+        return is;
     }
 };
 
