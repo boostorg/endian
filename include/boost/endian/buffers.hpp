@@ -31,15 +31,14 @@
 # pragma pack(push, 1)
 #endif
 
-#include <boost/config.hpp>
-#include <boost/config/workaround.hpp>
-#include <boost/predef/other/endian.h>
 #include <boost/endian/detail/endian_store.hpp>
 #include <boost/endian/detail/endian_load.hpp>
-#include <boost/endian/conversion.hpp>
-#include <boost/cstdint.hpp>
-#include <boost/static_assert.hpp>
 #include <boost/core/scoped_enum.hpp>
+#include <boost/predef/other/endian.h>
+#include <boost/static_assert.hpp>
+#include <boost/cstdint.hpp>
+#include <boost/config.hpp>
+#include <boost/config/workaround.hpp>
 #include <iosfwd>
 #include <climits>
 #include <cstring>
@@ -211,171 +210,153 @@ namespace endian
 
 //----------------------------------  end synopsis  ------------------------------------//
 
-  namespace detail
-  {
-
-    template <typename T, std::size_t n_bytes>
-    inline
-    T load_big_endian(const void* bytes) BOOST_NOEXCEPT
-    {
-        return endian::endian_load<T, n_bytes, order::big>( static_cast<unsigned char const*>( bytes ) );
-    }
-
-    template <typename T, std::size_t n_bytes>
-    inline
-    T load_little_endian(const void* bytes) BOOST_NOEXCEPT
-    {
-        return endian::endian_load<T, n_bytes, order::little>( static_cast<unsigned char const*>( bytes ) );
-    }
-
-    template <typename T, std::size_t n_bytes>
-    inline
-    void store_big_endian(void* bytes, T value) BOOST_NOEXCEPT
-    {
-        endian::endian_store<T, n_bytes, order::big>( value, static_cast<unsigned char*>( bytes ) );
-    }
-
-    template <typename T, std::size_t n_bytes>
-    inline
-    void store_little_endian(void* bytes, T value) BOOST_NOEXCEPT
-    {
-        endian::endian_store<T, n_bytes, order::little>( value, static_cast<unsigned char*>( bytes ) );
-    }
-
-  } // namespace detail
-
 //  endian_buffer class template specializations  --------------------------------------//
 
-    //  Specializations that represent unaligned bytes.
-    //  Taking an integer type as a parameter provides a nice way to pass both
-    //  the size and signedness of the desired integer and get the appropriate
-    //  corresponding integer type for the interface.
+//  Specializations that represent unaligned bytes.
+//  Taking an integer type as a parameter provides a nice way to pass both
+//  the size and signedness of the desired integer and get the appropriate
+//  corresponding integer type for the interface.
 
-    // Q: Should endian_buffer supply "value_type operator value_type() const noexcept"?
-    // A: No. The rationale for endian_buffers is to prevent high-cost hidden
-    //    conversions. If an implicit conversion operator is supplied, hidden conversions
-    //    can occur.
+// Q: Should endian_buffer supply "value_type operator value_type() const noexcept"?
+// A: No. The rationale for endian_buffers is to prevent high-cost hidden
+//    conversions. If an implicit conversion operator is supplied, hidden conversions
+//    can occur.
 
-    //  unaligned big endian_buffer specialization
-    template <typename T, std::size_t n_bits>
-    class endian_buffer< order::big, T, n_bits, align::no >
+//  unaligned endian_buffer specialization
+
+template< BOOST_SCOPED_ENUM(order) Order, class T, std::size_t n_bits >
+class endian_buffer<Order, T, n_bits, align::no>
+{
+private:
+
+    BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
+
+    unsigned char value_[ n_bits / 8 ];
+
+public:
+
+    typedef T value_type;
+
+#ifndef BOOST_ENDIAN_NO_CTORS
+
+    endian_buffer() BOOST_ENDIAN_DEFAULT_CONSTRUCT
+
+    explicit endian_buffer( T val ) BOOST_NOEXCEPT
     {
-        BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
-      public:
-        typedef T value_type;
-#     ifndef BOOST_ENDIAN_NO_CTORS
-        endian_buffer() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        explicit endian_buffer(T val) BOOST_NOEXCEPT
-        {
-          detail::store_big_endian<T, n_bits/8>(m_value, val);
-        }
-#     endif
-        endian_buffer & operator=(T val) BOOST_NOEXCEPT
-        {
-          detail::store_big_endian<T, n_bits/8>(m_value, val);
-          return *this;
-        }
-        value_type value() const BOOST_NOEXCEPT
-        {
-          return detail::load_big_endian<T, n_bits/8>(m_value);
-        }
-        const char* data() const BOOST_NOEXCEPT  { return m_value; }
-      protected:
-        char m_value[n_bits/8];
+        endian::endian_store<T, n_bits / 8, Order>( val, value_ );
+    }
+
+#endif
+
+    endian_buffer& operator=( T val ) BOOST_NOEXCEPT
+    {
+        endian::endian_store<T, n_bits / 8, Order>( val, value_ );
+        return *this;
+    }
+
+    value_type value() const BOOST_NOEXCEPT
+    {
+        return endian::endian_load<T, n_bits / 8, Order>( value_ );
+    }
+
+    char const * data() const BOOST_NOEXCEPT
+    {
+        return reinterpret_cast< char const* >( value_ );
+    }
+};
+
+// aligned specializations; only n_bits == 16/32/64 supported
+
+// aligned endian_buffer specialization
+
+template< BOOST_SCOPED_ENUM(order) Order, class T, std::size_t n_bits >
+class endian_buffer<Order, T, n_bits, align::yes>
+{
+private:
+
+    BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
+    BOOST_STATIC_ASSERT( sizeof(T) == n_bits/8 );
+
+    union
+    {
+        unsigned char value_[ n_bits / 8 ];
+        T align_;
     };
 
-    //  unaligned little endian_buffer specialization
-    template <typename T, std::size_t n_bits>
-    class endian_buffer< order::little, T, n_bits, align::no >
+public:
+
+    typedef T value_type;
+
+#ifndef BOOST_ENDIAN_NO_CTORS
+
+    endian_buffer() BOOST_ENDIAN_DEFAULT_CONSTRUCT
+
+    explicit endian_buffer( T val ) BOOST_NOEXCEPT
     {
-        BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
-      public:
-        typedef T value_type;
-#     ifndef BOOST_ENDIAN_NO_CTORS
-        endian_buffer() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        explicit endian_buffer(T val) BOOST_NOEXCEPT
-        {
-          detail::store_little_endian<T, n_bits/8>(m_value, val);
-        }
-#     endif
-        endian_buffer & operator=(T val) BOOST_NOEXCEPT
-          { detail::store_little_endian<T, n_bits/8>(m_value, val); return *this; }
-        value_type value() const BOOST_NOEXCEPT
-        {
-          return detail::load_little_endian<T, n_bits/8>(m_value);
-        }
-        const char* data() const BOOST_NOEXCEPT  { return m_value; }
-      protected:
-        char m_value[n_bits/8];
-    };
+        endian::endian_store<T, n_bits / 8, Order>( val, value_ );
+    }
 
-  //  align::yes specializations; only n_bits == 16/32/64 supported
+#endif
 
-    //  aligned big endian_buffer specialization
-    template <typename T, std::size_t n_bits>
-    class endian_buffer<order::big, T, n_bits, align::yes>
+    endian_buffer& operator=( T val ) BOOST_NOEXCEPT
     {
-        BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
-        BOOST_STATIC_ASSERT( sizeof(T) == n_bits/8 );
-      public:
-        typedef T value_type;
-#     ifndef BOOST_ENDIAN_NO_CTORS
-        endian_buffer() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        explicit endian_buffer(T val) BOOST_NOEXCEPT
-        {
-          m_value = ::boost::endian::native_to_big(val);
-        }
+        endian::endian_store<T, n_bits / 8, Order>( val, value_ );
+        return *this;
+    }
 
-#     endif
-        endian_buffer& operator=(T val) BOOST_NOEXCEPT
-        {
-          m_value = ::boost::endian::native_to_big(val);
-          return *this;
-        }
-        //operator value_type() const BOOST_NOEXCEPT
-        //{
-        //  return ::boost::endian::big_to_native(m_value);
-        //}
-        value_type value() const BOOST_NOEXCEPT
-        {
-          return ::boost::endian::big_to_native(m_value);
-        }
-        const char* data() const BOOST_NOEXCEPT
-          {return reinterpret_cast<const char*>(&m_value);}
-      protected:
-        T m_value;
-    };
-
-    //  aligned little endian_buffer specialization
-    template <typename T, std::size_t n_bits>
-    class endian_buffer<order::little, T, n_bits, align::yes>
+    value_type value() const BOOST_NOEXCEPT
     {
-        BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
-        BOOST_STATIC_ASSERT( sizeof(T) == n_bits/8 );
-      public:
-        typedef T value_type;
-#     ifndef BOOST_ENDIAN_NO_CTORS
-        endian_buffer() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        explicit endian_buffer(T val) BOOST_NOEXCEPT
-        {
-          m_value = ::boost::endian::native_to_little(val);
-        }
+        return endian::endian_load<T, n_bits / 8, Order>( value_ );
+    }
 
-#     endif
-        endian_buffer& operator=(T val) BOOST_NOEXCEPT
-        {
-          m_value = ::boost::endian::native_to_little(val);
-          return *this;
-        }
-        value_type value() const BOOST_NOEXCEPT
-        {
-          return ::boost::endian::little_to_native(m_value);
-        }
-        const char* data() const BOOST_NOEXCEPT
-          {return reinterpret_cast<const char*>(&m_value);}
-      protected:
-        T m_value;
-    };
+    char const * data() const BOOST_NOEXCEPT
+    {
+        return reinterpret_cast< char const* >( value_ );
+    }
+};
+
+// aligned native endian_buffer specialization
+
+template< class T, std::size_t n_bits >
+class endian_buffer<order::native, T, n_bits, align::yes>
+{
+private:
+
+    BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
+    BOOST_STATIC_ASSERT( sizeof(T) == n_bits/8 );
+
+    T value_;
+
+public:
+
+    typedef T value_type;
+
+#ifndef BOOST_ENDIAN_NO_CTORS
+
+    endian_buffer() BOOST_ENDIAN_DEFAULT_CONSTRUCT
+
+    explicit endian_buffer( T val ) BOOST_NOEXCEPT: value_( val )
+    {
+    }
+
+#endif
+
+    endian_buffer& operator=( T val ) BOOST_NOEXCEPT
+    {
+        value_ = val;
+        return *this;
+    }
+
+    value_type value() const BOOST_NOEXCEPT
+    {
+        return value_;
+    }
+
+    char const * data() const BOOST_NOEXCEPT
+    {
+        return reinterpret_cast< char const* >( &value_ );
+    }
+};
 
 } // namespace endian
 } // namespace boost

@@ -293,17 +293,17 @@ namespace endian
         cover_operators<endian_arithmetic<order::big, T, n_bits>, T>
     {
         BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
+        typedef endian_buffer< order::big, T, n_bits, align::no > inherited;
       public:
         typedef T value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian_arithmetic() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic(T val) BOOST_NOEXCEPT
+        BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic(T val) BOOST_NOEXCEPT: inherited( val )
         {
-          detail::store_big_endian<T, n_bits/8>(this->m_value, val);
         }
 #     endif
         endian_arithmetic& operator=(T val) BOOST_NOEXCEPT
-          { detail::store_big_endian<T, n_bits/8>(this->m_value, val); return *this; }
+          { inherited::operator=( val ); return *this; }
         operator value_type() const BOOST_NOEXCEPT { return this->value(); }
     };
 
@@ -314,17 +314,17 @@ namespace endian
         cover_operators< endian_arithmetic< order::little, T, n_bits >, T >
     {
         BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
+        typedef endian_buffer< order::little, T, n_bits, align::no > inherited;
       public:
         typedef T value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian_arithmetic() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic(T val) BOOST_NOEXCEPT
+        BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic(T val) BOOST_NOEXCEPT: inherited( val )
         {
-          detail::store_little_endian<T, n_bits/8>(this->m_value, val);
         }
 #     endif
         endian_arithmetic& operator=(T val) BOOST_NOEXCEPT
-          { detail::store_little_endian<T, n_bits/8>(this->m_value, val); return *this; }
+          { inherited::operator=( val ); return *this; }
         operator value_type() const BOOST_NOEXCEPT { return this->value(); }
     };
 
@@ -338,19 +338,19 @@ namespace endian
     {
         BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
         BOOST_STATIC_ASSERT( sizeof(T) == n_bits/8 );
+        typedef endian_buffer< order::big, T, n_bits, align::yes > inherited;
       public:
         typedef T value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian_arithmetic() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic(T val) BOOST_NOEXCEPT
+        BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic(T val) BOOST_NOEXCEPT: inherited( val )
         {
-          this->m_value = ::boost::endian::native_to_big(val);
         }
 
 #     endif
         endian_arithmetic& operator=(T val) BOOST_NOEXCEPT
         {
-          this->m_value = ::boost::endian::native_to_big(val);
+          inherited::operator=( val );
           return *this;
         }
         operator value_type() const BOOST_NOEXCEPT { return this->value(); }
@@ -364,18 +364,18 @@ namespace endian
     {
         BOOST_STATIC_ASSERT( (n_bits/8)*8 == n_bits );
         BOOST_STATIC_ASSERT( sizeof(T) == n_bits/8 );
+        typedef endian_buffer< order::little, T, n_bits, align::yes > inherited;
       public:
         typedef T value_type;
 #     ifndef BOOST_ENDIAN_NO_CTORS
         endian_arithmetic() BOOST_ENDIAN_DEFAULT_CONSTRUCT
-        BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic(T val) BOOST_NOEXCEPT
+        BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic(T val) BOOST_NOEXCEPT: inherited( val )
         {
-          this->m_value = ::boost::endian::native_to_little(val);
         }
 #     endif
         endian_arithmetic& operator=(T val) BOOST_NOEXCEPT
         {
-          this->m_value = ::boost::endian::native_to_little(val);
+          inherited::operator=( val );
           return *this;
         }
         operator value_type() const BOOST_NOEXCEPT { return this->value(); }
