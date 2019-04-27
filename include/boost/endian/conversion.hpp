@@ -9,7 +9,7 @@
 #define BOOST_ENDIAN_CONVERSION_HPP
 
 #include <boost/endian/detail/endian_reverse.hpp>
-#include <boost/core/scoped_enum.hpp>
+#include <boost/endian/detail/order.hpp>
 #include <boost/predef/other/endian.h>
 #include <boost/static_assert.hpp>
 #include <boost/cstdint.hpp>
@@ -23,15 +23,6 @@ namespace boost
 {
 namespace endian
 {
-  BOOST_SCOPED_ENUM_START(order)
-  {
-    big, little,
-# if BOOST_ENDIAN_BIG_BYTE
-      native = big
-# else
-      native = little
-# endif
-  }; BOOST_SCOPED_ENUM_END
 
 //--------------------------------------------------------------------------------------//
 //                                                                                      //
