@@ -138,7 +138,8 @@ template<class T> void test( T const& x )
 
 int main()
 {
-    test( 0x01020304 );
+    test( 0xF1F2 );
+    test( 0x01020304u );
 
     return boost::report_errors();
 }
