@@ -10,12 +10,14 @@
 
 #include <boost/endian/detail/endian_reverse.hpp>
 #include <boost/endian/detail/order.hpp>
+#include <boost/type_traits/is_class.hpp>
+#include <boost/type_traits/is_integral.hpp>
+#include <boost/type_traits/is_same.hpp>
+#include <boost/type_traits/integral_constant.hpp>
 #include <boost/predef/other/endian.h>
 #include <boost/static_assert.hpp>
 #include <boost/cstdint.hpp>
 #include <boost/config.hpp>
-#include <algorithm>
-#include <cstring>  // for memcpy
 
 //------------------------------------- synopsis ---------------------------------------//
 
@@ -139,229 +141,241 @@ namespace endian
 
 //----------------------------------- end synopsis -------------------------------------//
 
-  namespace detail
-  {
-    //  generic reverse function template implementation approach using std::reverse
-    //  suggested by Mathias Gaunard. Primary motivation for inclusion is to have an
-    //  independent implementation to test against.
+namespace detail
+{
 
-    template <class T>
-    inline T std_endian_reverse(T x) BOOST_NOEXCEPT
-    {
-      T tmp(x);
-      std::reverse(
-        reinterpret_cast<unsigned char*>(&tmp),
-        reinterpret_cast<unsigned char*>(&tmp) + sizeof(T));
-      return tmp;
-    }
+template<class T> struct is_endian_reversible: boost::integral_constant<bool,
+    boost::is_class<T>::value || ( boost::is_integral<T>::value && !boost::is_same<T, bool>::value )>
+{
+};
 
-    //  conditional unaligned reverse copy, patterned after std::reverse_copy
-    template <class T>
-      inline void big_reverse_copy(T from, char* to) BOOST_NOEXCEPT;
-    template <class T>
-      inline void big_reverse_copy(const char* from, T& to) BOOST_NOEXCEPT;
-    template <class T>
-      inline void little_reverse_copy(T from, char* to) BOOST_NOEXCEPT;
-    template <class T>
-      inline void little_reverse_copy(const char* from, T& to) BOOST_NOEXCEPT;
-  }  // namespace detail
+} // namespace detail
 
-  template <class EndianReversible >
-  inline EndianReversible  big_to_native(EndianReversible  x) BOOST_NOEXCEPT
-  {
-#   if BOOST_ENDIAN_BIG_BYTE
+template <class EndianReversible>
+inline EndianReversible big_to_native( EndianReversible x ) BOOST_NOEXCEPT
+{
+    BOOST_STATIC_ASSERT( detail::is_endian_reversible<EndianReversible>::value );
+
+#if BOOST_ENDIAN_BIG_BYTE
+
     return x;
-#   else
+
+#else
+
     return endian_reverse(x);
-#   endif
+
+#endif
   }
 
-  template <class EndianReversible >
-  inline EndianReversible  native_to_big(EndianReversible  x) BOOST_NOEXCEPT
-  {
-#   if BOOST_ENDIAN_BIG_BYTE
+template <class EndianReversible>
+inline EndianReversible native_to_big( EndianReversible x ) BOOST_NOEXCEPT
+{
+    BOOST_STATIC_ASSERT( detail::is_endian_reversible<EndianReversible>::value );
+
+#if BOOST_ENDIAN_BIG_BYTE
+
     return x;
-#   else
-    return endian_reverse(x);
-#   endif
-  }
 
-  template <class EndianReversible >
-  inline EndianReversible  little_to_native(EndianReversible  x) BOOST_NOEXCEPT
-  {
-#   if BOOST_ENDIAN_LITTLE_BYTE
+#else
+
+    return endian_reverse(x);
+
+#endif
+}
+
+template <class EndianReversible>
+inline EndianReversible little_to_native( EndianReversible x ) BOOST_NOEXCEPT
+{
+    BOOST_STATIC_ASSERT( detail::is_endian_reversible<EndianReversible>::value );
+
+#if BOOST_ENDIAN_LITTLE_BYTE
+
     return x;
-#   else
-    return endian_reverse(x);
-#   endif
-  }
 
-  template <class EndianReversible >
-  inline EndianReversible  native_to_little(EndianReversible  x) BOOST_NOEXCEPT
-  {
-#   if BOOST_ENDIAN_LITTLE_BYTE
+#else
+
+    return endian_reverse(x);
+
+#endif
+}
+
+template <class EndianReversible>
+inline EndianReversible native_to_little( EndianReversible x ) BOOST_NOEXCEPT
+{
+    BOOST_STATIC_ASSERT( detail::is_endian_reversible<EndianReversible>::value );
+
+#if BOOST_ENDIAN_LITTLE_BYTE
+
     return x;
-#   else
+
+#else
+
     return endian_reverse(x);
-#   endif
-  }
 
-  namespace detail
-  {
-    //  Primary template and specializations to support endian_reverse().
-    //  See rationale in endian_reverse() below.
-    template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To,
-        class EndianReversible>
-      class value_converter ;  // primary template
-    template <class T> class value_converter <order::big, order::big, T>
-      {public: T operator()(T x) BOOST_NOEXCEPT {return x;}};
-    template <class T> class value_converter <order::little, order::little, T>
-      {public: T operator()(T x) BOOST_NOEXCEPT {return x;}};
-    template <class T> class value_converter <order::big, order::little, T>
-      {public: T operator()(T x) BOOST_NOEXCEPT {return endian_reverse(x);}};
-    template <class T> class value_converter <order::little, order::big, T>
-      {public: T operator()(T x) BOOST_NOEXCEPT {return endian_reverse(x);}};
-  }
+#endif
+}
 
-  //  generic conditional reverse
-  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To,
-    class EndianReversible>
-  inline EndianReversible  conditional_reverse(EndianReversible from) BOOST_NOEXCEPT  {
-    //  work around lack of function template partial specialization by instantiating
-    //  a function object of a class that is partially specialized on the two order
-    //  template parameters, and then calling its operator().
-    detail::value_converter <From, To, EndianReversible> tmp;
-    return tmp(from);
-  }
+namespace detail
+{
 
-  //  runtime conditional reverse
-  template <class EndianReversible >
-  inline EndianReversible  conditional_reverse(EndianReversible  from,
-    BOOST_SCOPED_ENUM(order) from_order, BOOST_SCOPED_ENUM(order) to_order) BOOST_NOEXCEPT
-  {
-    return from_order == to_order ? from : endian_reverse(from);
-  }
+template<class EndianReversible>
+inline EndianReversible conditional_reverse_impl( EndianReversible x, boost::true_type ) BOOST_NOEXCEPT
+{
+    return x;
+}
+
+template<class EndianReversible>
+inline EndianReversible conditional_reverse_impl( EndianReversible x, boost::false_type ) BOOST_NOEXCEPT
+{
+    return endian_reverse( x );
+}
+
+} // namespace detail
+
+// generic conditional reverse
+template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class EndianReversible>
+inline EndianReversible conditional_reverse( EndianReversible x ) BOOST_NOEXCEPT
+{
+    BOOST_STATIC_ASSERT( detail::is_endian_reversible<EndianReversible>::value );
+    return detail::conditional_reverse_impl( x, boost::integral_constant<bool, From == To>() );
+}
+
+// runtime conditional reverse
+template <class EndianReversible>
+inline EndianReversible conditional_reverse( EndianReversible x,
+    BOOST_SCOPED_ENUM(order) from_order, BOOST_SCOPED_ENUM(order) to_order ) BOOST_NOEXCEPT
+{
+    BOOST_STATIC_ASSERT( detail::is_endian_reversible<EndianReversible>::value );
+    return from_order == to_order? x: endian_reverse( x );
+}
 
 //--------------------------------------------------------------------------------------//
 //                           reverse-in-place implementation                            //
 //--------------------------------------------------------------------------------------//
 
-  template <class EndianReversibleInplace>
-#   if BOOST_ENDIAN_BIG_BYTE
-  inline void big_to_native_inplace(EndianReversibleInplace&) BOOST_NOEXCEPT {}
-#   else
-  inline void big_to_native_inplace(EndianReversibleInplace& x) BOOST_NOEXCEPT
-    { endian_reverse_inplace(x); }
-#   endif
-  template <class EndianReversibleInplace>
-#   if BOOST_ENDIAN_BIG_BYTE
-  inline void native_to_big_inplace(EndianReversibleInplace&) BOOST_NOEXCEPT {}
-#   else
-  inline void native_to_big_inplace(EndianReversibleInplace& x) BOOST_NOEXCEPT
-  {
-    endian_reverse_inplace(x);
-  }
-#   endif
+namespace detail
+{
 
-  template <class EndianReversibleInplace>
-#   if BOOST_ENDIAN_LITTLE_BYTE
-  inline void little_to_native_inplace(EndianReversibleInplace&) BOOST_NOEXCEPT {}
-#   else
-  inline void little_to_native_inplace(EndianReversibleInplace& x) BOOST_NOEXCEPT
-    { endian_reverse_inplace(x); }
-#   endif
-  template <class EndianReversibleInplace>
-#   if BOOST_ENDIAN_LITTLE_BYTE
-  inline void native_to_little_inplace(EndianReversibleInplace&) BOOST_NOEXCEPT {}
-#   else
-  inline void native_to_little_inplace(EndianReversibleInplace& x) BOOST_NOEXCEPT
-  {
-    endian_reverse_inplace(x);
-  }
-#   endif
+template<class T> struct is_endian_reversible_inplace: boost::integral_constant<bool,
+    boost::is_class<T>::value || ( boost::is_integral<T>::value && !boost::is_same<T, bool>::value )>
+{
+};
 
-  namespace detail
-  {
-    //  Primary template and specializations support generic
-    //  endian_reverse_inplace().
-    //  See rationale in endian_reverse_inplace() below.
-    template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To,
-        class EndianReversibleInplace>
-      class converter;  // primary template
-    template <class T> class converter<order::big, order::big, T>
-      {public: void operator()(T&) BOOST_NOEXCEPT {/*no effect*/}};
-    template <class T> class converter<order::little, order::little, T>
-      {public: void operator()(T&) BOOST_NOEXCEPT {/*no effect*/}};
-    template <class T> class converter<order::big, order::little, T>
-      {public: void operator()(T& x) BOOST_NOEXCEPT { endian_reverse_inplace(x); }};
-    template <class T> class converter<order::little, order::big, T>
-      {public: void operator()(T& x) BOOST_NOEXCEPT { endian_reverse_inplace(x); }};
-  }  // namespace detail
+} // namespace detail
 
-  //  generic conditional reverse in place
-  template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To,
-    class EndianReversibleInplace>
-  inline void conditional_reverse_inplace(EndianReversibleInplace& x) BOOST_NOEXCEPT
-  {
-    //  work around lack of function template partial specialization by instantiating
-    //  a function object of a class that is partially specialized on the two order
-    //  template parameters, and then calling its operator().
-    detail::converter<From, To, EndianReversibleInplace> tmp;
-    tmp(x);  // call operator ()
-  }
+#if BOOST_ENDIAN_BIG_BYTE
 
-  //  runtime reverse in place
-  template <class EndianReversibleInplace>
-  inline void conditional_reverse_inplace(EndianReversibleInplace& x,
-    BOOST_SCOPED_ENUM(order) from_order,  BOOST_SCOPED_ENUM(order) to_order)
-    BOOST_NOEXCEPT
-  {
-    if (from_order != to_order)
-      endian_reverse_inplace(x);
-  }
+template <class EndianReversibleInplace>
+inline void big_to_native_inplace( EndianReversibleInplace& ) BOOST_NOEXCEPT
+{
+    BOOST_STATIC_ASSERT( detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
+}
 
+#else
 
-  namespace detail
-  {
-    template <class T>
-    inline void big_reverse_copy(T from, char* to) BOOST_NOEXCEPT
+template <class EndianReversibleInplace>
+inline void big_to_native_inplace( EndianReversibleInplace& x ) BOOST_NOEXCEPT
+{
+    BOOST_STATIC_ASSERT( detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
+    endian_reverse_inplace( x );
+}
+
+#endif
+
+#if BOOST_ENDIAN_BIG_BYTE
+
+template <class EndianReversibleInplace>
+inline void native_to_big_inplace( EndianReversibleInplace& ) BOOST_NOEXCEPT
+{
+    BOOST_STATIC_ASSERT( detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
+}
+
+#else
+
+template <class EndianReversibleInplace>
+inline void native_to_big_inplace( EndianReversibleInplace& x ) BOOST_NOEXCEPT
+{
+    BOOST_STATIC_ASSERT( detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
+    endian_reverse_inplace( x );
+}
+
+#endif
+
+#if BOOST_ENDIAN_LITTLE_BYTE
+
+template <class EndianReversibleInplace>
+inline void little_to_native_inplace( EndianReversibleInplace& ) BOOST_NOEXCEPT
+{
+    BOOST_STATIC_ASSERT( detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
+}
+
+#else
+
+template <class EndianReversibleInplace>
+inline void little_to_native_inplace( EndianReversibleInplace& x ) BOOST_NOEXCEPT
+{
+    BOOST_STATIC_ASSERT( detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
+    endian_reverse_inplace( x );
+}
+
+#endif
+
+#if BOOST_ENDIAN_LITTLE_BYTE
+
+template <class EndianReversibleInplace>
+inline void native_to_little_inplace( EndianReversibleInplace& ) BOOST_NOEXCEPT
+{
+    BOOST_STATIC_ASSERT( detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
+}
+
+#else
+
+template <class EndianReversibleInplace>
+inline void native_to_little_inplace( EndianReversibleInplace& x ) BOOST_NOEXCEPT
+{
+    BOOST_STATIC_ASSERT( detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
+    endian_reverse_inplace( x );
+}
+
+#endif
+
+namespace detail
+{
+
+template<class EndianReversibleInplace>
+inline void conditional_reverse_inplace_impl( EndianReversibleInplace&, boost::true_type ) BOOST_NOEXCEPT
+{
+}
+
+template<class EndianReversibleInplace>
+inline void conditional_reverse_inplace_impl( EndianReversibleInplace& x, boost::false_type ) BOOST_NOEXCEPT
+{
+    endian_reverse_inplace( x );
+}
+
+}  // namespace detail
+
+// generic conditional reverse in place
+template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class EndianReversibleInplace>
+inline void conditional_reverse_inplace( EndianReversibleInplace& x ) BOOST_NOEXCEPT
+{
+    BOOST_STATIC_ASSERT( detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
+    detail::conditional_reverse_inplace_impl( x, boost::integral_constant<bool, From == To>() );
+}
+
+// runtime reverse in place
+template <class EndianReversibleInplace>
+inline void conditional_reverse_inplace( EndianReversibleInplace& x,
+    BOOST_SCOPED_ENUM(order) from_order, BOOST_SCOPED_ENUM(order) to_order ) BOOST_NOEXCEPT
+{
+    BOOST_STATIC_ASSERT( detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
+
+    if( from_order != to_order )
     {
-#     if BOOST_ENDIAN_BIG_BYTE
-      std::memcpy(to, reinterpret_cast<const char*>(&from), sizeof(T));
-#     else
-      std::reverse_copy(reinterpret_cast<const char*>(&from),
-        reinterpret_cast<const char*>(&from) + sizeof(T), to);
-#     endif
+        endian_reverse_inplace( x );
     }
-    template <class T>
-    inline void big_reverse_copy(const char* from, T& to) BOOST_NOEXCEPT
-    {
-#     if BOOST_ENDIAN_BIG_BYTE
-      std::memcpy(reinterpret_cast<char*>(&to), from, sizeof(T));
-#     else
-      std::reverse_copy(from, from + sizeof(T), reinterpret_cast<char*>(&to));
-#     endif
-    }
-    template <class T>
-    inline void little_reverse_copy(T from, char* to) BOOST_NOEXCEPT
-    {
-#     if BOOST_ENDIAN_LITTLE_BYTE
-      std::memcpy(to, reinterpret_cast<const char*>(&from), sizeof(T));
-#     else
-      std::reverse_copy(reinterpret_cast<const char*>(&from),
-        reinterpret_cast<const char*>(&from) + sizeof(T), to);
-#     endif
-    }
-    template <class T>
-    inline void little_reverse_copy(const char* from, T& to) BOOST_NOEXCEPT
-    {
-#     if BOOST_ENDIAN_LITTLE_BYTE
-      std::memcpy(reinterpret_cast<char*>(&to), from, sizeof(T));
-#     else
-      std::reverse_copy(from, from + sizeof(T), reinterpret_cast<char*>(&to));
-#     endif
-    }
-  }  // namespace detail
+}
+
 }  // namespace endian
 }  // namespace boost
 

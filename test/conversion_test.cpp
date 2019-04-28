@@ -14,6 +14,7 @@
 #include <boost/core/lightweight_test.hpp>
 #include <iostream>
 #include <cstring>
+#include <algorithm>
 
 namespace be = boost::endian;
 using std::cout;
@@ -26,6 +27,13 @@ using boost::int32_t;
 using boost::uint32_t;
 using boost::int64_t;
 using boost::uint64_t;
+
+template <class T> inline T std_endian_reverse(T x) BOOST_NOEXCEPT
+{
+    T tmp(x);
+    std::reverse( reinterpret_cast<unsigned char*>(&tmp), reinterpret_cast<unsigned char*>(&tmp) + sizeof(T) );
+    return tmp;
+}
 
 namespace
 {
@@ -102,9 +110,9 @@ namespace
 
 # if BOOST_ENDIAN_BIG_BYTE
     BOOST_TEST_EQ(native, big);
-    BOOST_TEST_EQ(be::detail::std_endian_reverse(native), little);
+    BOOST_TEST_EQ(::std_endian_reverse(native), little);
 # else
-    BOOST_TEST_EQ(be::detail::std_endian_reverse(native), big);
+    BOOST_TEST_EQ(::std_endian_reverse(native), big);
     BOOST_TEST_EQ(native, little);
 # endif
 
