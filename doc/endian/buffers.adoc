@@ -54,10 +54,10 @@ namespace
 
   struct header
   {
-    big_int32_`buf_`t     file_code;
-    big_int32_`buf_`t     file_length;
-    little_int32_`buf_`t  version;
-    little_int32_`buf_`t  shape_type;
+    big_int32_buf_t     file_code;
+    big_int32_buf_t     file_length;
+    little_int32_buf_t  version;
+    little_int32_buf_t  shape_type;
   };
 
   const char* filename = "test.dat";
@@ -90,7 +90,7 @@ int main(int, char* [])
     return 1;
   }
 
-  if (std::fwrite(&h, sizeof(header), 1, fi)!= 1)
+  if (std::fwrite(&h, sizeof(header), 1, fi) != 1)
   {
     std::cout << "write failure for " << filename << '\n';
     return 1;
@@ -165,16 +165,16 @@ common use cases:
 [%header,cols=5*]
 |===
 |Name |Alignment |Endianness |Sign |Sizes in bits (n)
-|big_intn_buf_t |no |big |signed |8,16,24,32,40,48,56,64
-|big_uintn_buf_t |no |big |unsigned |8,16,24,32,40,48,56,64
-|little_intn_buf_t |no |little |signed |8,16,24,32,40,48,56,64
-|little_uintn_buf_t |no |little |unsigned |8,16,24,32,40,48,56,64
-|native_intn_buf_t |no |native |signed |8,16,24,32,40,48,56,64
-|native_uintn_buf_t |no |native |unsigned |8,16,24,32,40,48,56,64
-|big_intn_buf_at |yes |big |signed |8,16,32,64
-|big_uintn_buf_at |yes |big |unsigned |8,16,32,64
-|little_intn_buf_at |yes |little |signed |8,16,32,64
-|little_uintn_buf_at |yes |little |unsigned |8,16,32,64
+|`big_intN_buf_t` |no |big |signed |8,16,24,32,40,48,56,64
+|`big_uintN_buf_t` |no |big |unsigned |8,16,24,32,40,48,56,64
+|`little_intN_buf_t` |no |little |signed |8,16,24,32,40,48,56,64
+|`little_uintN_buf_t` |no |little |unsigned |8,16,24,32,40,48,56,64
+|`native_intN_buf_t` |no |native |signed |8,16,24,32,40,48,56,64
+|`native_uintN_buf_t` |no |native |unsigned |8,16,24,32,40,48,56,64
+|`big_intN_buf_at` |yes |big |signed |8,16,32,64
+|`big_uintN_buf_at` |yes |big |unsigned |8,16,32,64
+|`little_intN_buf_at` |yes |little |signed |8,16,32,64
+|`little_uintN_buf_at` |yes |little |unsigned |8,16,32,64
 |===
 
 The unaligned types do not cause compilers to insert padding bytes in classes
@@ -211,8 +211,6 @@ user-specified <<buffers_endianness,endianness>>, value type, size, and
 ### Synopsis
 
 ```
-#include <boost/endian/conversion.hpp
-
 namespace boost
 {
   namespace endian
@@ -234,7 +232,8 @@ namespace boost
       endian_buffer& operator=(T v) noexcept;
       value_type     value() const noexcept;
       const char*    data() const noexcept;
-    protected:
+
+    private:
       implementaton-defined  endian_value;  // for exposition only
     };
 
@@ -356,8 +355,20 @@ requirements imposed by the `Nbits` and `Align` template parameters. The
 `CHAR_BIT` macro is defined in `<climits>`. The only value of
 `CHAR_BIT` that is required to be supported is 8.
 
-Template parameter `T` is required to be a standard integer type ({cpp}std,
-3.9.1) and `sizeof(T)*CHAR_BIT` is required to be greater or equal to `Nbits`.
+The valid values of `Nbits` are as follows:
+
+* When `sizeof(T)` is 1, `Nbits` shall be 8;
+* When `sizeof(T)` is 2, `Nbits` shall be 16;
+* When `sizeof(T)` is 4, `Nbits` shall be 24 or 32;
+* When `sizeof(T)` is 8, `Nbits` shall be 40, 48, 56, or 64.
+
+Other values of `sizeof(T)` are not supported.
+
+When `Nbits` is equal to `sizeof(T)*8`, `T` must be a trivially copyable type
+(such as `float`) that is assumed to have the same endianness as `uintNbits_t`.
+
+When `Nbits` is less than `sizeof(T)*8`, `T` must be either a standard integral
+type ({cpp}std, [basic.fundamental]) or an `enum`.
 
 ### Members
 
@@ -406,7 +417,7 @@ Remarks:: If `Align` is `align::yes` then endianness conversion, if required, is
 performed by `boost::endian::endian_reverse`.
 
 ```
-const char* data</a>() const noexcept;
+const char* data() const noexcept;
 ```
 [none]
 * {blank}
@@ -508,13 +519,13 @@ any Boost object libraries.
 
 Several macros allow user control over features:
 
-* BOOST_ENDIAN_NO_CTORS causes `class endian_buffer` to have no
+* `BOOST_ENDIAN_NO_CTORS` causes `class endian_buffer` to have no
 constructors. The intended use is for compiling user code that must be
 portable between compilers regardless of {cpp}11
 http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2346.htm[Defaulted
 Functions] support. Use of constructors will always fail,
-* BOOST_ENDIAN_FORCE_PODNESS causes BOOST_ENDIAN_NO_CTORS to be defined if the
-compiler does not support {cpp}11
+* `BOOST_ENDIAN_FORCE_PODNESS` causes `BOOST_ENDIAN_NO_CTORS` to be defined if
+the compiler does not support {cpp}11
 http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2346.htm[Defaulted
 Functions]. This is ensures that objects of `class endian_buffer` are PODs, and
 so can be used in {cpp}03 unions. In {cpp}11, `class endian_buffer` objects are

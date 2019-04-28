@@ -32,7 +32,7 @@ semantics.
 Unary arithmetic operators are `+`, `-`,  `~`, `!`, plus both prefix and postfix
 `--` and `++`. Binary arithmetic operators are `+`, `+=`, `-`, `-=`, `\*`,
 ``*=``, `/`, `/=`, `&`, `&=`, `|`, `|=`, `^`, `^=`, `<<`, `<\<=`, `>>`, and
-`>>=`. Binary relational operators are `==`, `!=`, `<`, `<=`, `>`, and `>=`.
+`>>=`. Binary relational operators are `==`, `!=`, `<`, `\<=`, `>`, and `>=`.
 
 Implicit conversion to the underlying value type is provided. An implicit
 constructor converting from the underlying value type is provided.
@@ -95,7 +95,7 @@ int main(int, char* [])
     return 1;
   }
 
-  if (std::fwrite(&h, sizeof(header), 1, fi)!= 1)
+  if (std::fwrite(&h, sizeof(header), 1, fi) != 1)
   {
     std::cout << "write failure for " << filename << '\n';
     return 1;
@@ -169,17 +169,17 @@ common use cases:
 
 [%header,cols=5*]
 |===
-|Name  |Alignment  |Endianness  |Sign  |Sizes in bits (n)
-|big_intn_t  |no  |big  |signed  |8,16,24,32,40,48,56,64
-|big_uintn_t  |no  |big  |unsigned  |8,16,24,32,40,48,56,64
-|little_intn_t  |no  |little  |signed  |8,16,24,32,40,48,56,64
-|little_uintn_t  |no  |little  |unsigned  |8,16,24,32,40,48,56,64
-|native_intn_t  |no  |native  |signed  |8,16,24,32,40,48,56,64
-|native_uintn_t  |no  |native  |unsigned  |8,16,24,32,40,48,56,64
-|big_intn_at  |yes  |big  |signed  |8,16,32,64
-|big_uintn_at  |yes  |big  |unsigned  |8,16,32,64
-|little_intn_at  |yes  |little  |signed  |8,16,32,64
-|little_uintn_at  |yes  |little  |unsigned  |8,16,32,64
+|Name              |Alignment  |Endianness  |Sign      |Sizes in bits (n)
+|`big_intN_t`      |no         |big         |signed    |8,16,24,32,40,48,56,64
+|`big_uintN_t`     |no         |big         |unsigned  |8,16,24,32,40,48,56,64
+|`little_intN_t`   |no         |little      |signed    |8,16,24,32,40,48,56,64
+|`little_uintN_t`  |no         |little      |unsigned  |8,16,24,32,40,48,56,64
+|`native_intN_t`   |no         |native      |signed    |8,16,24,32,40,48,56,64
+|`native_uintN_t`  |no         |native      |unsigned  |8,16,24,32,40,48,56,64
+|`big_intN_at`     |yes        |big         |signed    |8,16,32,64
+|`big_uintN_at`    |yes        |big         |unsigned  |8,16,32,64
+|`little_intN_at`  |yes        |little      |signed    |8,16,32,64
+|`little_uintN_at` |yes        |little      |unsigned  |8,16,32,64
 |===
 
 The unaligned types do not cause compilers to insert padding bytes in classes
@@ -217,7 +217,6 @@ are supplied.
 ### Synopsis
 
 ```
-#include <boost/endian/conversion.hpp>
 #include <boost/endian/buffers.hpp>
 
 namespace boost
@@ -248,76 +247,74 @@ namespace boost
 
       // arithmetic operations
       //   note that additional operations are provided by the value_type
-      value_type operator+(const endian& x) noexcept;
-      endian& operator+=(endian& x, value_type y) noexcept;
-      endian& operator-=(endian& x, value_type y) noexcept;
-      endian& operator*=(endian& x, value_type y) noexcept;
-      endian& operator/=(endian& x, value_type y) noexcept;
-      endian& operator%=(endian& x, value_type y) noexcept;
-      endian& operator&=(endian& x, value_type y) noexcept;
-      endian& operator|=(endian& x, value_type y) noexcept;
-      endian& operator^=(endian& x, value_type y) noexcept;
-      endian& operator<<=(endian& x, value_type y) noexcept;
-      endian& operator>>=(endian& x, value_type y noexcept;
-      value_type operator<<(const endian& x, value_type y) noexcept;
-      value_type operator>>(const endian& x, value_type y) noexcept;
-      endian& operator++(endian& x) noexcept;
-      endian& operator--(endian& x) noexcept;
-      endian operator++(endian& x, int) noexcept;
-      endian operator--(endian& x, int) noexcept;
+      value_type operator+() const noexcept;
+      endian_arithmetic& operator+=(value_type y) noexcept;
+      endian_arithmetic& operator-=(value_type y) noexcept;
+      endian_arithmetic& operator*=(value_type y) noexcept;
+      endian_arithmetic& operator/=(value_type y) noexcept;
+      endian_arithmetic& operator%=(value_type y) noexcept;
+      endian_arithmetic& operator&=(value_type y) noexcept;
+      endian_arithmetic& operator|=(value_type y) noexcept;
+      endian_arithmetic& operator^=(value_type y) noexcept;
+      endian_arithmetic& operator<<=(value_type y) noexcept;
+      endian_arithmetic& operator>>=(value_type y) noexcept;
+      endian_arithmetic& operator++() noexcept;
+      endian_arithmetic& operator--() noexcept;
+      endian_arithmetic operator++(int) noexcept;
+      endian_arithmetic operator--(int) noexcept;
 
       // Stream inserter
       template <class charT, class traits>
       friend std::basic_ostream<charT, traits>&
-        operator<<(std::basic_ostream<charT, traits>& os, const T& x);
+        operator<<(std::basic_ostream<charT, traits>& os, const endian_arithmetic& x);
 
       // Stream extractor
       template <class charT, class traits>
       friend std::basic_istream<charT, traits>&
-        operator>>(std::basic_istream<charT, traits>& is, T& x);
+        operator>>(std::basic_istream<charT, traits>& is, endian_arithmetic& x);
     };
 
     // typedefs
 
     // unaligned big endian signed integer types
-    typedef endian<order::big, int_least8_t, 8>        big_int8_t;
-    typedef endian<order::big, int_least16_t, 16>      big_int16_t;
-    typedef endian<order::big, int_least32_t, 24>      big_int24_t;
-    typedef endian<order::big, int_least32_t, 32>      big_int32_t;
-    typedef endian<order::big, int_least64_t, 40>      big_int40_t;
-    typedef endian<order::big, int_least64_t, 48>      big_int48_t;
-    typedef endian<order::big, int_least64_t, 56>      big_int56_t;
-    typedef endian<order::big, int_least64_t, 64>      big_int64_t;
+    typedef endian_arithmetic<order::big, int_least8_t, 8>        big_int8_t;
+    typedef endian_arithmetic<order::big, int_least16_t, 16>      big_int16_t;
+    typedef endian_arithmetic<order::big, int_least32_t, 24>      big_int24_t;
+    typedef endian_arithmetic<order::big, int_least32_t, 32>      big_int32_t;
+    typedef endian_arithmetic<order::big, int_least64_t, 40>      big_int40_t;
+    typedef endian_arithmetic<order::big, int_least64_t, 48>      big_int48_t;
+    typedef endian_arithmetic<order::big, int_least64_t, 56>      big_int56_t;
+    typedef endian_arithmetic<order::big, int_least64_t, 64>      big_int64_t;
 
     // unaligned big endian unsigned integer types
-    typedef endian<order::big, uint_least8_t, 8>       big_uint8_t;
-    typedef endian<order::big, uint_least16_t, 16>     big_uint16_t;
-    typedef endian<order::big, uint_least32_t, 24>     big_uint24_t;
-    typedef endian<order::big, uint_least32_t, 32>     big_uint32_t;
-    typedef endian<order::big, uint_least64_t, 40>     big_uint40_t;
-    typedef endian<order::big, uint_least64_t, 48>     big_uint48_t;
-    typedef endian<order::big, uint_least64_t, 56>     big_uint56_t;
-    typedef endian<order::big, uint_least64_t, 64>     big_uint64_t;
+    typedef endian_arithmetic<order::big, uint_least8_t, 8>       big_uint8_t;
+    typedef endian_arithmetic<order::big, uint_least16_t, 16>     big_uint16_t;
+    typedef endian_arithmetic<order::big, uint_least32_t, 24>     big_uint24_t;
+    typedef endian_arithmetic<order::big, uint_least32_t, 32>     big_uint32_t;
+    typedef endian_arithmetic<order::big, uint_least64_t, 40>     big_uint40_t;
+    typedef endian_arithmetic<order::big, uint_least64_t, 48>     big_uint48_t;
+    typedef endian_arithmetic<order::big, uint_least64_t, 56>     big_uint56_t;
+    typedef endian_arithmetic<order::big, uint_least64_t, 64>     big_uint64_t;
 
     // unaligned little endian signed integer types
-    typedef endian<order::little, int_least8_t, 8>     little_int8_t;
-    typedef endian<order::little, int_least16_t, 16>   little_int16_t;
-    typedef endian<order::little, int_least32_t, 24>   little_int24_t;
-    typedef endian<order::little, int_least32_t, 32>   little_int32_t;
-    typedef endian<order::little, int_least64_t, 40>   little_int40_t;
-    typedef endian<order::little, int_least64_t, 48>   little_int48_t;
-    typedef endian<order::little, int_least64_t, 56>   little_int56_t;
-    typedef endian<order::little, int_least64_t, 64>   little_int64_t;
+    typedef endian_arithmetic<order::little, int_least8_t, 8>     little_int8_t;
+    typedef endian_arithmetic<order::little, int_least16_t, 16>   little_int16_t;
+    typedef endian_arithmetic<order::little, int_least32_t, 24>   little_int24_t;
+    typedef endian_arithmetic<order::little, int_least32_t, 32>   little_int32_t;
+    typedef endian_arithmetic<order::little, int_least64_t, 40>   little_int40_t;
+    typedef endian_arithmetic<order::little, int_least64_t, 48>   little_int48_t;
+    typedef endian_arithmetic<order::little, int_least64_t, 56>   little_int56_t;
+    typedef endian_arithmetic<order::little, int_least64_t, 64>   little_int64_t;
 
     // unaligned little endian unsigned integer types
-    typedef endian<order::little, uint_least8_t, 8>    little_uint8_t;
-    typedef endian<order::little, uint_least16_t, 16>  little_uint16_t;
-    typedef endian<order::little, uint_least32_t, 24>  little_uint24_t;
-    typedef endian<order::little, uint_least32_t, 32>  little_uint32_t;
-    typedef endian<order::little, uint_least64_t, 40>  little_uint40_t;
-    typedef endian<order::little, uint_least64_t, 48>  little_uint48_t;
-    typedef endian<order::little, uint_least64_t, 56>  little_uint56_t;
-    typedef endian<order::little, uint_least64_t, 64>  little_uint64_t;
+    typedef endian_arithmetic<order::little, uint_least8_t, 8>    little_uint8_t;
+    typedef endian_arithmetic<order::little, uint_least16_t, 16>  little_uint16_t;
+    typedef endian_arithmetic<order::little, uint_least32_t, 24>  little_uint24_t;
+    typedef endian_arithmetic<order::little, uint_least32_t, 32>  little_uint32_t;
+    typedef endian_arithmetic<order::little, uint_least64_t, 40>  little_uint40_t;
+    typedef endian_arithmetic<order::little, uint_least64_t, 48>  little_uint48_t;
+    typedef endian_arithmetic<order::little, uint_least64_t, 56>  little_uint56_t;
+    typedef endian_arithmetic<order::little, uint_least64_t, 64>  little_uint64_t;
 
     // unaligned native endian signed integer types
     typedef implementation-defined_int8_t   native_int8_t;
@@ -340,28 +337,28 @@ namespace boost
     typedef implementation-defined_uint64_t  native_uint64_t;
 
     // aligned big endian signed integer types
-    typedef endian<order::big, int8_t, 8, align::yes>       big_int8_at;
-    typedef endian<order::big, int16_t, 16, align::yes>     big_int16_at;
-    typedef endian<order::big, int32_t, 32, align::yes>     big_int32_at;
-    typedef endian<order::big, int64_t, 64, align::yes>     big_int64_at;
+    typedef endian_arithmetic<order::big, int8_t, 8, align::yes>       big_int8_at;
+    typedef endian_arithmetic<order::big, int16_t, 16, align::yes>     big_int16_at;
+    typedef endian_arithmetic<order::big, int32_t, 32, align::yes>     big_int32_at;
+    typedef endian_arithmetic<order::big, int64_t, 64, align::yes>     big_int64_at;
 
     // aligned big endian unsigned integer types
-    typedef endian<order::big, uint8_t, 8, align::yes>      big_uint8_at;
-    typedef endian<order::big, uint16_t, 16, align::yes>    big_uint16_at;
-    typedef endian<order::big, uint32_t, 32, align::yes>    big_uint32_at;
-    typedef endian<order::big, uint64_t, 64, align::yes>    big_uint64_at;
+    typedef endian_arithmetic<order::big, uint8_t, 8, align::yes>      big_uint8_at;
+    typedef endian_arithmetic<order::big, uint16_t, 16, align::yes>    big_uint16_at;
+    typedef endian_arithmetic<order::big, uint32_t, 32, align::yes>    big_uint32_at;
+    typedef endian_arithmetic<order::big, uint64_t, 64, align::yes>    big_uint64_at;
 
     // aligned little endian signed integer types
-    typedef endian<order::little, int8_t, 8, align::yes>    little_int8_at;
-    typedef endian<order::little, int16_t, 16, align::yes>  little_int16_at;
-    typedef endian<order::little, int32_t, 32, align::yes>  little_int32_at;
-    typedef endian<order::little, int64_t, 64, align::yes>  little_int64_at;
+    typedef endian_arithmetic<order::little, int8_t, 8, align::yes>    little_int8_at;
+    typedef endian_arithmetic<order::little, int16_t, 16, align::yes>  little_int16_at;
+    typedef endian_arithmetic<order::little, int32_t, 32, align::yes>  little_int32_at;
+    typedef endian_arithmetic<order::little, int64_t, 64, align::yes>  little_int64_at;
 
     // aligned little endian unsigned integer types
-    typedef endian<order::little, uint8_t, 8, align::yes>   little_uint8_at;
-    typedef endian<order::little, uint16_t, 16, align::yes> little_uint16_at;
-    typedef endian<order::little, uint32_t, 32, align::yes> little_uint32_at;
-    typedef endian<order::little, uint64_t, 64, align::yes> little_uint64_at;
+    typedef endian_arithmetic<order::little, uint8_t, 8, align::yes>   little_uint8_at;
+    typedef endian_arithmetic<order::little, uint16_t, 16, align::yes> little_uint16_at;
+    typedef endian_arithmetic<order::little, uint32_t, 32, align::yes> little_uint32_at;
+    typedef endian_arithmetic<order::little, uint64_t, 64, align::yes> little_uint64_at;
 
     // aligned native endian typedefs are not provided because
     // <cstdint> types are superior for that use case
@@ -373,10 +370,26 @@ namespace boost
 The `implementation-defined` text above is either `big` or `little` according
 to the endianness of the platform.
 
+The only supported value of `CHAR_BIT` is 8.
+
+The valid values of `Nbits` are as follows:
+
+* When `sizeof(T)` is 1, `Nbits` shall be 8;
+* When `sizeof(T)` is 2, `Nbits` shall be 16;
+* When `sizeof(T)` is 4, `Nbits` shall be 24 or 32;
+* When `sizeof(T)` is 8, `Nbits` shall be 40, 48, 56, or 64.
+
+Other values of `sizeof(T)` are not supported.
+
+When `Nbits` is equal to `sizeof(T)*8`, `T` must be a standard arithmetic type.
+
+When `Nbits` is less than `sizeof(T)*8`, `T` must be a standard integral type
+({cpp}std, [basic.fundamental]) that is not `bool`.
+
 ### Members
 
 ```
-endian() = default;  // C++03: endian(){}
+endian_arithmetic() = default;  // C++03: endian(){}
 ```
 [none]
 * {blank}
@@ -385,7 +398,7 @@ Effects:: Constructs an uninitialized object of type
 `endian_arithmetic<E, T, n_bits, A>`.
 
 ```
-endian(T v);
+endian_arithmetic(T v);
 ```
 [none]
 * {blank}
@@ -394,7 +407,7 @@ Effects:: Constructs an object of type `endian_arithmetic<E, T, n_bits, A>`.
 Postcondition:: `x == v,` where `x` is the constructed object.
 
 ```
-endian& operator=(T v);
+endian_arithmetic& operator=(T v);
 ```
 [none]
 * {blank}
@@ -429,7 +442,7 @@ Other operators on endian objects are forwarded to the equivalent operator on
 ```
 template <class charT, class traits>
 friend std::basic_ostream<charT, traits>&
-  operator<<(std::basic_ostream<charT, traits>& os, const T& x);
+  operator<<(std::basic_ostream<charT, traits>& os, const endian_arithmetic& x);
 
 ```
 [none]
@@ -443,7 +456,7 @@ Returns:: `os << +x`.
 ```
 template <class charT, class traits>
 friend std::basic_istream<charT, traits>&
-  operator>>(std::basic_istream<charT, traits>& is, T& x);
+  operator>>(std::basic_istream<charT, traits>& is, endian_arithmetic& x);
 ```
 [none]
 * {blank}
