@@ -40,7 +40,7 @@ template<class T, std::size_t N1, BOOST_SCOPED_ENUM(order) O1, std::size_t N2, B
 template<class T, std::size_t N, BOOST_SCOPED_ENUM(order) Order>
 inline T endian_load( unsigned char const * p ) BOOST_NOEXCEPT
 {
-    return detail::endian_load_impl<T, sizeof(T), endian::order::native, N, Order>()( p );
+    return detail::endian_load_impl<T, sizeof(T), order::native, N, Order>()( p );
 }
 
 namespace detail
@@ -94,7 +94,7 @@ template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 4, 
         tmp[2] = p[2];
         tmp[3] = boost::is_signed<T>::value && ( p[2] & 0x80 )? 0xFF: 0x00;
 
-        return endian::endian_load<T, 4, order::little>( tmp );
+        return boost::endian::endian_load<T, 4, order::little>( tmp );
     }
 };
 
@@ -111,7 +111,7 @@ template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 4, 
         tmp[2] = p[1];
         tmp[3] = p[2];
 
-        return endian::endian_load<T, 4, order::big>( tmp );
+        return boost::endian::endian_load<T, 4, order::big>( tmp );
     }
 };
 
@@ -137,7 +137,7 @@ template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 8, 
         tmp[6] = fill;
         tmp[7] = fill;
 
-        return endian::endian_load<T, 8, order::little>( tmp );
+        return boost::endian::endian_load<T, 8, order::little>( tmp );
     }
 };
 
@@ -161,7 +161,7 @@ template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 8, 
         tmp[6] = p[3];
         tmp[7] = p[4];
 
-        return endian::endian_load<T, 8, order::big>( tmp );
+        return boost::endian::endian_load<T, 8, order::big>( tmp );
     }
 };
 
@@ -187,7 +187,7 @@ template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 8, 
         tmp[6] = fill;
         tmp[7] = fill;
 
-        return endian::endian_load<T, 8, order::little>( tmp );
+        return boost::endian::endian_load<T, 8, order::little>( tmp );
     }
 };
 
@@ -211,7 +211,7 @@ template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 8, 
         tmp[6] = p[4];
         tmp[7] = p[5];
 
-        return endian::endian_load<T, 8, order::big>( tmp );
+        return boost::endian::endian_load<T, 8, order::big>( tmp );
     }
 };
 
@@ -237,7 +237,7 @@ template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 8, 
 
         tmp[7] = fill;
 
-        return endian::endian_load<T, 8, order::little>( tmp );
+        return boost::endian::endian_load<T, 8, order::little>( tmp );
     }
 };
 
@@ -261,7 +261,7 @@ template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 8, 
         tmp[6] = p[5];
         tmp[7] = p[6];
 
-        return endian::endian_load<T, 8, order::big>( tmp );
+        return boost::endian::endian_load<T, 8, order::big>( tmp );
     }
 };
 

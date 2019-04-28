@@ -243,20 +243,20 @@ public:
 
     explicit endian_buffer( T val ) BOOST_NOEXCEPT
     {
-        endian::endian_store<T, n_bits / 8, Order>( val, value_ );
+        boost::endian::endian_store<T, n_bits / 8, Order>( val, value_ );
     }
 
 #endif
 
     endian_buffer& operator=( T val ) BOOST_NOEXCEPT
     {
-        endian::endian_store<T, n_bits / 8, Order>( val, value_ );
+        boost::endian::endian_store<T, n_bits / 8, Order>( val, value_ );
         return *this;
     }
 
     value_type value() const BOOST_NOEXCEPT
     {
-        return endian::endian_load<T, n_bits / 8, Order>( value_ );
+        return boost::endian::endian_load<T, n_bits / 8, Order>( value_ );
     }
 
     char const * data() const BOOST_NOEXCEPT
@@ -293,20 +293,20 @@ public:
 
     explicit endian_buffer( T val ) BOOST_NOEXCEPT
     {
-        endian::endian_store<T, n_bits / 8, Order>( val, value_ );
+        boost::endian::endian_store<T, n_bits / 8, Order>( val, value_ );
     }
 
 #endif
 
     endian_buffer& operator=( T val ) BOOST_NOEXCEPT
     {
-        endian::endian_store<T, n_bits / 8, Order>( val, value_ );
+        boost::endian::endian_store<T, n_bits / 8, Order>( val, value_ );
         return *this;
     }
 
     value_type value() const BOOST_NOEXCEPT
     {
-        return endian::endian_load<T, n_bits / 8, Order>( value_ );
+        return boost::endian::endian_load<T, n_bits / 8, Order>( value_ );
     }
 
     char const * data() const BOOST_NOEXCEPT
