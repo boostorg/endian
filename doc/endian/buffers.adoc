@@ -378,8 +378,7 @@ endian_buffer() noexcept = default;
 [none]
 * {blank}
 +
-Effects:: Constructs an uninitialized object of type `endian_buffer<Order, T,
-Nbits, Align>`.
+Effects:: Constructs an uninitialized object.
 
 ```
 explicit endian_buffer(T v) noexcept;
@@ -387,11 +386,8 @@ explicit endian_buffer(T v) noexcept;
 [none]
 * {blank}
 +
-Effects:: Constructs an object of type `endian_buffer<Order, T, Nbits, Align>`.
 Postcondition:: `value() == v & mask`, where `mask` is a constant of type
 `value_type` with `Nbits` low-order bits set to one.
-Remarks:: If `Align` is `align::yes` then endianness conversion, if required,
-is performed by `boost::endian::endian_reverse`.
 
 ```
 endian_buffer& operator=(T v) noexcept;
@@ -402,8 +398,6 @@ endian_buffer& operator=(T v) noexcept;
 Postcondition:: `value() == v & mask`, where `mask` is a constant of type
 `value_type` with `Nbits` low-order bits set to one.
 Returns:: `*this`.
-Remarks:: If `Align` is `align::yes` then endianness conversion, if required, is
-performed by `boost::endian::endian_reverse`.
 
 ```
 value_type value() const noexcept;
@@ -413,8 +407,6 @@ value_type value() const noexcept;
 +
 Returns:: `endian_value`, converted to `value_type`, if required, and having the
 endianness of the native platform.
-Remarks:: If `Align` is `align::yes` then endianness conversion, if required, is
-performed by `boost::endian::endian_reverse`.
 
 ```
 const char* data() const noexcept;

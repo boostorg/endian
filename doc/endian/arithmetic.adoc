@@ -394,8 +394,7 @@ endian_arithmetic() = default;  // C++03: endian(){}
 [none]
 * {blank}
 +
-Effects:: Constructs an uninitialized object of type
-`endian_arithmetic<E, T, n_bits, A>`.
+Effects:: Constructs an uninitialized object.
 
 ```
 endian_arithmetic(T v);
@@ -403,8 +402,7 @@ endian_arithmetic(T v);
 [none]
 * {blank}
 +
-Effects:: Constructs an object of type `endian_arithmetic<E, T, n_bits, A>`.
-Postcondition:: `x == v,` where `x` is the constructed object.
+Postcondition:: `*this == v`.
 
 ```
 endian_arithmetic& operator=(T v);
@@ -412,7 +410,7 @@ endian_arithmetic& operator=(T v);
 [none]
 * {blank}
 +
-Postcondition:: `x == v,` where `x` is the constructed object.
+Postcondition:: `*this == v`.
 Returns:: `*this`.
 
 ```
