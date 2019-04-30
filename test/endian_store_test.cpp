@@ -3,7 +3,7 @@
 // Distributed under the Boost Software License, Version 1.0.
 // http://www.boost.org/LICENSE_1_0.txt
 
-#include <boost/endian/detail/endian_store.hpp>
+#include <boost/endian/conversion.hpp>
 #include <boost/core/lightweight_test.hpp>
 #include <boost/config.hpp>
 #include <boost/cstdint.hpp>
