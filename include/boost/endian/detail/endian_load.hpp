@@ -79,6 +79,118 @@ template<class T, std::size_t N, BOOST_SCOPED_ENUM(order) O1, BOOST_SCOPED_ENUM(
     }
 };
 
+// expanding load 1 -> 2
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 2, Order, 1, order::little>
+{
+    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 2 ];
+
+        tmp[0] = p[0];
+        tmp[1] = boost::is_signed<T>::value && ( p[0] & 0x80 )? 0xFF: 0x00;
+
+        return boost::endian::endian_load<T, 2, order::little>( tmp );
+    }
+};
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 2, Order, 1, order::big>
+{
+    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 2 ];
+
+        tmp[0] = boost::is_signed<T>::value && ( p[0] & 0x80 )? 0xFF: 0x00;
+        tmp[1] = p[0];
+
+        return boost::endian::endian_load<T, 2, order::big>( tmp );
+    }
+};
+
+// expanding load 1 -> 4
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 4, Order, 1, order::little>
+{
+    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 4 ];
+
+        unsigned char fill = boost::is_signed<T>::value && ( p[0] & 0x80 )? 0xFF: 0x00;
+
+        tmp[0] = p[0];
+        tmp[1] = fill;
+        tmp[2] = fill;
+        tmp[3] = fill;
+
+        return boost::endian::endian_load<T, 4, order::little>( tmp );
+    }
+};
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 4, Order, 1, order::big>
+{
+    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 4 ];
+
+        unsigned char fill = boost::is_signed<T>::value && ( p[0] & 0x80 )? 0xFF: 0x00;
+
+        tmp[0] = fill;
+        tmp[1] = fill;
+        tmp[2] = fill;
+        tmp[3] = p[0];
+
+        return boost::endian::endian_load<T, 4, order::big>( tmp );
+    }
+};
+
+// expanding load 2 -> 4
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 4, Order, 2, order::little>
+{
+    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 4 ];
+
+        unsigned char fill = boost::is_signed<T>::value && ( p[1] & 0x80 )? 0xFF: 0x00;
+
+        tmp[0] = p[0];
+        tmp[1] = p[1];
+        tmp[2] = fill;
+        tmp[3] = fill;
+
+        return boost::endian::endian_load<T, 4, order::little>( tmp );
+    }
+};
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 4, Order, 2, order::big>
+{
+    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 4 ];
+
+        unsigned char fill = boost::is_signed<T>::value && ( p[0] & 0x80 )? 0xFF: 0x00;
+
+        tmp[0] = fill;
+        tmp[1] = fill;
+        tmp[2] = p[0];
+        tmp[3] = p[1];
+
+        return boost::endian::endian_load<T, 4, order::big>( tmp );
+    }
+};
+
 // expanding load 3 -> 4
 
 template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 4, Order, 3, order::little>
@@ -112,6 +224,206 @@ template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 4, 
         tmp[3] = p[2];
 
         return boost::endian::endian_load<T, 4, order::big>( tmp );
+    }
+};
+
+// expanding load 1 -> 8
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 8, Order, 1, order::little>
+{
+    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 8 ];
+
+        unsigned char fill = boost::is_signed<T>::value && ( p[0] & 0x80 )? 0xFF: 0x00;
+
+        tmp[0] = p[0];
+
+        tmp[1] = fill;
+        tmp[2] = fill;
+        tmp[3] = fill;
+        tmp[4] = fill;
+        tmp[5] = fill;
+        tmp[6] = fill;
+        tmp[7] = fill;
+
+        return boost::endian::endian_load<T, 8, order::little>( tmp );
+    }
+};
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 8, Order, 1, order::big>
+{
+    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 8 ];
+
+        unsigned char fill = boost::is_signed<T>::value && ( p[0] & 0x80 )? 0xFF: 0x00;
+
+        tmp[0] = fill;
+        tmp[1] = fill;
+        tmp[2] = fill;
+        tmp[3] = fill;
+        tmp[4] = fill;
+        tmp[5] = fill;
+        tmp[6] = fill;
+
+        tmp[7] = p[0];
+
+        return boost::endian::endian_load<T, 8, order::big>( tmp );
+    }
+};
+
+// expanding load 2 -> 8
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 8, Order, 2, order::little>
+{
+    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 8 ];
+
+        unsigned char fill = boost::is_signed<T>::value && ( p[1] & 0x80 )? 0xFF: 0x00;
+
+        tmp[0] = p[0];
+        tmp[1] = p[1];
+
+        tmp[2] = fill;
+        tmp[3] = fill;
+        tmp[4] = fill;
+        tmp[5] = fill;
+        tmp[6] = fill;
+        tmp[7] = fill;
+
+        return boost::endian::endian_load<T, 8, order::little>( tmp );
+    }
+};
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 8, Order, 2, order::big>
+{
+    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 8 ];
+
+        unsigned char fill = boost::is_signed<T>::value && ( p[0] & 0x80 )? 0xFF: 0x00;
+
+        tmp[0] = fill;
+        tmp[1] = fill;
+        tmp[2] = fill;
+        tmp[3] = fill;
+        tmp[4] = fill;
+        tmp[5] = fill;
+
+        tmp[6] = p[0];
+        tmp[7] = p[1];
+
+        return boost::endian::endian_load<T, 8, order::big>( tmp );
+    }
+};
+
+// expanding load 3 -> 8
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 8, Order, 3, order::little>
+{
+    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 8 ];
+
+        unsigned char fill = boost::is_signed<T>::value && ( p[2] & 0x80 )? 0xFF: 0x00;
+
+        tmp[0] = p[0];
+        tmp[1] = p[1];
+        tmp[2] = p[2];
+
+        tmp[3] = fill;
+        tmp[4] = fill;
+        tmp[5] = fill;
+        tmp[6] = fill;
+        tmp[7] = fill;
+
+        return boost::endian::endian_load<T, 8, order::little>( tmp );
+    }
+};
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 8, Order, 3, order::big>
+{
+    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 8 ];
+
+        unsigned char fill = boost::is_signed<T>::value && ( p[0] & 0x80 )? 0xFF: 0x00;
+
+        tmp[0] = fill;
+        tmp[1] = fill;
+        tmp[2] = fill;
+        tmp[3] = fill;
+        tmp[4] = fill;
+
+        tmp[5] = p[0];
+        tmp[6] = p[1];
+        tmp[7] = p[2];
+
+        return boost::endian::endian_load<T, 8, order::big>( tmp );
+    }
+};
+
+// expanding load 4 -> 8
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 8, Order, 4, order::little>
+{
+    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 8 ];
+
+        unsigned char fill = boost::is_signed<T>::value && ( p[3] & 0x80 )? 0xFF: 0x00;
+
+        tmp[0] = p[0];
+        tmp[1] = p[1];
+        tmp[2] = p[2];
+        tmp[3] = p[3];
+
+        tmp[4] = fill;
+        tmp[5] = fill;
+        tmp[6] = fill;
+        tmp[7] = fill;
+
+        return boost::endian::endian_load<T, 8, order::little>( tmp );
+    }
+};
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_load_impl<T, 8, Order, 4, order::big>
+{
+    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 8 ];
+
+        unsigned char fill = boost::is_signed<T>::value && ( p[0] & 0x80 )? 0xFF: 0x00;
+
+        tmp[0] = fill;
+        tmp[1] = fill;
+        tmp[2] = fill;
+        tmp[3] = fill;
+
+        tmp[4] = p[0];
+        tmp[5] = p[1];
+        tmp[6] = p[2];
+        tmp[7] = p[3];
+
+        return boost::endian::endian_load<T, 8, order::big>( tmp );
     }
 };
 
