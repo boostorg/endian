@@ -325,11 +325,9 @@ T endian_load( unsigned char const * p ) noexcept;
 [none]
 * {blank}
 +
-Requires:: `sizeof(T)` must be 1, 2, 4, or 8. `N` must be 1 when
-  `sizeof(T)` is 1, 2 when `sizeof(T)` is 2, 3 or 4 when `sizeof(T)`
-  is 4, and 5, 6, 7, or 8 when `sizeof(T)` is 8. `T` must be trivially
-  copyable. If `N` is not equal to `sizeof(T)`, `T` must be integral or
-  `enum`.
+Requires:: `sizeof(T)` must be 1, 2, 4, or 8. `N` must be between 1 and
+  `sizeof(T)`, inclusive. `T` must be trivially copyable. If `N` is not
+  equal to `sizeof(T)`, `T` must be integral or `enum`.
 
 Effects:: Reads `N` bytes starting from `p`, in forward or reverse order
   depending on whether `Order` matches the native endianness or not,
@@ -344,11 +342,9 @@ void endian_store( unsigned char * p, T const & v ) noexcept;
 [none]
 * {blank}
 +
-Requires:: `sizeof(T)` must be 1, 2, 4, or 8. `N` must be 1 when
-  `sizeof(T)` is 1, 2 when `sizeof(T)` is 2, 3 or 4 when `sizeof(T)`
-  is 4, and 5, 6, 7, or 8 when `sizeof(T)` is 8. `T` must be trivially
-  copyable. If `N` is not equal to `sizeof(T)`, `T` must be integral or
-  `enum`.
+Requires:: `sizeof(T)` must be 1, 2, 4, or 8. `N` must be between 1 and
+  `sizeof(T)`, inclusive. `T` must be trivially copyable. If `N` is not
+  equal to `sizeof(T)`, `T` must be integral or `enum`.
 
 Effects:: Writes to `p` the `N` least significant bytes from the object
   representation of `v`, in forward or reverse order depending on whether
