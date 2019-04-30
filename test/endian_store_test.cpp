@@ -66,7 +66,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::int8_t, 1, boost::endian::order::little>( 0x01, v );
+        boost::endian::endian_store<boost::int8_t, 1, boost::endian::order::little>( v, 0x01 );
 
         unsigned char w[] = { 0x01, 0xAA };
 
@@ -76,7 +76,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::uint8_t, 1, boost::endian::order::little>( 0x01, v );
+        boost::endian::endian_store<boost::uint8_t, 1, boost::endian::order::little>( v, 0x01 );
 
         unsigned char w[] = { 0x01, 0xAA };
 
@@ -86,7 +86,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::int8_t, 1, boost::endian::order::big>( 0x01, v );
+        boost::endian::endian_store<boost::int8_t, 1, boost::endian::order::big>( v, 0x01 );
 
         unsigned char w[] = { 0x01, 0xAA };
 
@@ -96,7 +96,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::uint8_t, 1, boost::endian::order::big>( 0x01, v );
+        boost::endian::endian_store<boost::uint8_t, 1, boost::endian::order::big>( v, 0x01 );
 
         unsigned char w[] = { 0x01, 0xAA };
 
@@ -108,7 +108,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::int16_t, 2, boost::endian::order::little>( 0x0102, v );
+        boost::endian::endian_store<boost::int16_t, 2, boost::endian::order::little>( v, 0x0102 );
 
         unsigned char w[] = { 0x02, 0x01, 0xAA };
 
@@ -118,7 +118,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::uint16_t, 2, boost::endian::order::little>( 0x0102, v );
+        boost::endian::endian_store<boost::uint16_t, 2, boost::endian::order::little>( v, 0x0102 );
 
         unsigned char w[] = { 0x02, 0x01, 0xAA };
 
@@ -128,7 +128,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::int16_t, 2, boost::endian::order::big>( 0x0102, v );
+        boost::endian::endian_store<boost::int16_t, 2, boost::endian::order::big>( v, 0x0102 );
 
         unsigned char w[] = { 0x01, 0x02, 0xAA };
 
@@ -138,7 +138,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::uint16_t, 2, boost::endian::order::big>( 0x0102, v );
+        boost::endian::endian_store<boost::uint16_t, 2, boost::endian::order::big>( v, 0x0102 );
 
         unsigned char w[] = { 0x01, 0x02, 0xAA };
 
@@ -150,7 +150,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::int32_t, 3, boost::endian::order::little>( 0x010203, v );
+        boost::endian::endian_store<boost::int32_t, 3, boost::endian::order::little>( v, 0x010203 );
 
         unsigned char w[] = { 0x03, 0x02, 0x01, 0xAA };
 
@@ -160,7 +160,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::uint32_t, 3, boost::endian::order::little>( 0x010203, v );
+        boost::endian::endian_store<boost::uint32_t, 3, boost::endian::order::little>( v, 0x010203 );
 
         unsigned char w[] = { 0x03, 0x02, 0x01, 0xAA };
 
@@ -170,7 +170,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::int32_t, 3, boost::endian::order::big>( 0x010203, v );
+        boost::endian::endian_store<boost::int32_t, 3, boost::endian::order::big>( v, 0x010203 );
 
         unsigned char w[] = { 0x01, 0x02, 0x03, 0xAA };
 
@@ -180,7 +180,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::uint32_t, 3, boost::endian::order::big>( 0x010203, v );
+        boost::endian::endian_store<boost::uint32_t, 3, boost::endian::order::big>( v, 0x010203 );
 
         unsigned char w[] = { 0x01, 0x02, 0x03, 0xAA };
 
@@ -192,7 +192,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::int32_t, 4, boost::endian::order::little>( 0x01020304, v );
+        boost::endian::endian_store<boost::int32_t, 4, boost::endian::order::little>( v, 0x01020304 );
 
         unsigned char w[] = { 0x04, 0x03, 0x02, 0x01, 0xAA };
 
@@ -202,7 +202,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::uint32_t, 4, boost::endian::order::little>( 0x01020304, v );
+        boost::endian::endian_store<boost::uint32_t, 4, boost::endian::order::little>( v, 0x01020304 );
 
         unsigned char w[] = { 0x04, 0x03, 0x02, 0x01, 0xAA };
 
@@ -212,7 +212,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::int32_t, 4, boost::endian::order::big>( 0x01020304, v );
+        boost::endian::endian_store<boost::int32_t, 4, boost::endian::order::big>( v, 0x01020304 );
 
         unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0xAA };
 
@@ -222,7 +222,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::uint32_t, 4, boost::endian::order::big>( 0x01020304, v );
+        boost::endian::endian_store<boost::uint32_t, 4, boost::endian::order::big>( v, 0x01020304 );
 
         unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0xAA };
 
@@ -234,7 +234,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::int64_t, 5, boost::endian::order::little>( 0x0102030405, v );
+        boost::endian::endian_store<boost::int64_t, 5, boost::endian::order::little>( v, 0x0102030405 );
 
         unsigned char w[] = { 0x05, 0x04, 0x03, 0x02, 0x01, 0xAA };
 
@@ -244,7 +244,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::uint64_t, 5, boost::endian::order::little>( 0x0102030405, v );
+        boost::endian::endian_store<boost::uint64_t, 5, boost::endian::order::little>( v, 0x0102030405 );
 
         unsigned char w[] = { 0x05, 0x04, 0x03, 0x02, 0x01, 0xAA };
 
@@ -254,7 +254,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::int64_t, 5, boost::endian::order::big>( 0x0102030405, v );
+        boost::endian::endian_store<boost::int64_t, 5, boost::endian::order::big>( v, 0x0102030405 );
 
         unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0xAA };
 
@@ -264,7 +264,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::uint64_t, 5, boost::endian::order::big>( 0x0102030405, v );
+        boost::endian::endian_store<boost::uint64_t, 5, boost::endian::order::big>( v, 0x0102030405 );
 
         unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0xAA };
 
@@ -276,7 +276,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::int64_t, 6, boost::endian::order::little>( 0x010203040506, v );
+        boost::endian::endian_store<boost::int64_t, 6, boost::endian::order::little>( v, 0x010203040506 );
 
         unsigned char w[] = { 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0xAA };
 
@@ -286,7 +286,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::uint64_t, 6, boost::endian::order::little>( 0x010203040506, v );
+        boost::endian::endian_store<boost::uint64_t, 6, boost::endian::order::little>( v, 0x010203040506 );
 
         unsigned char w[] = { 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0xAA };
 
@@ -296,7 +296,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::int64_t, 6, boost::endian::order::big>( 0x010203040506, v );
+        boost::endian::endian_store<boost::int64_t, 6, boost::endian::order::big>( v, 0x010203040506 );
 
         unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0xAA };
 
@@ -306,7 +306,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::uint64_t, 6, boost::endian::order::big>( 0x010203040506, v );
+        boost::endian::endian_store<boost::uint64_t, 6, boost::endian::order::big>( v, 0x010203040506 );
 
         unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0xAA };
 
@@ -318,7 +318,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::int64_t, 7, boost::endian::order::little>( 0x01020304050607, v );
+        boost::endian::endian_store<boost::int64_t, 7, boost::endian::order::little>( v, 0x01020304050607 );
 
         unsigned char w[] = { 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0xAA };
 
@@ -328,7 +328,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::uint64_t, 7, boost::endian::order::little>( 0x01020304050607, v );
+        boost::endian::endian_store<boost::uint64_t, 7, boost::endian::order::little>( v, 0x01020304050607 );
 
         unsigned char w[] = { 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0xAA };
 
@@ -338,7 +338,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::int64_t, 7, boost::endian::order::big>( 0x01020304050607, v );
+        boost::endian::endian_store<boost::int64_t, 7, boost::endian::order::big>( v, 0x01020304050607 );
 
         unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0xAA };
 
@@ -348,7 +348,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::uint64_t, 7, boost::endian::order::big>( 0x01020304050607, v );
+        boost::endian::endian_store<boost::uint64_t, 7, boost::endian::order::big>( v, 0x01020304050607 );
 
         unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0xAA };
 
@@ -360,7 +360,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::int64_t, 8, boost::endian::order::little>( 0x0102030405060708, v );
+        boost::endian::endian_store<boost::int64_t, 8, boost::endian::order::little>( v, 0x0102030405060708 );
 
         unsigned char w[] = { 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0xAA };
 
@@ -370,7 +370,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::uint64_t, 8, boost::endian::order::little>( 0x0102030405060708, v );
+        boost::endian::endian_store<boost::uint64_t, 8, boost::endian::order::little>( v, 0x0102030405060708 );
 
         unsigned char w[] = { 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0xAA };
 
@@ -380,7 +380,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::int64_t, 8, boost::endian::order::big>( 0x0102030405060708, v );
+        boost::endian::endian_store<boost::int64_t, 8, boost::endian::order::big>( v, 0x0102030405060708 );
 
         unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0xAA };
 
@@ -390,7 +390,7 @@ int main()
     {
         unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
 
-        boost::endian::endian_store<boost::uint64_t, 8, boost::endian::order::big>( 0x0102030405060708, v );
+        boost::endian::endian_store<boost::uint64_t, 8, boost::endian::order::big>( v, 0x0102030405060708 );
 
         unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0xAA };
 

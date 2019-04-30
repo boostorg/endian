@@ -243,14 +243,14 @@ public:
 
     explicit endian_buffer( T val ) BOOST_NOEXCEPT
     {
-        boost::endian::endian_store<T, n_bits / 8, Order>( val, value_ );
+        boost::endian::endian_store<T, n_bits / 8, Order>( value_, val );
     }
 
 #endif
 
     endian_buffer& operator=( T val ) BOOST_NOEXCEPT
     {
-        boost::endian::endian_store<T, n_bits / 8, Order>( val, value_ );
+        boost::endian::endian_store<T, n_bits / 8, Order>( value_, val );
         return *this;
     }
 
@@ -293,14 +293,14 @@ public:
 
     explicit endian_buffer( T val ) BOOST_NOEXCEPT
     {
-        boost::endian::endian_store<T, n_bits / 8, Order>( val, value_ );
+        boost::endian::endian_store<T, n_bits / 8, Order>( value_, val );
     }
 
 #endif
 
     endian_buffer& operator=( T val ) BOOST_NOEXCEPT
     {
-        boost::endian::endian_store<T, n_bits / 8, Order>( val, value_ );
+        boost::endian::endian_store<T, n_bits / 8, Order>( value_, val );
         return *this;
     }
 

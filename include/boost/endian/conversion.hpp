@@ -9,6 +9,8 @@
 #define BOOST_ENDIAN_CONVERSION_HPP
 
 #include <boost/endian/detail/endian_reverse.hpp>
+#include <boost/endian/detail/endian_load.hpp>
+#include <boost/endian/detail/endian_store.hpp>
 #include <boost/endian/detail/order.hpp>
 #include <boost/type_traits/is_class.hpp>
 #include <boost/type_traits/is_integral.hpp>

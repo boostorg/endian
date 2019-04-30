@@ -15,7 +15,7 @@ template<class T> void test( T const& x )
     {
         unsigned char buffer[ sizeof(T) ];
 
-        boost::endian::endian_store<T, sizeof(T), boost::endian::order::little>( x, buffer );
+        boost::endian::endian_store<T, sizeof(T), boost::endian::order::little>( buffer, x );
         T x2 = boost::endian::endian_load<T, sizeof(T), boost::endian::order::little>( buffer );
 
         BOOST_TEST_EQ( x, x2 );
@@ -24,7 +24,7 @@ template<class T> void test( T const& x )
     {
         unsigned char buffer[ sizeof(T) ];
 
-        boost::endian::endian_store<T, sizeof(T), boost::endian::order::big>( x, buffer );
+        boost::endian::endian_store<T, sizeof(T), boost::endian::order::big>( buffer, x );
         T x2 = boost::endian::endian_load<T, sizeof(T), boost::endian::order::big>( buffer );
 
         BOOST_TEST_EQ( x, x2 );
