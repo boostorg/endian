@@ -32,13 +32,17 @@ template<class T, std::size_t N1, BOOST_SCOPED_ENUM(order) O1, std::size_t N2, B
 
 // Requires:
 //
-//    1 <= N <= sizeof(T) <= 8
+//    sizeof(T) must be 1, 2, 4, or 8
+//    1 <= N <= sizeof(T)
 //    T is TriviallyCopyable
 //    if N < sizeof(T), T is integral or enum
 
 template<class T, std::size_t N, BOOST_SCOPED_ENUM(order) Order>
 inline void endian_store( unsigned char * p, T const & v ) BOOST_NOEXCEPT
 {
+    BOOST_STATIC_ASSERT( sizeof(T) == 1 || sizeof(T) == 2 || sizeof(T) == 4 || sizeof(T) == 8 );
+    BOOST_STATIC_ASSERT( N >= 1 && N <= sizeof(T) );
+
     return detail::endian_store_impl<T, sizeof(T), order::native, N, Order>()( p, v );
 }
 
