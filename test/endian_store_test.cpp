@@ -59,343 +59,252 @@ public:
     }
 };
 
+template<class T> void test_1()
+{
+    {
+        unsigned char v[] = { 0xAA, 0xAA };
+
+        boost::endian::endian_store<T, 1, boost::endian::order::little>( v, 0x01 );
+
+        unsigned char w[] = { 0x01, 0xAA };
+
+        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
+    }
+
+    {
+        unsigned char v[] = { 0xAA, 0xAA };
+
+        boost::endian::endian_store<T, 1, boost::endian::order::big>( v, 0x01 );
+
+        unsigned char w[] = { 0x01, 0xAA };
+
+        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
+    }
+}
+
+template<class T> void test_2()
+{
+    {
+        unsigned char v[] = { 0xAA, 0xAA, 0xAA };
+
+        boost::endian::endian_store<T, 2, boost::endian::order::little>( v, 0x0102 );
+
+        unsigned char w[] = { 0x02, 0x01, 0xAA };
+
+        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
+    }
+
+    {
+        unsigned char v[] = { 0xAA, 0xAA, 0xAA };
+
+        boost::endian::endian_store<T, 2, boost::endian::order::big>( v, 0x0102 );
+
+        unsigned char w[] = { 0x01, 0x02, 0xAA };
+
+        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
+    }
+}
+
+template<class T> void test_3()
+{
+    {
+        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA };
+
+        boost::endian::endian_store<T, 3, boost::endian::order::little>( v, 0x010203 );
+
+        unsigned char w[] = { 0x03, 0x02, 0x01, 0xAA };
+
+        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
+    }
+
+    {
+        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA };
+
+        boost::endian::endian_store<T, 3, boost::endian::order::big>( v, 0x010203 );
+
+        unsigned char w[] = { 0x01, 0x02, 0x03, 0xAA };
+
+        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
+    }
+}
+
+template<class T> void test_4()
+{
+    {
+        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
+
+        boost::endian::endian_store<T, 4, boost::endian::order::little>( v, 0x01020304 );
+
+        unsigned char w[] = { 0x04, 0x03, 0x02, 0x01, 0xAA };
+
+        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
+    }
+
+    {
+        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
+
+        boost::endian::endian_store<T, 4, boost::endian::order::big>( v, 0x01020304 );
+
+        unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0xAA };
+
+        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
+    }
+}
+
+template<class T> void test_5()
+{
+    {
+        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
+
+        boost::endian::endian_store<T, 5, boost::endian::order::little>( v, 0x0102030405 );
+
+        unsigned char w[] = { 0x05, 0x04, 0x03, 0x02, 0x01, 0xAA };
+
+        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
+    }
+
+    {
+        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
+
+        boost::endian::endian_store<T, 5, boost::endian::order::big>( v, 0x0102030405 );
+
+        unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0xAA };
+
+        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
+    }
+}
+
+template<class T> void test_6()
+{
+    {
+        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
+
+        boost::endian::endian_store<T, 6, boost::endian::order::little>( v, 0x010203040506 );
+
+        unsigned char w[] = { 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0xAA };
+
+        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
+    }
+
+    {
+        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
+
+        boost::endian::endian_store<T, 6, boost::endian::order::big>( v, 0x010203040506 );
+
+        unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0xAA };
+
+        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
+    }
+}
+
+template<class T> void test_7()
+{
+    {
+        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
+
+        boost::endian::endian_store<T, 7, boost::endian::order::little>( v, 0x01020304050607 );
+
+        unsigned char w[] = { 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0xAA };
+
+        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
+    }
+
+    {
+        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
+
+        boost::endian::endian_store<T, 7, boost::endian::order::big>( v, 0x01020304050607 );
+
+        unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0xAA };
+
+        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
+    }
+}
+
+template<class T> void test_8()
+{
+    {
+        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
+
+        boost::endian::endian_store<T, 8, boost::endian::order::little>( v, 0x0102030405060708 );
+
+        unsigned char w[] = { 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0xAA };
+
+        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
+    }
+
+    {
+        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
+
+        boost::endian::endian_store<T, 8, boost::endian::order::big>( v, 0x0102030405060708 );
+
+        unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0xAA };
+
+        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
+    }
+}
+
 int main()
 {
     // 1
 
-    {
-        unsigned char v[] = { 0xAA, 0xAA };
+    test_1<boost::int8_t>();
+    test_1<boost::uint8_t>();
 
-        boost::endian::endian_store<boost::int8_t, 1, boost::endian::order::little>( v, 0x01 );
+    test_1<boost::int16_t>();
+    test_1<boost::uint16_t>();
 
-        unsigned char w[] = { 0x01, 0xAA };
+    test_1<boost::int32_t>();
+    test_1<boost::uint32_t>();
 
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::uint8_t, 1, boost::endian::order::little>( v, 0x01 );
-
-        unsigned char w[] = { 0x01, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::int8_t, 1, boost::endian::order::big>( v, 0x01 );
-
-        unsigned char w[] = { 0x01, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::uint8_t, 1, boost::endian::order::big>( v, 0x01 );
-
-        unsigned char w[] = { 0x01, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
+    test_1<boost::int64_t>();
+    test_1<boost::uint64_t>();
 
     // 2
 
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA };
+    test_2<boost::int16_t>();
+    test_2<boost::uint16_t>();
 
-        boost::endian::endian_store<boost::int16_t, 2, boost::endian::order::little>( v, 0x0102 );
+    test_2<boost::int32_t>();
+    test_2<boost::uint32_t>();
 
-        unsigned char w[] = { 0x02, 0x01, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::uint16_t, 2, boost::endian::order::little>( v, 0x0102 );
-
-        unsigned char w[] = { 0x02, 0x01, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::int16_t, 2, boost::endian::order::big>( v, 0x0102 );
-
-        unsigned char w[] = { 0x01, 0x02, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::uint16_t, 2, boost::endian::order::big>( v, 0x0102 );
-
-        unsigned char w[] = { 0x01, 0x02, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
+    test_2<boost::int64_t>();
+    test_2<boost::uint64_t>();
 
     // 3
 
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA };
+    test_3<boost::int32_t>();
+    test_3<boost::uint32_t>();
 
-        boost::endian::endian_store<boost::int32_t, 3, boost::endian::order::little>( v, 0x010203 );
-
-        unsigned char w[] = { 0x03, 0x02, 0x01, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::uint32_t, 3, boost::endian::order::little>( v, 0x010203 );
-
-        unsigned char w[] = { 0x03, 0x02, 0x01, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::int32_t, 3, boost::endian::order::big>( v, 0x010203 );
-
-        unsigned char w[] = { 0x01, 0x02, 0x03, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::uint32_t, 3, boost::endian::order::big>( v, 0x010203 );
-
-        unsigned char w[] = { 0x01, 0x02, 0x03, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
+    test_3<boost::int64_t>();
+    test_3<boost::uint64_t>();
 
     // 4
 
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
+    test_4<boost::int32_t>();
+    test_4<boost::uint32_t>();
 
-        boost::endian::endian_store<boost::int32_t, 4, boost::endian::order::little>( v, 0x01020304 );
-
-        unsigned char w[] = { 0x04, 0x03, 0x02, 0x01, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::uint32_t, 4, boost::endian::order::little>( v, 0x01020304 );
-
-        unsigned char w[] = { 0x04, 0x03, 0x02, 0x01, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::int32_t, 4, boost::endian::order::big>( v, 0x01020304 );
-
-        unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::uint32_t, 4, boost::endian::order::big>( v, 0x01020304 );
-
-        unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
+    test_4<boost::int64_t>();
+    test_4<boost::uint64_t>();
 
     // 5
 
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::int64_t, 5, boost::endian::order::little>( v, 0x0102030405 );
-
-        unsigned char w[] = { 0x05, 0x04, 0x03, 0x02, 0x01, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::uint64_t, 5, boost::endian::order::little>( v, 0x0102030405 );
-
-        unsigned char w[] = { 0x05, 0x04, 0x03, 0x02, 0x01, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::int64_t, 5, boost::endian::order::big>( v, 0x0102030405 );
-
-        unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::uint64_t, 5, boost::endian::order::big>( v, 0x0102030405 );
-
-        unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
+    test_5<boost::int64_t>();
+    test_5<boost::uint64_t>();
 
     // 6
 
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::int64_t, 6, boost::endian::order::little>( v, 0x010203040506 );
-
-        unsigned char w[] = { 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::uint64_t, 6, boost::endian::order::little>( v, 0x010203040506 );
-
-        unsigned char w[] = { 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::int64_t, 6, boost::endian::order::big>( v, 0x010203040506 );
-
-        unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::uint64_t, 6, boost::endian::order::big>( v, 0x010203040506 );
-
-        unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
+    test_6<boost::int64_t>();
+    test_6<boost::uint64_t>();
 
     // 7
 
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::int64_t, 7, boost::endian::order::little>( v, 0x01020304050607 );
-
-        unsigned char w[] = { 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::uint64_t, 7, boost::endian::order::little>( v, 0x01020304050607 );
-
-        unsigned char w[] = { 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::int64_t, 7, boost::endian::order::big>( v, 0x01020304050607 );
-
-        unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::uint64_t, 7, boost::endian::order::big>( v, 0x01020304050607 );
-
-        unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
+    test_7<boost::int64_t>();
+    test_7<boost::uint64_t>();
 
     // 8
 
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::int64_t, 8, boost::endian::order::little>( v, 0x0102030405060708 );
-
-        unsigned char w[] = { 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::uint64_t, 8, boost::endian::order::little>( v, 0x0102030405060708 );
-
-        unsigned char w[] = { 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::int64_t, 8, boost::endian::order::big>( v, 0x0102030405060708 );
-
-        unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
-
-    {
-        unsigned char v[] = { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
-
-        boost::endian::endian_store<boost::uint64_t, 8, boost::endian::order::big>( v, 0x0102030405060708 );
-
-        unsigned char w[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0xAA };
-
-        BOOST_TEST_EQ( byte_span( v ), byte_span( w ) );
-    }
+    test_8<boost::int64_t>();
+    test_8<boost::uint64_t>();
 
     return boost::report_errors();
 }

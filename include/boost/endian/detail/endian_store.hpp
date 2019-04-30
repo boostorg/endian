@@ -74,6 +74,92 @@ template<class T, std::size_t N, BOOST_SCOPED_ENUM(order) O1, BOOST_SCOPED_ENUM(
     }
 };
 
+// truncating store 2 -> 1
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_store_impl<T, 2, Order, 1, order::little>
+{
+    inline void operator()( unsigned char * p, T const & v ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 2 ];
+        boost::endian::endian_store<T, 2, order::little>( tmp, v );
+
+        p[0] = tmp[0];
+    }
+};
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_store_impl<T, 2, Order, 1, order::big>
+{
+    inline void operator()( unsigned char * p, T const & v ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 2 ];
+        boost::endian::endian_store<T, 2, order::big>( tmp, v );
+
+        p[0] = tmp[1];
+    }
+};
+
+// truncating store 4 -> 1
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_store_impl<T, 4, Order, 1, order::little>
+{
+    inline void operator()( unsigned char * p, T const & v ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 4 ];
+        boost::endian::endian_store<T, 4, order::little>( tmp, v );
+
+        p[0] = tmp[0];
+    }
+};
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_store_impl<T, 4, Order, 1, order::big>
+{
+    inline void operator()( unsigned char * p, T const & v ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 4 ];
+        boost::endian::endian_store<T, 4, order::big>( tmp, v );
+
+        p[0] = tmp[3];
+    }
+};
+
+// truncating store 4 -> 2
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_store_impl<T, 4, Order, 2, order::little>
+{
+    inline void operator()( unsigned char * p, T const & v ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 4 ];
+        boost::endian::endian_store<T, 4, order::little>( tmp, v );
+
+        p[0] = tmp[0];
+        p[1] = tmp[1];
+    }
+};
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_store_impl<T, 4, Order, 2, order::big>
+{
+    inline void operator()( unsigned char * p, T const & v ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 4 ];
+        boost::endian::endian_store<T, 4, order::big>( tmp, v );
+
+        p[0] = tmp[2];
+        p[1] = tmp[3];
+    }
+};
+
 // truncating store 4 -> 3
 
 template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_store_impl<T, 4, Order, 3, order::little>
@@ -103,6 +189,130 @@ template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_store_impl<T, 4,
         p[0] = tmp[1];
         p[1] = tmp[2];
         p[2] = tmp[3];
+    }
+};
+
+// truncating store 8 -> 1
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_store_impl<T, 8, Order, 1, order::little>
+{
+    inline void operator()( unsigned char * p, T const & v ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 8 ];
+        boost::endian::endian_store<T, 8, order::little>( tmp, v );
+
+        p[0] = tmp[0];
+    }
+};
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_store_impl<T, 8, Order, 1, order::big>
+{
+    inline void operator()( unsigned char * p, T const & v ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 8 ];
+        boost::endian::endian_store<T, 8, order::big>( tmp, v );
+
+        p[0] = tmp[7];
+    }
+};
+
+// truncating store 8 -> 2
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_store_impl<T, 8, Order, 2, order::little>
+{
+    inline void operator()( unsigned char * p, T const & v ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 8 ];
+        boost::endian::endian_store<T, 8, order::little>( tmp, v );
+
+        p[0] = tmp[0];
+        p[1] = tmp[1];
+    }
+};
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_store_impl<T, 8, Order, 2, order::big>
+{
+    inline void operator()( unsigned char * p, T const & v ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 8 ];
+        boost::endian::endian_store<T, 8, order::big>( tmp, v );
+
+        p[0] = tmp[6];
+        p[1] = tmp[7];
+    }
+};
+
+// truncating store 8 -> 3
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_store_impl<T, 8, Order, 3, order::little>
+{
+    inline void operator()( unsigned char * p, T const & v ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 8 ];
+        boost::endian::endian_store<T, 8, order::little>( tmp, v );
+
+        p[0] = tmp[0];
+        p[1] = tmp[1];
+        p[2] = tmp[2];
+    }
+};
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_store_impl<T, 8, Order, 3, order::big>
+{
+    inline void operator()( unsigned char * p, T const & v ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 8 ];
+        boost::endian::endian_store<T, 8, order::big>( tmp, v );
+
+        p[0] = tmp[5];
+        p[1] = tmp[6];
+        p[2] = tmp[7];
+    }
+};
+
+// truncating store 8 -> 4
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_store_impl<T, 8, Order, 4, order::little>
+{
+    inline void operator()( unsigned char * p, T const & v ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 8 ];
+        boost::endian::endian_store<T, 8, order::little>( tmp, v );
+
+        p[0] = tmp[0];
+        p[1] = tmp[1];
+        p[2] = tmp[2];
+        p[3] = tmp[3];
+    }
+};
+
+template<class T, BOOST_SCOPED_ENUM(order) Order> struct endian_store_impl<T, 8, Order, 4, order::big>
+{
+    inline void operator()( unsigned char * p, T const & v ) const BOOST_NOEXCEPT
+    {
+        BOOST_STATIC_ASSERT( is_integral<T>::value || is_enum<T>::value );
+
+        unsigned char tmp[ 8 ];
+        boost::endian::endian_store<T, 8, order::big>( tmp, v );
+
+        p[0] = tmp[4];
+        p[1] = tmp[5];
+        p[2] = tmp[6];
+        p[3] = tmp[7];
     }
 };
 
