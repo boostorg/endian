@@ -385,7 +385,7 @@ explicit endian_buffer(T v) noexcept;
 [none]
 * {blank}
 +
-Effects:: `endian_store<T, Nbits/8, Order>( &value_, v )`.
+Effects:: `endian_store<T, Nbits/8, Order>( value_, v )`.
 
 ```
 endian_buffer& operator=(T v) noexcept;
@@ -393,7 +393,7 @@ endian_buffer& operator=(T v) noexcept;
 [none]
 * {blank}
 +
-Effects:: `endian_store<T, Nbits/8, Order>( &value_, v )`.
+Effects:: `endian_store<T, Nbits/8, Order>( value_, v )`.
 Returns:: `*this`.
 
 ```
@@ -402,7 +402,7 @@ value_type value() const noexcept;
 [none]
 * {blank}
 +
-Returns:: `endian_load<T, Nbits/8, Order>( &value_ )`.
+Returns:: `endian_load<T, Nbits/8, Order>( value_ )`.
 
 ```
 const char* data() const noexcept;

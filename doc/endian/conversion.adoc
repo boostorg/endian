@@ -96,7 +96,7 @@ namespace endian
     T endian_load( unsigned char const * p ) noexcept;
 
   template<class T, std::size_t N, order Order>
-    void endian_store( T const & v, unsigned char * p ) noexcept;
+    void endian_store( unsigned char * p, T const & v ) noexcept;
 
 } // namespace endian
 } // namespace boost
@@ -339,7 +339,7 @@ Effects:: Reads `N` bytes starting from `p`, in forward or reverse order
 
 ```
 template<class T, std::size_t N, order Order>
-void endian_store( T const & v, unsigned char * p ) noexcept;
+void endian_store( unsigned char * p, T const & v ) noexcept;
 ```
 [none]
 * {blank}
