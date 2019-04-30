@@ -7,6 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 [#conversion]
 # Endian Conversion Functions
+:idprefix: conversion_
 
 ## Introduction
 
@@ -90,6 +91,12 @@ namespace endian
   template <class EndianReversibleInplace>
    void conditional_reverse_inplace(EndianReversibleInplace& x,
      order order1, order order2) noexcept;
+
+  template<class T, std::size_t N, order Order>
+    T endian_load( unsigned char const * p ) noexcept;
+
+  template<class T, std::size_t N, order Order>
+    void endian_store( T const & v, unsigned char * p ) noexcept;
 
 } // namespace endian
 } // namespace boost
@@ -244,7 +251,7 @@ EndianReversible conditional_reverse(EndianReversible x,
 [none]
 * {blank}
 +
-Returns:: `order1 == order2 ? x : endian_reverse(x)`.
+Returns:: `order1 == order2? x: endian_reverse(x)`.
 
 ```
 template <class EndianReversible>
@@ -253,7 +260,7 @@ void endian_reverse_inplace(EndianReversible& x) noexcept;
 [none]
 * {blank}
 +
-Effects:: `x` `= endian_reverse(x)`.
+Effects:: `x = endian_reverse(x)`.
 
 ```
 template <class EndianReversibleInplace>
@@ -310,11 +317,46 @@ void conditional_reverse_inplace(EndianReversibleInplace& x,
 * {blank}
 +
 Effects:: If `order1 == order2` then `endian_reverse_inplace(x)`.
+
+```
+template<class T, std::size_t N, order Order>
+T endian_load( unsigned char const * p ) noexcept;
+```
 [none]
+* {blank}
++
+Requires:: `sizeof(T)` must be 1, 2, 4, or 8. `N` must be 1 when
+  `sizeof(T)` is 1, 2 when `sizeof(T)` is 2, 3 or 4 when `sizeof(T)`
+  is 4, and 5, 6, 7, or 8 when `sizeof(T)` is 8. `T` must be trivially
+  copyable. If `N` is not equal to `sizeof(T)`, `T` must be integral or
+  `enum`.
+
+Effects:: Reads `N` bytes starting from `p`, in forward or reverse order
+  depending on whether `Order` matches the native endianness or not,
+  interprets the resulting bit pattern as a value of type `T`, and returns it.
+  If `sizeof(T)` is bigger than `N`, zero-extends when `T` is unsigned,
+  sign-extends otherwise.
+
+```
+template<class T, std::size_t N, order Order>
+void endian_store( T const & v, unsigned char * p ) noexcept;
+```
+[none]
+* {blank}
++
+Requires:: `sizeof(T)` must be 1, 2, 4, or 8. `N` must be 1 when
+  `sizeof(T)` is 1, 2 when `sizeof(T)` is 2, 3 or 4 when `sizeof(T)`
+  is 4, and 5, 6, 7, or 8 when `sizeof(T)` is 8. `T` must be trivially
+  copyable. If `N` is not equal to `sizeof(T)`, `T` must be integral or
+  `enum`.
+
+Effects:: Writes to `p` the `N` least significant bytes from the object
+  representation of `v`, in forward or reverse order depending on whether
+  `Order` matches the native endianness or not.
 
 ## FAQ
 
-See the <<overview_faq,Endian home page>> FAQ for a library-wide FAQ.
+See the <<overview_faq,Overview FAQ>> for a library-wide FAQ.
 
 *Why are both value returning and modify-in-place functions provided?*
 

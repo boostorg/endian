@@ -7,6 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 [#buffers]
 # Endian Buffer Types
+:idprefix: buffers_
 
 ## Introduction
 
@@ -124,7 +125,7 @@ related to 8-bit bytes, and there have been no real-world use cases presented
 for other sizes.
 
 In {cpp}03, `endian_buffer` does not meet the requirements for POD types because
-it has constructors, private data members, and a base class. This means that
+it has constructors and a private data member. This means that
 common use cases are relying on unspecified behavior in that the {cpp} Standard
 does not guarantee memory layout for non-POD types. This has not been a problem
 in practice since all known {cpp} compilers  lay out memory as if `endian` were
@@ -146,9 +147,9 @@ relying on unspecified behavior.
 Two scoped enums are provided:
 
 ```
-enum class order {big, little, native};
+enum class order { big, little, native };
 
-enum class align {no, yes};
+enum class align { no, yes };
 ```
 
 One class template is provided:
@@ -205,8 +206,7 @@ enable generic code, and to improve code readability and searchability.
 ## Class template `endian_buffer`
 
 An `endian_buffer` is a byte-holder for arithmetic types with
-user-specified <<buffers_endianness,endianness>>, value type, size, and
-<<buffers_alignment,alignment>>.
+user-specified endianness, value type, size, and alignment.
 
 ### Synopsis
 
@@ -217,13 +217,14 @@ namespace boost
   {
     //  C++11 features emulated if not available
 
-    enum class align {no, yes};
+    enum class align { no, yes };
 
     template <order Order, class T, std::size_t Nbits,
       align Align = align::no>
     class endian_buffer
     {
     public:
+
       typedef T value_type;
 
       endian_buffer() noexcept = default;
@@ -234,7 +235,8 @@ namespace boost
       const char*    data() const noexcept;
 
     private:
-      implementaton-defined  endian_value;  // for exposition only
+
+      unsigned char value_[ Nbits / CHAR_BIT]; // exposition only
     };
 
     //  stream inserter
@@ -347,13 +349,10 @@ namespace boost
 The `implementation-defined` text in typedefs above is either `big` or `little`
 according to the native endianness of the platform.
 
-The expository data member `endian_value` stores the current value of an
-`endian_value` object as a sequence of bytes ordered as specified by the
-`Order` template parameter.  The `implementation-defined` type of
-`endian_value` is a type such as `char[Nbits/CHAR_BIT]` or `T` that meets the
-requirements imposed by the `Nbits` and `Align` template parameters. The
-`CHAR_BIT` macro is defined in `<climits>`. The only value of
-`CHAR_BIT` that is required to be supported is 8.
+The expository data member `value_` stores the current value of the
+`endian_buffer` object as a sequence of bytes ordered as specified by the
+`Order` template parameter. The `CHAR_BIT` macro is defined in `<climits>`.
+The only supported value of `CHAR_BIT` is 8.
 
 The valid values of `Nbits` are as follows:
 
@@ -386,8 +385,7 @@ explicit endian_buffer(T v) noexcept;
 [none]
 * {blank}
 +
-Postcondition:: `value() == v & mask`, where `mask` is a constant of type
-`value_type` with `Nbits` low-order bits set to one.
+Effects:: `endian_store<T, Nbits/8, Order>( &value_, v )`.
 
 ```
 endian_buffer& operator=(T v) noexcept;
@@ -395,8 +393,7 @@ endian_buffer& operator=(T v) noexcept;
 [none]
 * {blank}
 +
-Postcondition:: `value() == v & mask`, where `mask` is a constant of type
-`value_type` with `Nbits` low-order bits set to one.
+Effects:: `endian_store<T, Nbits/8, Order>( &value_, v )`.
 Returns:: `*this`.
 
 ```
@@ -405,8 +402,7 @@ value_type value() const noexcept;
 [none]
 * {blank}
 +
-Returns:: `endian_value`, converted to `value_type`, if required, and having the
-endianness of the native platform.
+Returns:: `endian_load<T, Nbits/8, Order>( &value_ )`.
 
 ```
 const char* data() const noexcept;
@@ -414,8 +410,7 @@ const char* data() const noexcept;
 [none]
 * {blank}
 +
-Returns:: A pointer to the first byte of `endian_value`.
-[none]
+Returns:: A pointer to the first byte of `value_`.
 
 ### Non-member functions
 
@@ -450,7 +445,7 @@ Returns:: `is`.
 
 ## FAQ
 
-See the <<overview_faq,Endian home page>> FAQ for a library-wide FAQ.
+See the <<overview_faq,Overview FAQ>> for a library-wide FAQ.
 
 Why not just use Boost.Serialization?::
 Serialization involves a conversion for every object involved in I/O. Endian

@@ -7,6 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 [#arithmetic]
 # Endian Arithmetic Types
+:idprefix: arithmetic_
 
 ## Introduction
 
@@ -151,9 +152,9 @@ will no longer be relying on unspecified behavior.
 Two scoped enums are provided:
 
 ```
-enum class order {big, little, native};
+enum class order { big, little, native };
 
-enum class align {no, yes};
+enum class align { no, yes };
 ```
 
 One class template is provided:
@@ -209,10 +210,9 @@ and to improve code readability and searchability.
 
 ## Class template `endian_arithmetic`
 
-An `endian_integer` is an integer byte-holder with user-specified
-<<arithmetic_endianness,endianness>>, value type, size, and
-<<arithmetic_alignment,alignment>>. The usual operations on arithmetic types
-are supplied.
+An `endian_integer` is an integer byte-holder with user-specified endianness,
+value type, size, and alignment. The usual operations on arithmetic types are
+supplied.
 
 ### Synopsis
 
@@ -225,7 +225,7 @@ namespace boost
   {
     //  C++11 features emulated if not available
 
-    enum class align {no, yes};
+    enum class align { no, yes };
 
     template <order Order, class T, std::size_t n_bits,
       align Align = align::no>
@@ -233,6 +233,7 @@ namespace boost
       : public endian_buffer<Order, T, n_bits, Align>
     {
     public:
+
       typedef T value_type;
 
       // if BOOST_ENDIAN_FORCE_PODNESS is defined && C++11 PODs are not
@@ -389,7 +390,7 @@ When `Nbits` is less than `sizeof(T)*8`, `T` must be a standard integral type
 ### Members
 
 ```
-endian_arithmetic() = default;  // C++03: endian(){}
+endian_arithmetic() noexcept = default;  // C++03: endian(){}
 ```
 [none]
 * {blank}
@@ -397,38 +398,29 @@ endian_arithmetic() = default;  // C++03: endian(){}
 Effects:: Constructs an uninitialized object.
 
 ```
-endian_arithmetic(T v);
+endian_arithmetic(T v) noexcept;
 ```
 [none]
 * {blank}
 +
-Postcondition:: `*this == v`.
+Effects:: See `endian_buffer::endian_buffer(T)`.
 
 ```
-endian_arithmetic& operator=(T v);
+endian_arithmetic& operator=(T v) noexcept;
 ```
 [none]
 * {blank}
 +
-Postcondition:: `*this == v`.
+Effects:: See `endian_buffer::operator=(T)`.
 Returns:: `*this`.
 
 ```
-operator T() const;
+operator T() const noexcept;
 ```
 [none]
 * {blank}
 +
-Returns:: The current value stored in `*this`, converted to `value_type`.
-
-```
-const char* data() const;
-```
-[none]
-* {blank}
-+
-Returns:: A pointer to the first byte of the endian binary value stored in
-`*this`.
+Returns:: `value()`.
 
 ### Other operators
 
@@ -470,7 +462,7 @@ Returns:: `is`.
 
 ## FAQ
 
-See the <<overview_faq,Endian home page>> FAQ for a library-wide FAQ.
+See the <<overview_faq,Overview FAQ>> for a library-wide FAQ.
 
 Why not just use Boost.Serialization?::
 Serialization involves a conversion for every object involved in I/O. Endian

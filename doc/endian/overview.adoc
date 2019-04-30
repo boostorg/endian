@@ -7,6 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 [#overview]
 # Overview
+:idprefix: overview_
 
 ## Abstract
 
@@ -99,7 +100,7 @@ buffer types are provided for 16, 32, and 64-bit sizes. The provided specific
 types are typedefs for a generic class template that may be used directly for
 less common use cases.
 
-<<arithmetic.html, Endian arithmetic types>>::
+<<arithmetic, Endian arithmetic types>>::
 The application uses the provided endian arithmetic types, which supply the same
 operations as the built-in {cpp} arithmetic types. All conversions are implicit.
 Arithmetic sizes of 8, 16, 24, 32, 40, 48, 56, and 64 bits (i.e. 1, 2, 3, 4, 5,
@@ -116,7 +117,7 @@ such as `noexcept`, are  used only if available. See
 
 This section has been moved to its own <<choosing,Choosing the Approach>> page.
 
-[#overview_intrinsic]
+[#overview_intrinsics]
 ## Built-in support for Intrinsics
 
 Most compilers, including GCC, Clang, and Visual {cpp}, supply  built-in support
@@ -259,6 +260,7 @@ Iterations: 10'000'000'000, Intrinsics: `<cstdlib>` `_byteswap_ushort`, etc.
 |64-bit aligned little endian |3.35 s |2.73 s
 |===
 
+[#overview_faq]
 ## Overall FAQ
 
 Is the implementation header only?::
@@ -268,7 +270,7 @@ Are {cpp}03 compilers supported?::
 Yes.
 
 Does the implementation use compiler intrinsic built-in byte swapping?::
-Yes, if available. See <<overview_intrinsic,Intrinsic built-in support>>.
+Yes, if available. See <<overview_intrinsics,Intrinsic built-in support>>.
 
 Why bother with endianness?::
 Binary data portability is the primary use case.
@@ -341,8 +343,7 @@ endianness for integers are one and the same problem. That is not true for
 floating point numbers, so binary serialization interfaces and formats for
 floating point does not fit well in an endian-based library.
 
-
-## Release history
+## History
 
 ### Changes requested by formal review
 
@@ -390,6 +391,7 @@ To support backward header compatibility, deprecated header
 transitioning to the official Boost release of the library as it will be removed
 in some future release.
 
+[#overview_cpp03_support]
 ## {cpp}03 support for {cpp}11 features
 
 [%header,cols=2*]
