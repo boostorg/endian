@@ -449,3 +449,5 @@ Philip Bennefall, Pyry Jahkola, Rene Rivera, Robert Stewart, Roger Leigh, Roland
 Schwarz, Scott McMurray, Sebastian Redl, Tim Blechmann, Tim Moore, tymofey,
 Tomas Puverle, Vincente Botet, Yuval Ronen and Vitaly Budovsk. Apologies if
 anyone has been missed.
+
+The documentation was converted into Asciidoc format by Glen Fernandes.
