@@ -268,6 +268,15 @@ matrix:
       compiler: clang++
       env: UBSAN=1 TOOLSET=clang COMPILER=clang++ CXXSTD=03,11,14,1z UBSAN_OPTIONS=print_stacktrace=1
 
+    - os: linux
+      compiler: g++
+      env: CMAKE_SUBDIR_TEST=1
+      script:
+      - cd libs/endian/test/cmake_subdir_test && mkdir __build__ && cd __build__
+      - cmake ..
+      - cmake --build .
+      - cmake --build . --target check
+
 install:
   - BOOST_BRANCH=develop && [ "$TRAVIS_BRANCH" == "master" ] && BOOST_BRANCH=master || true
   - cd ..
