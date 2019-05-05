@@ -15,11 +15,9 @@ target_include_directories(boost_endian INTERFACE include)
 
 target_link_libraries(boost_endian
     INTERFACE
-        Boost::assert
         Boost::config
         Boost::core
         Boost::predef
         Boost::static_assert
         Boost::type_traits
-        Boost::utility
 )
