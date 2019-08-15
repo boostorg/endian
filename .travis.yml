@@ -6,6 +6,8 @@ language: cpp
 
 sudo: false
 
+dist: trusty
+
 branches:
   only:
     - master
@@ -116,12 +118,22 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      compiler: g++-8
-      env: UBSAN=1 TOOLSET=gcc COMPILER=g++-8 CXXSTD=03,11,14,17 UBSAN_OPTIONS=print_stacktrace=1 LINKFLAGS=-fuse-ld=gold
+      compiler: g++-9
+      env: TOOLSET=gcc COMPILER=g++-9 CXXSTD=03,11,14,17,2a
       addons:
         apt:
           packages:
-            - g++-8
+            - g++-9
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - os: linux
+      compiler: g++-9
+      env: UBSAN=1 TOOLSET=gcc COMPILER=g++-9 CXXSTD=03,11,14,17,2a UBSAN_OPTIONS=print_stacktrace=1 LINKFLAGS=-fuse-ld=gold
+      addons:
+        apt:
+          packages:
+            - g++-9
           sources:
             - ubuntu-toolchain-r-test
 
@@ -234,15 +246,26 @@ matrix:
             - llvm-toolchain-trusty-7
 
     - os: linux
-      compiler: clang++-6.0
-      env: UBSAN=1 TOOLSET=clang COMPILER=clang++-6.0 CXXSTD=03,11,14,17 UBSAN_OPTIONS=print_stacktrace=1
+      compiler: clang++-8
+      env: TOOLSET=clang COMPILER=clang++-8 CXXSTD=03,11,14,17,2a
       addons:
         apt:
           packages:
-            - clang-6.0
+            - clang-8
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-6.0
+            - llvm-toolchain-trusty-8
+
+    - os: linux
+      compiler: clang++-8
+      env: UBSAN=1 TOOLSET=clang COMPILER=clang++-8 CXXSTD=03,11,14,17,2a UBSAN_OPTIONS=print_stacktrace=1
+      addons:
+        apt:
+          packages:
+            - clang-8
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-8
 
     - os: linux
       compiler: clang++-libc++
