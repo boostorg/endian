@@ -16,6 +16,10 @@ BOOST_PRAGMA_MESSAGE("Test skipped because BOOST_NO_CXX11_CONSTEXPR is defined")
 
 BOOST_PRAGMA_MESSAGE("Test skipped because BOOST_ENDIAN_NO_INTRINSICS and BOOST_NO_CXX14_CONSTEXPR are defined")
 
+#elif !defined(BOOST_ENDIAN_NO_INTRINSICS) && !defined(BOOST_ENDIAN_CONSTEXPR_INTRINSICS)
+
+BOOST_PRAGMA_MESSAGE("Test skipped because BOOST_ENDIAN_NO_INTRINSICS and BOOST_ENDIAN_CONSTEXPR_INTRINSICS are not defined")
+
 #else
 
 using namespace boost::endian;
