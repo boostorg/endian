@@ -16,6 +16,20 @@
 #include <cstddef>
 #include <cstring>
 
+#if defined(BOOST_ENDIAN_NO_INTRINSICS)
+# if defined(BOOST_NO_CXX14_CONSTEXPR)
+#  define BOOST_ENDIAN_CONSTEXPR
+# else
+#  define BOOST_ENDIAN_CONSTEXPR constexpr
+# endif
+#else
+# if defined(BOOST_ENDIAN_CONSTEXPR_INTRINSICS)
+#  define BOOST_ENDIAN_CONSTEXPR BOOST_CONSTEXPR
+# else
+#  define BOOST_ENDIAN_CONSTEXPR
+# endif
+#endif
+
 namespace boost
 {
 namespace endian
@@ -30,12 +44,12 @@ namespace detail
 //  -- intrinsic approach suggested by reviewers, and by David Stone, who provided
 //     his Boost licensed macro implementation (detail/intrinsic.hpp)
 
-inline uint8_t endian_reverse_impl( uint8_t x ) BOOST_NOEXCEPT
+inline uint8_t BOOST_CONSTEXPR endian_reverse_impl( uint8_t x ) BOOST_NOEXCEPT
 {
     return x;
 }
 
-inline uint16_t endian_reverse_impl( uint16_t x ) BOOST_NOEXCEPT
+inline uint16_t BOOST_ENDIAN_CONSTEXPR endian_reverse_impl( uint16_t x ) BOOST_NOEXCEPT
 {
 #ifdef BOOST_ENDIAN_NO_INTRINSICS
 
@@ -48,7 +62,7 @@ inline uint16_t endian_reverse_impl( uint16_t x ) BOOST_NOEXCEPT
 #endif
 }
 
-inline uint32_t endian_reverse_impl(uint32_t x) BOOST_NOEXCEPT
+inline uint32_t BOOST_ENDIAN_CONSTEXPR endian_reverse_impl(uint32_t x) BOOST_NOEXCEPT
 {
 #ifdef BOOST_ENDIAN_NO_INTRINSICS
 
@@ -62,7 +76,7 @@ inline uint32_t endian_reverse_impl(uint32_t x) BOOST_NOEXCEPT
 #endif
 }
 
-inline uint64_t endian_reverse_impl(uint64_t x) BOOST_NOEXCEPT
+inline uint64_t BOOST_ENDIAN_CONSTEXPR endian_reverse_impl(uint64_t x) BOOST_NOEXCEPT
 {
 #ifdef BOOST_ENDIAN_NO_INTRINSICS
 
