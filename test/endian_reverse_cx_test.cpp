@@ -31,4 +31,10 @@ STATIC_ASSERT( endian_reverse( static_cast<boost::uint16_t>( 0x0102 ) ) == 0x020
 STATIC_ASSERT( endian_reverse( static_cast<boost::uint32_t>( 0x01020304 ) ) == 0x04030201 );
 STATIC_ASSERT( endian_reverse( static_cast<boost::uint64_t>( 0x0102030405060708 ) ) == 0x0807060504030201 );
 
+STATIC_ASSERT( big_to_native( native_to_big( 0x01020304 ) ) == 0x01020304 );
+STATIC_ASSERT( little_to_native( native_to_little( 0x01020304 ) ) == 0x01020304 );
+
+STATIC_ASSERT( native_to_big( 0x01020304 ) == (conditional_reverse<order::native, order::big>( 0x01020304 )) );
+STATIC_ASSERT( native_to_big( 0x01020304 ) == conditional_reverse( 0x01020304, order::native, order::big ) );
+
 #endif
