@@ -82,7 +82,7 @@ inline uint64_t endian_reverse_impl(uint64_t x) BOOST_NOEXCEPT
 // Requires:
 //    T is non-bool integral
 
-template<class T> inline T endian_reverse( T x ) BOOST_NOEXCEPT
+template<class T> inline BOOST_CONSTEXPR T endian_reverse( T x ) BOOST_NOEXCEPT
 {
     BOOST_STATIC_ASSERT( is_integral<T>::value && !is_same<T, bool>::value );
 
