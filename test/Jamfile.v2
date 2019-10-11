@@ -70,3 +70,6 @@ run endian_arithmetic_test.cpp ;
 run endian_arithmetic_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : endian_arithmetic_test_ni ;
 
 run deprecated_test.cpp ;
+
+compile endian_reverse_cx_test.cpp ;
+compile endian_reverse_cx_test.cpp : <define>BOOST_ENDIAN_NO_INTRINSICS : endian_reverse_cx_test_ni ;
