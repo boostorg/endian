@@ -378,6 +378,162 @@ inline void conditional_reverse_inplace( EndianReversibleInplace& x,
     }
 }
 
+// load/store convenience functions
+
+// load 16
+
+inline boost::int16_t load_little_s16( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::int16_t, 2, order::little>( p );
+}
+
+inline boost::uint16_t load_little_u16( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::uint16_t, 2, order::little>( p );
+}
+
+inline boost::int16_t load_big_s16( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::int16_t, 2, order::big>( p );
+}
+
+inline boost::uint16_t load_big_u16( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::uint16_t, 2, order::big>( p );
+}
+
+// load 24
+
+inline boost::int32_t load_little_s24( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::int32_t, 3, order::little>( p );
+}
+
+inline boost::uint32_t load_little_u24( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::uint32_t, 3, order::little>( p );
+}
+
+inline boost::int32_t load_big_s24( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::int32_t, 3, order::big>( p );
+}
+
+inline boost::uint32_t load_big_u24( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::uint32_t, 3, order::big>( p );
+}
+
+// load 32
+
+inline boost::int32_t load_little_s32( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::int32_t, 4, order::little>( p );
+}
+
+inline boost::uint32_t load_little_u32( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::uint32_t, 4, order::little>( p );
+}
+
+inline boost::int32_t load_big_s32( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::int32_t, 4, order::big>( p );
+}
+
+inline boost::uint32_t load_big_u32( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::uint32_t, 4, order::big>( p );
+}
+
+// load 40
+
+inline boost::int64_t load_little_s40( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::int64_t, 5, order::little>( p );
+}
+
+inline boost::uint64_t load_little_u40( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::uint64_t, 5, order::little>( p );
+}
+
+inline boost::int64_t load_big_s40( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::int64_t, 5, order::big>( p );
+}
+
+inline boost::uint64_t load_big_u40( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::uint64_t, 5, order::big>( p );
+}
+
+// load 48
+
+inline boost::int64_t load_little_s48( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::int64_t, 6, order::little>( p );
+}
+
+inline boost::uint64_t load_little_u48( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::uint64_t, 6, order::little>( p );
+}
+
+inline boost::int64_t load_big_s48( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::int64_t, 6, order::big>( p );
+}
+
+inline boost::uint64_t load_big_u48( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::uint64_t, 6, order::big>( p );
+}
+
+// load 56
+
+inline boost::int64_t load_little_s56( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::int64_t, 7, order::little>( p );
+}
+
+inline boost::uint64_t load_little_u56( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::uint64_t, 7, order::little>( p );
+}
+
+inline boost::int64_t load_big_s56( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::int64_t, 7, order::big>( p );
+}
+
+inline boost::uint64_t load_big_u56( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::uint64_t, 7, order::big>( p );
+}
+
+// load 64
+
+inline boost::int64_t load_little_s64( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::int64_t, 8, order::little>( p );
+}
+
+inline boost::uint64_t load_little_u64( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::uint64_t, 8, order::little>( p );
+}
+
+inline boost::int64_t load_big_s64( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::int64_t, 8, order::big>( p );
+}
+
+inline boost::uint64_t load_big_u64( unsigned char const * p ) BOOST_NOEXCEPT
+{
+    return boost::endian::endian_load<boost::uint64_t, 8, order::big>( p );
+}
+
 }  // namespace endian
 }  // namespace boost
 

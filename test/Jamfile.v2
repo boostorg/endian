@@ -73,3 +73,6 @@ run deprecated_test.cpp ;
 
 compile endian_reverse_cx_test.cpp ;
 compile endian_reverse_cx_test.cpp : <define>BOOST_ENDIAN_NO_INTRINSICS : endian_reverse_cx_test_ni ;
+
+run load_convenience_test.cpp ;
+run load_convenience_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : load_convenience_test_ni ;
