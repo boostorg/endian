@@ -56,6 +56,8 @@ namespace endian
     little = `see below`,
   };
 
+  // Byte reversal functions
+
   template <class Endian>
     Endian endian_reverse(Endian x) noexcept;
 
@@ -73,6 +75,8 @@ namespace endian
   template <class EndianReversible>
     EndianReversible conditional_reverse(EndianReversible x,
       order order1, order order2) noexcept;
+
+  // In-place byte reversal functions
 
   template <class EndianReversible>
     void endian_reverse_inplace(EndianReversible& x) noexcept;
@@ -92,11 +96,87 @@ namespace endian
    void conditional_reverse_inplace(EndianReversibleInplace& x,
      order order1, order order2) noexcept;
 
+  // Generic load and store functions
+
   template<class T, std::size_t N, order Order>
     T endian_load( unsigned char const * p ) noexcept;
 
   template<class T, std::size_t N, order Order>
     void endian_store( unsigned char * p, T const & v ) noexcept;
+
+  // Convenience load functions
+
+  boost::int16_t load_little_s16( unsigned char const * p ) noexcept;
+  boost::uint16_t load_little_u16( unsigned char const * p ) noexcept;
+  boost::int16_t load_big_s16( unsigned char const * p ) noexcept;
+  boost::uint16_t load_big_u16( unsigned char const * p ) noexcept;
+
+  boost::int32_t load_little_s24( unsigned char const * p ) noexcept;
+  boost::uint32_t load_little_u24( unsigned char const * p ) noexcept;
+  boost::int32_t load_big_s24( unsigned char const * p ) noexcept;
+  boost::uint32_t load_big_u24( unsigned char const * p ) noexcept;
+
+  boost::int32_t load_little_s32( unsigned char const * p ) noexcept;
+  boost::uint32_t load_little_u32( unsigned char const * p ) noexcept;
+  boost::int32_t load_big_s32( unsigned char const * p ) noexcept;
+  boost::uint32_t load_big_u32( unsigned char const * p ) noexcept;
+
+  boost::int64_t load_little_s40( unsigned char const * p ) noexcept;
+  boost::uint64_t load_little_u40( unsigned char const * p ) noexcept;
+  boost::int64_t load_big_s40( unsigned char const * p ) noexcept;
+  boost::uint64_t load_big_u40( unsigned char const * p ) noexcept;
+
+  boost::int64_t load_little_s48( unsigned char const * p ) noexcept;
+  boost::uint64_t load_little_u48( unsigned char const * p ) noexcept;
+  boost::int64_t load_big_s48( unsigned char const * p ) noexcept;
+  boost::uint64_t load_big_u48( unsigned char const * p ) noexcept;
+
+  boost::int64_t load_little_s56( unsigned char const * p ) noexcept;
+  boost::uint64_t load_little_u56( unsigned char const * p ) noexcept;
+  boost::int64_t load_big_s56( unsigned char const * p ) noexcept;
+  boost::uint64_t load_big_u56( unsigned char const * p ) noexcept;
+
+  boost::int64_t load_little_s64( unsigned char const * p ) noexcept;
+  boost::uint64_t load_little_u64( unsigned char const * p ) noexcept;
+  boost::int64_t load_big_s64( unsigned char const * p ) noexcept;
+  boost::uint64_t load_big_u64( unsigned char const * p ) noexcept;
+
+  // Convenience store functions
+
+  void store_little_s16( unsigned char * p, boost::int16_t v ) noexcept;
+  void store_little_u16( unsigned char * p, boost::uint16_t v ) noexcept;
+  void store_big_s16( unsigned char * p, boost::int16_t v ) noexcept;
+  void store_big_u16( unsigned char * p, boost::uint16_t v ) noexcept;
+
+  void store_little_s24( unsigned char * p, boost::int32_t v ) noexcept;
+  void store_little_u24( unsigned char * p, boost::uint32_t v ) noexcept;
+  void store_big_s24( unsigned char * p, boost::int32_t v ) noexcept;
+  void store_big_u24( unsigned char * p, boost::uint32_t v ) noexcept;
+
+  void store_little_s32( unsigned char * p, boost::int32_t v ) noexcept;
+  void store_little_u32( unsigned char * p, boost::uint32_t v ) noexcept;
+  void store_big_s32( unsigned char * p, boost::int32_t v ) noexcept;
+  void store_big_u32( unsigned char * p, boost::uint32_t v ) noexcept;
+
+  void store_little_s40( unsigned char * p, boost::int64_t v ) noexcept;
+  void store_little_u40( unsigned char * p, boost::uint64_t v ) noexcept;
+  void store_big_s40( unsigned char * p, boost::int64_t v ) noexcept;
+  void store_big_u40( unsigned char * p, boost::uint64_t v ) noexcept;
+
+  void store_little_s48( unsigned char * p, boost::int64_t v ) noexcept;
+  void store_little_u48( unsigned char * p, boost::uint64_t v ) noexcept;
+  void store_big_s48( unsigned char * p, boost::int64_t v ) noexcept;
+  void store_big_u48( unsigned char * p, boost::uint64_t v ) noexcept;
+
+  void store_little_s56( unsigned char * p, boost::int64_t v ) noexcept;
+  void store_little_u56( unsigned char * p, boost::uint64_t v ) noexcept;
+  void store_big_s56( unsigned char * p, boost::int64_t v ) noexcept;
+  void store_big_u56( unsigned char * p, boost::uint64_t v ) noexcept;
+
+  void store_little_s64( unsigned char * p, boost::int64_t v ) noexcept;
+  void store_little_u64( unsigned char * p, boost::uint64_t v ) noexcept;
+  void store_big_s64( unsigned char * p, boost::int64_t v ) noexcept;
+  void store_big_u64( unsigned char * p, boost::uint64_t v ) noexcept;
 
 } // namespace endian
 } // namespace boost
@@ -184,7 +264,7 @@ perform reversal of endianness if needed by making an unqualified call to
 
 See `example/udt_conversion_example.cpp` for an example user-defined type.
 
-### Functions
+### Byte Reversal Functions
 
 ```
 template <class Endian>
@@ -251,7 +331,10 @@ EndianReversible conditional_reverse(EndianReversible x,
 [none]
 * {blank}
 +
-Returns:: `order1 == order2? x: endian_reverse(x)`.
+Returns::
+  `order1 == order2? x: endian_reverse(x)`.
+
+### In-place Byte Reversal Functions
 
 ```
 template <class EndianReversible>
@@ -316,7 +399,10 @@ void conditional_reverse_inplace(EndianReversibleInplace& x,
 [none]
 * {blank}
 +
-Effects:: If `order1 == order2` then `endian_reverse_inplace(x)`.
+Effects::
+  If `order1 == order2` then `endian_reverse_inplace(x)`.
+
+### Generic Load and Store Functions
 
 ```
 template<class T, std::size_t N, order Order>
@@ -349,6 +435,92 @@ Requires:: `sizeof(T)` must be 1, 2, 4, or 8. `N` must be between 1 and
 Effects:: Writes to `p` the `N` least significant bytes from the object
   representation of `v`, in forward or reverse order depending on whether
   `Order` matches the native endianness or not.
+
+### Convenience Load Functions
+
+```
+inline boost::intM_t load_little_sN( unsigned char const * p ) noexcept;
+```
+[none]
+* {blank}
++
+Reads an N-bit signed little-endian integer from `p`.
++
+Returns:: `endian_load<boost::intM_t, N/8, order::little>( p )`.
+
+```
+inline boost::uintM_t load_little_uN( unsigned char const * p ) noexcept;
+```
+[none]
+* {blank}
++
+Reads an N-bit unsigned little-endian integer from `p`.
++
+Returns:: `endian_load<boost::uintM_t, N/8, order::little>( p )`.
+
+```
+inline boost::intM_t load_big_sN( unsigned char const * p ) noexcept;
+```
+[none]
+* {blank}
++
+Reads an N-bit signed big-endian integer from `p`.
++
+Returns:: `endian_load<boost::intM_t, N/8, order::big>( p )`.
+
+```
+inline boost::uintM_t load_big_uN( unsigned char const * p ) noexcept;
+```
+[none]
+* {blank}
++
+Reads an N-bit unsigned big-endian integer from `p`.
++
+Returns::
+  `endian_load<boost::uintM_t, N/8, order::big>( p )`.
+
+### Convenience Store Functions
+
+```
+inline void store_little_sN( unsigned char * p, boost::intM_t v ) noexcept;
+```
+[none]
+* {blank}
++
+Writes an N-bit signed little-endian integer to `p`.
++
+Effects:: `endian_store<boost::intM_t, N/8, order::little>( p, v )`.
+
+```
+inline void store_little_uN( unsigned char * p, boost::uintM_t v ) noexcept;
+```
+[none]
+* {blank}
++
+Writes an N-bit unsigned little-endian integer to `p`.
++
+Effects:: `endian_store<boost::uintM_t, N/8, order::little>( p, v )`.
+
+```
+inline void store_big_sN( unsigned char * p, boost::intM_t v ) noexcept;
+```
+[none]
+* {blank}
++
+Writes an N-bit signed big-endian integer to `p`.
++
+Effects:: `endian_store<boost::intM_t, N/8, order::big>( p, v )`.
+
+```
+inline void store_big_uN( unsigned char * p, boost::uintM_t v ) noexcept;
+```
+[none]
+* {blank}
++
+Writes an N-bit unsigned big-endian integer to `p`.
++
+Effects::
+  `endian_store<boost::uintM_t, N/8, order::big>( p, v )`.
 
 ## FAQ
 
