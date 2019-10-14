@@ -49,6 +49,9 @@ namespace
     BOOST_TEST_EQ(sizeof(big_uint56_buf_t), 7u);
     BOOST_TEST_EQ(sizeof(big_uint64_buf_t), 8u);
 
+    BOOST_TEST_EQ(sizeof(big_float32_buf_t), 4u);
+    BOOST_TEST_EQ(sizeof(big_double64_buf_t), 8u);
+
     BOOST_TEST_EQ(sizeof(little_int8_buf_t), 1u);
     BOOST_TEST_EQ(sizeof(little_int16_buf_t), 2u);
     BOOST_TEST_EQ(sizeof(little_int24_buf_t), 3u);
@@ -66,6 +69,9 @@ namespace
     BOOST_TEST_EQ(sizeof(little_uint48_buf_t), 6u);
     BOOST_TEST_EQ(sizeof(little_uint56_buf_t), 7u);
     BOOST_TEST_EQ(sizeof(little_uint64_buf_t), 8u);
+
+    BOOST_TEST_EQ(sizeof(little_float32_buf_t), 4u);
+    BOOST_TEST_EQ(sizeof(little_double64_buf_t), 8u);
 
     BOOST_TEST_EQ(sizeof(native_int8_buf_t), 1u);
     BOOST_TEST_EQ(sizeof(native_int16_buf_t), 2u);
@@ -85,6 +91,9 @@ namespace
     BOOST_TEST_EQ(sizeof(native_uint56_buf_t), 7u);
     BOOST_TEST_EQ(sizeof(native_uint64_buf_t), 8u);
 
+    BOOST_TEST_EQ(sizeof(native_float32_buf_t), 4u);
+    BOOST_TEST_EQ(sizeof(native_double64_buf_t), 8u);
+
     BOOST_TEST_EQ(sizeof(big_int8_buf_at), 1u);
     BOOST_TEST_EQ(sizeof(big_int16_buf_at), 2u);
     BOOST_TEST_EQ(sizeof(big_int32_buf_at), 4u);
@@ -95,6 +104,9 @@ namespace
     BOOST_TEST_EQ(sizeof(big_uint32_buf_at), 4u);
     BOOST_TEST_EQ(sizeof(big_uint64_buf_at), 8u);
 
+    BOOST_TEST_EQ(sizeof(big_float32_buf_at), 4u);
+    BOOST_TEST_EQ(sizeof(big_double64_buf_at), 8u);
+
     BOOST_TEST_EQ(sizeof(little_int8_buf_at), 1u);
     BOOST_TEST_EQ(sizeof(little_int16_buf_at), 2u);
     BOOST_TEST_EQ(sizeof(little_int32_buf_at), 4u);
@@ -104,6 +116,10 @@ namespace
     BOOST_TEST_EQ(sizeof(little_uint16_buf_at), 2u);
     BOOST_TEST_EQ(sizeof(little_uint32_buf_at), 4u);
     BOOST_TEST_EQ(sizeof(little_uint64_buf_at), 8u);
+
+    BOOST_TEST_EQ(sizeof(little_float32_buf_at), 4u);
+    BOOST_TEST_EQ(sizeof(little_double64_buf_at), 8u);
+
   } // check_size
 
   //  test_inserter_and_extractor  -----------------------------------------------------//
@@ -179,6 +195,9 @@ namespace
     test_buffer_type<big_uint32_buf_at>( 0x01020304, 0xFE020304 );
     test_buffer_type<big_uint64_buf_at>( 0x0102030405060708ULL, 0xFE02030405060708ULL );
 
+    test_buffer_type<big_float32_buf_at>( +1.5f, -3.14f );
+    test_buffer_type<big_double64_buf_at>( +1.5, -3.14 );
+
     test_buffer_type< little_int8_buf_at>( 0x01, -0x01 );
     test_buffer_type<little_int16_buf_at>( 0x0102, -0x0102 );
     test_buffer_type<little_int32_buf_at>( 0x01020304, -0x01020304 );
@@ -189,6 +208,9 @@ namespace
     test_buffer_type<little_uint32_buf_at>( 0x01020304, 0xFE020304 );
     test_buffer_type<little_uint64_buf_at>( 0x0102030405060708ULL, 0xFE02030405060708ULL );
 
+    test_buffer_type<little_float32_buf_at>( +1.5f, -3.14f );
+    test_buffer_type<little_double64_buf_at>( +1.5, -3.14 );
+
     test_buffer_type< big_int8_buf_t>( 0x01, -0x01 );
     test_buffer_type<big_int16_buf_t>( 0x0102, -0x0102 );
     test_buffer_type<big_int24_buf_t>( 0x010203, -0x010203 );
@@ -198,6 +220,9 @@ namespace
     test_buffer_type<big_int56_buf_t>( 0x01020304050607LL, -0x01020304050607LL );
     test_buffer_type<big_int64_buf_t>( 0x0102030405060708LL, -0x0102030405060708LL );
 
+    test_buffer_type<big_float32_buf_t>( +1.5f, -3.14f );
+    test_buffer_type<big_double64_buf_t>( +1.5, -3.14 );
+
     test_buffer_type< little_uint8_buf_t>( 0x01, 0xFE );
     test_buffer_type<little_uint16_buf_t>( 0x0102, 0xFE02 );
     test_buffer_type<little_uint24_buf_t>( 0x010203, 0xFE0203 );
@@ -206,6 +231,9 @@ namespace
     test_buffer_type<little_uint48_buf_t>( 0x010203040506ULL, 0xFE0203040506ULL );
     test_buffer_type<little_uint56_buf_t>( 0x01020304050607ULL, 0xFE020304050607ULL );
     test_buffer_type<little_uint64_buf_t>( 0x0102030405060708ULL, 0xFE02030405060708ULL );
+
+    test_buffer_type<little_float32_buf_t>( +1.5f, -3.14f );
+    test_buffer_type<little_double64_buf_t>( +1.5, -3.14 );
 
     std::cout << "test construction and assignment complete" << std::endl;
   }
