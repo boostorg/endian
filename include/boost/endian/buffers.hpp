@@ -102,9 +102,9 @@ namespace endian
 
   // aligned floating point buffers
   typedef endian_buffer<order::big, float, 32, align::yes>       big_float32_buf_at;
-  typedef endian_buffer<order::big, double, 64, align::yes>      big_double64_buf_at;
+  typedef endian_buffer<order::big, double, 64, align::yes>      big_float64_buf_at;
   typedef endian_buffer<order::little, float, 32, align::yes>    little_float32_buf_at;
-  typedef endian_buffer<order::little, double, 64, align::yes>   little_double64_buf_at;
+  typedef endian_buffer<order::little, double, 64, align::yes>   little_float64_buf_at;
 
   // aligned native endian typedefs are not provided because
   // <cstdint> types are superior for this use case
@@ -193,11 +193,11 @@ namespace endian
 
   // unaligned floating point buffers
   typedef endian_buffer<order::big, float, 32, align::no>       big_float32_buf_t;
-  typedef endian_buffer<order::big, double, 64, align::no>      big_double64_buf_t;
+  typedef endian_buffer<order::big, double, 64, align::no>      big_float64_buf_t;
   typedef endian_buffer<order::little, float, 32, align::no>    little_float32_buf_t;
-  typedef endian_buffer<order::little, double, 64, align::no>   little_double64_buf_t;
+  typedef endian_buffer<order::little, double, 64, align::no>   little_float64_buf_t;
   typedef endian_buffer<order::native, float, 32, align::no>    native_float32_buf_t;
-  typedef endian_buffer<order::native, double, 64, align::no>   native_double64_buf_t;
+  typedef endian_buffer<order::native, double, 64, align::no>   native_float64_buf_t;
 
   // Stream inserter
   template <class charT, class traits, BOOST_SCOPED_ENUM(order) Order, class T,
