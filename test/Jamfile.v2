@@ -79,3 +79,6 @@ run load_convenience_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : load_co
 
 run store_convenience_test.cpp ;
 run store_convenience_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : store_convenience_test_ni ;
+
+run float_typedef_test.cpp ;
+run float_typedef_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : float_typedef_test_ni ;
