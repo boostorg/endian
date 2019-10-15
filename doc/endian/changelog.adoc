@@ -16,6 +16,7 @@ http://www.boost.org/LICENSE_1_0.txt
   on GCC and Clang
 * Added convenience load and store functions
 * Added floating point convenience typedefs
+* Added a non-const overload of `data()`; changed its return type to `unsigned char*`
 
 ## Changes in 1.71.0
 

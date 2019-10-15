@@ -231,12 +231,13 @@ namespace boost
       explicit endian_buffer(T v) noexcept;
 
       endian_buffer& operator=(T v) noexcept;
-      value_type     value() const noexcept;
-      const char*    data() const noexcept;
+      value_type value() const noexcept;
+      unsigned char* data() noexcept;
+      unsigned char const* data() const noexcept;
 
     private:
 
-      unsigned char value_[ Nbits / CHAR_BIT]; // exposition only
+      unsigned char value_[Nbits / CHAR_BIT]; // exposition only
     };
 
     //  stream inserter
@@ -425,7 +426,10 @@ value_type value() const noexcept;
 Returns:: `endian_load<T, Nbits/8, Order>( value_ )`.
 
 ```
-const char* data() const noexcept;
+unsigned char* data() noexcept;
+```
+```
+unsigned char const* data() const noexcept;
 ```
 [none]
 * {blank}
