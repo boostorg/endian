@@ -297,6 +297,10 @@ namespace boost
     typedef endian_arithmetic<order::big, uint_least64_t, 56>     big_uint56_t;
     typedef endian_arithmetic<order::big, uint_least64_t, 64>     big_uint64_t;
 
+    // unaligned big endian floating point types
+    typedef endian_arithmetic<order::big, float, 32>              big_float32_t;
+    typedef endian_arithmetic<order::big, double, 64>             big_float64_t;
+
     // unaligned little endian signed integer types
     typedef endian_arithmetic<order::little, int_least8_t, 8>     little_int8_t;
     typedef endian_arithmetic<order::little, int_least16_t, 16>   little_int16_t;
@@ -316,6 +320,10 @@ namespace boost
     typedef endian_arithmetic<order::little, uint_least64_t, 48>  little_uint48_t;
     typedef endian_arithmetic<order::little, uint_least64_t, 56>  little_uint56_t;
     typedef endian_arithmetic<order::little, uint_least64_t, 64>  little_uint64_t;
+
+    // unaligned little endian floating point types
+    typedef endian_arithmetic<order::little, float, 32>           little_float32_t;
+    typedef endian_arithmetic<order::little, double, 64>          little_float64_t;
 
     // unaligned native endian signed integer types
     typedef implementation-defined_int8_t   native_int8_t;
@@ -337,6 +345,10 @@ namespace boost
     typedef implementation-defined_uint56_t  native_uint56_t;
     typedef implementation-defined_uint64_t  native_uint64_t;
 
+    // unaligned native endian floating point types
+    typedef implementation-defined_float32_t  native_float32_t;
+    typedef implementation-defined_float64_t  native_float64_t;
+
     // aligned big endian signed integer types
     typedef endian_arithmetic<order::big, int8_t, 8, align::yes>       big_int8_at;
     typedef endian_arithmetic<order::big, int16_t, 16, align::yes>     big_int16_at;
@@ -349,6 +361,10 @@ namespace boost
     typedef endian_arithmetic<order::big, uint32_t, 32, align::yes>    big_uint32_at;
     typedef endian_arithmetic<order::big, uint64_t, 64, align::yes>    big_uint64_at;
 
+    // aligned big endian floating point types
+    typedef endian_arithmetic<order::big, float, 32, align::yes>       big_float32_at;
+    typedef endian_arithmetic<order::big, double, 64, align::yes>      big_float64_at;
+
     // aligned little endian signed integer types
     typedef endian_arithmetic<order::little, int8_t, 8, align::yes>    little_int8_at;
     typedef endian_arithmetic<order::little, int16_t, 16, align::yes>  little_int16_at;
@@ -360,6 +376,10 @@ namespace boost
     typedef endian_arithmetic<order::little, uint16_t, 16, align::yes> little_uint16_at;
     typedef endian_arithmetic<order::little, uint32_t, 32, align::yes> little_uint32_at;
     typedef endian_arithmetic<order::little, uint64_t, 64, align::yes> little_uint64_at;
+
+    // aligned little endian floating point types
+    typedef endian_arithmetic<order::little, float, 32, align::yes>    little_float32_at;
+    typedef endian_arithmetic<order::little, double, 64, align::yes>   little_float64_at;
 
     // aligned native endian typedefs are not provided because
     // <cstdint> types are superior for that use case
@@ -420,7 +440,8 @@ operator T() const noexcept;
 [none]
 * {blank}
 +
-Returns:: `value()`.
+Returns::
+  `value()`.
 
 ### Other operators
 

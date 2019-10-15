@@ -78,7 +78,7 @@ int main(int, char* [])
   //  Low-level I/O such as POSIX read/write or <cstdio>
   //  fread/fwrite is sometimes used for binary file operations
   //  when ultimate efficiency is important. Such I/O is often
-  //  performed in some {cpp} wrapper class, but to drive home the
+  //  performed in some C++ wrapper class, but to drive home the
   //  point that endian integers are often used in fairly
   //  low-level code that does bulk I/O operations, <cstdio>
   //  fopen/fwrite is used for I/O in this example.
@@ -275,6 +275,10 @@ namespace boost
     typedef endian_buffer<order::big, uint_least64_t, 56>     big_uint56_buf_t;
     typedef endian_buffer<order::big, uint_least64_t, 64>     big_uint64_buf_t;
 
+    // unaligned big endian floating point buffers
+    typedef endian_buffer<order::big, float, 32>              big_float32_buf_t;
+    typedef endian_buffer<order::big, double, 64>             big_float64_buf_t;
+
     // unaligned little endian signed integer buffers
     typedef endian_buffer<order::little, int_least8_t, 8>     little_int8_buf_t;
     typedef endian_buffer<order::little, int_least16_t, 16>   little_int16_buf_t;
@@ -294,6 +298,10 @@ namespace boost
     typedef endian_buffer<order::little, uint_least64_t, 48>  little_uint48_buf_t;
     typedef endian_buffer<order::little, uint_least64_t, 56>  little_uint56_buf_t;
     typedef endian_buffer<order::little, uint_least64_t, 64>  little_uint64_buf_t;
+
+    // unaligned little endian floating point buffers
+    typedef endian_buffer<order::little, float, 32>           little_float32_buf_t;
+    typedef endian_buffer<order::little, double, 64>          little_float64_buf_t;
 
     // unaligned native endian signed integer types
     typedef implementation-defined_int8_buf_t   native_int8_buf_t;
@@ -315,6 +323,10 @@ namespace boost
     typedef implementation-defined_uint56_buf_t  native_uint56_buf_t;
     typedef implementation-defined_uint64_buf_t  native_uint64_buf_t;
 
+    // unaligned native endian floating point types
+    typedef implementation-defined_float32_buf_t  native_float32_buf_t;
+    typedef implementation-defined_float64_buf_t  native_float64_buf_t;
+
     // aligned big endian signed integer buffers
     typedef endian_buffer<order::big, int8_t, 8, align::yes>       big_int8_buf_at;
     typedef endian_buffer<order::big, int16_t, 16, align::yes>     big_int16_buf_at;
@@ -327,6 +339,10 @@ namespace boost
     typedef endian_buffer<order::big, uint32_t, 32, align::yes>    big_uint32_buf_at;
     typedef endian_buffer<order::big, uint64_t, 64, align::yes>    big_uint64_buf_at;
 
+    // aligned big endian floating point buffers
+    typedef endian_buffer<order::big, float, 32, align::yes>       big_float32_buf_at;
+    typedef endian_buffer<order::big, double, 64, align::yes>      big_float64_buf_at;
+
     // aligned little endian signed integer buffers
     typedef endian_buffer<order::little, int8_t, 8, align::yes>    little_int8_buf_at;
     typedef endian_buffer<order::little, int16_t, 16, align::yes>  little_int16_buf_at;
@@ -338,6 +354,10 @@ namespace boost
     typedef endian_buffer<order::little, uint16_t, 16, align::yes> little_uint16_buf_at;
     typedef endian_buffer<order::little, uint32_t, 32, align::yes> little_uint32_buf_at;
     typedef endian_buffer<order::little, uint64_t, 64, align::yes> little_uint64_buf_at;
+
+    // aligned little endian floating point buffers
+    typedef endian_buffer<order::little, float, 32, align::yes>    little_float32_buf_at;
+    typedef endian_buffer<order::little, double, 64, align::yes>   little_float64_buf_at;
 
     // aligned native endian typedefs are not provided because
     // <cstdint> types are superior for this use case
@@ -410,7 +430,8 @@ const char* data() const noexcept;
 [none]
 * {blank}
 +
-Returns:: A pointer to the first byte of `value_`.
+Returns::
+  A pointer to the first byte of `value_`.
 
 ### Non-member functions
 
