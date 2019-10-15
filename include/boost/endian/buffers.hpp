@@ -273,9 +273,14 @@ public:
         return boost::endian::endian_load<T, n_bits / 8, Order>( value_ );
     }
 
-    char const * data() const BOOST_NOEXCEPT
+    unsigned char const * data() const BOOST_NOEXCEPT
     {
-        return reinterpret_cast< char const* >( value_ );
+        return value_;
+    }
+
+    unsigned char * data() BOOST_NOEXCEPT
+    {
+        return value_;
     }
 };
 
@@ -323,9 +328,14 @@ public:
         return boost::endian::endian_load<T, n_bits / 8, Order>( value_ );
     }
 
-    char const * data() const BOOST_NOEXCEPT
+    unsigned char const * data() const BOOST_NOEXCEPT
     {
-        return reinterpret_cast< char const* >( value_ );
+        return value_;
+    }
+
+    unsigned char * data() BOOST_NOEXCEPT
+    {
+        return value_;
     }
 };
 
@@ -366,9 +376,14 @@ public:
         return value_;
     }
 
-    char const * data() const BOOST_NOEXCEPT
+    unsigned char const * data() const BOOST_NOEXCEPT
     {
-        return reinterpret_cast< char const* >( &value_ );
+        return reinterpret_cast< unsigned char const* >( &value_ );
+    }
+
+    unsigned char * data() BOOST_NOEXCEPT
+    {
+        return reinterpret_cast< unsigned char* >( &value_ );
     }
 };
 

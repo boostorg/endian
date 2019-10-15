@@ -225,75 +225,75 @@ namespace
     little_uint32_at little_align_uint32;
     little_uint64_at little_align_uint64;
 
-    VERIFY(big_8.data() == reinterpret_cast<const char *>(&big_8));
-    VERIFY(big_16.data() == reinterpret_cast<const char *>(&big_16));
-    VERIFY(big_24.data() == reinterpret_cast<const char *>(&big_24));
-    VERIFY(big_32.data() == reinterpret_cast<const char *>(&big_32));
-    VERIFY(big_40.data() == reinterpret_cast<const char *>(&big_40));
-    VERIFY(big_48.data() == reinterpret_cast<const char *>(&big_48));
-    VERIFY(big_56.data() == reinterpret_cast<const char *>(&big_56));
-    VERIFY(big_64.data() == reinterpret_cast<const char *>(&big_64));
+    VERIFY(big_8.data() == reinterpret_cast<const unsigned char *>(&big_8));
+    VERIFY(big_16.data() == reinterpret_cast<const unsigned char *>(&big_16));
+    VERIFY(big_24.data() == reinterpret_cast<const unsigned char *>(&big_24));
+    VERIFY(big_32.data() == reinterpret_cast<const unsigned char *>(&big_32));
+    VERIFY(big_40.data() == reinterpret_cast<const unsigned char *>(&big_40));
+    VERIFY(big_48.data() == reinterpret_cast<const unsigned char *>(&big_48));
+    VERIFY(big_56.data() == reinterpret_cast<const unsigned char *>(&big_56));
+    VERIFY(big_64.data() == reinterpret_cast<const unsigned char *>(&big_64));
 
-    VERIFY(big_u8.data() == reinterpret_cast<const char *>(&big_u8));
-    VERIFY(big_u16.data() == reinterpret_cast<const char *>(&big_u16));
-    VERIFY(big_u24.data() == reinterpret_cast<const char *>(&big_u24));
-    VERIFY(big_u32.data() == reinterpret_cast<const char *>(&big_u32));
-    VERIFY(big_u40.data() == reinterpret_cast<const char *>(&big_u40));
-    VERIFY(big_u48.data() == reinterpret_cast<const char *>(&big_u48));
-    VERIFY(big_u56.data() == reinterpret_cast<const char *>(&big_u56));
-    VERIFY(big_u64.data() == reinterpret_cast<const char *>(&big_u64));
+    VERIFY(big_u8.data() == reinterpret_cast<const unsigned char *>(&big_u8));
+    VERIFY(big_u16.data() == reinterpret_cast<const unsigned char *>(&big_u16));
+    VERIFY(big_u24.data() == reinterpret_cast<const unsigned char *>(&big_u24));
+    VERIFY(big_u32.data() == reinterpret_cast<const unsigned char *>(&big_u32));
+    VERIFY(big_u40.data() == reinterpret_cast<const unsigned char *>(&big_u40));
+    VERIFY(big_u48.data() == reinterpret_cast<const unsigned char *>(&big_u48));
+    VERIFY(big_u56.data() == reinterpret_cast<const unsigned char *>(&big_u56));
+    VERIFY(big_u64.data() == reinterpret_cast<const unsigned char *>(&big_u64));
 
-    VERIFY(little_8.data() == reinterpret_cast<const char *>(&little_8));
-    VERIFY(little_16.data() == reinterpret_cast<const char *>(&little_16));
-    VERIFY(little_24.data() == reinterpret_cast<const char *>(&little_24));
-    VERIFY(little_32.data() == reinterpret_cast<const char *>(&little_32));
-    VERIFY(little_40.data() == reinterpret_cast<const char *>(&little_40));
-    VERIFY(little_48.data() == reinterpret_cast<const char *>(&little_48));
-    VERIFY(little_56.data() == reinterpret_cast<const char *>(&little_56));
-    VERIFY(little_64.data() == reinterpret_cast<const char *>(&little_64));
+    VERIFY(little_8.data() == reinterpret_cast<const unsigned char *>(&little_8));
+    VERIFY(little_16.data() == reinterpret_cast<const unsigned char *>(&little_16));
+    VERIFY(little_24.data() == reinterpret_cast<const unsigned char *>(&little_24));
+    VERIFY(little_32.data() == reinterpret_cast<const unsigned char *>(&little_32));
+    VERIFY(little_40.data() == reinterpret_cast<const unsigned char *>(&little_40));
+    VERIFY(little_48.data() == reinterpret_cast<const unsigned char *>(&little_48));
+    VERIFY(little_56.data() == reinterpret_cast<const unsigned char *>(&little_56));
+    VERIFY(little_64.data() == reinterpret_cast<const unsigned char *>(&little_64));
 
-    VERIFY(little_u8.data() == reinterpret_cast<const char *>(&little_u8));
-    VERIFY(little_u16.data() == reinterpret_cast<const char *>(&little_u16));
-    VERIFY(little_u24.data() == reinterpret_cast<const char *>(&little_u24));
-    VERIFY(little_u32.data() == reinterpret_cast<const char *>(&little_u32));
-    VERIFY(little_u40.data() == reinterpret_cast<const char *>(&little_u40));
-    VERIFY(little_u48.data() == reinterpret_cast<const char *>(&little_u48));
-    VERIFY(little_u56.data() == reinterpret_cast<const char *>(&little_u56));
-    VERIFY(little_u64.data() == reinterpret_cast<const char *>(&little_u64));
+    VERIFY(little_u8.data() == reinterpret_cast<const unsigned char *>(&little_u8));
+    VERIFY(little_u16.data() == reinterpret_cast<const unsigned char *>(&little_u16));
+    VERIFY(little_u24.data() == reinterpret_cast<const unsigned char *>(&little_u24));
+    VERIFY(little_u32.data() == reinterpret_cast<const unsigned char *>(&little_u32));
+    VERIFY(little_u40.data() == reinterpret_cast<const unsigned char *>(&little_u40));
+    VERIFY(little_u48.data() == reinterpret_cast<const unsigned char *>(&little_u48));
+    VERIFY(little_u56.data() == reinterpret_cast<const unsigned char *>(&little_u56));
+    VERIFY(little_u64.data() == reinterpret_cast<const unsigned char *>(&little_u64));
 
-    VERIFY(native_8.data() == reinterpret_cast<const char *>(&native_8));
-    VERIFY(native_16.data() == reinterpret_cast<const char *>(&native_16));
-    VERIFY(native_24.data() == reinterpret_cast<const char *>(&native_24));
-    VERIFY(native_32.data() == reinterpret_cast<const char *>(&native_32));
-    VERIFY(native_40.data() == reinterpret_cast<const char *>(&native_40));
-    VERIFY(native_48.data() == reinterpret_cast<const char *>(&native_48));
-    VERIFY(native_56.data() == reinterpret_cast<const char *>(&native_56));
-    VERIFY(native_64.data() == reinterpret_cast<const char *>(&native_64));
+    VERIFY(native_8.data() == reinterpret_cast<const unsigned char *>(&native_8));
+    VERIFY(native_16.data() == reinterpret_cast<const unsigned char *>(&native_16));
+    VERIFY(native_24.data() == reinterpret_cast<const unsigned char *>(&native_24));
+    VERIFY(native_32.data() == reinterpret_cast<const unsigned char *>(&native_32));
+    VERIFY(native_40.data() == reinterpret_cast<const unsigned char *>(&native_40));
+    VERIFY(native_48.data() == reinterpret_cast<const unsigned char *>(&native_48));
+    VERIFY(native_56.data() == reinterpret_cast<const unsigned char *>(&native_56));
+    VERIFY(native_64.data() == reinterpret_cast<const unsigned char *>(&native_64));
 
-    VERIFY(native_u8.data() == reinterpret_cast<const char *>(&native_u8));
-    VERIFY(native_u16.data() == reinterpret_cast<const char *>(&native_u16));
-    VERIFY(native_u24.data() == reinterpret_cast<const char *>(&native_u24));
-    VERIFY(native_u32.data() == reinterpret_cast<const char *>(&native_u32));
-    VERIFY(native_u40.data() == reinterpret_cast<const char *>(&native_u40));
-    VERIFY(native_u48.data() == reinterpret_cast<const char *>(&native_u48));
-    VERIFY(native_u56.data() == reinterpret_cast<const char *>(&native_u56));
-    VERIFY(native_u64.data() == reinterpret_cast<const char *>(&native_u64));
+    VERIFY(native_u8.data() == reinterpret_cast<const unsigned char *>(&native_u8));
+    VERIFY(native_u16.data() == reinterpret_cast<const unsigned char *>(&native_u16));
+    VERIFY(native_u24.data() == reinterpret_cast<const unsigned char *>(&native_u24));
+    VERIFY(native_u32.data() == reinterpret_cast<const unsigned char *>(&native_u32));
+    VERIFY(native_u40.data() == reinterpret_cast<const unsigned char *>(&native_u40));
+    VERIFY(native_u48.data() == reinterpret_cast<const unsigned char *>(&native_u48));
+    VERIFY(native_u56.data() == reinterpret_cast<const unsigned char *>(&native_u56));
+    VERIFY(native_u64.data() == reinterpret_cast<const unsigned char *>(&native_u64));
 
-    VERIFY(big_align_int16.data() == reinterpret_cast<const char *>(&big_align_int16));
-    VERIFY(big_align_int32.data() == reinterpret_cast<const char *>(&big_align_int32));
-    VERIFY(big_align_int64.data() == reinterpret_cast<const char *>(&big_align_int64));
+    VERIFY(big_align_int16.data() == reinterpret_cast<const unsigned char *>(&big_align_int16));
+    VERIFY(big_align_int32.data() == reinterpret_cast<const unsigned char *>(&big_align_int32));
+    VERIFY(big_align_int64.data() == reinterpret_cast<const unsigned char *>(&big_align_int64));
 
-    VERIFY(big_align_uint16.data() == reinterpret_cast<const char *>(&big_align_uint16));
-    VERIFY(big_align_uint32.data() == reinterpret_cast<const char *>(&big_align_uint32));
-    VERIFY(big_align_uint64.data() == reinterpret_cast<const char *>(&big_align_uint64));
+    VERIFY(big_align_uint16.data() == reinterpret_cast<const unsigned char *>(&big_align_uint16));
+    VERIFY(big_align_uint32.data() == reinterpret_cast<const unsigned char *>(&big_align_uint32));
+    VERIFY(big_align_uint64.data() == reinterpret_cast<const unsigned char *>(&big_align_uint64));
 
-    VERIFY(little_align_int16.data() == reinterpret_cast<const char *>(&little_align_int16));
-    VERIFY(little_align_int32.data() == reinterpret_cast<const char *>(&little_align_int32));
-    VERIFY(little_align_int64.data() == reinterpret_cast<const char *>(&little_align_int64));
+    VERIFY(little_align_int16.data() == reinterpret_cast<const unsigned char *>(&little_align_int16));
+    VERIFY(little_align_int32.data() == reinterpret_cast<const unsigned char *>(&little_align_int32));
+    VERIFY(little_align_int64.data() == reinterpret_cast<const unsigned char *>(&little_align_int64));
 
-    VERIFY(little_align_uint16.data() == reinterpret_cast<const char *>(&little_align_uint16));
-    VERIFY(little_align_uint32.data() == reinterpret_cast<const char *>(&little_align_uint32));
-    VERIFY(little_align_uint64.data() == reinterpret_cast<const char *>(&little_align_uint64));
+    VERIFY(little_align_uint16.data() == reinterpret_cast<const unsigned char *>(&little_align_uint16));
+    VERIFY(little_align_uint32.data() == reinterpret_cast<const unsigned char *>(&little_align_uint32));
+    VERIFY(little_align_uint64.data() == reinterpret_cast<const unsigned char *>(&little_align_uint64));
 
   }
 
