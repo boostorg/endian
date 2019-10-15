@@ -28,19 +28,23 @@ project
     <toolset>clang:<warnings-as-errors>on
   ;
 
-run buffer_test.cpp ;
-run buffer_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : buffer_test_ni ;
+local rule endian-run ( sources + )
+{
+    local result ;
 
-run endian_test.cpp ;
-run endian_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : endian_test_ni ;
+    result += [ run $(sources) ] ;
+    result += [ run $(sources) : : : <define>BOOST_ENDIAN_NO_INTRINSICS : $(sources[1]:B)_ni ] ;
 
-run endian_operations_test.cpp ;
-run endian_operations_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : endian_operations_test_ni ;
+    return $(result) ;
+}
+
+endian-run buffer_test.cpp ;
+endian-run endian_test.cpp ;
+endian-run endian_operations_test.cpp ;
 
 run endian_in_union_test.cpp ;
 
-run conversion_test.cpp ;
-run conversion_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : conversion_test_ni ;
+endian-run conversion_test.cpp ;
 
 run intrinsic_test.cpp ;
 
@@ -54,31 +58,22 @@ local allow-warnings =
 compile spirit_conflict_test.cpp
   : $(allow-warnings) ;
 
-run endian_reverse_test.cpp ;
-run endian_reverse_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : endian_reverse_test_ni ;
+endian-run endian_reverse_test.cpp ;
 
-run endian_load_test.cpp ;
-run endian_load_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : endian_load_test_ni ;
+endian-run endian_load_test.cpp ;
+endian-run endian_store_test.cpp ;
+endian-run endian_ld_st_roundtrip_test.cpp ;
 
-run endian_store_test.cpp ;
-run endian_store_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : endian_store_test_ni ;
-
-run endian_ld_st_roundtrip_test.cpp ;
-run endian_ld_st_roundtrip_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : endian_ld_st_roundtrip_test_ni ;
-
-run endian_arithmetic_test.cpp ;
-run endian_arithmetic_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : endian_arithmetic_test_ni ;
+endian-run endian_arithmetic_test.cpp ;
 
 run deprecated_test.cpp ;
 
 compile endian_reverse_cx_test.cpp ;
 compile endian_reverse_cx_test.cpp : <define>BOOST_ENDIAN_NO_INTRINSICS : endian_reverse_cx_test_ni ;
 
-run load_convenience_test.cpp ;
-run load_convenience_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : load_convenience_test_ni ;
+endian-run load_convenience_test.cpp ;
+endian-run store_convenience_test.cpp ;
 
-run store_convenience_test.cpp ;
-run store_convenience_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : store_convenience_test_ni ;
+endian-run float_typedef_test.cpp ;
 
-run float_typedef_test.cpp ;
-run float_typedef_test.cpp : : : <define>BOOST_ENDIAN_NO_INTRINSICS : float_typedef_test_ni ;
+endian-run data_test.cpp ;
