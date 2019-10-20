@@ -62,7 +62,7 @@ inline uint16_t BOOST_ENDIAN_CONSTEXPR endian_reverse_impl( uint16_t x ) BOOST_N
 #endif
 }
 
-inline uint32_t BOOST_ENDIAN_CONSTEXPR endian_reverse_impl(uint32_t x) BOOST_NOEXCEPT
+inline uint32_t BOOST_ENDIAN_CONSTEXPR endian_reverse_impl( uint32_t x ) BOOST_NOEXCEPT
 {
 #ifdef BOOST_ENDIAN_NO_INTRINSICS
 
@@ -76,7 +76,7 @@ inline uint32_t BOOST_ENDIAN_CONSTEXPR endian_reverse_impl(uint32_t x) BOOST_NOE
 #endif
 }
 
-inline uint64_t BOOST_ENDIAN_CONSTEXPR endian_reverse_impl(uint64_t x) BOOST_NOEXCEPT
+inline uint64_t BOOST_ENDIAN_CONSTEXPR endian_reverse_impl( uint64_t x ) BOOST_NOEXCEPT
 {
 #ifdef BOOST_ENDIAN_NO_INTRINSICS
 
@@ -90,6 +90,16 @@ inline uint64_t BOOST_ENDIAN_CONSTEXPR endian_reverse_impl(uint64_t x) BOOST_NOE
 
 # endif
 }
+
+#if defined(BOOST_HAS_INT128)
+
+inline uint128_type BOOST_ENDIAN_CONSTEXPR endian_reverse_impl( uint128_type x ) BOOST_NOEXCEPT
+{
+    return endian_reverse_impl( static_cast<uint64_t>( x >> 64 ) ) |
+        static_cast<uint128_type>( endian_reverse_impl( static_cast<uint64_t>( x ) ) ) << 64;
+}
+
+#endif
 
 } // namespace detail
 
