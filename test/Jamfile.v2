@@ -77,3 +77,5 @@ endian-run store_convenience_test.cpp ;
 endian-run float_typedef_test.cpp ;
 
 endian-run data_test.cpp ;
+
+endian-run endian_hpp_test.cpp ;
