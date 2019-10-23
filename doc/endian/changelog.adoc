@@ -17,6 +17,8 @@ http://www.boost.org/LICENSE_1_0.txt
 * Added convenience load and store functions
 * Added floating point convenience typedefs
 * Added a non-const overload of `data()`; changed its return type to `unsigned char*`
+* Added `__int128` support to `endian_reverse` when available
+* Added a convenience header `boost/endian.hpp`
 
 ## Changes in 1.71.0
 
