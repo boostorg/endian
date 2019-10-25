@@ -108,7 +108,7 @@ inline uint128_type BOOST_ENDIAN_CONSTEXPR endian_reverse_impl( uint128_type x )
 
 template<class T> inline BOOST_CONSTEXPR T endian_reverse( T x ) BOOST_NOEXCEPT
 {
-    BOOST_STATIC_ASSERT( is_integral<T>::value && !is_same<T, bool>::value );
+    BOOST_STATIC_ASSERT( is_integral<T>::value && !(is_same<T, bool>::value) );
 
     typedef typename detail::integral_by_size< sizeof(T) >::type uintN_t;
 
