@@ -28,7 +28,7 @@
 
 # define BOOST_ENDIAN_NATIVE_ORDER_INITIALIZER big
 
-#elif defined(_MSC_VER)
+#elif defined(_MSC_VER) || defined(__i386__) || defined(__x86_64__)
 
 # define BOOST_ENDIAN_NATIVE_ORDER_INITIALIZER little
 
