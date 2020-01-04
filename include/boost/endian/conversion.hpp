@@ -16,7 +16,6 @@
 #include <boost/type_traits/is_integral.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/type_traits/integral_constant.hpp>
-#include <boost/predef/other/endian.h>
 #include <boost/static_assert.hpp>
 #include <boost/cstdint.hpp>
 #include <boost/config.hpp>
@@ -156,65 +155,25 @@ template<class T> struct is_endian_reversible: boost::integral_constant<bool,
 template <class EndianReversible>
 inline BOOST_CONSTEXPR EndianReversible big_to_native( EndianReversible x ) BOOST_NOEXCEPT
 {
-    BOOST_STATIC_ASSERT( detail::is_endian_reversible<EndianReversible>::value );
-
-#if BOOST_ENDIAN_BIG_BYTE
-
-    return x;
-
-#else
-
-    return endian_reverse(x);
-
-#endif
-  }
+    return boost::endian::conditional_reverse<order::big, order::native>( x );
+}
 
 template <class EndianReversible>
 inline BOOST_CONSTEXPR EndianReversible native_to_big( EndianReversible x ) BOOST_NOEXCEPT
 {
-    BOOST_STATIC_ASSERT( detail::is_endian_reversible<EndianReversible>::value );
-
-#if BOOST_ENDIAN_BIG_BYTE
-
-    return x;
-
-#else
-
-    return endian_reverse(x);
-
-#endif
+    return boost::endian::conditional_reverse<order::native, order::big>( x );
 }
 
 template <class EndianReversible>
 inline BOOST_CONSTEXPR EndianReversible little_to_native( EndianReversible x ) BOOST_NOEXCEPT
 {
-    BOOST_STATIC_ASSERT( detail::is_endian_reversible<EndianReversible>::value );
-
-#if BOOST_ENDIAN_LITTLE_BYTE
-
-    return x;
-
-#else
-
-    return endian_reverse(x);
-
-#endif
+    return boost::endian::conditional_reverse<order::little, order::native>( x );
 }
 
 template <class EndianReversible>
 inline BOOST_CONSTEXPR EndianReversible native_to_little( EndianReversible x ) BOOST_NOEXCEPT
 {
-    BOOST_STATIC_ASSERT( detail::is_endian_reversible<EndianReversible>::value );
-
-#if BOOST_ENDIAN_LITTLE_BYTE
-
-    return x;
-
-#else
-
-    return endian_reverse(x);
-
-#endif
+    return boost::endian::conditional_reverse<order::native, order::little>( x );
 }
 
 namespace detail
@@ -265,81 +224,29 @@ template<class T> struct is_endian_reversible_inplace: boost::integral_constant<
 
 } // namespace detail
 
-#if BOOST_ENDIAN_BIG_BYTE
-
-template <class EndianReversibleInplace>
-inline void big_to_native_inplace( EndianReversibleInplace& ) BOOST_NOEXCEPT
-{
-    BOOST_STATIC_ASSERT( detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
-}
-
-#else
-
 template <class EndianReversibleInplace>
 inline void big_to_native_inplace( EndianReversibleInplace& x ) BOOST_NOEXCEPT
 {
-    BOOST_STATIC_ASSERT( detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
-    endian_reverse_inplace( x );
+    boost::endian::conditional_reverse_inplace<order::big, order::native>( x );
 }
-
-#endif
-
-#if BOOST_ENDIAN_BIG_BYTE
-
-template <class EndianReversibleInplace>
-inline void native_to_big_inplace( EndianReversibleInplace& ) BOOST_NOEXCEPT
-{
-    BOOST_STATIC_ASSERT( detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
-}
-
-#else
 
 template <class EndianReversibleInplace>
 inline void native_to_big_inplace( EndianReversibleInplace& x ) BOOST_NOEXCEPT
 {
-    BOOST_STATIC_ASSERT( detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
-    endian_reverse_inplace( x );
+    boost::endian::conditional_reverse_inplace<order::native, order::big>( x );
 }
-
-#endif
-
-#if BOOST_ENDIAN_LITTLE_BYTE
-
-template <class EndianReversibleInplace>
-inline void little_to_native_inplace( EndianReversibleInplace& ) BOOST_NOEXCEPT
-{
-    BOOST_STATIC_ASSERT( detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
-}
-
-#else
 
 template <class EndianReversibleInplace>
 inline void little_to_native_inplace( EndianReversibleInplace& x ) BOOST_NOEXCEPT
 {
-    BOOST_STATIC_ASSERT( detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
-    endian_reverse_inplace( x );
+    boost::endian::conditional_reverse_inplace<order::little, order::native>( x );
 }
-
-#endif
-
-#if BOOST_ENDIAN_LITTLE_BYTE
-
-template <class EndianReversibleInplace>
-inline void native_to_little_inplace( EndianReversibleInplace& ) BOOST_NOEXCEPT
-{
-    BOOST_STATIC_ASSERT( detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
-}
-
-#else
 
 template <class EndianReversibleInplace>
 inline void native_to_little_inplace( EndianReversibleInplace& x ) BOOST_NOEXCEPT
 {
-    BOOST_STATIC_ASSERT( detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
-    endian_reverse_inplace( x );
+    boost::endian::conditional_reverse_inplace<order::native, order::little>( x );
 }
-
-#endif
 
 namespace detail
 {
