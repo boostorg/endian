@@ -28,6 +28,10 @@
 #include <cstdlib>    // for atoi(), exit()
 #include <cstring>    // for memcmp()
 
+#if defined(_MSC_VER)
+# pragma warning(disable: 4127)  // conditional expression is constant
+#endif
+
 using namespace std;             // Not the best programming practice, but I
 using namespace boost;           //   want to verify this combination of using
 using namespace boost::endian;   //   namespaces works. See endian_operations_test
@@ -102,11 +106,7 @@ namespace
   template <class Endian>
   inline void verify_native_representation( int line )
   {
-#   if BOOST_ENDIAN_BIG_BYTE
-      verify_representation<Endian>( true, line );
-#   else
-      verify_representation<Endian>( false, line );
-#   endif
+    verify_representation<Endian>( order::native == order::big, line );
   }
 
   //  detect_order  -----------------------------------------------------//
@@ -124,22 +124,24 @@ namespace
     if ( memcmp( v.c, "\x8\7\6\5\4\3\2\1", 8) == 0 )
     {
       cout << "This machine is little-endian.\n";
-  #   if !BOOST_ENDIAN_LITTLE_BYTE
-        cout << "yet boost/predef/other/endian.h does not define BOOST_ENDIAN_LITTLE_BYTE.\n"
+      if( order::native != order::little )
+      {
+        cout << "yet boost::endian::order::native does not equal boost::endian::order::little.\n"
           "The Boost Endian library must be revised to work correctly on this system.\n"
           "Please report this problem to the Boost mailing list.\n";
         exit(1);
-  #   endif
+      }
     }
     else if ( memcmp( v.c, "\1\2\3\4\5\6\7\x8", 8) == 0 )
     {
       cout << "This machine is big-endian.\n";
-  #   if !BOOST_ENDIAN_BIG_BYTE
-        cout << "yet boost/predef/other/endian.h does not define BOOST_ENDIAN_BIG_BYTE.\n"
+      if( order::native != order::big )
+      {
+        cout << "yet boost::endian::order::native does not equal boost::endian::order::big.\n"
           "The Boost Endian library must be revised to work correctly on this system.\n"
           "Please report this problem to the Boost mailing list.\n";
         exit(1);
-  #   endif
+      }
     }
     else
     {
