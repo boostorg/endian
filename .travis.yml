@@ -4,9 +4,7 @@
 
 language: cpp
 
-sudo: false
-
-dist: trusty
+dist: xenial
 
 branches:
   only:
@@ -142,6 +140,7 @@ matrix:
       env: TOOLSET=clang COMPILER=clang++ CXXSTD=03,11
 
     - os: linux
+      dist: trusty
       compiler: /usr/bin/clang++
       env: TOOLSET=clang COMPILER=/usr/bin/clang++ CXXSTD=03,11
       addons:
@@ -150,6 +149,7 @@ matrix:
             - clang-3.3
 
     - os: linux
+      dist: trusty
       compiler: /usr/bin/clang++
       env: TOOLSET=clang COMPILER=/usr/bin/clang++ CXXSTD=03,11
       addons:
@@ -164,7 +164,6 @@ matrix:
         apt:
           packages:
             - clang-3.5
-            - libstdc++-4.9-dev
           sources:
             - ubuntu-toolchain-r-test
 
@@ -175,7 +174,16 @@ matrix:
         apt:
           packages:
             - clang-3.6
-            - libstdc++-4.9-dev
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - os: linux
+      compiler: clang++-3.7
+      env: TOOLSET=clang COMPILER=clang++-3.7 CXXSTD=03,11,14,1z
+      addons:
+        apt:
+          packages:
+            - clang-3.7
           sources:
             - ubuntu-toolchain-r-test
 
@@ -186,7 +194,6 @@ matrix:
         apt:
           packages:
             - clang-3.8
-            - libstdc++-4.9-dev
           sources:
             - ubuntu-toolchain-r-test
 
@@ -197,7 +204,6 @@ matrix:
         apt:
           packages:
             - clang-3.9
-            - libstdc++-4.9-dev
           sources:
             - ubuntu-toolchain-r-test
 
@@ -210,7 +216,6 @@ matrix:
             - clang-4.0
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-4.0
 
     - os: linux
       compiler: clang++-5.0
@@ -221,7 +226,6 @@ matrix:
             - clang-5.0
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
 
     - os: linux
       compiler: clang++-6.0
@@ -232,7 +236,6 @@ matrix:
             - clang-6.0
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-6.0
 
     - os: linux
       compiler: clang++-7
@@ -243,7 +246,7 @@ matrix:
             - clang-7
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-7
+            - llvm-toolchain-xenial-7
 
     - os: linux
       compiler: clang++-8
@@ -254,7 +257,7 @@ matrix:
             - clang-8
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-8
+            - llvm-toolchain-xenial-8
 
     - os: linux
       dist: xenial
@@ -278,9 +281,10 @@ matrix:
             - clang-8
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-8
+            - llvm-toolchain-xenial-8
 
     - os: linux
+      dist: trusty
       compiler: clang++-libc++
       env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=03,11,14,1z VARIANT=release
       addons:
@@ -289,6 +293,7 @@ matrix:
             - libc++-dev
 
     - os: linux
+      dist: trusty
       compiler: clang++-libc++
       env: UBSAN=1 TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=03,11,14,1z UBSAN_OPTIONS=print_stacktrace=1
       addons:
@@ -338,7 +343,6 @@ matrix:
         - ctest --output-on-failure -R boost_endian
 
     - os: linux
-      compiler: g++
       env: CMAKE_SUBDIR_TEST=1
       install:
         - BOOST_BRANCH=develop
