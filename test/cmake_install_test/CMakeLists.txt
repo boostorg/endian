@@ -4,30 +4,10 @@
 
 cmake_minimum_required(VERSION 3.5...3.16)
 
-project(cmake_subdir_test LANGUAGES CXX)
+project(cmake_install_test LANGUAGES CXX)
 
-add_subdirectory(../.. boostorg/endian)
-
-# boost_add_subdir
-
-function(boost_add_subdir name)
-
-    add_subdirectory(../../../${name} boostorg/${name})
-
-endfunction()
-
-# primary dependencies
-
-boost_add_subdir(config)
-boost_add_subdir(core)
-boost_add_subdir(static_assert)
-boost_add_subdir(type_traits)
-
-# secondary dependencies
-
-boost_add_subdir(assert)
-
-# --target check
+find_package(boost_endian REQUIRED)
+find_package(boost_core REQUIRED)
 
 add_executable(quick ../quick.cpp)
 target_link_libraries(quick Boost::endian Boost::core)

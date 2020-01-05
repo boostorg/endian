@@ -10,7 +10,6 @@
 #include <boost/endian/detail/disable_warnings.hpp>
 
 #include <boost/endian/conversion.hpp>
-#include <boost/detail/lightweight_main.hpp>
 #include <boost/core/lightweight_test.hpp>
 #include <iostream>
 #include <cstring>
@@ -374,6 +373,19 @@ int cpp_main(int, char * [])
 #endif
 
   return ::boost::report_errors();
+}
+
+int main( int argc, char* argv[] )
+{
+    try
+    {
+        return cpp_main( argc, argv );
+    }
+    catch( std::exception const & x )
+    {
+        BOOST_ERROR( x.what() );
+        return boost::report_errors();
+    }
 }
 
 #include <boost/endian/detail/disable_warnings_pop.hpp>

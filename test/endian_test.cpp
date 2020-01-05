@@ -20,7 +20,6 @@
 
 #include <boost/endian/arithmetic.hpp>
 #include <boost/cstdint.hpp>
-#include <boost/detail/lightweight_main.hpp>
 
 #include <iostream>
 #include <limits>
@@ -838,3 +837,16 @@ int cpp_main( int argc, char * argv[] )
 
   return err_count ? 1 : 0;
 } // main
+
+int main( int argc, char* argv[] )
+{
+    try
+    {
+        return cpp_main( argc, argv );
+    }
+    catch( std::exception const & x )
+    {
+        std::cout << "Exception: " << x.what() << std::endl;
+        return 1;
+    }
+}
