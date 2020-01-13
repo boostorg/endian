@@ -94,3 +94,5 @@ run endian_hpp_test.cpp ;
 run-ni endian_hpp_test.cpp ;
 
 run order_test.cpp ;
+
+run endian_reverse_test2.cpp ;

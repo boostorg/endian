@@ -46,7 +46,8 @@ namespace endian
   //  reverse byte order
   //  requires T to be a non-bool integral type
   //  in detail/endian_reverse.hpp
-  template<class T> inline BOOST_CONSTEXPR T endian_reverse( T x ) BOOST_NOEXCEPT;
+  //
+  //  template<class T> inline BOOST_CONSTEXPR T endian_reverse( T x ) BOOST_NOEXCEPT;
 
   //  reverse byte order unless native endianness is big
   template <class EndianReversible >
@@ -109,9 +110,11 @@ namespace endian
 
   //  reverse in place
   //  in detail/endian_reverse.hpp
-  template <class EndianReversible>
-    inline void endian_reverse_inplace(EndianReversible& x) BOOST_NOEXCEPT;
-    //  Effects: x = endian_reverse(x)
+  //
+  //  template <class EndianReversible>
+  //    inline void endian_reverse_inplace(EndianReversible& x) BOOST_NOEXCEPT;
+  //
+  //  Effects: x = endian_reverse(x)
 
   //  reverse in place unless native endianness is big
   template <class EndianReversibleInplace>
