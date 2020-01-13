@@ -1,4 +1,4 @@
-# Copyright 2016-2018 Peter Dimov
+# Copyright 2016-2020 Peter Dimov
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE_1_0.txt or copy at http://boost.org/LICENSE_1_0.txt)
 
@@ -300,6 +300,21 @@ matrix:
         apt:
           packages:
             - libc++-dev
+
+    - os: linux
+      arch: arm64
+      compiler: g++
+      env: TOOLSET=gcc COMPILER=g++ CXXSTD=03,11
+
+    - os: linux
+      arch: ppc64le
+      compiler: g++
+      env: TOOLSET=gcc COMPILER=g++ CXXSTD=03,11
+
+    - os: linux
+      arch: s390x
+      compiler: g++
+      env: TOOLSET=gcc COMPILER=g++ CXXSTD=03,11
 
     - os: osx
       osx_image: xcode6.4
