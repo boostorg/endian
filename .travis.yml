@@ -24,7 +24,22 @@ matrix:
   include:
     - os: linux
       compiler: g++
-      env: TOOLSET=gcc COMPILER=g++ CXXSTD=03,11
+      env: TOOLSET=gcc COMPILER=g++ CXXSTD=03,11,14
+
+    - os: linux
+      arch: arm64
+      compiler: g++
+      env: TOOLSET=gcc COMPILER=g++ CXXSTD=03,11,14
+
+    - os: linux
+      arch: ppc64le
+      compiler: g++
+      env: TOOLSET=gcc COMPILER=g++ CXXSTD=03,11,14
+
+    - os: linux
+      arch: s390x
+      compiler: g++
+      env: TOOLSET=gcc COMPILER=g++ CXXSTD=03,11,14
 
     - os: linux
       compiler: g++-4.4
@@ -286,7 +301,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: clang++-libc++
-      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=03,11,14,1z VARIANT=release
+      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=03,11,14,1z
       addons:
         apt:
           packages:
@@ -300,21 +315,6 @@ matrix:
         apt:
           packages:
             - libc++-dev
-
-    - os: linux
-      arch: arm64
-      compiler: g++
-      env: TOOLSET=gcc COMPILER=g++ CXXSTD=03,11
-
-    - os: linux
-      arch: ppc64le
-      compiler: g++
-      env: TOOLSET=gcc COMPILER=g++ CXXSTD=03,11
-
-    - os: linux
-      arch: s390x
-      compiler: g++
-      env: TOOLSET=gcc COMPILER=g++ CXXSTD=03,11
 
     - os: osx
       osx_image: xcode6.4
