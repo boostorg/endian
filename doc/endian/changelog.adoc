@@ -23,7 +23,7 @@ http://www.boost.org/LICENSE_1_0.txt
 ## Changes in 1.71.0
 
 * Clarified requirements on the value type template parameter
-* Added support for `float` and `double`
+* Added support for `float` and `double` to `endian_buffer` and `endian_arithmetic`
 * Added `endian_load`, `endian_store`
 * Updated `endian_reverse` to correctly support all non-`bool` integral types
 * Moved deprecated names to the deprecated header `endian.hpp`
