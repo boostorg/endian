@@ -18,10 +18,10 @@ Beman Dawes
 
 include::endian/overview.adoc[]
 include::endian/changelog.adoc[]
+include::endian/choosing_approach.adoc[]
 include::endian/conversion.adoc[]
 include::endian/buffers.adoc[]
 include::endian/arithmetic.adoc[]
-include::endian/choosing_approach.adoc[]
 include::endian/history.adoc[]
 
 :leveloffset: -1

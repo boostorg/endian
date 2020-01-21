@@ -83,7 +83,8 @@ Boost.Endian provides three different approaches to dealing with endianness. All
 three approaches support integers and user-define types (UDTs).
 
 Each approach has a long history of successful use, and each approach has use
-cases where it is preferred to the other approaches.
+cases where it is preferred to the other approaches. See
+<<choosing,Choosing between Conversion Functions, Buffer Types, and Arithmetic Types>>.
 
 <<conversion,Endian conversion functions>>::
 The application uses the built-in integer types to hold values, and calls the
@@ -112,10 +113,6 @@ be used directly in generic code of for less common use cases.
 Boost Endian is a header-only library. {cpp}11 features affecting interfaces,
 such as `noexcept`, are  used only if available. See
 <<overview_cpp03_support,{cpp}03 support for {cpp}11 features>> for details.
-
-## Choosing between conversion functions, buffer types, and arithmetic types
-
-This section has been moved to its own <<choosing,Choosing the Approach>> page.
 
 [#overview_intrinsics]
 ## Built-in support for Intrinsics
@@ -260,6 +257,28 @@ Iterations: 10'000'000'000, Intrinsics: `<cstdlib>` `_byteswap_ushort`, etc.
 |64-bit aligned little endian |3.35 s |2.73 s
 |===
 
+[#overview_cpp03_support]
+## {cpp}03 support for {cpp}11 features
+
+[%header,cols=2*]
+|===
+|{cpp}11 Feature
+|Action with {cpp}03 Compilers
+|Scoped enums
+|Uses header
+http://www.boost.org/libs/core/doc/html/core/scoped_enum.html[boost/core/scoped_enum.hpp]
+to emulate {cpp}11 scoped enums.
+|`noexcept`
+|Uses `BOOST_NOEXCEPT` macro, which is defined as null for compilers not
+supporting this {cpp}11 feature.
+|{cpp}11 PODs
+(http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2342.htm[N2342])
+|Takes advantage of {cpp}03 compilers that relax {cpp}03 POD rules, but see
+Limitations <<buffers_limitations,here>> and <<arithmetic_limitations,here>>.
+Also see macros for explicit POD control <<buffers_compilation,here>> and
+<<arithmetic_compilation,here>>
+|===
+
 [#overview_faq]
 ## Overall FAQ
 
@@ -326,11 +345,11 @@ the same code being generated for either types.
 
 What are the limitations of integer support?::
 Tests have only been performed on machines that  use two's complement
-arithmetic. The Endian conversion functions only support 16, 32, and 64-bit
+arithmetic. The Endian conversion functions only support 8, 16, 32, and 64-bit
 aligned integers. The endian types only support 8, 16, 24, 32, 40, 48, 56, and
 64-bit unaligned integers, and 8, 16, 32, and 64-bit aligned integers.
 
-Why is there no floating point support?::
+Is there floating point support?::
 An attempt was made to support four-byte ``float``s and eight-byte
 ``double``s, limited to
 http://en.wikipedia.org/wiki/IEEE_floating_point[IEEE 754] (also known as
@@ -338,29 +357,9 @@ ISO/IEC/IEEE 60559) floating point and further limited to systems where floating
 point endianness does not differ from integer endianness. Even with those
 limitations, support for floating point types was not reliable and was removed.
 For example, simply reversing the endianness of a floating point number can
-result in a signaling-NAN. For all practical purposes, binary serialization and
-endianness for integers are one and the same problem. That is not true for
-floating point numbers, so binary serialization interfaces and formats for
-floating point does not fit well in an endian-based library.
-
-[#overview_cpp03_support]
-## {cpp}03 support for {cpp}11 features
-
-[%header,cols=2*]
-|===
-|{cpp}11 Feature
-|Action with {cpp}03 Compilers
-|Scoped enums
-|Uses header
-http://www.boost.org/libs/core/doc/html/core/scoped_enum.html[boost/core/scoped_enum.hpp]
-to emulate {cpp}11 scoped enums.
-|`noexcept`
-|Uses `BOOST_NOEXCEPT` macro, which is defined as null for compilers not
-supporting this {cpp}11 feature.
-|{cpp}11 PODs
-(http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2342.htm[N2342])
-|Takes advantage of {cpp}03 compilers that relax {cpp}03 POD rules, but see
-Limitations <<buffers_limitations,here>> and <<arithmetic_limitations,here>>.
-Also see macros for explicit POD control <<buffers_compilation,here>> and
-<<arithmetic_compilation,here>>
-|===
+result in a signaling-NAN.
++
+Support for `float` and `double` has since been reinstated for `endian_buffer`
+and `endian_arithmetic`. The conversion functions still do not support floating
+point due to the above issues; reversing the bytes of a floating point number
+does not necessarily produce another valid floating point number.
