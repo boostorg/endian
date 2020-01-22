@@ -367,9 +367,6 @@ namespace boost
 } // namespace boost
 ```
 
-The `implementation-defined` text in typedefs above is either `big` or `little`
-according to the native endianness of the platform.
-
 The expository data member `value_` stores the current value of the
 `endian_buffer` object as a sequence of bytes ordered as specified by the
 `Order` template parameter. The `CHAR_BIT` macro is defined in `<climits>`.

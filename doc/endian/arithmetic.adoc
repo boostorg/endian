@@ -389,9 +389,6 @@ namespace boost
 } // namespace boost
 ```
 
-The `implementation-defined` text above is either `big` or `little` according
-to the endianness of the platform.
-
 The only supported value of `CHAR_BIT` is 8.
 
 The valid values of `Nbits` are as follows:
