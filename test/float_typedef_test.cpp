@@ -17,11 +17,17 @@ template<class T> struct align
     }
 };
 
+template<class T> struct align2
+{
+    char _;
+    T v;
+};
+
 template<class T, class U> void test_buffer( U const & y, bool aligned )
 {
     align<T> x( y );
 
-    BOOST_TEST_EQ( sizeof(x), aligned? 2 * sizeof(U): 1 + sizeof(U) );
+    BOOST_TEST_EQ( sizeof(x), aligned? sizeof( align2<U> ): 1 + sizeof(U) );
 
     BOOST_TEST_EQ( x.v.value(), y );
 }
