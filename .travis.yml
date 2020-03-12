@@ -38,11 +38,7 @@ matrix:
     - os: linux
       arch: ppc64le
       compiler: g++
-      env: TOOLSET=gcc COMPILER=g++ CXXSTD=03,11,14 ADDRMD=32,64
-      addons:
-        apt:
-          packages:
-            - g++-multilib
+      env: TOOLSET=gcc COMPILER=g++ CXXSTD=03,11,14
 
     - os: linux
       arch: s390x
