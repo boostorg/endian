@@ -149,7 +149,7 @@ namespace detail
 {
 
 template<class T> struct is_endian_reversible: boost::integral_constant<bool,
-    boost::is_class<T>::value || ( boost::is_integral<T>::value && !boost::is_same<T, bool>::value )>
+    boost::is_class<T>::value || ( (boost::is_integral<T>::value || boost::is_enum<T>::value) && !boost::is_same<T, bool>::value )>
 {
 };
 
@@ -221,7 +221,7 @@ namespace detail
 {
 
 template<class T> struct is_endian_reversible_inplace: boost::integral_constant<bool,
-    boost::is_class<T>::value || ( boost::is_integral<T>::value && !boost::is_same<T, bool>::value )>
+    boost::is_class<T>::value || ( (boost::is_integral<T>::value || boost::is_enum<T>::value) && !boost::is_same<T, bool>::value )>
 {
 };
 
