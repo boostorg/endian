@@ -22,7 +22,7 @@ template<class T> struct negation: boost::integral_constant<bool, !T::value> {};
 template<class T> struct is_scoped_enum:
     boost::conditional<
         boost::is_enum<T>::value,
-        negation<boost::is_convertible<T, int>>,
+        negation< boost::is_convertible<T, int> >,
         boost::false_type
     >::type
 {
