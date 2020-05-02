@@ -12,6 +12,7 @@
 #include <boost/type_traits/is_same.hpp>
 #include <boost/type_traits/enable_if.hpp>
 #include <boost/type_traits/is_class.hpp>
+#include <boost/type_traits/integral_constant.hpp>
 #include <boost/static_assert.hpp>
 #include <boost/cstdint.hpp>
 #include <boost/config.hpp>
@@ -103,6 +104,20 @@ inline uint128_type BOOST_ENDIAN_CONSTEXPR endian_reverse_impl( uint128_type x )
 
 #endif
 
+// is_endian_reversible
+
+template<class T> struct is_endian_reversible: boost::integral_constant<bool,
+    boost::is_integral<T>::value && !boost::is_same<T, bool>::value>
+{
+};
+
+// is_endian_reversible_inplace
+
+template<class T> struct is_endian_reversible_inplace: boost::integral_constant<bool,
+    boost::is_integral<T>::value && !boost::is_same<T, bool>::value>
+{
+};
+
 } // namespace detail
 
 // Requires:
@@ -112,7 +127,7 @@ template<class T> inline BOOST_CONSTEXPR
     typename enable_if_< !is_class<T>::value, T >::type
     endian_reverse( T x ) BOOST_NOEXCEPT
 {
-    BOOST_STATIC_ASSERT( is_integral<T>::value && !(is_same<T, bool>::value) );
+    BOOST_STATIC_ASSERT( detail::is_endian_reversible<T>::value );
 
     typedef typename detail::integral_by_size< sizeof(T) >::type uintN_t;
 
@@ -122,6 +137,7 @@ template<class T> inline BOOST_CONSTEXPR
 template <class EndianReversible>
 inline void endian_reverse_inplace(EndianReversible& x) BOOST_NOEXCEPT
 {
+    BOOST_STATIC_ASSERT( boost::is_class<EndianReversible>::value || detail::is_endian_reversible_inplace<EndianReversible>::value );
     x = endian_reverse( x );
 }
 
