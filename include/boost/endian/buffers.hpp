@@ -38,7 +38,7 @@
 #include <climits>
 #include <cstring>
 
-#if defined(BOOST_BORLANDC) || defined( BOOST_CODEGEARC)
+#if defined(BOOST_BORLANDC) || defined(BOOST_CODEGEARC)
 # pragma pack(push, 1)
 #endif
 
@@ -367,7 +367,7 @@ public:
 } // namespace endian
 } // namespace boost
 
-#if defined(BOOST_BORLANDC) || defined( BOOST_CODEGEARC)
+#if defined(BOOST_BORLANDC) || defined(BOOST_CODEGEARC)
 # pragma pack(pop)
 #endif
 
