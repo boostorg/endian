@@ -359,7 +359,8 @@ limitations, support for floating point types was not reliable and was removed.
 For example, simply reversing the endianness of a floating point number can
 result in a signaling-NAN.
 +
-Support for `float` and `double` has since been reinstated for `endian_buffer`
-and `endian_arithmetic`. The conversion functions still do not support floating
+Support for `float` and `double` has since been reinstated for `endian_buffer`,
+`endian_arithmetic` and the conversion functions that reverse endianness in place.
+The conversion functions that take and return by value still do not support floating
 point due to the above issues; reversing the bytes of a floating point number
 does not necessarily produce another valid floating point number.

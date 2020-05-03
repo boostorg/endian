@@ -39,6 +39,7 @@ Implicit conversion to the underlying value type is provided. An implicit
 constructor converting from the underlying value type is provided.
 
 ## Example
+
 The `endian_example.cpp` program writes a binary file containing four-byte,
 big-endian and little-endian integers:
 
@@ -145,7 +146,7 @@ will no longer be relying on unspecified behavior.
 * Signed | unsigned
 * Unaligned | aligned
 * 1-8 byte (unaligned) | 1, 2, 4, 8 byte (aligned)
-* Choice of  value type
+* Choice of value type
 
 ## Enums and typedefs
 
@@ -210,7 +211,7 @@ and to improve code readability and searchability.
 
 ## Class template `endian_arithmetic`
 
-An `endian_integer` is an integer byte-holder with user-specified endianness,
+`endian_arithmetic` is an integer byte-holder with user-specified endianness,
 value type, size, and alignment. The usual operations on arithmetic types are
 supplied.
 
@@ -568,6 +569,7 @@ Functions] feature is detected automatically, and will be used if present to
 ensure that objects of `class endian_arithmetic` are trivial, and thus PODs.
 
 ## Compilation
+
 Boost.Endian is implemented entirely within headers, with no need to link to any
 Boost object libraries.
 
