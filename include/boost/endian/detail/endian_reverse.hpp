@@ -1,10 +1,9 @@
 #ifndef BOOST_ENDIAN_DETAIL_ENDIAN_REVERSE_HPP_INCLUDED
 #define BOOST_ENDIAN_DETAIL_ENDIAN_REVERSE_HPP_INCLUDED
 
-// Copyright 2019 Peter Dimov
-//
+// Copyright 2019, 2020 Peter Dimov
 // Distributed under the Boost Software License, Version 1.0.
-// http://www.boost.org/LICENSE_1_0.txt
+// https://www.boost.org/LICENSE_1_0.txt
 
 #include <boost/endian/detail/integral_by_size.hpp>
 #include <boost/endian/detail/intrinsic.hpp>
@@ -115,14 +114,14 @@ template<class T> struct is_endian_reversible: boost::integral_constant<bool,
 // is_endian_reversible_inplace
 
 template<class T> struct is_endian_reversible_inplace: boost::integral_constant<bool,
-    (boost::is_integral<T>::value && !boost::is_same<T, bool>::value) || is_scoped_enum<T>::value>
+    boost::is_integral<T>::value || boost::is_enum<T>::value || boost::is_same<T, float>::value || boost::is_same<T, double>::value>
 {
 };
 
 } // namespace detail
 
 // Requires:
-//    T is non-bool integral
+//   T is non-bool integral or scoped enumeration type
 
 template<class T> inline BOOST_CONSTEXPR
     typename enable_if_< !is_class<T>::value, T >::type
@@ -135,10 +134,30 @@ template<class T> inline BOOST_CONSTEXPR
     return static_cast<T>( detail::endian_reverse_impl( static_cast<uintN_t>( x ) ) );
 }
 
-template <class EndianReversible>
-inline void endian_reverse_inplace(EndianReversible& x) BOOST_NOEXCEPT
+// Requires:
+//   T is integral, enumeration, float or double
+
+template<class T> inline
+    typename enable_if_< !is_class<T>::value >::type
+    endian_reverse_inplace( T & x ) BOOST_NOEXCEPT
 {
-    BOOST_STATIC_ASSERT( boost::is_class<EndianReversible>::value || detail::is_endian_reversible_inplace<EndianReversible>::value );
+    BOOST_STATIC_ASSERT( detail::is_endian_reversible_inplace<T>::value );
+
+    typename detail::integral_by_size< sizeof(T) >::type x2;
+
+    std::memcpy( &x2, &x, sizeof(T) );
+
+    x2 = detail::endian_reverse_impl( x2 );
+
+    std::memcpy( &x, &x2, sizeof(T) );
+}
+
+// Default implementation for user-defined types
+
+template<class T> inline
+    typename enable_if_< is_class<T>::value >::type
+    endian_reverse_inplace( T & x ) BOOST_NOEXCEPT
+{
     x = endian_reverse( x );
 }
 

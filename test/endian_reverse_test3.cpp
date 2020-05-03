@@ -50,9 +50,16 @@ int main()
 #endif
 
     test_reverse_inplace( 1 );
+    test_reverse_inplace( true );
+
+    test_reverse_inplace( 1.0f );
+    test_reverse_inplace( 1.0 );
+
+    test_reverse_inplace( e1 );
 
 #if !defined(BOOST_NO_CXX11_SCOPED_ENUMS)
 
+    test_reverse_inplace( e2 );
     test_reverse_inplace( E3::e3 );
     test_reverse_inplace( E4::e4 );
 
