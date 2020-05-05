@@ -11,8 +11,15 @@ template<class T> void test_reverse( T x )
 {
     using boost::endian::endian_reverse;
 
-    T x2 = endian_reverse( endian_reverse( x ) );
+    T x2( x );
 
+    x2 = endian_reverse( endian_reverse( x2 ) );
+    BOOST_TEST( x == x2 );
+
+    x2 = boost::endian::native_to_little( boost::endian::little_to_native( x2 ) );
+    BOOST_TEST( x == x2 );
+
+    x2 = boost::endian::native_to_big( boost::endian::big_to_native( x2 ) );
     BOOST_TEST( x == x2 );
 }
 
@@ -24,7 +31,14 @@ template<class T> void test_reverse_inplace( T x )
 
     endian_reverse_inplace( x2 );
     endian_reverse_inplace( x2 );
+    BOOST_TEST( x == x2 );
 
+    boost::endian::native_to_little_inplace( x2 );
+    boost::endian::little_to_native_inplace( x2 );
+    BOOST_TEST( x == x2 );
+
+    boost::endian::native_to_big_inplace( x2 );
+    boost::endian::big_to_native_inplace( x2 );
     BOOST_TEST( x == x2 );
 }
 

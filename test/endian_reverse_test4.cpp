@@ -15,7 +15,14 @@ template<class T> void test_reverse_inplace( T x )
 
     endian_reverse_inplace( x2 );
     endian_reverse_inplace( x2 );
+    BOOST_TEST( x == x2 );
 
+    boost::endian::native_to_little_inplace( x2 );
+    boost::endian::little_to_native_inplace( x2 );
+    BOOST_TEST( x == x2 );
+
+    boost::endian::native_to_big_inplace( x2 );
+    boost::endian::big_to_native_inplace( x2 );
     BOOST_TEST( x == x2 );
 }
 
