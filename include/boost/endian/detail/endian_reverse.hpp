@@ -161,6 +161,17 @@ template<class T> inline
     x = endian_reverse( x );
 }
 
+// endian_reverse_inplace for arrays
+
+template<class T, std::size_t N>
+inline void endian_reverse_inplace( T (&x)[ N ] )
+{
+    for( std::size_t i = 0; i < N; ++i )
+    {
+        endian_reverse_inplace( x[i] );
+    }
+}
+
 } // namespace endian
 } // namespace boost
 
