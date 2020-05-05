@@ -13,6 +13,7 @@
 #include <boost/endian/detail/endian_store.hpp>
 #include <boost/endian/detail/order.hpp>
 #include <boost/type_traits/is_class.hpp>
+#include <boost/type_traits/is_array.hpp>
 #include <boost/type_traits/integral_constant.hpp>
 #include <boost/static_assert.hpp>
 #include <boost/cstdint.hpp>
@@ -249,7 +250,11 @@ inline void conditional_reverse_inplace_impl( EndianReversibleInplace& x, boost:
 template <BOOST_SCOPED_ENUM(order) From, BOOST_SCOPED_ENUM(order) To, class EndianReversibleInplace>
 inline void conditional_reverse_inplace( EndianReversibleInplace& x ) BOOST_NOEXCEPT
 {
-    BOOST_STATIC_ASSERT( boost::is_class<EndianReversibleInplace>::value || detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
+    BOOST_STATIC_ASSERT(
+        boost::is_class<EndianReversibleInplace>::value ||
+        boost::is_array<EndianReversibleInplace>::value ||
+        detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
+
     detail::conditional_reverse_inplace_impl( x, boost::integral_constant<bool, From == To>() );
 }
 
@@ -258,7 +263,10 @@ template <class EndianReversibleInplace>
 inline void conditional_reverse_inplace( EndianReversibleInplace& x,
     BOOST_SCOPED_ENUM(order) from_order, BOOST_SCOPED_ENUM(order) to_order ) BOOST_NOEXCEPT
 {
-    BOOST_STATIC_ASSERT( boost::is_class<EndianReversibleInplace>::value || detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
+    BOOST_STATIC_ASSERT(
+        boost::is_class<EndianReversibleInplace>::value ||
+        boost::is_array<EndianReversibleInplace>::value ||
+        detail::is_endian_reversible_inplace<EndianReversibleInplace>::value );
 
     if( from_order != to_order )
     {

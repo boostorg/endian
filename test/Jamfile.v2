@@ -105,3 +105,6 @@ run-ni endian_reverse_test3.cpp ;
 
 run endian_reverse_test4.cpp ;
 run-ni endian_reverse_test4.cpp ;
+
+run endian_reverse_test5.cpp ;
+run-ni endian_reverse_test5.cpp ;
