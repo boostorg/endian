@@ -164,7 +164,7 @@ template<class T> inline
 // endian_reverse_inplace for arrays
 
 template<class T, std::size_t N>
-inline void endian_reverse_inplace( T (&x)[ N ] )
+inline void endian_reverse_inplace( T (&x)[ N ] ) BOOST_NOEXCEPT
 {
     for( std::size_t i = 0; i < N; ++i )
     {
