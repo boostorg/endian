@@ -93,6 +93,9 @@ namespace endian
   template <class EndianReversible>
     void endian_reverse_inplace(EndianReversible& x) noexcept;
 
+  template<class EndianReversibleInplace, std::size_t N>
+    void endian_reverse_inplace(EndianReversibleInplace (&x)[N]) noexcept;
+
   template <class EndianReversibleInplace>
     void big_to_native_inplace(EndianReversibleInplace& x) noexcept;
   template <class EndianReversibleInplace>
@@ -241,9 +244,10 @@ If `T` is a class type, the function:
 |===
 |Expression |Requirements
 |`endian_reverse_inplace(mlx)`
-a|`T` is an integral type, an enumeration type, `float`, `double`, or a class type.
+a|`T` is an integral type, an enumeration type, `float`, `double`, a class type,
+or an array type.
 
-If `T` is not a class type, reverses the order of bytes in `mlx`.
+If `T` is not a class type or an array type, reverses the order of bytes in `mlx`.
 
 If `T` is a class type, the function:
 
@@ -252,6 +256,8 @@ If `T` is a class type, the function:
 * Should reverse the order of bytes of all data members of `mlx` that have types or
   arrays of types that meet the `EndianReversible` or `EndianReversibleInplace`
   requirements.
+
+If `T` is an array type, calls `endian_reverse_inplace` on each element.
 |===
 
 NOTE: Because there is a function template for `endian_reverse_inplace` that
@@ -361,6 +367,15 @@ Effects:: When `EndianReversible` is a class type,
   type, an enumeration type, `float`, or `double`, reverses the
   order of the constituent bytes of `x`. Otherwise, the program is
   ill-formed.
+
+```
+template<class EndianReversibleInplace, std::size_t N>
+void endian_reverse_inplace(EndianReversibleInplace (&x)[N]) noexcept;
+```
+[none]
+* {blank}
++
+Effects:: Calls `endian_reverse_inplace(x[i])` for `i` from `0` to `N-1`.
 
 ```
 template <class EndianReversibleInplace>
