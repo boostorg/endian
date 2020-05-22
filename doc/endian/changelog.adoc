@@ -14,6 +14,7 @@ http://www.boost.org/LICENSE_1_0.txt
 
 * Enabled scoped enumeration types in `endian_reverse`
 * Enabled `bool`, `enum`, `float`, `double` in `endian_reverse_inplace`
+* Added an overload of `endian_reverse_inplace` for arrays
 
 ## Changes in 1.72.0
 
