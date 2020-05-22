@@ -230,7 +230,7 @@ If `T` is a class type, the function:
 
 * Is expected to be implemented by the user, as a non-member function in the same
   namespace as `T` that can be found by argument dependent lookup (ADL);
-* Should returns the value of `x` with the order of bytes reversed for all data members
+* Should return the value of `x` with the order of bytes reversed for all data members
   of types or arrays of types that meet the `EndianReversible` requirements.
 |===
 
