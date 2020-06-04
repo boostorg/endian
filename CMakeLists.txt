@@ -19,13 +19,6 @@ target_link_libraries(boost_endian
     Boost::type_traits
 )
 
-if(BOOST_SUPERPROJECT_VERSION)
-
-  include(BoostInstall)
-  boost_install(TARGETS boost_endian HEADER_DIRECTORY include/)
-
-endif()
-
 if(BUILD_TESTING)
 
   add_subdirectory(test)
