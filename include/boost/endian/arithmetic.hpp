@@ -182,6 +182,13 @@ class endian_arithmetic
 private:
 
     typedef endian_buffer<Order, T, n_bits, Align> buffer_type;
+
+#ifdef BOOST_ENDIAN_NO_CTORS
+public:
+#else
+private:
+#endif
+
     buffer_type buf_;
 
 public:

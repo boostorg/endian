@@ -111,3 +111,4 @@ run-ni endian_reverse_test5.cpp ;
 
 run packed_buffer_test.cpp ;
 run arithmetic_buffer_test.cpp ;
+run packed_arithmetic_test.cpp ;
