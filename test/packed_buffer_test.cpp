@@ -26,7 +26,11 @@ struct X
 
 int main()
 {
-    BOOST_TEST_EQ( sizeof( X ), 12 );
+    BOOST_TEST_EQ( sizeof(big_uint16_buf_t), 2 );
+    BOOST_TEST_EQ( sizeof(double), 8 );
+    BOOST_TEST_EQ( sizeof(little_uint16_buf_t), 2 );
+    BOOST_TEST_EQ( sizeof(X), 12 );
+
     return boost::report_errors();
 }
 
