@@ -20,13 +20,18 @@ using namespace boost::endian;
 struct X
 {
     big_uint16_t a;
-    double b;
+    native_float64_t b;
     little_uint16_t c;
 } __attribute__((packed));
 
 int main()
 {
-    BOOST_TEST_EQ( sizeof( X ), 12 );
+    BOOST_TEST_EQ( sizeof(big_uint16_t), 2 );
+    BOOST_TEST_EQ( sizeof(native_float64_t), 8 );
+    BOOST_TEST_EQ( sizeof(little_uint16_t), 2 );
+
+    BOOST_TEST_EQ( sizeof(X), 12 );
+
     return boost::report_errors();
 }
 
