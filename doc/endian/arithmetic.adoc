@@ -231,7 +231,6 @@ namespace boost
     template <order Order, class T, std::size_t n_bits,
       align Align = align::no>
     class endian_arithmetic
-      : public endian_buffer<Order, T, n_bits, Align>
     {
     public:
 
@@ -244,9 +243,9 @@ namespace boost
 
       endian_arithmetic& operator=(T v) noexcept;
       operator value_type() const noexcept;
-      value_type value() const noexcept; // for exposition; see endian_buffer
-      unsigned char* data() noexcept; // for exposition; see endian_buffer
-      unsigned char const* data() const noexcept; // for exposition; see endian_buffer
+      value_type value() const noexcept;
+      unsigned char* data() noexcept;
+      unsigned char const* data() const noexcept;
 
       // arithmetic operations
       //   note that additional operations are provided by the value_type
@@ -432,6 +431,25 @@ endian_arithmetic& operator=(T v) noexcept;
 +
 Effects:: See `endian_buffer::operator=(T)`.
 Returns:: `*this`.
+
+```
+value_type value() const noexcept;
+```
+[none]
+* {blank}
++
+Returns:: See `endian_buffer::value()`.
+
+```
+unsigned char* data() noexcept;
+```
+```
+unsigned char const* data() const noexcept;
+```
+[none]
+* {blank}
++
+Returns:: See `endian_buffer::data()`.
 
 ```
 operator T() const noexcept;
