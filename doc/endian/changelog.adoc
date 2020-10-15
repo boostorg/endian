@@ -10,6 +10,12 @@ http://www.boost.org/LICENSE_1_0.txt
 [#changelog]
 # Revision History
 
+## Changes in 1.75.0
+
+* `endian_arithmetic` no longer inherits from `endian_buffer`
+* When `BOOST_ENDIAN_NO_CTORS` is defined, the unaligned `endian_buffer` and
+  `endian_arithmetic` are {cpp}03 PODs, to enable use of `++__attribute__((packed))++`
+
 ## Changes in 1.74.0
 
 * Enabled scoped enumeration types in `endian_reverse`
