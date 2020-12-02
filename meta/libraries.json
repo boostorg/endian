@@ -5,7 +5,7 @@
         "Beman Dawes"
     ],
     "maintainers": [
-        "Beman Dawes <bdawes -at- acm.org>"
+        "Peter Dimov <pdimov -at- pdimov.com>"
     ],
     "description": "Types and conversion functions for correct byte ordering and more regardless of processor endianness.",
     "category": [
