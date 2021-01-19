@@ -12,5 +12,6 @@
         "IO",
         "Math",
         "Miscellaneous"
-    ]
+    ],
+    "cxxstd": "03"
 }
