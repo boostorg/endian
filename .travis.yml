@@ -321,11 +321,6 @@ matrix:
             - libc++-dev
 
     - os: osx
-      osx_image: xcode6.4
-      compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=03,11,14,1z ADDRMD=32,64
-
-    - os: osx
       osx_image: xcode7.3
       compiler: clang++
       env: TOOLSET=clang COMPILER=clang++ CXXSTD=03,11,14,1z ADDRMD=32,64
