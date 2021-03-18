@@ -145,6 +145,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
+      dist: bionic
       compiler: g++-10
       env: UBSAN=1 TOOLSET=gcc COMPILER=g++-10 CXXSTD=03,11,14,17,2a UBSAN_OPTIONS=print_stacktrace=1 LINKFLAGS=-fuse-ld=gold
       addons:
