@@ -43,12 +43,22 @@ template<class T> void test_false()
     BOOST_TEST_TRAIT_FALSE((is_scoped_enum<T const volatile>));
 }
 
+template<class T> void test_false_()
+{
+    using boost::endian::detail::is_scoped_enum;
+
+    BOOST_TEST_NOT((is_scoped_enum<T>::value));
+    BOOST_TEST_NOT((is_scoped_enum<T const>::value));
+    BOOST_TEST_NOT((is_scoped_enum<T volatile>::value));
+    BOOST_TEST_NOT((is_scoped_enum<T const volatile>::value));
+}
+
 int main()
 {
     test_false<int>();
     test_false<bool>();
     test_false<X>();
-    test_false<Y>();
+    test_false_<Y>();
     test_false<void>();
     test_false<int[]>();
     test_false<int[1]>();
