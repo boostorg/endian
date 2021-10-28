@@ -13,6 +13,8 @@ Beman Dawes
 :idprefix:
 :listing-caption: Code Example
 :docinfo: private-footer
+:source-highlighter: rouge
+:source-language: c++
 
 :leveloffset: +1
 
