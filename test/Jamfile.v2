@@ -72,8 +72,8 @@ run-ni endian_ld_st_roundtrip_test.cpp ;
 
 run endian_arithmetic_test.cpp
     : : : "<toolset>gcc,<address-model>32:<cxxflags>-ffloat-store" ;
-run endian_arithmetic_test.cpp
-    : : : "<toolset>gcc,<address-model>32:<cxxflags>-ffloat-store" <define>BOOST_ENDIAN_NO_INTRINSICS : endian_arithmetic_test_ni ;
+run endian_arithmetic_test.cpp : : :
+    "<toolset>gcc,<address-model>32:<cxxflags>-ffloat-store" <define>BOOST_ENDIAN_NO_INTRINSICS : endian_arithmetic_test_ni ;
 
 run deprecated_test.cpp ;
 
