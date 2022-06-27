@@ -57,6 +57,11 @@ jobs:
             os: ubuntu-20.04
             install: g++-11-multilib
             address-model: 32,64
+          - toolset: gcc-12
+            cxxstd: "03,11,14,17,20"
+            os: ubuntu-22.04
+            install: g++-12-multilib
+            address-model: 32,64
           - toolset: clang
             compiler: clang++-3.9
             cxxstd: "03,11,14"
@@ -108,6 +113,16 @@ jobs:
             os: ubuntu-20.04
             install: clang-12
           - toolset: clang
+            compiler: clang++-13
+            cxxstd: "03,11,14,17,20"
+            os: ubuntu-22.04
+            install: clang-13
+          - toolset: clang
+            compiler: clang++-14
+            cxxstd: "03,11,14,17,20"
+            os: ubuntu-22.04
+            install: clang-14
+          - toolset: clang
             cxxstd: "03,11,14,17,2a"
             os: macos-10.15
 
@@ -158,15 +173,19 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - toolset: msvc-14.1
-            cxxstd: "14,17,latest"
+          - toolset: msvc-14.0
+            cxxstd: 14,latest
             addrmd: 32,64
-            os: windows-2016
+            os: windows-2019
           - toolset: msvc-14.2
-            cxxstd: "14,17,latest"
+            cxxstd: "14,17,20,latest"
             addrmd: 32,64
             os: windows-2019
           - toolset: msvc-14.3
+            cxxstd: "14,17,20,latest"
+            addrmd: 32,64
+            os: windows-2022
+          - toolset: clang-win
             cxxstd: "14,17,latest"
             addrmd: 32,64
             os: windows-2022
@@ -206,7 +225,7 @@ jobs:
         shell: cmd
         run: |
           cd ../boost-root
-          b2 -j3 libs/%LIBRARY%/test toolset=${{matrix.toolset}} cxxstd=${{matrix.cxxstd}} address-model=${{matrix.addrmd}} variant=debug,release
+          b2 -j3 libs/%LIBRARY%/test toolset=${{matrix.toolset}} cxxstd=${{matrix.cxxstd}} address-model=${{matrix.addrmd}} variant=debug,release embed-manifest-via=linker
 
   posix-cmake-subdir:
     strategy:
@@ -215,6 +234,7 @@ jobs:
         include:
           - os: ubuntu-18.04
           - os: ubuntu-20.04
+          - os: ubuntu-22.04
           - os: macos-10.15
 
     runs-on: ${{matrix.os}}
@@ -261,6 +281,7 @@ jobs:
         include:
           - os: ubuntu-18.04
           - os: ubuntu-20.04
+          - os: ubuntu-22.04
           - os: macos-10.15
 
     runs-on: ${{matrix.os}}
@@ -317,6 +338,7 @@ jobs:
         include:
           - os: ubuntu-18.04
           - os: ubuntu-20.04
+          - os: ubuntu-22.04
           - os: macos-10.15
 
     runs-on: ${{matrix.os}}
