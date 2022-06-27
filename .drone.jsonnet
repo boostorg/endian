@@ -149,9 +149,9 @@ local windows_pipeline(name, image, environment, arch = "amd64") =
     ),
 
     linux_pipeline(
-        "Linux 22.04 GCC 12 32",
+        "Linux 22.04 GCC 12 32 ASAN",
         "cppalliance/droneubuntu2204:1",
-        { TOOLSET: 'gcc', COMPILER: 'g++-12', CXXSTD: '03,11,14,17,20', ADDRMD: '32' },
+        { TOOLSET: 'gcc', COMPILER: 'g++-12', CXXSTD: '03,11,14,17,20', ADDRMD: '32' } + asan,
         "g++-12-multilib",
     ),
 
