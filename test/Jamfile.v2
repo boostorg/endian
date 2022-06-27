@@ -88,8 +88,8 @@ run-ni store_convenience_test.cpp ;
 
 run float_typedef_test.cpp
     : : : "<toolset>gcc,<address-model>32:<cxxflags>-ffloat-store" ;
-run float_typedef_test.cpp
-    : : : "<toolset>gcc,<address-model>32:<cxxflags>-ffloat-store"  <define>BOOST_ENDIAN_NO_INTRINSICS : float_typedef_test_ni ;
+run float_typedef_test.cpp : : :
+    "<toolset>gcc,<address-model>32:<cxxflags>-ffloat-store" <define>BOOST_ENDIAN_NO_INTRINSICS : float_typedef_test_ni ;
 
 run data_test.cpp ;
 run-ni data_test.cpp ;
