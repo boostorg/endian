@@ -13,7 +13,7 @@ import testing ;
 project
   : default-build
 
-    <warnings>all
+    <warnings>extra
 
   : requirements
 
