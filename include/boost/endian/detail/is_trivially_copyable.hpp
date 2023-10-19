@@ -16,14 +16,14 @@ namespace endian
 namespace detail
 {
 
-#if !defined(BOOST_NO_CXX11_HDR_TYPE_TRAITS)
+#if defined( BOOST_LIBSTDCXX_VERSION ) && BOOST_LIBSTDCXX_VERSION < 50000
 
-using std::is_trivially_copyable;
+template<class T> struct is_trivially_copyable: std::integral_constant<bool,
+    std::has_trivial_copy_constructor<T>::value && std::has_trivial_copy_assign<T>::value && std::has_trivial_destructor<T>::value> {};
 
 #else
 
-template<class T> struct is_trivially_copyable: std::integral_constant<bool,
-    std::has_trivial_copy<T>::value && std::has_trivial_assign<T>::value && std::has_trivial_destructor<T>::value> {};
+using std::is_trivially_copyable;
 
 #endif
 
