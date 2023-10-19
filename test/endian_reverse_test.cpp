@@ -176,17 +176,17 @@ template<class T> void test_np()
 
 int main()
 {
-    test<boost::int8_t>();
-    test<boost::uint8_t>();
+    test<std::int8_t>();
+    test<std::uint8_t>();
 
-    test<boost::int16_t>();
-    test<boost::uint16_t>();
+    test<std::int16_t>();
+    test<std::uint16_t>();
 
-    test<boost::int32_t>();
-    test<boost::uint32_t>();
+    test<std::int32_t>();
+    test<std::uint32_t>();
 
-    test<boost::int64_t>();
-    test<boost::uint64_t>();
+    test<std::int64_t>();
+    test<std::uint64_t>();
 
     test<char>();
     test<unsigned char>();
