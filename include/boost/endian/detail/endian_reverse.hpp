@@ -8,6 +8,7 @@
 #include <boost/endian/detail/integral_by_size.hpp>
 #include <boost/endian/detail/intrinsic.hpp>
 #include <boost/endian/detail/is_scoped_enum.hpp>
+#include <boost/endian/detail/is_integral.hpp>
 #include <boost/endian/detail/static_assert.hpp>
 #include <boost/config.hpp>
 #include <type_traits>
@@ -103,14 +104,14 @@ inline __uint128_t BOOST_ENDIAN_CONSTEXPR endian_reverse_impl( __uint128_t x ) B
 // is_endian_reversible
 
 template<class T> struct is_endian_reversible: std::integral_constant<bool,
-    (std::is_integral<T>::value && !std::is_same<T, bool>::value) || is_scoped_enum<T>::value>
+    (is_integral<T>::value && !std::is_same<T, bool>::value) || is_scoped_enum<T>::value>
 {
 };
 
 // is_endian_reversible_inplace
 
 template<class T> struct is_endian_reversible_inplace: std::integral_constant<bool,
-    std::is_integral<T>::value || std::is_enum<T>::value || std::is_same<T, float>::value || std::is_same<T, double>::value>
+    is_integral<T>::value || std::is_enum<T>::value || std::is_same<T, float>::value || std::is_same<T, double>::value>
 {
 };
 
