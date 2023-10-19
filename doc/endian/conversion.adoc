@@ -52,10 +52,9 @@ its value is never read, there would be no undefined behavior.
 
 ### Header `<boost/endian/conversion.hpp>` Synopsis
 
-[subs=+quotes]
 ```
 #define BOOST_ENDIAN_INTRINSIC_MSG \
-   "`message describing presence or absence of intrinsics`"
+   "message describing presence or absence of intrinsics"
 
 namespace boost
 {
@@ -63,9 +62,9 @@ namespace endian
 {
   enum class order
   {
-    native = `see below`,
-    big    = `see below`,
-    little = `see below`,
+    native = /* see below */,
+    big    = /* see below */,
+    little = /* see below */,
   };
 
   // Byte reversal functions
