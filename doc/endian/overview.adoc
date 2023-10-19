@@ -110,9 +110,7 @@ sizes and aligned arithmetic types are provided for 16, 32, and 64-bit sizes.
 The provided specific types are typedefs for a generic class template that may
 be used directly in generic code of for less common use cases.
 
-Boost Endian is a header-only library. {cpp}11 features affecting interfaces,
-such as `noexcept`, are  used only if available. See
-<<overview_cpp03_support,{cpp}03 support for {cpp}11 features>> for details.
+Boost Endian is a header-only library and requires {cpp}11.
 
 [#overview_intrinsics]
 ## Built-in support for Intrinsics
@@ -257,28 +255,6 @@ Iterations: 10'000'000'000, Intrinsics: `<cstdlib>` `_byteswap_ushort`, etc.
 |64-bit aligned little endian |3.35 s |2.73 s
 |===
 
-[#overview_cpp03_support]
-## {cpp}03 support for {cpp}11 features
-
-[%header,cols=2*]
-|===
-|{cpp}11 Feature
-|Action with {cpp}03 Compilers
-|Scoped enums
-|Uses header
-http://www.boost.org/libs/core/doc/html/core/scoped_enum.html[boost/core/scoped_enum.hpp]
-to emulate {cpp}11 scoped enums.
-|`noexcept`
-|Uses `BOOST_NOEXCEPT` macro, which is defined as null for compilers not
-supporting this {cpp}11 feature.
-|{cpp}11 PODs
-(http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2342.htm[N2342])
-|Takes advantage of {cpp}03 compilers that relax {cpp}03 POD rules, but see
-Limitations <<buffers_limitations,here>> and <<arithmetic_limitations,here>>.
-Also see macros for explicit POD control <<buffers_compilation,here>> and
-<<arithmetic_compilation,here>>
-|===
-
 [#overview_faq]
 ## Overall FAQ
 
@@ -286,7 +262,7 @@ Is the implementation header only?::
 Yes.
 
 Are {cpp}03 compilers supported?::
-Yes.
+No. {cpp}11 is required since release 1.84.
 
 Does the implementation use compiler intrinsic built-in byte swapping?::
 Yes, if available. See <<overview_intrinsics,Intrinsic built-in support>>.

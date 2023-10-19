@@ -17,9 +17,7 @@ big, or little endian byte ordering. User defined types are also supported.
 
 ## Reference
 
-Functions are implemented `inline` if appropriate. For {cpp}03 compilers,
-`noexcept` is elided. Boost scoped enum emulation is used so that the library
-still works for compilers that do not support scoped enums.
+Functions are implemented `inline` if appropriate.
 
 ### Definitions
 
