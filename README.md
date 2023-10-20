@@ -11,7 +11,7 @@ It's part of Boost since release 1.58.0. See
 * clang++ 3.9 or later
 * Visual Studio 2012 or later
 
-{cpp}11 is required since release 1.84.
+C++11 is required since release 1.84.
 
 Tested on [Github Actions](https://github.com/boostorg/endian/actions)
 and [Appveyor](https://ci.appveyor.com/project/pdimov/endian/).
