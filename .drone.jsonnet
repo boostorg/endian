@@ -172,9 +172,37 @@ local windows_pipeline(name, image, environment, arch = "amd64") =
     ),
 
     linux_pipeline(
-        "Linux 23.04 GCC 13 64 ASAN",
-        "cppalliance/droneubuntu2304:1",
-        { TOOLSET: 'gcc', COMPILER: 'g++-13', CXXSTD: '11,14,17,20,2b', ADDRMD: '64' } + asan,
+        "Linux 23.10 GCC 13 64 ASAN 11",
+        "cppalliance/droneubuntu2310:1",
+        { TOOLSET: 'gcc', COMPILER: 'g++-13', CXXSTD: '11', ADDRMD: '64' } + asan,
+        "g++-13-multilib",
+    ),
+
+    linux_pipeline(
+        "Linux 23.10 GCC 13 64 ASAN 14",
+        "cppalliance/droneubuntu2310:1",
+        { TOOLSET: 'gcc', COMPILER: 'g++-13', CXXSTD: '14', ADDRMD: '64' } + asan,
+        "g++-13-multilib",
+    ),
+
+    linux_pipeline(
+        "Linux 23.10 GCC 13 64 ASAN 17",
+        "cppalliance/droneubuntu2310:1",
+        { TOOLSET: 'gcc', COMPILER: 'g++-13', CXXSTD: '17', ADDRMD: '64' } + asan,
+        "g++-13-multilib",
+    ),
+
+    linux_pipeline(
+        "Linux 23.10 GCC 13 64 ASAN 20",
+        "cppalliance/droneubuntu2310:1",
+        { TOOLSET: 'gcc', COMPILER: 'g++-13', CXXSTD: '20', ADDRMD: '64' } + asan,
+        "g++-13-multilib",
+    ),
+
+    linux_pipeline(
+        "Linux 23.10 GCC 13 64 ASAN 2b",
+        "cppalliance/droneubuntu2310:1",
+        { TOOLSET: 'gcc', COMPILER: 'g++-13', CXXSTD: '2b', ADDRMD: '64' } + asan,
         "g++-13-multilib",
     ),
 
