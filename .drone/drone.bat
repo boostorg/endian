@@ -7,6 +7,8 @@
 set LIBRARY=%1
 set DRONE_BUILD_DIR=%CD%
 
+echo %DRONE_STAGE_MACHINE%
+
 set BOOST_BRANCH=develop
 if "%DRONE_BRANCH%" == "master" set BOOST_BRANCH=master
 cd ..
