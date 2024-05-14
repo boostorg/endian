@@ -26,6 +26,8 @@ project
 
     <toolset>clang:<cxxflags>-Wno-long-long
     <toolset>clang:<warnings-as-errors>on
+
+    <library>/boost/core//boost_core
   ;
 
 local rule run-ni ( sources + )
