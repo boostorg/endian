@@ -5,16 +5,19 @@
 
 require-b2 5.2 ;
 
+constant boost_dependencies :
+    /boost/config//boost_config ;
+
 project /boost/endian
     : common-requirements
         <include>include
-        <library>/boost/config//boost_config
     ;
 
 explicit
-    [ alias boost_endian ]
+    [ alias boost_endian : : : : <library>$(boost_dependencies) ]
     [ alias all : boost_endian test ]
     ;
 
 call-if : boost-library endian
     ;
+
