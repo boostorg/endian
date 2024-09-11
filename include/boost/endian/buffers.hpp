@@ -219,27 +219,27 @@ public:
 
 #ifndef BOOST_ENDIAN_NO_CTORS
 
-    endian_buffer() = default;
+    BOOST_ENDIAN_CONSTEXPR endian_buffer() = default;
 
-    explicit endian_buffer( T val ) BOOST_NOEXCEPT
+    explicit BOOST_ENDIAN_CXX20_CONSTEXPR endian_buffer( T val ) BOOST_NOEXCEPT
     {
         boost::endian::endian_store<T, n_bits / 8, Order>( value_, val );
     }
 
 #endif
 
-    endian_buffer& operator=( T val ) BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR endian_buffer& operator=( T val ) BOOST_NOEXCEPT
     {
         boost::endian::endian_store<T, n_bits / 8, Order>( value_, val );
         return *this;
     }
 
-    value_type value() const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR value_type value() const BOOST_NOEXCEPT
     {
         return boost::endian::endian_load<T, n_bits / 8, Order>( value_ );
     }
 
-    unsigned char const * data() const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CONSTEXPR unsigned char const * data() const BOOST_NOEXCEPT
     {
         return value_;
     }
@@ -274,27 +274,27 @@ public:
 
 #ifndef BOOST_ENDIAN_NO_CTORS
 
-    endian_buffer() = default;
+    BOOST_ENDIAN_CONSTEXPR endian_buffer() = default;
 
-    explicit endian_buffer( T val ) BOOST_NOEXCEPT
+    explicit BOOST_ENDIAN_CXX20_CONSTEXPR endian_buffer( T val ) BOOST_NOEXCEPT
     {
         boost::endian::endian_store<T, n_bits / 8, Order>( value_, val );
     }
 
 #endif
 
-    endian_buffer& operator=( T val ) BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR endian_buffer& operator=( T val ) BOOST_NOEXCEPT
     {
         boost::endian::endian_store<T, n_bits / 8, Order>( value_, val );
         return *this;
     }
 
-    value_type value() const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CONSTEXPR value_type value() const BOOST_NOEXCEPT
     {
         return boost::endian::endian_load<T, n_bits / 8, Order>( value_ );
     }
 
-    unsigned char const * data() const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CONSTEXPR unsigned char const * data() const BOOST_NOEXCEPT
     {
         return value_;
     }
@@ -323,26 +323,26 @@ public:
 
 #ifndef BOOST_ENDIAN_NO_CTORS
 
-    endian_buffer() = default;
+    BOOST_ENDIAN_CONSTEXPR endian_buffer() = default;
 
-    explicit endian_buffer( T val ) BOOST_NOEXCEPT: value_( val )
+    explicit BOOST_ENDIAN_CONSTEXPR endian_buffer( T val ) BOOST_NOEXCEPT: value_( val )
     {
     }
 
 #endif
 
-    endian_buffer& operator=( T val ) BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR endian_buffer& operator=( T val ) BOOST_NOEXCEPT
     {
         value_ = val;
         return *this;
     }
 
-    value_type value() const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CONSTEXPR value_type value() const BOOST_NOEXCEPT
     {
         return value_;
     }
 
-    unsigned char const * data() const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CONSTEXPR unsigned char const * data() const BOOST_NOEXCEPT
     {
         return reinterpret_cast< unsigned char const* >( &value_ );
     }
