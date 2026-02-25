@@ -6,6 +6,7 @@
 // Distributed under the Boost Software License, Version 1.0.
 // http://www.boost.org/LICENSE_1_0.txt
 
+#include <boost/endian/detail/constexpr.hpp>
 #include <boost/endian/detail/endian_reverse.hpp>
 #include <boost/endian/detail/order.hpp>
 #include <boost/endian/detail/integral_by_size.hpp>
@@ -14,6 +15,11 @@
 #include <type_traits>
 #include <cstddef>
 #include <cstring>
+
+#if BOOST_ENDIAN_HAS_CXX20_CONSTEXPR
+#include <algorithm>
+#include <bit>
+#endif
 
 namespace boost
 {
@@ -37,7 +43,7 @@ template<class T, std::size_t N1, order O1, std::size_t N2, order O2> struct end
 //    if N < sizeof(T), T is integral or enum
 
 template<class T, std::size_t N, order Order>
-inline T endian_load( unsigned char const * p ) BOOST_NOEXCEPT
+BOOST_ENDIAN_CONSTEXPR T endian_load( unsigned char const * p ) BOOST_NOEXCEPT
 {
     BOOST_ENDIAN_STATIC_ASSERT( sizeof(T) == 1 || sizeof(T) == 2 || sizeof(T) == 4 || sizeof(T) == 8 );
     BOOST_ENDIAN_STATIC_ASSERT( N >= 1 && N <= sizeof(T) );
@@ -52,13 +58,21 @@ namespace detail
 
 template<class T, std::size_t N, order O> struct endian_load_impl<T, N, O, N, O>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( is_trivially_copyable<T>::value );
-
-        T t;
-        std::memcpy( &t, p, N );
-        return t;
+#if BOOST_ENDIAN_HAS_CXX20_CONSTEXPR
+        if (std::is_constant_evaluated()) {
+            unsigned char v[N];
+            std::copy(p, p + N, v);
+            return std::bit_cast<T>(v);
+        } else
+#endif
+        {
+            T t;
+            std::memcpy(&t, p, N);
+            return t;
+        }
     }
 };
 
@@ -66,18 +80,26 @@ template<class T, std::size_t N, order O> struct endian_load_impl<T, N, O, N, O>
 
 template<class T, std::size_t N, order O1, order O2> struct endian_load_impl<T, N, O1, N, O2>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( is_trivially_copyable<T>::value );
+#if BOOST_ENDIAN_HAS_CXX20_CONSTEXPR
+        if (std::is_constant_evaluated()) {
+            unsigned char v[N];
+            std::reverse_copy(p, p + N, v);
+            return std::bit_cast<T>(v);
+        } else
+#endif
+        {
+            typename integral_by_size<N>::type tmp;
+            std::memcpy( &tmp, p, N );
 
-        typename integral_by_size<N>::type tmp;
-        std::memcpy( &tmp, p, N );
+            endian_reverse_inplace(tmp);
 
-        endian_reverse_inplace( tmp );
-
-        T t;
-        std::memcpy( &t, &tmp, N );
-        return t;
+            T t;
+            std::memcpy(&t, &tmp, N);
+            return t;
+        }
     }
 };
 
@@ -85,7 +107,7 @@ template<class T, std::size_t N, order O1, order O2> struct endian_load_impl<T, 
 
 template<class T, order Order> struct endian_load_impl<T, 2, Order, 1, order::little>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 
@@ -100,7 +122,7 @@ template<class T, order Order> struct endian_load_impl<T, 2, Order, 1, order::li
 
 template<class T, order Order> struct endian_load_impl<T, 2, Order, 1, order::big>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 
@@ -117,7 +139,7 @@ template<class T, order Order> struct endian_load_impl<T, 2, Order, 1, order::bi
 
 template<class T, order Order> struct endian_load_impl<T, 4, Order, 1, order::little>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 
@@ -136,7 +158,7 @@ template<class T, order Order> struct endian_load_impl<T, 4, Order, 1, order::li
 
 template<class T, order Order> struct endian_load_impl<T, 4, Order, 1, order::big>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 
@@ -157,7 +179,7 @@ template<class T, order Order> struct endian_load_impl<T, 4, Order, 1, order::bi
 
 template<class T, order Order> struct endian_load_impl<T, 4, Order, 2, order::little>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 
@@ -176,7 +198,7 @@ template<class T, order Order> struct endian_load_impl<T, 4, Order, 2, order::li
 
 template<class T, order Order> struct endian_load_impl<T, 4, Order, 2, order::big>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 
@@ -197,7 +219,7 @@ template<class T, order Order> struct endian_load_impl<T, 4, Order, 2, order::bi
 
 template<class T, order Order> struct endian_load_impl<T, 4, Order, 3, order::little>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 
@@ -214,7 +236,7 @@ template<class T, order Order> struct endian_load_impl<T, 4, Order, 3, order::li
 
 template<class T, order Order> struct endian_load_impl<T, 4, Order, 3, order::big>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 
@@ -233,7 +255,7 @@ template<class T, order Order> struct endian_load_impl<T, 4, Order, 3, order::bi
 
 template<class T, order Order> struct endian_load_impl<T, 8, Order, 1, order::little>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 
@@ -257,7 +279,7 @@ template<class T, order Order> struct endian_load_impl<T, 8, Order, 1, order::li
 
 template<class T, order Order> struct endian_load_impl<T, 8, Order, 1, order::big>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 
@@ -283,7 +305,7 @@ template<class T, order Order> struct endian_load_impl<T, 8, Order, 1, order::bi
 
 template<class T, order Order> struct endian_load_impl<T, 8, Order, 2, order::little>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 
@@ -307,7 +329,7 @@ template<class T, order Order> struct endian_load_impl<T, 8, Order, 2, order::li
 
 template<class T, order Order> struct endian_load_impl<T, 8, Order, 2, order::big>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 
@@ -333,7 +355,7 @@ template<class T, order Order> struct endian_load_impl<T, 8, Order, 2, order::bi
 
 template<class T, order Order> struct endian_load_impl<T, 8, Order, 3, order::little>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 
@@ -357,7 +379,7 @@ template<class T, order Order> struct endian_load_impl<T, 8, Order, 3, order::li
 
 template<class T, order Order> struct endian_load_impl<T, 8, Order, 3, order::big>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 
@@ -383,7 +405,7 @@ template<class T, order Order> struct endian_load_impl<T, 8, Order, 3, order::bi
 
 template<class T, order Order> struct endian_load_impl<T, 8, Order, 4, order::little>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 
@@ -407,7 +429,7 @@ template<class T, order Order> struct endian_load_impl<T, 8, Order, 4, order::li
 
 template<class T, order Order> struct endian_load_impl<T, 8, Order, 4, order::big>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 
@@ -433,7 +455,7 @@ template<class T, order Order> struct endian_load_impl<T, 8, Order, 4, order::bi
 
 template<class T, order Order> struct endian_load_impl<T, 8, Order, 5, order::little>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 
@@ -457,7 +479,7 @@ template<class T, order Order> struct endian_load_impl<T, 8, Order, 5, order::li
 
 template<class T, order Order> struct endian_load_impl<T, 8, Order, 5, order::big>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 
@@ -483,7 +505,7 @@ template<class T, order Order> struct endian_load_impl<T, 8, Order, 5, order::bi
 
 template<class T, order Order> struct endian_load_impl<T, 8, Order, 6, order::little>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 
@@ -507,7 +529,7 @@ template<class T, order Order> struct endian_load_impl<T, 8, Order, 6, order::li
 
 template<class T, order Order> struct endian_load_impl<T, 8, Order, 6, order::big>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 
@@ -533,7 +555,7 @@ template<class T, order Order> struct endian_load_impl<T, 8, Order, 6, order::bi
 
 template<class T, order Order> struct endian_load_impl<T, 8, Order, 7, order::little>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 
@@ -557,7 +579,7 @@ template<class T, order Order> struct endian_load_impl<T, 8, Order, 7, order::li
 
 template<class T, order Order> struct endian_load_impl<T, 8, Order, 7, order::big>
 {
-    inline T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR T operator()( unsigned char const * p ) const BOOST_NOEXCEPT
     {
         BOOST_ENDIAN_STATIC_ASSERT( std::is_integral<T>::value || std::is_enum<T>::value );
 

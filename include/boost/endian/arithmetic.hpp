@@ -184,26 +184,26 @@ public:
 
 #ifndef BOOST_ENDIAN_NO_CTORS
 
-    endian_arithmetic() = default;
+    BOOST_ENDIAN_CONSTEXPR endian_arithmetic() = default;
 
-    BOOST_ENDIAN_EXPLICIT_OPT endian_arithmetic( T val ) BOOST_NOEXCEPT: buf_( val )
+    BOOST_ENDIAN_EXPLICIT_OPT BOOST_ENDIAN_CONSTEXPR endian_arithmetic( T val ) BOOST_NOEXCEPT: buf_( val )
     {
     }
 
 #endif
 
-    endian_arithmetic& operator=( T val ) BOOST_NOEXCEPT
+    BOOST_ENDIAN_CXX20_CONSTEXPR endian_arithmetic& operator=( T val ) BOOST_NOEXCEPT
     {
         buf_ = val;
         return *this;
     }
 
-    value_type value() const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CONSTEXPR value_type value() const BOOST_NOEXCEPT
     {
         return buf_.value();
     }
 
-    unsigned char const * data() const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CONSTEXPR unsigned char const * data() const BOOST_NOEXCEPT
     {
         return buf_.data();
     }
@@ -213,7 +213,7 @@ public:
         return buf_.data();
     }
 
-    operator value_type() const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CONSTEXPR operator value_type() const BOOST_NOEXCEPT
     {
         return this->value();
     }
@@ -223,14 +223,14 @@ public:
         return buf_;
     }
 
-    operator buffer_type const& () BOOST_NOEXCEPT
+    BOOST_ENDIAN_CONSTEXPR operator buffer_type const& () const BOOST_NOEXCEPT
     {
         return buf_;
     }
 
     // operators
 
-    T operator+() const BOOST_NOEXCEPT
+    BOOST_ENDIAN_CONSTEXPR T operator+() const BOOST_NOEXCEPT
     {
         return this->value();
     }
